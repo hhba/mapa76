@@ -48,13 +48,19 @@ end
 
 class ProcesarTexto
   def initialize(t)
-    @t=t.readlines.map{|l| l.strip.gsub(/\s{2,}/,' ')}.join("\n")
+    if t.respond_to?(:readlines)
+      lines=t.readlines
+    else
+      lines = Array(t)
+    end
+    @t=lines.map{|l| l.strip.gsub(/\s{2,}/,' ')}.join("\n")
   end
   LETRAS='áéíóúñüa-z'
   LETRASM='ÁÉÍÓÚÑÜA-Z'
     # Palabra Palabra|de|del
-  NOMBRES_PROPIOS_RE="(?:[#{LETRASM}][#{LETRAS}]+(?:[ ,](?:[#{LETRASM}][#{LETRASM}#{LETRAS}]+|(?:de|la|del)))*)"
-  DIRECCIONES_RE=Regexp.new("(?<![\.] )(?<!^)(#{NOMBRES_PROPIOS_RE}+ [0-9]{1,5}(?![0-9\/])(,? )?#{NOMBRES_PROPIOS_RE}*)")
+  NOMBRES_PROPIOS_RE="(?:[#{LETRASM}][#{LETRAS}]{2,}(?:[ ,](?:[#{LETRASM}][#{LETRASM}#{LETRAS}]+|(?:(?:de|la|del)(?= [#{LETRASM}])))){1,})"    
+  NOMBRE_PROPIO_RE="(?:[#{LETRASM}][#{LETRAS}]+(?:[ ,](?:[#{LETRASM}][#{LETRASM}#{LETRAS}]+|(?:(?:de|la|del)(?= ))))*)"    
+  DIRECCIONES_RE=Regexp.new("(?<![\.] )(?<!^)(#{NOMBRE_PROPIO_RE}+ [0-9]{1,5}(?![0-9\/])(,? )?#{NOMBRE_PROPIO_RE}*)")
   def direcciones
     # Nombres propios, seguidos de un numero
     encontrar_con_context(DIRECCIONES_RE)
