@@ -17,6 +17,7 @@ GEM
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
     mime-types (1.16)
+    nokogiri (1.4.4)
     padrino (0.9.23)
       padrino-admin (= 0.9.23)
       padrino-cache (= 0.9.23)
@@ -71,6 +72,7 @@ PLATFORMS
 DEPENDENCIES
   geokit
   haml
+  nokogiri
   padrino (= 0.9.23)
   rack-flash
   rake

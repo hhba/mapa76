@@ -14,3 +14,6 @@ gem 'haml'
 
 # Padrino
 gem 'padrino', "0.9.23"
+
+
+gem "nokogiri"
