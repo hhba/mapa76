@@ -61,6 +61,33 @@ class ProcesarTexto
   NOMBRES_PROPIOS_RE="(?:[#{LETRASM}][#{LETRAS}]{2,}(?:[ ,](?:[#{LETRASM}][#{LETRASM}#{LETRAS}]+|(?:(?:de|la|del)(?= [#{LETRASM}])))){1,})"    
   NOMBRE_PROPIO_RE="(?:[#{LETRASM}][#{LETRAS}]+(?:[ ,](?:[#{LETRASM}][#{LETRASM}#{LETRAS}]+|(?:(?:de|la|del)(?= ))))*)"    
   DIRECCIONES_RE=Regexp.new("(?<![\.] )(?<!^)(#{NOMBRE_PROPIO_RE}+ [0-9]{1,5}(?![0-9\/])(,? )?#{NOMBRE_PROPIO_RE}*)")
+=begin
+    d << " 3 de diciembre del 77."  
+    d << "3 de diciembre del 1977."
+    d << "julio del 78"
+    d << "6 de diciembre"
+    d << "diciembre de 1978"
+=end
+  MESES = %w{enero febrero marzo abril mayo junio julio agosto septiembre octubre noviembre diciembre}
+  MESES_RE="(?:#{MESES.join("|")})"
+  FECHAS_RE=Regexp.new("((1[0-2]|[0-9])? *(?:del?)? *(#{MESES_RE}) *(?:del?)? *(20([01][0-9])|19[0-9]{2}|[0-9]{2})?(?![0-9]))",Regexp::IGNORECASE)
+  def fechas
+    res=encontrar_con_context(FECHAS_RE)
+    res.map{|date| 
+      d = date.match(FECHAS_RE)
+      day=d[2].to_i
+      month=MESES.index(d[3]) + 1
+      year=d[4].to_i
+      if year > 0 and year < 100
+        year += 1900
+      end
+      day = 1 if day == 0
+      puts "Queda: #{day}/#{month}/#{year}"
+      r=Date.civil(year,month,day)
+      r
+    }
+  end
+
   def direcciones
     # Nombres propios, seguidos de un numero
     encontrar_con_context(DIRECCIONES_RE)
@@ -68,26 +95,29 @@ class ProcesarTexto
   def nombres_propios
     encontrar_con_context(Regexp.new("(#{NOMBRES_PROPIOS_RE})"))
   end
-  def encontrar_con_context(re)
+  def encontrar_con_context(re,t=Result)
     next_start = 0
     results = []
     loop do 
       break if not @t.match(re,next_start){|match|
         next_start = match.end(0)
-        r = Result.new(match[0].strip,@t,match.begin(0),match.end(0)) 
+        r = t.new_with_context(match[0].strip,@t,match.begin(0),match.end(0)) 
         results << r
       }
     end
     results
   end
-  class Result < String
-    attr_accessor :start_pos,:end_pos,:doc
-    def initialize(s,doc,start_pos,end_pos)
-      @doc=doc
-      @start_pos=start_pos
-      @end_pos=end_pos
-      super(s)
+  module Context
+    module InstanceMethods
+      def new_with_context(s,doc,start_pos,end_pos)
+        o=new(s)
+        o.doc=doc
+        o.start_pos=start_pos
+        o.end_pos=end_pos
+        o
+      end
     end
+    attr_accessor :start_pos,:end_pos,:doc
     def context(length=50)
       context_start = start_pos - length 
       context_start = 0 if context_start < 0
@@ -107,19 +137,30 @@ class ProcesarTexto
 
       doc[context_start .. context_end].strip
     end
+    def self.included(m)
+      puts "included in #{m}, extending"
+      m.extend(InstanceMethods)
+    end
   end
+  class Result < String
+    include Context
+  end
+  class DateWithContext < Date
+    include Context
+  end
+
   class Direccion < Result
     include Cache
     require "geokit"
     include Geokit::Geocoders
     Geokit::Geocoders::provider_order=[:google]
     require "digest/md5"
-    def initialize(*s)
+    def self.new_from_string_with_context(*s)
       if not s.first.is_a?(Result)
-        super
+        new_with_context(*s)
       else
         s=s.first
-        super(s,s.doc,s.start_pos,s.end_pos)
+        new_with_context(s,s.doc,s.start_pos,s.end_pos)
       end
     end
     def geocodificar(localidad="Ciudad de Buenos Aires, Argentina")
