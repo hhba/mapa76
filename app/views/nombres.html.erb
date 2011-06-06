@@ -1,0 +1,36 @@
+<script src="/javascripts/jquery.js"></script>
+<%@nombres_propios.keys.sort.each{|nombre|%>
+  <h2><%=nombre%></h2>
+  <ol style="list-style-type:round">
+    <%@nombres_propios[nombre].each{|parte|%>
+      <li id='<%=parte.fragment_id%>' >
+        <button class='more' name='<%=parte.context(400).fragment_id%>'>[+]</button>
+        <p class='fragment'><%=parte.context(400).gsub("\n","<br />").gsub(Regexp.new(@nombres_propios[nombre].map(&:to_s).join("|"))){|n| "<strong>#{n}</strong>"}%></p>
+      </li>
+    <%}%>
+  </ol>
+<%}%>
+
+<script>
+    $(document).ready(function(){
+        $(".more").click(function(e){
+            var curr_fragment_id=e.currentTarget.name;
+            var context_around = 400;
+            $.getJSON("/context",{fragment_id: curr_fragment_id, around: context_around},
+                    function(d){
+                        e.currentTarget.name=d.fragment_id
+                        $(e.currentTarget).siblings("p.fragment").children("strong").each(function(idx,highlight){
+                            d.text = d.text.replace($(highlight).text(),"<strong>"+$(highlight).text()+"</strong>")
+                        })
+                        console.log(d.text)
+                        d.text = d.text.replace(/\n/gi,"<br />")
+                        console.log( "---")
+                        console.log(d.text)
+                        $(e.currentTarget).siblings("p.fragment").html(d.text)
+                    }
+                )
+        }
+        )
+    }
+    )
+</script>
