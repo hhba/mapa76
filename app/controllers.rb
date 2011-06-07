@@ -10,12 +10,16 @@ Alegato.controllers  do
     @direcciones = matches_ref.sort.uniq
     render 'index', :direcciones => @direcciones
   end
-  get :nombres do
-    doc = Document.find_by_id(1)
-#    doc.sample_mode=1
+  get :nombres, :map => "/:doc_id/nombres" do
+    doc = Document.find_by_id(params[:doc_id].to_i)
     @nombres_propios = Hash.new{|hash,key| hash[key]=[]}
-    doc.extract.nombres_propios[0 .. 100].each{|nombre| @nombres_propios[nombre.to_s.to_ascii] << nombre }
-    render "nombres"
+    doc.extract.nombres_propios.each{|nombre| @nombres_propios[nombre.to_s.to_ascii] << nombre }
+    render "listado_nombres"
+  end
+  get :nombre, :map => "/:doc_id/nombres/:name" do
+    doc = Document.find_by_id(params[:doc_id].to_i)
+    @person = doc.extract.nombres_propios.find_all{|name| name.to_s.to_ascii == params[:name].to_s.to_ascii}
+    render "persona"
   end
   get :context do
     if params[:fragment_id]
@@ -29,9 +33,9 @@ Alegato.controllers  do
       pos_end=params[:end]
     end
     params[:around] ||= 200
-    pos_start=pos_start.to_i - params[:around].to_i
-    pos_start = 0 if pos_start < 0
-    pos_end=pos_end.to_i + params[:around].to_i
+    pos_start   = pos_start.to_i - params[:around].to_i
+    pos_start   = 0 if pos_start < 0
+    pos_end     = pos_end.to_i + params[:around].to_i
 
     fragment=Document.find_by_id(doc_id).fragment(pos_start,pos_end)
     r={:fragment_id => fragment.fragment_id, :text => fragment}.to_json

@@ -1,15 +1,13 @@
 <script src="/javascripts/jquery.js"></script>
-<%@nombres_propios.keys.sort.each{|nombre|%>
-  <h2><%=nombre%></h2>
+  <h2><%=params[:name]%></h2>
   <ol style="list-style-type:round">
-    <%@nombres_propios[nombre].each{|parte|%>
+    <%@person.each{|parte|%>
       <li id='<%=parte.fragment_id%>' >
-        <button class='more' name='<%=parte.context(400).fragment_id%>'>[+]</button>
-        <p class='fragment'><%=parte.context(400).gsub("\n","<br />").gsub(Regexp.new(@nombres_propios[nombre].map(&:to_s).join("|"))){|n| "<strong>#{n}</strong>"}%></p>
+        <button class='more' name='<%=parte.context(10).fragment_id%>'>[+]</button>
+        <p class='fragment'><%=parte.context(10).gsub("\n","<br />").gsub(Regexp.new(@person.map(&:to_s).join("|"))){|n| "<strong>#{n}</strong>"}%></p>
       </li>
     <%}%>
   </ol>
-<%}%>
 
 <script>
     $(document).ready(function(){
@@ -20,7 +18,7 @@
                     function(d){
                         e.currentTarget.name=d.fragment_id
                         $(e.currentTarget).siblings("p.fragment").children("strong").each(function(idx,highlight){
-                            d.text = d.text.replace($(highlight).text(),"<strong>"+$(highlight).text()+"</strong>")
+                            d.text = d.text.replace(RegExp($(highlight).text(),"g"),"<strong>"+$(highlight).text()+"</strong>")
                         })
                         console.log(d.text)
                         d.text = d.text.replace(/\n/gi,"<br />")
