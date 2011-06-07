@@ -78,7 +78,7 @@ class ProcesarTexto
   DIRECCIONES_RE=Regexp.new("(?<![\.] )(?<!^)(#{NOMBRE_PROPIO_RE}+ [0-9]{1,5}(?![0-9\/])(,? )?#{NOMBRE_PROPIO_RE}*)")
   MESES = %w{enero febrero marzo abril mayo junio julio agosto septiembre octubre noviembre diciembre}
   MESES_RE="(?:#{MESES.join("|")})"
-  FECHAS_RE=Regexp.new("(?<day>1[0-2]|[0-9])? *(?:del?)? *(?<month>#{MESES_RE}) *(?:del?)? *(?<year>(20([01][0-9])|19[0-9]{2}|[0-9]{2})?(?![0-9]))|(?<day>[123]?[0-9])/(?<month>1?[0-9])/(?<year>20([01][0-9])|19[0-9]{2}|[0-9]{2})",Regexp::IGNORECASE)
+  FECHAS_RE=Regexp.new("(?<day>[123][0-2]|[0-9])? *(?:del?)? *(?<month>#{MESES_RE}) *(?:del?)? *´?(?<year>(20([01][0-9])|19[0-9]{2}|[0-9]{2})?(?![0-9]))|(?<day>[123]?[0-9])/(?<month>1?[0-9])/(?<year>20([01][0-9])|19[0-9]{2}|[0-9]{2})",Regexp::IGNORECASE)
   def fechas
     res=encontrar_con_context(FECHAS_RE)
     res.map{|date| 
@@ -96,9 +96,14 @@ class ProcesarTexto
       end
       day = 1 if day == 0
       puts "#{year}/#{month}/#{day}"
-      r=Date.civil(year,month,day)
-      r
-    }
+      #r=Date.civil(year,month,day)
+      #def new_with_context(s,text,start_pos,end_pos,doc)
+      begin
+        DateWithContext.new_with_context([year,month,day],date.text,date.start_pos,date.end_pos,date.doc)
+      rescue ArgumentError
+        nil
+      end
+    }.compact
   end
 
   def direcciones
@@ -133,7 +138,7 @@ class ProcesarTexto
   module Context
     module InstanceMethods
       def new_with_context(s,text,start_pos,end_pos,doc)
-        o=new(s)
+        o=new(*Array(s))
         o.doc=doc
         o.text = text
         o.start_pos=start_pos
@@ -157,11 +162,11 @@ class ProcesarTexto
       context_start = start_pos - length 
       context_start = 0 if context_start < 0
       context_end = end_pos + length 
-      ret = (context_start ... context_end).map{|pos| text.getbyte(pos).chr }.join.force_encoding("UTF-8")
-      self.class.new_with_context(ret,text,context_start,context_end,doc)
+      ret = (context_start ... context_end).map{|pos| text.getbyte(pos).chr }.join.force_encoding("UTF-8").tidy_bytes
+      StringWithContext.new_with_context(ret,text,context_start,context_end,doc)
     end
-    def extract(context_size=50)
-      ProcesarTexto.new(context(context_size))
+    def extract
+      ProcesarTexto.new(self.to_s)
     end
     def self.included(m)
       m.extend(InstanceMethods)
