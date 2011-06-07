@@ -1,8 +1,7 @@
 #encoding: utf-8
 require 'json'
 module Cache
-  CACHE_ENABLED = true
-  CACHE_DIR='/tmp/cache/'
+  CACHE_DIR='/tmp/cache_procesar_texto/'
   File.exists?(CACHE_DIR) || Dir.mkdir(CACHE_DIR)
   require "fileutils"
   require 'yaml'
@@ -16,8 +15,14 @@ module Cache
       nil
     end
   end
+  def cache_enabled
+    @cache_enabled
+  end
+  def cache_enabled=(v)
+    @cache_enabled=v
+  end
   def cache_fetch(key)
-    return yield if not CACHE_ENABLED
+    return yield if not cache_enabled
     id = cache_gen_id(key)
     cached=self.cache_load(id)
     if cached == :notcached
@@ -47,8 +52,14 @@ module Cache
 end
 
 class ProcesarTexto
+  include Cache
   attr_reader :doc
   def initialize(t)
+    @cache_id=''
+    if t.id
+      @cache_id=t.id.to_s
+      self.cache_enabled=true
+    end
     if t.respond_to?(:read)
       @text = t.read
     elsif t.respond_to?(:join)
@@ -57,6 +68,7 @@ class ProcesarTexto
       @text = t.to_s
     end
     @doc = t
+    true
   end
   LETRAS='áéíóúñüa-z'
   LETRASM='ÁÉÍÓÚÑÜA-Z'
@@ -96,7 +108,9 @@ class ProcesarTexto
     encontrar_con_context(DIRECCIONES_RE)
   end
   def nombres_propios
-    encontrar_con_context(Regexp.new("(#{NOMBRES_PROPIOS_RE})"))
+    cache_fetch(@cache_id + "nombres_propios"){
+      encontrar_con_context(Regexp.new("(#{NOMBRES_PROPIOS_RE})"))
+    }
   end
   def encontrar_con_context(re,t=Result)
     next_start = 0
@@ -131,6 +145,7 @@ class ProcesarTexto
       end
       "frag:doc=#{doc_id}:#{start_pos}-#{end_pos}"
     end
+    alias :id :fragment_id
     attr_accessor :start_pos,:end_pos,:doc,:text
     def context(length=50)
       context_start = start_pos - length 
