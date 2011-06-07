@@ -56,7 +56,7 @@ class ProcesarTexto
   attr_reader :doc
   def initialize(t)
     @cache_id=''
-    if t.id
+    if t.respond_to?(:id)
       @cache_id=t.id.to_s
       self.cache_enabled=true
     end
@@ -78,18 +78,24 @@ class ProcesarTexto
   DIRECCIONES_RE=Regexp.new("(?<![\.] )(?<!^)(#{NOMBRE_PROPIO_RE}+ [0-9]{1,5}(?![0-9\/])(,? )?#{NOMBRE_PROPIO_RE}*)")
   MESES = %w{enero febrero marzo abril mayo junio julio agosto septiembre octubre noviembre diciembre}
   MESES_RE="(?:#{MESES.join("|")})"
-  FECHAS_RE=Regexp.new("((1[0-2]|[0-9])? *(?:del?)? *(#{MESES_RE}) *(?:del?)? *(20([01][0-9])|19[0-9]{2}|[0-9]{2})?(?![0-9]))",Regexp::IGNORECASE)
+  FECHAS_RE=Regexp.new("(?<day>1[0-2]|[0-9])? *(?:del?)? *(?<month>#{MESES_RE}) *(?:del?)? *(?<year>(20([01][0-9])|19[0-9]{2}|[0-9]{2})?(?![0-9]))|(?<day>[123]?[0-9])/(?<month>1?[0-9])/(?<year>20([01][0-9])|19[0-9]{2}|[0-9]{2})",Regexp::IGNORECASE)
   def fechas
     res=encontrar_con_context(FECHAS_RE)
     res.map{|date| 
       d = date.match(FECHAS_RE)
-      day=d[2].to_i
-      month=MESES.index(d[3]) + 1
-      year=d[4].to_i
+      p d
+      day=d["day"].to_i
+      if MESES.index(d["month"])
+        month=MESES.index(d["month"]) + 1
+      else
+        month = d["month"].to_i
+      end
+      year=d["year"].to_i
       if year > 0 and year < 100
         year += 1900
       end
       day = 1 if day == 0
+      puts "#{year}/#{month}/#{day}"
       r=Date.civil(year,month,day)
       r
     }
@@ -106,11 +112,19 @@ class ProcesarTexto
   end
   def encontrar_con_context(re,t=Result)
     next_start = 0
+    next_start_byte = 0
     results = []
     loop do 
       break if not @text.match(re,next_start){|match|
+        prev_start_byte = next_start_byte
+        prev_start = next_start
+
         next_start = match.end(0)
-        r = t.new_with_context(match[0].strip,@text,match.begin(0),match.end(0),@doc) 
+        next_start_byte = @text[prev_start ... next_start].bytesize + prev_start_byte 
+
+        curr_start_byte = @text[prev_start ... match.begin(0)].bytesize + prev_start_byte
+
+        r = t.new_with_context(match[0].strip,@text,curr_start_byte,next_start_byte,@doc) 
         results << r
       }
     end
@@ -143,23 +157,11 @@ class ProcesarTexto
       context_start = start_pos - length 
       context_start = 0 if context_start < 0
       context_end = end_pos + length 
-=begin
-      better_context_start = start_pos
-      while (doc[better_context_start - 1] != '.') and (better_context_start > context_start) do
-        better_context_start -= 1
-      end
-      context_start = better_context_start
-
-
-      better_context_end = end_pos
-      while doc[better_context_end + 1] != '.' and (better_context_end < context_end) do
-        better_context_end += 1
-      end
-      context_end = better_context_end
-=end
-      text[context_start .. context_end].strip
-      #def new_with_context(s,text,start_pos,end_pos,doc)
-      self.class.new_with_context(text[context_start .. context_end].strip,text,context_start,context_end,doc)
+      ret = (context_start ... context_end).map{|pos| text.getbyte(pos).chr }.join.force_encoding("UTF-8")
+      self.class.new_with_context(ret,text,context_start,context_end,doc)
+    end
+    def extract(context_size=50)
+      ProcesarTexto.new(context(context_size))
     end
     def self.included(m)
       m.extend(InstanceMethods)
