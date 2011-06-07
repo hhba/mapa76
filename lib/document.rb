@@ -29,11 +29,10 @@ class Document
   end
   def fragment(start_pos,end_pos)
     fd.seek(start_pos)
-    orig = fd.read(end_pos - start_pos)
+    orig = self.read(end_pos - start_pos)
     orig.force_encoding("UTF-8")
     #fix UTF-8
     r=orig.chars.select{|c| c.valid_encoding?}.join
-    puts start_pos,end_pos,orig
     ProcesarTexto::StringWithContext.new_with_context(r,"",start_pos,start_pos + r.bytesize,self) 
   end
   def extract
