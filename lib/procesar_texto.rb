@@ -97,7 +97,6 @@ class ProcesarTexto
         year += 1900
       end
       day = 1 if day == 0
-      puts "Queda: #{day}/#{month}/#{year}"
       r=Date.civil(year,month,day)
       r
     }
