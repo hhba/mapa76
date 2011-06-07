@@ -38,8 +38,7 @@ Alegato.controllers  do
     pos_end     = pos_end.to_i + params[:around].to_i
 
     fragment=Document.find_by_id(doc_id).fragment(pos_start,pos_end)
-    r={:fragment_id => fragment.fragment_id, :text => fragment}.to_json
-    puts r
+    r={:fragment_id => fragment.fragment_id, :text => markup_fragment(fragment)}.to_json
     r
   end
   # get :index, :map => "/foo/bar" do
