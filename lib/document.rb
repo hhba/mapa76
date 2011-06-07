@@ -1,4 +1,9 @@
 #encoding: utf-8
+class String
+  def tidy_bytes
+    self.chars.select{|c| c.valid_encoding?}.join
+  end
+end
 require File.expand_path(File.dirname(__FILE__))+"/procesar_texto.rb"
 class Document
   attr_reader :id
@@ -32,7 +37,7 @@ class Document
     orig = self.read(end_pos - start_pos)
     orig.force_encoding("UTF-8")
     #fix UTF-8
-    r=orig.chars.select{|c| c.valid_encoding?}.join
+    r=orig.tidy_bytes
     ProcesarTexto::StringWithContext.new_with_context(r,"",start_pos,start_pos + r.bytesize,self) 
   end
   def extract
