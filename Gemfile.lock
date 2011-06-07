@@ -63,6 +63,7 @@ GEM
     treetop (1.4.9)
       polyglot (>= 0.3.1)
     tzinfo (0.3.26)
+    unidecoder (1.1.1)
     url_mount (0.2.1)
       rack
 
@@ -77,3 +78,4 @@ DEPENDENCIES
   rack-flash
   rake
   thin
+  unidecoder

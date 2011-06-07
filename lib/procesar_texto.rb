@@ -47,13 +47,16 @@ module Cache
 end
 
 class ProcesarTexto
+  attr_reader :doc
   def initialize(t)
-    if t.respond_to?(:readlines)
-      lines=t.readlines
+    if t.respond_to?(:read)
+      @text = t.read
+    elsif t.respond_to?(:join)
+      @text = t.join("\n")
     else
-      lines = Array(t)
+      @text = t.to_s
     end
-    @t=lines.map{|l| l.strip.gsub(/\s{2,}/,' ')}.join("\n")
+    @doc = t
   end
   LETRAS='áéíóúñüa-z'
   LETRASM='ÁÉÍÓÚÑÜA-Z'
@@ -99,9 +102,9 @@ class ProcesarTexto
     next_start = 0
     results = []
     loop do 
-      break if not @t.match(re,next_start){|match|
+      break if not @text.match(re,next_start){|match|
         next_start = match.end(0)
-        r = t.new_with_context(match[0].strip,@t,match.begin(0),match.end(0)) 
+        r = t.new_with_context(match[0].strip,@text,match.begin(0),match.end(0),@doc) 
         results << r
       }
     end
@@ -109,18 +112,31 @@ class ProcesarTexto
   end
   module Context
     module InstanceMethods
-      def new_with_context(s,doc,start_pos,end_pos)
+      def new_with_context(s,text,start_pos,end_pos,doc)
         o=new(s)
         o.doc=doc
+        o.text = text
         o.start_pos=start_pos
         o.end_pos=end_pos
         o
       end
     end
-    attr_accessor :start_pos,:end_pos,:doc
+    def fragment_id
+      if doc.is_a?(Document)
+        doc_id = doc.id 
+      elsif doc.respond_to?(:path)
+        doc_id = doc.path
+      else
+        doc_id = "?"
+      end
+      "frag:doc=#{doc_id}:#{start_pos}-#{end_pos}"
+    end
+    attr_accessor :start_pos,:end_pos,:doc,:text
     def context(length=50)
       context_start = start_pos - length 
       context_start = 0 if context_start < 0
+      context_end = end_pos + length 
+=begin
       better_context_start = start_pos
       while (doc[better_context_start - 1] != '.') and (better_context_start > context_start) do
         better_context_start -= 1
@@ -128,21 +144,24 @@ class ProcesarTexto
       context_start = better_context_start
 
 
-      context_end = end_pos + length 
       better_context_end = end_pos
       while doc[better_context_end + 1] != '.' and (better_context_end < context_end) do
         better_context_end += 1
       end
       context_end = better_context_end
-
-      doc[context_start .. context_end].strip
+=end
+      text[context_start .. context_end].strip
+      #def new_with_context(s,text,start_pos,end_pos,doc)
+      self.class.new_with_context(text[context_start .. context_end].strip,text,context_start,context_end,doc)
     end
     def self.included(m)
-      puts "included in #{m}, extending"
       m.extend(InstanceMethods)
     end
   end
   class Result < String
+    include Context
+  end
+  class StringWithContext < String
     include Context
   end
   class DateWithContext < Date
@@ -160,7 +179,7 @@ class ProcesarTexto
         new_with_context(*s)
       else
         s=s.first
-        new_with_context(s,s.doc,s.start_pos,s.end_pos)
+        new_with_context(s,s.text,s.start_pos,s.end_pos,s.doc)
       end
     end
     def geocodificar(localidad="Ciudad de Buenos Aires, Argentina")
