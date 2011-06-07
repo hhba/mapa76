@@ -76,13 +76,6 @@ class ProcesarTexto
   NOMBRES_PROPIOS_RE="(?:[#{LETRASM}][#{LETRAS}]{2,}(?:[ ,](?:[#{LETRASM}][#{LETRASM}#{LETRAS}]+|(?:(?:de|la|del)(?= [#{LETRASM}])))){1,})"    
   NOMBRE_PROPIO_RE="(?:[#{LETRASM}][#{LETRAS}]+(?:[ ,](?:[#{LETRASM}][#{LETRASM}#{LETRAS}]+|(?:(?:de|la|del)(?= ))))*)"    
   DIRECCIONES_RE=Regexp.new("(?<![\.] )(?<!^)(#{NOMBRE_PROPIO_RE}+ [0-9]{1,5}(?![0-9\/])(,? )?#{NOMBRE_PROPIO_RE}*)")
-=begin
-    d << " 3 de diciembre del 77."  
-    d << "3 de diciembre del 1977."
-    d << "julio del 78"
-    d << "6 de diciembre"
-    d << "diciembre de 1978"
-=end
   MESES = %w{enero febrero marzo abril mayo junio julio agosto septiembre octubre noviembre diciembre}
   MESES_RE="(?:#{MESES.join("|")})"
   FECHAS_RE=Regexp.new("((1[0-2]|[0-9])? *(?:del?)? *(#{MESES_RE}) *(?:del?)? *(20([01][0-9])|19[0-9]{2}|[0-9]{2})?(?![0-9]))",Regexp::IGNORECASE)
