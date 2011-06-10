@@ -1,5 +1,5 @@
 --- 
-:orm: none
+:orm: mongomapper
 :test: none
 :mock: none
 :script: jquery

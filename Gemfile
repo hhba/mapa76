@@ -4,17 +4,18 @@ source :rubygems
 gem 'rake'
 gem 'rack-flash'
 gem 'thin' # or mongrel
-gem "geokit"
 
 # Component requirements
 gem 'haml'
+gem 'mongo_mapper', :git => "git://github.com/jnunemaker/mongomapper.git", :branch => "rails3"
+gem 'bson_ext', :require => "mongo"
 
 # Test requirements
 
 
 # Padrino
-gem 'padrino', "0.9.23"
+gem 'padrino', "0.9.29"
 
-
-gem "nokogiri"
 gem "unidecoder"
+gem "geokit"
+gem "nokogiri"

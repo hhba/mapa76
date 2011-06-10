@@ -6,19 +6,20 @@ Alegato.controllers  do
     #puts data
     no_dirs  = ['Batallón', 'Convención', 'El ', 'Tenía', 'Legajo ', 'Destacamento ', 'Decreto ', 'En ', 'Ley ', 'Tenia ', 'Tratado ', 'Eran ', 'Grupo de ', 'Conadep ', 'Desde la','Fallos ','Comisaria ','Puente ','Entre ', 'Cabo ', 'Peugeot ']
     texto = ProcesarTexto.new(fd)
-    matches_ref = texto.direcciones.find_all{|t| ! no_dirs.find{|nd| t.start_with?(nd) } }.map{|d| ProcesarTexto::Direccion.new(d)}
+    matches_ref = texto.direcciones.find_all{|t| ! no_dirs.find{|nd| t.start_with?(nd) } }.map{|d| ProcesarTexto::Direccion.new_from_string_with_context(d)}
     @direcciones = matches_ref.sort.uniq
     render 'index', :direcciones => @direcciones
   end
   get :nombres, :map => "/:doc_id/nombres" do
-    doc = Document.find_by_id(params[:doc_id].to_i)
+    @doc = Document.find_by_id(params[:doc_id].to_i)
     @nombres_propios = Hash.new{|hash,key| hash[key]=[]}
-    doc.extract.nombres_propios.each{|nombre| @nombres_propios[nombre.to_s.to_ascii] << nombre }
+    @doc.extract.nombres_propios.each{|nombre| @nombres_propios[nombre.to_s.downcase.to_ascii] << nombre }
     render "listado_nombres"
   end
   get :nombre, :map => "/:doc_id/nombres/:name" do
+    @person = Person.where(:name => params[:name].strip).first || Person.new(:name => params[:name].strip)
     doc = Document.find_by_id(params[:doc_id].to_i)
-    @person = doc.extract.nombres_propios.find_all{|name| name.to_s.to_ascii == params[:name].to_s.to_ascii}
+    @fragments = doc.extract.nombres_propios.find_all{|name| name.to_s.downcase.to_ascii == params[:name].to_s.downcase.to_ascii}
     render "persona"
   end
   get :context do
@@ -40,6 +41,13 @@ Alegato.controllers  do
     fragment=Document.find_by_id(doc_id).fragment(pos_start,pos_end)
     r={:fragment_id => fragment.fragment_id, :text => markup_fragment(fragment)}.to_json
     r
+  end
+  post :person, :map => "/persona/:name" do
+    person = Person.where(:name => params[:name].strip).first || Person.create(:name => params[:name].strip)
+    Array(params[:milestones]).each{|milestone|
+      person.milestone(milestone)      
+    }
+    params.inspect
   end
   # get :index, :map => "/foo/bar" do
   #   session[:foo] = "bar"

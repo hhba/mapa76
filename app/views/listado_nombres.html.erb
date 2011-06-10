@@ -1,5 +1,6 @@
+<h1><%=@doc.title%></h1>
 <ol>
   <%@nombres_propios.keys.sort.each{|nombre|%>
-    <li><%=link_to(nombre,url_for(:nombre,:name => nombre, :doc_id => params[:doc_id]))%> (<%=@nombres_propios[nombre].length%> menciones)
+    <li><%=link_to(nombre.titleize,url_for(:nombre,:name => nombre, :doc_id => params[:doc_id]))%> (<%=@nombres_propios[nombre].length%> menciones)
   <%}%>
 </ol>
