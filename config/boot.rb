@@ -22,4 +22,9 @@ end
 Padrino.after_load do
 end
 
+Padrino.configure_apps do
+    enable :sessions
+end
+
 Padrino.load!
+
