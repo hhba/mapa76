@@ -7,15 +7,16 @@ end
 require File.expand_path(File.dirname(__FILE__))+"/procesar_texto.rb"
 class Document
   attr_reader :id
-  attr_accessor :sample_mode
+  attr_accessor :sample_mode, :title
   def self.find_by_id(id)
      id = id.to_i
      docs=[ ]
-     docs[1] = "alegato2.txt"
-     self.new(File.join(File.expand_path(File.dirname(__FILE__)),"..","data",docs[id]),id)
+     docs[1] = {:path => "alegato2.txt", :title => "Alegato del fiscal - Banco, Atlético, Olimpo"}
+     self.new(File.join(File.expand_path(File.dirname(__FILE__)),"..","data",docs[id][:path]),docs[id][:title],id)
   end
-  def initialize(path,id=nil)
+  def initialize(path,title,id=nil)
     @path=path
+    @title = title
     @id=id
   end
   def fd

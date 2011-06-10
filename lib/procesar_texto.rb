@@ -78,7 +78,7 @@ class ProcesarTexto
   DIRECCIONES_RE=Regexp.new("(?<![\.] )(?<!^)(#{NOMBRE_PROPIO_RE}+ [0-9]{1,5}(?![0-9\/])(,? )?#{NOMBRE_PROPIO_RE}*)")
   MESES = %w{enero febrero marzo abril mayo junio julio agosto septiembre octubre noviembre diciembre}
   MESES_RE="(?:#{MESES.join("|")})"
-  FECHAS_RE=Regexp.new("(?<day>[123][0-2]|[0-9])? *(?:del?)? *(?<month>#{MESES_RE}) *(?:del?)? *´?(?<year>(20([01][0-9])|19[0-9]{2}|[0-9]{2})?(?![0-9]))|(?<day>[123]?[0-9])/(?<month>1?[0-9])/(?<year>20([01][0-9])|19[0-9]{2}|[0-9]{2})",Regexp::IGNORECASE)
+  FECHAS_RE=Regexp.new("(?<day>[123][0-2]|[0-9])? *(?:del?)? *(?<month>#{MESES_RE}) *(?:del?)? *´?(?<year>(20([01][0-9])|19[0-9]{2}|[0-9]{2})?(?![0-9]))|(?<day>[123]?[0-9])/(?<month>1?[0-9])(/(?<year>20([01][0-9])|19[0-9]{2}|[0-9]{2}))?",Regexp::IGNORECASE)
   def fechas
     res=encontrar_con_context(FECHAS_RE)
     res.map{|date| 
@@ -108,7 +108,7 @@ class ProcesarTexto
 
   def direcciones
     # Nombres propios, seguidos de un numero
-    encontrar_con_context(DIRECCIONES_RE)
+    encontrar_con_context(DIRECCIONES_RE).map{|d| ProcesarTexto::Direccion.new_from_string_with_context(d)}
   end
   def nombres_propios
     cache_fetch(@cache_id + "nombres_propios"){
