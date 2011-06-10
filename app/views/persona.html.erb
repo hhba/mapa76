@@ -8,17 +8,62 @@
   .address {
     color: green
   }
+  #add_milestone{
+    display:none;
+    width:400px;
+    height:200px;
+    border:1px;
+    background-color:#aaa;
+    font-size:small;
+  }
+  #map{
+    height:200px;
+    width:200px;
+  }
 </style>
+<link type="text/css" href="/javascripts/css/ui-lightness/jquery-ui-1.8.13.custom.css" rel="Stylesheet" />
 <script src="/javascripts/jquery.js"></script>
+<script src="/javascripts/js/jquery-ui-1.8.13.custom.min.js"></script>
+
   <h2><%=params[:name]%></h2>
+  <%if not @person.new_record? %>
+    <ol id='milestones'>
+      <%@person.milestones.each{|milestone|%>
+        <li><%=milestone%>
+      <%}%>
+    </ol>
+  <%else%>
+    <% form_for @person,url_for(:person,:name => params[:name]), :method => "post" do |f| %>
+          <%= f.error_messages  %>
+          <%= f.label :name, :caption => "Nombre"%>
+          <%= f.text_field :name %>
+          <%= f.submit "Guardar" %>
+    <% end %>
+  <%end%>
+
   <ol style="list-style-type:round">
-    <%@person.each{|parte|%>
+    <%@fragments.each{|parte|%>
       <li id='<%=parte.fragment_id%>' >
         <button class='more' name='<%=parte.context(400).fragment_id%>'>[+]</button>
         <p class='fragment'><%=markup_fragment(parte.context(400))%></p>
       </li>
     <%}%>
   </ol>
+  <div id='add_milestone'>
+    <h2><%=@person.name%></h2>
+
+    <form method="post" action="<%=url_for(:person, :name => @person[:name])%>">
+      Date From <input type='text' name='person[:milestones][][:date_from]' id='milestone_date_from' /><br />
+      Date To <input type='text' name='person[:milestones][][:date_to]' id='milestone_date_to' /><br />
+      What <input type='text' name='person[:milestones][][:what]' /><br />
+      Where <input type='text' name='person[:milestones][][:where]' /><br /> 
+      Source <input type='text'name='person[:milestones][][:source]' id="milestone_source" /><br />
+      <input type='submit' value='Guardar' />
+    </form>
+  </div>
+  <div id='map'>
+    <img src='' id='map_img' />
+  </div>
 
 <script>
     $(document).ready(function(){
@@ -29,10 +74,41 @@
                     function(d){
                         e.currentTarget.name=d.fragment_id
                         $(e.currentTarget).siblings("p.fragment").html(d.text)
+                        live_markup($(e.currentTarget).siblings("p.fragment"))
                     }
                 )
         }
         )
+        $("p.fragment").each(function(idx,d){live_markup(d)})
+        $("#milestone_date_from").datepicker({dateFormat: "dd/mm/yy"} );
+        $("#milestone_date_to").datepicker({dateFormat: "dd/mm/yy"} );
     }
     )
+    function live_markup(o){
+      console.log("Live markup",o)
+      $(o).children(".date").click(function(e){
+            var parts = $(e.currentTarget).attr("datetime").split("-",3)
+            $("#milestone_date_from").val(parts[2]+"/"+parts[1]+"/"+parts[0]);
+            $("#milestone_date_to").val(parts[2]+"/"+parts[1]+"/"+parts[0]);
+            $("#milestone_source").val(e.currentTarget.id);
+            $("#add_milestone").dialog()
+      })
+      $(o).children("span.name").click(function(e){
+            person_info(<%=@person.name.to_json%>,$(e.currentTarget).text(),e.currentTarget.id)
+      })
+      $(o).children("span.address").click(function(e){
+        console.log(e.currentTarget)
+            var lat=e.currentTarget.children(".latitude").attr("latitude")
+            var lon=e.currentTarget.children(".longitude").attr("longitude")
+            address_info(lat,lon,$(e.currentTarget).text(),e.currentTarget.id)
+      })
+
+    }
+    function add_milestone(person_name,milestone_date,fragment_id){
+      console.log(person_name,milestone_date,fragment_id)
+    }
+    function address_info(lat,lon,addr,fragment_id){
+      var url="http://maps.google.com/maps/api/staticmap?size=200x200&markers=color:blue|"+lat+","+lon;
+      $("#map #map_img").attr("src",url)
+    }
 </script>
