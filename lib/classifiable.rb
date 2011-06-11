@@ -7,7 +7,6 @@ module Classifiable
     require 'madeleine'
     require "stemmer"
     def classifier
-      puts File.dirname(__FILE__) + "/../data/#{self.name}"
       return Classifiers.instance[self.name] if Classifiers.instance[self.name]
       path=File.join(File.expand_path(File.dirname(__FILE__) + "/../data/"), self.name)
       Classifiers.instance[self.name] = SnapshotMadeleine.new(path) {
@@ -26,6 +25,9 @@ module Classifiable
   end
   def classify
     self.class.classify(self.to_s)
+  end
+  def classified_good?
+    classify == "good"
   end
   def self.included(m)
     m.extend(ClassMethods)
