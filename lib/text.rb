@@ -1,89 +1,16 @@
 #encoding: utf-8
-require 'json'
-module Classifiable
-  class Classifiers < Hash
-    include Singleton
-  end
-  module ClassMethods
-    require 'madeleine'
-    require "stemmer"
-    def classifier
-      return Classifiers.instance[self.name] if Classifiers.instance[self.name]
-      path=File.join(File.expand_path(File.dirname(__FILE__) + "/../data/"), self.name)
-      Classifiers.instance[self.name] = SnapshotMadeleine.new(path) {
-        Classifier::Bayes.new 'good', 'bad'
-      }
-    end
-    def train(good_or_bad,str)
-      classifier.system.send("train_#{good_or_bad}".to_sym,str)
-    end
-    def training_save
-      classifier.take_snapshot
-    end
-    def classify(str)
-      classifier.system.classify(str).downcase
-    end
-  end
-  def classify
-    self.class.classify(self.to_s)
-  end
-  def self.included(m)
-    m.extend(ClassMethods)
-  end
-end
-module Cache
-  CACHE_DIR='/tmp/cache_procesar_texto/'
-  File.exists?(CACHE_DIR) || Dir.mkdir(CACHE_DIR)
-  require "fileutils"
-  require 'yaml'
-  def cache_load(id)
-    path = cache_dir(id)
-    return :notcached if not File.exists?(path)
-    begin
-      YAML.load_file(path)
-    rescue
-      raise
-      nil
-    end
-  end
-  def cache_enabled
-    @cache_enabled
-  end
-  def cache_enabled=(v)
-    @cache_enabled=v
-  end
-  def cache_fetch(key)
-    return yield if not cache_enabled
-    id = cache_gen_id(key)
-    cached=self.cache_load(id)
-    if cached == :notcached
-      val=yield
-      cache_write(id,val)
-    else
-      cached
-    end
-  end
-  def cache_gen_id(key)
-    self.class.name.to_s + key.to_s 
-  end
-  def cache_dir(id)
-    File.join(CACHE_DIR,Digest::MD5.hexdigest(id))
-  end
-  def cache_write(id,data)
-    dir = cache_dir(id)
-    begin
-      open(dir,'w'){|fd|
-        YAML.dump(data,fd)
-      }
-    rescue
-      puts "Cannot dump! #{$!}"
-    end
-    data
+require File.join(File.expand_path(File.dirname(__FILE__)),"/classifiable")
+require File.join(File.expand_path(File.dirname(__FILE__)),"/cacheable")
+
+class String
+  #remove invalid utf-8 chars from str
+  def tidy_bytes
+   self.chars.select{|c| c.valid_encoding?}.join
   end
 end
 
-class ProcesarTexto
-  include Cache
+class Text
+  include Cacheable
   attr_reader :doc
   def initialize(t)
     @cache_id=''
@@ -103,18 +30,17 @@ class ProcesarTexto
   end
   LETRAS='áéíóúñüa-z'
   LETRASM='ÁÉÍÓÚÑÜA-Z'
-    # Palabra Palabra|de|del
+  # Palabra Palabra|de|del
   NOMBRES_PROPIOS_RE="(?:[#{LETRASM}][#{LETRAS}]{2,}(?:[ ,](?:[#{LETRASM}][#{LETRASM}#{LETRAS}]+|(?:(?:de|la|del)(?= [#{LETRASM}])))){1,})"    
   NOMBRE_PROPIO_RE="(?:[#{LETRASM}][#{LETRAS}]+(?:[ ,](?:[#{LETRASM}][#{LETRASM}#{LETRAS}]+|(?:(?:de|la|del)(?= ))))*)"    
   DIRECCIONES_RE=Regexp.new("(?<![\.] )(?<!^)(#{NOMBRE_PROPIO_RE}+ [0-9]{1,5}(?![0-9\/])(,? )?#{NOMBRE_PROPIO_RE}*)")
   MESES = %w{enero febrero marzo abril mayo junio julio agosto septiembre octubre noviembre diciembre}
   MESES_RE="(?:#{MESES.join("|")})"
   FECHAS_RE=Regexp.new("(?<day>[123][0-2]|[0-9])? *(?:del?)? *(?<month>#{MESES_RE}) *(?:del?)? *´?(?<year>(20([01][0-9])|19[0-9]{2}|[0-9]{2})?(?![0-9]))|(?<day>[123]?[0-9])/(?<month>1?[0-9])(/(?<year>20([01][0-9])|19[0-9]{2}|[0-9]{2}))?",Regexp::IGNORECASE)
-  def fechas
-    res=encontrar_con_context(FECHAS_RE)
+  def dates
+    res=find(FECHAS_RE)
     res.map{|date| 
       d = date.match(FECHAS_RE)
-      p d
       day=d["day"].to_i
       if MESES.index(d["month"])
         month=MESES.index(d["month"]) + 1
@@ -126,9 +52,6 @@ class ProcesarTexto
         year += 1900
       end
       day = 1 if day == 0
-      puts "#{year}/#{month}/#{day}"
-      #r=Date.civil(year,month,day)
-      #def new_with_context(s,text,start_pos,end_pos,doc)
       begin
         DateWithContext.new_with_context([year,month,day],date.text,date.start_pos,date.end_pos,date.doc)
       rescue ArgumentError
@@ -137,16 +60,16 @@ class ProcesarTexto
     }.compact
   end
 
-  def direcciones
+  def addresses
     # Nombres propios, seguidos de un numero
-    encontrar_con_context(DIRECCIONES_RE).map{|d| ProcesarTexto::Direccion.new_from_string_with_context(d)}
+    find(DIRECCIONES_RE).map{|d| Text::Address.new_from_string_with_context(d)}
   end
-  def nombres_propios
-    cache_fetch(@cache_id + "nombres_propios"){
-      encontrar_con_context(Regexp.new("(#{NOMBRES_PROPIOS_RE})"),PersonName)
+  def person_names
+    cache_fetch(@cache_id + "person_names"){
+      find(Regexp.new("(#{NOMBRES_PROPIOS_RE})"),PersonName)
     }
   end
-  def encontrar_con_context(re,t=Result)
+  def find(re,t=Result)
     next_start = 0
     next_start_byte = 0
     results = []
@@ -197,7 +120,7 @@ class ProcesarTexto
       StringWithContext.new_with_context(ret,text,context_start,context_end,doc)
     end
     def extract
-      ProcesarTexto.new(self.to_s)
+      Text.new(self.to_s)
     end
     def self.included(m)
       m.extend(InstanceMethods)
@@ -216,8 +139,8 @@ class ProcesarTexto
     include Context
   end
 
-  class Direccion < Result
-    include Cache
+  class Address < Result
+    include Cacheable
     require "geokit"
     include Geokit::Geocoders
     Geokit::Geocoders::provider_order=[:google]
@@ -230,16 +153,16 @@ class ProcesarTexto
         new_with_context(s,s.text,s.start_pos,s.end_pos,s.doc)
       end
     end
-    def geocodificar(localidad="Ciudad de Buenos Aires, Argentina")
+    def geocode(place="Ciudad de Buenos Aires, Argentina")
        no_dirs  = ['Batallón', 'Convención', 'El ', 'Tenía', 'Legajo ', 'Destacamento ', 'Decreto ', 'En ', 'Ley ', 'Tenia ', 'Tratado ', 'Eran ', 'Grupo de ', 'Conadep ', 'Desde la','Fallos ','Comisaria ','Puente ','Entre ', 'Cabo ', 'Peugeot ']
        return nil if no_dirs.find{|pref| self.start_with?(pref)}
        return nil if self.index(/de [0-9]{1,2}/)
        dir = self
        if self.split(/[0-9],?+/).length == 1 
          #no incluye localidad
-         dir = "#{self}, #{localidad}" 
+         dir = "#{self}, #{place}" 
        end
-       r=cache_fetch(dir){
+       r=cache_fetch("address_#{dir}"){
          MultiGeocoder.geocode(dir)
        }
        r.success && r

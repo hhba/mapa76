@@ -13,7 +13,7 @@
 </script>
 <script type="text/javascript">
   function initialize() {
-      var latlng = new google.maps.LatLng(<%=@direcciones.find{|d| d.geocodificar}.geocodificar.ll%>);
+      var latlng = new google.maps.LatLng(<%=@addresses.find{|d| d.geocode}.geocode.ll%>);
     var myOptions = {
       zoom: 11,
       center: latlng,
@@ -21,8 +21,8 @@
     };
     var map = new google.maps.Map(document.getElementById("map_canvas"),
         myOptions);
-    <%@direcciones.each.with_index{|dir,n| if dir.geocodificar %>
-        var myLatlng = new google.maps.LatLng(<%=dir.geocodificar.ll%>);
+    <%@addresses.each.with_index{|dir,n| if dir.geocode %>
+        var myLatlng = new google.maps.LatLng(<%=dir.geocode.ll%>);
         var myOptions = { zoom: 4, center: myLatlng, mapTypeId: google.maps.MapTypeId.ROADMAP }
         if (!centered){ centered=true; map.panTo(myLatlng) }
         var marker = new google.maps.Marker({ position: myLatlng, map: map, title:<%=dir.context.to_json%> });   
@@ -34,8 +34,8 @@
 </script>
 </head>
 <body onload="initialize()">
-  <h1>HHBA - Extracción automática de direcciones y mapeo.</h1>
-  <p>Las direcciones mapeadas fueron extraídas del alegato del fiscal del juicio Atlético - Banco - Olimpo.<br /></P>
+  <h1>HHBA - Extracción automática de addresses y mapeo.</h1>
+  <p>Las addresses mapeadas fueron extraídas del alegato del fiscal del juicio Atlético - Banco - Olimpo.<br /></P>
   <div id="map_canvas" ></div>
   <p>Este prototipo acompaña la charla: "<a href='http://goo.gl/M5CL1'>¿Que (pomo) hacen los programadores?</a>" en <a href='http://hackshackers.com/blog/2011/04/29/%C2%A1invasion-hackshackers-en-buenos-aires-periodismo-de-datos-y-datos-para-el-periodismo/'>HacksHackers Buenos Aires, 28/4/2011</a><br />martin sarsale - martin@malditainternet.com</p>
 </body>

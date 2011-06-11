@@ -1,10 +1,5 @@
 #encoding: utf-8
-class String
-  def tidy_bytes
-    self.chars.select{|c| c.valid_encoding?}.join
-  end
-end
-require File.expand_path(File.dirname(__FILE__))+"/procesar_texto.rb"
+require "text"
 class Document
   attr_reader :id
   attr_accessor :sample_mode, :title
@@ -17,7 +12,7 @@ class Document
      docs[4] = {:path => "alegato_campo_mayo_III.txt", :title => "alegato_campo_mayo_III.txt"} 
      docs[5] = {:path => "AlegatoCampoMayoIIILunes20dic2010.doc.txt", :title=>"AlegatoCampoMayoIIILunes20dic2010.doc.txt"} 
      docs[6] = {:path => "causa_13_84.txt", :title=>"causa_13_84.txt"} 
-     self.new(File.join(File.expand_path(File.dirname(__FILE__)),"..","data",docs[id][:path]),docs[id][:title],id)
+     self.new(File.join(File.expand_path(File.dirname(__FILE__)),"../../","data",docs[id][:path]),docs[id][:title],id)
   end
   def initialize(path,title,id=nil)
     @path=path
@@ -44,10 +39,10 @@ class Document
     orig.force_encoding("UTF-8")
     #fix UTF-8
     r=orig.tidy_bytes
-    ProcesarTexto::StringWithContext.new_with_context(r,"",start_pos,start_pos + r.bytesize,self) 
+    Text::StringWithContext.new_with_context(r,"",start_pos,start_pos + r.bytesize,self) 
   end
   def extract
-    @process_text ||= ProcesarTexto.new(self)
+    @process_text ||= Text.new(self)
   end
   def method_missing(p,args=[])
     fd.send(p,*args)

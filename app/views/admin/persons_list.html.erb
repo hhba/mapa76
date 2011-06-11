@@ -9,15 +9,15 @@
 <script src="/javascripts/jquery.js"></script>
 <h1><%=@doc.title%></h1>
 <ol>
-  <%@nombres_propios.keys.sort.each{|nombre|%>
-    <li><span class='name classified_<%=ProcesarTexto::PersonName.classify(nombre)%>'><%=link_to(nombre.titleize,url_for(:nombre,:name => nombre, :doc_id => params[:doc_id]))%></span> (<%=@nombres_propios[nombre].length%> menciones) 
+  <%@person_names.keys.sort.each{|nombre|%>
+    <li><span class='name classified_<%=Text::PersonName.classify(nombre)%>'><%=link_to(nombre.titleize,url_for(:nombre,:name => nombre, :doc_id => params[:doc_id]))%></span> (<%=@person_names[nombre].length%> menciones) 
   <%}%>
 </ol>
 
 <script>
   $("li").append("<span class='buttons'><button class='train' value='good'>Es nombre</button> <button class='train' value='bad'>No es nombre</button></span>")
   $("button.train").click(function(e){
-    $.post("/name/classify/",
+    $.post("<%=url_for :classify_name %>",
             {name: $(e.currentTarget).parents("li").children("span.name").text(), training: $(e.currentTarget).attr("value")},
             function(b){$(e.currentTarget).parents("span.buttons").text("res")},
             "json"

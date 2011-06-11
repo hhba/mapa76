@@ -1,8 +1,8 @@
 #encoding: utf-8
-require "./lib/procesar_texto"
+require File.join(File.expand_path(File.dirname(__FILE__)),"/../lib/text")
 require "test/unit"
  
-class TestFechas < Test::Unit::TestCase
+class TestDates < Test::Unit::TestCase
    
   def test_simple
     d = []
@@ -16,8 +16,8 @@ class TestFechas < Test::Unit::TestCase
     d << "abril del ´78"
     d << "fines de noviembre 1977"
     
-    t=ProcesarTexto.new(d)
-    f=t.fechas
+    t=Text.new(d)
+    f=t.dates
     assert_equal(Date.civil(1977,12,3),  f[0] )
     assert_equal(Date.civil(1977,12,3),  f[1] )
     assert_equal(Date.civil(1978,7),     f[2] ) 

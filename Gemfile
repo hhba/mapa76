@@ -16,7 +16,6 @@ gem 'bson_ext', :require => "mongo"
 # Padrino
 gem 'padrino', "0.9.29"
 
-gem "unidecoder"
 gem "geokit"
 gem "nokogiri"
 gem "ruby-stemmer"
