@@ -42,7 +42,7 @@ class Text
   # Palabra Palabra|de|del
   NOMBRES_PROPIOS_RE="(?:[#{LETRASM}][#{LETRAS}]{2,}(?:[ ,](?:[#{LETRASM}][#{LETRASM}#{LETRAS}]+|(?:(?:de|la|del)(?= [#{LETRASM}])))){1,})"    
   NOMBRE_PROPIO_RE="(?:[#{LETRASM}][#{LETRAS}]+(?:[ ,](?:[#{LETRASM}][#{LETRASM}#{LETRAS}]+|(?:(?:de|la|del)(?= ))))*)"    
-  DIRECCIONES_RE=Regexp.new("(?<![\.] )(?<!^)(#{NOMBRE_PROPIO_RE}+ [0-9]{1,5}(?![0-9\/])(,? )?#{NOMBRE_PROPIO_RE}*)")
+  DIRECCIONES_RE=Regexp.new("(?<!^)((?:Av.? )?#{NOMBRE_PROPIO_RE}+ [0-9]{1,5}(?![0-9\/])(,? )?#{NOMBRE_PROPIO_RE}*)")
   MESES = %w{enero febrero marzo abril mayo junio julio agosto septiembre octubre noviembre diciembre}
   MESES_RE="(?:#{MESES.join("|")})"
   FECHAS_RE=Regexp.new("(?<![0-9])(?<day>[0-9]{1,2})? *(?:del?)? *(?<month>#{MESES_RE}) *(?:del?)? *´?(?<year>(20([01][0-9])|19[0-9]{2}|[0-9]{2})?(?![0-9]))|(?<day>[123]?[0-9])/(?<month>1?[0-9])(/(?<year>20([01][0-9])|19[0-9]{2}|[0-9]{2}))?",Regexp::IGNORECASE)
@@ -152,9 +152,11 @@ class Text
     require "digest/md5"
     def self.new_from_string_with_context(*s)
       if not s.first.is_a?(Result)
+        s.first.gsub!(/, *$/,"") 
         new_with_context(*s)
       else
         s=s.first
+        s.gsub!(/, *$/,"") 
         new_with_context(s,s.text,s.start_pos,s.end_pos,s.doc)
       end
     end
