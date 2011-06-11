@@ -1,27 +1,56 @@
 <style>
+  a{
+      text-decoration:none;
+  }
   .classified_good a{
     color:green;
   }
   .classified_bad a{
     color:red;
   }
+  ol.list_mode .classified_bad{
+      display:none
+  }
+  ol.list_mode .classified_good a{
+      color:black;
+  }
+
+  .mentions_1 a {
+    font-size:100%;
+  }
+  .mentions_2 a {
+    font-size:110%;
+  }
+  .mentions_3 a {
+    font-size:120%;
+  }
+  .mentions_4 a {
+    font-size:130%;
+  }
+
 </style>
-<script src="/javascripts/jquery.js"></script>
 <h1><%=@doc.title%></h1>
-<ol>
+<button style='position:absolute; right:0px;' id="classification_mode">Clasificar nombres</button>
+<ol class='list_mode'>
   <%@person_names.keys.sort.each{|nombre|%>
-    <li><span class='name classified_<%=Text::PersonName.classify(nombre)%>'><%=link_to(nombre.titleize,url_for(:nombre,:name => nombre, :doc_id => params[:doc_id]))%></span> (<%=@person_names[nombre].length%> menciones) 
+      <li class=' classified_<%=Text::PersonName.classify(nombre)%>'><span class='name mentions_<%=Math.sqrt(@person_names[nombre].length).floor%> '><%=link_to(nombre.titleize,url_for(:nombre,:name => nombre, :doc_id => params[:doc_id]))%></span> (<%=@person_names[nombre].length%> menciones) 
   <%}%>
 </ol>
 
 <script>
-  $("li").append("<span class='buttons'><button class='train' value='good'>Es nombre</button> <button class='train' value='bad'>No es nombre</button></span>")
-  $("button.train").click(function(e){
-    $.post("<%=url_for :classify_name %>",
-            {name: $(e.currentTarget).parents("li").children("span.name").text(), training: $(e.currentTarget).attr("value")},
-            function(b){$(e.currentTarget).parents("span.buttons").text("res")},
-            "json"
-          )
+    function classification_mode(){
+      $("ol").removeClass("list_mode")
+      $("li").append("<span class='buttons'><button class='train' value='good'>Es nombre</button> <button class='train' value='bad'>No es nombre</button></span>")
+      $("button.train").click(function(e){
+        $.post("<%=url_for :classify_name %>",
+                {name: $(e.currentTarget).parents("li").children("span.name").text(), training: $(e.currentTarget).attr("value")},
+                function(b){$(e.currentTarget).parents("span.buttons").text("res")},
+                "json"
+              )
+        }
+      )
     }
-  )
+    $("button#classification_mode").click(function(e){
+        classification_mode()
+    })
 </script>

@@ -11,8 +11,8 @@ Alegato.helpers do
     dates = fr.dates
     addresses = fr.addresses
 
-    person_names.sort_by{|n| n.length}.reverse.each{|n|
-      ret.gsub!(n,"<span class='name' id='#{n.fragment_id}'>#{n}</span>")
+    person_names.find_all(&:classified_good?).sort_by{|n| n.length}.reverse.each{|n|
+      ret.gsub!(n,"<span class='name #{ActiveSupport::Inflector.parameterize(n)}' id='#{n.fragment_id}'>#{n}</span>")
     }
     dates.each{|n|
       ret.gsub!(n.context(0),"<time class='date' datetime='#{n.to_s}' id='#{n.fragment_id}'>#{n.context(0)}</time>")
