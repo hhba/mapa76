@@ -1,4 +1,5 @@
 #encoding: utf-8
+require "digest/md5"
 require File.join(File.expand_path(File.dirname(__FILE__)),"/classifiable")
 require File.join(File.expand_path(File.dirname(__FILE__)),"/cacheable")
 
@@ -74,7 +75,7 @@ class Text
     find(DIRECCIONES_RE).map{|d| Text::Address.new_from_string_with_context(d)}
   end
   def person_names
-    cache_fetch(@cache_id + "person_names"){
+    cache_fetch("person_names"+Digest::MD5.hexdigest(@text)){
       find(Regexp.new("(#{NOMBRES_PROPIOS_RE})"),PersonName)
     }
   end
@@ -149,7 +150,6 @@ class Text
     require "geokit"
     include Geokit::Geocoders
     Geokit::Geocoders::provider_order=[:google]
-    require "digest/md5"
     def self.new_from_string_with_context(*s)
       if not s.first.is_a?(Result)
         s.first.gsub!(/, *$/,"") 
@@ -169,6 +169,7 @@ class Text
          #no incluye localidad
          dir = "#{self}, #{place}" 
        end
+       self.cache_enabled = true 
        r=cache_fetch("address_#{dir}"){
          MultiGeocoder.geocode(dir)
        }

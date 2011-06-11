@@ -1,7 +1,7 @@
 module Cacheable
   CACHE_DIR='/tmp/cache_procesar_texto/'
-  File.exists?(CACHE_DIR) || Dir.mkdir(CACHE_DIR)
   require "fileutils"
+  File.exists?(CACHE_DIR) || FileUtils.mkdir_p(CACHE_DIR)
   require 'yaml'
   def cache_load(id)
     path = cache_dir(id)
