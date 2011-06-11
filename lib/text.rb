@@ -8,6 +8,9 @@ class String
    self.chars.select{|c| c.valid_encoding?}.join
   end
 end
+class StringDocument < String
+  attr_accessor :id
+end
 
 class Text
   include Cacheable
@@ -15,9 +18,17 @@ class Text
   def initialize(t)
     @cache_id=''
     if t.respond_to?(:id)
-      @cache_id=t.id.to_s
+      @doc_id = t.id 
+      @cache_id=@doc_id.to_s
       self.cache_enabled=true
+    else
+      t = StringDocument.new(t.to_s)
+      t.id = "?"
+      @doc_id = t.id 
     end
+
+    @doc = t
+
     if t.respond_to?(:read)
       @text = t.read
     elsif t.respond_to?(:join)
@@ -25,8 +36,6 @@ class Text
     else
       @text = t.to_s
     end
-    @doc = t
-    true
   end
   LETRAS='áéíóúñüa-z'
   LETRASM='ÁÉÍÓÚÑÜA-Z'
@@ -101,14 +110,7 @@ class Text
       end
     end
     def fragment_id
-      if doc.is_a?(Document)
-        doc_id = doc.id 
-      elsif doc.respond_to?(:path)
-        doc_id = doc.path
-      else
-        doc_id = "?"
-      end
-      "frag:doc=#{doc_id}:#{start_pos}-#{end_pos}"
+      "frag:doc=#{doc.id}:#{start_pos}-#{end_pos}"
     end
     alias :id :fragment_id
     attr_accessor :start_pos,:end_pos,:doc,:text
@@ -120,7 +122,10 @@ class Text
       StringWithContext.new_with_context(ret,text,context_start,context_end,doc)
     end
     def extract
-      Text.new(self.to_s)
+      str = StringDocument.new(self.to_s)
+      str.id = doc.id
+      new_doc = Text.new(str)
+      new_doc
     end
     def self.included(m)
       m.extend(InstanceMethods)
