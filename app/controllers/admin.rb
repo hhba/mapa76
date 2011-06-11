@@ -1,4 +1,5 @@
 Alegato.controllers do
+  layout :admin
   get :nombres, :map => "/admin/:doc_id/nombres" do
     @doc = Document.find_by_id(params[:doc_id].to_i)
     @person_names = Hash.new{|hash,key| hash[key]=[]}
