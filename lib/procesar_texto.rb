@@ -1,5 +1,36 @@
 #encoding: utf-8
 require 'json'
+module Classifiable
+  class Classifiers < Hash
+    include Singleton
+  end
+  module ClassMethods
+    require 'madeleine'
+    require "stemmer"
+    def classifier
+      return Classifiers.instance[self.name] if Classifiers.instance[self.name]
+      path=File.join(File.expand_path(File.dirname(__FILE__) + "/../data/"), self.name)
+      Classifiers.instance[self.name] = SnapshotMadeleine.new(path) {
+        Classifier::Bayes.new 'good', 'bad'
+      }
+    end
+    def train(good_or_bad,str)
+      classifier.system.send("train_#{good_or_bad}".to_sym,str)
+    end
+    def training_save
+      classifier.take_snapshot
+    end
+    def classify(str)
+      classifier.system.classify(str).downcase
+    end
+  end
+  def classify
+    self.class.classify(self.to_s)
+  end
+  def self.included(m)
+    m.extend(ClassMethods)
+  end
+end
 module Cache
   CACHE_DIR='/tmp/cache_procesar_texto/'
   File.exists?(CACHE_DIR) || Dir.mkdir(CACHE_DIR)
@@ -112,7 +143,7 @@ class ProcesarTexto
   end
   def nombres_propios
     cache_fetch(@cache_id + "nombres_propios"){
-      encontrar_con_context(Regexp.new("(#{NOMBRES_PROPIOS_RE})"))
+      encontrar_con_context(Regexp.new("(#{NOMBRES_PROPIOS_RE})"),PersonName)
     }
   end
   def encontrar_con_context(re,t=Result)
@@ -174,6 +205,9 @@ class ProcesarTexto
   end
   class Result < String
     include Context
+  end
+  class PersonName < Result
+    include Classifiable
   end
   class StringWithContext < String
     include Context

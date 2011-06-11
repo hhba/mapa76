@@ -42,6 +42,14 @@ Alegato.controllers  do
     r={:fragment_id => fragment.fragment_id, :text => markup_fragment(fragment)}.to_json
     r
   end
+  post :classify_name, :map => "/name/classify" do
+    r=false
+    if params[:name] and params[:training]
+      ProcesarTexto::PersonName.train(params[:training],params[:name])
+      r=ProcesarTexto::PersonName.training_save
+    end
+    r.to_json
+  end
   post :person, :map => "/persona/:name" do
     person = Person.where(:name => params[:name].strip).first || Person.create(:name => params[:name].strip)
     Array(params[:milestones]).each{|milestone|
