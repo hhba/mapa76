@@ -15,25 +15,26 @@
       color:black;
   }
 
-  .mentions_1 a {
-    font-size:100%;
-  }
-  .mentions_2 a {
-    font-size:110%;
-  }
-  .mentions_3 a {
-    font-size:120%;
-  }
-  .mentions_4 a {
-    font-size:130%;
-  }
+  .mentions_1 a { font-size:100%; }
+  .mentions_2 a { font-size:110%; }
+  .mentions_3 a { font-size:120%; }
+  .mentions_4 a { font-size:130%; }
+  .mentions_5 a { font-size:140%; }
+  .mentions_6 a { font-size:140%; }
+  .mentions_7 a { font-size:150%; }
+  .mentions_8 a { font-size:150%; }
 
 </style>
+<script src='/javascripts/jquery.tinysort.min.js'></script>
 <h1><%=@doc.title%></h1>
-<button style='position:absolute; right:0px;' id="classification_mode">Clasificar nombres</button>
-<ol class='list_mode'>
+<div style='position:absolute; right:0px;'>
+<button id="sort_by_name">Ordenar por nombre</button>
+<button id="sort_by_mentions">Ordenar por menciones</button>
+<button id="classification_mode">Clasificar nombres</button>
+</div>
+<ol class='list_mode' id='persons'>
   <%@person_names.keys.sort.each{|nombre|%>
-      <li class=' classified_<%=Text::PersonName.classify(nombre)%>'><span class='name mentions_<%=Math.sqrt(@person_names[nombre].length).floor%> '><%=link_to(nombre.titleize,url_for(:nombre,:name => nombre, :doc_id => params[:doc_id]))%></span> (<%=@person_names[nombre].length%> menciones) 
+    <li class='classified_<%=Text::PersonName.classify(nombre)%>' mentions='<%=@person_names[nombre].length%>'><span class='name mentions_<%=Math.sqrt(@person_names[nombre].length).floor%> '><%=link_to(nombre.titleize,url_for(:nombre,:name => nombre, :doc_id => params[:doc_id]))%></span> (<%=@person_names[nombre].length%> menciones) 
   <%}%>
 </ol>
 
@@ -53,4 +54,6 @@
     $("button#classification_mode").click(function(e){
         classification_mode()
     })
+    $("#sort_by_name").click(function(e){$("ol#persons>li").tsort()})
+    $("#sort_by_mentions").click(function(e){$("ol#persons>li").tsort({attr:"mentions",order:"desc"})})
 </script>
