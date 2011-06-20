@@ -1,35 +1,18 @@
-GIT
-  remote: git://github.com/jnunemaker/mongomapper.git
-  revision: b3ab248dd9071a7b45578a5415aab37f5f40e656
-  branch: rails3
-  specs:
-    mongo_mapper (0.8.6)
-      activemodel (~> 3.0.0)
-      activesupport (~> 3.0.0)
-      plucky (~> 0.3.6)
-
 GEM
   remote: http://rubygems.org/
   specs:
-    activemodel (3.0.7)
-      activesupport (= 3.0.7)
-      builder (~> 2.1.2)
-      i18n (~> 0.5.0)
     activesupport (3.0.7)
-    bson (1.3.1)
-    bson_ext (1.3.1)
-    builder (2.1.2)
     classifier (1.3.3)
       fast-stemmer (>= 1.0.0)
     daemons (1.1.3)
     diff-lcs (1.1.2)
+    erubis (2.7.0)
     eventmachine (0.12.10)
     fast-stemmer (1.0.0)
-    geokit (1.5.0)
+    geokit (1.6.0)
     grit (2.4.1)
       diff-lcs (~> 1.1)
       mime-types (~> 1.15)
-    haml (3.0.25)
     http_router (0.7.10)
       rack (>= 1.0.0)
       url_mount (~> 0.2.1)
@@ -40,9 +23,8 @@ GEM
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
     mime-types (1.16)
-    mongo (1.3.1)
-      bson (>= 1.3.1)
-    nokogiri (1.4.4)
+    mysql2 (0.3.6)
+    nokogiri (1.4.6)
     padrino (0.9.29)
       padrino-admin (= 0.9.29)
       padrino-cache (= 0.9.29)
@@ -71,14 +53,13 @@ GEM
     padrino-mailer (0.9.29)
       mail (>= 2.2.0)
       padrino-core (= 0.9.29)
-    plucky (0.3.8)
-      mongo (~> 1.3)
     polyglot (0.3.1)
     rack (1.2.2)
     rack-flash (0.1.1)
       rack
     rake (0.8.7)
     ruby-stemmer (0.9.1)
+    sequel (3.24.1)
     sinatra (1.2.6)
       rack (~> 1.1)
       tilt (>= 1.2.2, < 2.0)
@@ -97,15 +78,15 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  bson_ext
   classifier
+  erubis (~> 2.7.0)
   geokit
-  haml
   madeleine
-  mongo_mapper!
+  mysql2
   nokogiri
   padrino (= 0.9.29)
   rack-flash
   rake
   ruby-stemmer
+  sequel
   thin

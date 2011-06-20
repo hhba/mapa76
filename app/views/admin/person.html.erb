@@ -28,10 +28,10 @@
 <script src="/javascripts/js/jquery-ui-1.8.13.custom.min.js"></script>
 
   <h2><%=params[:name]%></h2>
-  <%if not @person.new_record? %>
+  <%if not @person.new? %>
     <ol id='milestones'>
       <%@person.milestones.each{|milestone|%>
-        <li><%=milestone%>
+        <li><%=milestone.date_from%> - <%=milestone.date_to%> - <%=milestone.what%> - <%=milestone.where%>  - 
       <%}%>
     </ol>
   <%else%>
@@ -55,11 +55,12 @@
     <h2><%=@person.name%></h2>
 
     <form method="post" action="<%=url_for(:person, :name => @person[:name])%>">
-      Date From <input type='text' name='person[:milestones][][:date_from]' id='milestone_date_from' /><br />
-      Date To <input type='text' name='person[:milestones][][:date_to]' id='milestone_date_to' /><br />
-      What <input type='text' name='person[:milestones][][:what]' /><br />
-      Where <input type='text' name='person[:milestones][][:where]' /><br /> 
-      Source <input type='text'name='person[:milestones][][:source]' id="milestone_source" /><br />
+      <input type='hidden' name='person[milestones][][id]' value='' /><br />
+      Date From <input type='text' name='person[milestones][][date_from]' id='milestone_date_from' /><br />
+      Date To <input type='text' name='person[milestones][][date_to]' id='milestone_date_to' /><br />
+      What <input type='text' name='person[milestones][][what]' /><br />
+      Where <input type='text' name='person[milestones][][where]' /><br /> 
+      Source <input type='text'name='person[milestones][][source]' id="milestone_source" /><br />
       <input type='submit' value='Guardar' />
     </form>
   </div>
@@ -95,10 +96,10 @@
             $("#milestone_source").val(e.currentTarget.id);
             $("#add_milestone").dialog()
       })
-      $(o).children("span.name").click(function(e){
-            person_info(<%=@person.name.to_json%>,$(e.currentTarget).text(),e.currentTarget.id)
+      $(o).children(".name").click(function(e){
+            person_info($(e.currentTarget).text(),e.currentTarget.id,<%=@person.name.to_json%>)
       })
-      $(o).children("span.address").click(function(e){
+      $(o).children(".address").click(function(e){
         console.log(e.currentTarget)
             var lat=e.currentTarget.children(".latitude").attr("latitude")
             var lon=e.currentTarget.children(".longitude").attr("longitude")
@@ -108,6 +109,31 @@
     }
     function add_milestone(person_name,milestone_date,fragment_id){
       console.log(person_name,milestone_date,fragment_id)
+    }
+    function person_info(name,fragment_id,related_to){
+      var dialog_id = "dialog" + name.toLowerCase().replace(/[^a-z]/gi,"_")
+      var dialog = $("#"+dialog_id)
+      console.log(dialog_id)
+      if (dialog.length){
+        dialog.dialog("open")
+        return
+      }
+      var dialog = $("<div id='"+dialog_id+"'></div>")
+      dialog.html("<p><a href='"+name+"'>View in context</a></p>")
+
+      var loading_image = $("<img src='/images/ajax-loader.gif' />")
+      dialog.append(loading_image)
+      
+      $(".body").append(dialog) 
+      dialog.dialog({title: name})
+      dialog.dialog("open")
+
+      $.getJSON("/admin/person/",{name: name},
+        function(d){
+          $(loading_image).remove()
+          dialog.append("<p>"+d+"</p>")
+        }
+      )
     }
     function address_info(lat,lon,addr,fragment_id){
       var url="http://maps.google.com/maps/api/staticmap?size=200x200&markers=color:blue|"+lat+","+lon;

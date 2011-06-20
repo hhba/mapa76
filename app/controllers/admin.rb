@@ -1,3 +1,4 @@
+require "json"
 Alegato.controllers do
   layout :admin
   get :nombres, :map => "/admin/:doc_id/nombres" do
@@ -40,12 +41,22 @@ Alegato.controllers do
     end
     r.to_json
   end
-  post :person, :map => "/admin/person/:name" do
+  get :person, :map => "/admin/person/" do
+    puts params
     person = Person.where(:name => params[:name].strip).first || Person.create(:name => params[:name].strip)
-    Array(params[:milestones]).each{|milestone|
-      person.milestone(milestone)      
+    person.values.to_json
+  end
+  post :person, :map => "/admin/person/" do
+    person = Person.where(:name => params[:name].strip).first || Person.create(:name => params[:name].strip)
+    Array(params[:person][:milestones]).each{|milestone|
+      puts milestone.inspect
+      data = milestone.dup
+      data.delete("id")
+      m=Milestone.new(data)
+      person.add_milestone(m) 
     }
-    params.inspect
+    person.save_changes
+    params.values.inspect
   end
 
 end

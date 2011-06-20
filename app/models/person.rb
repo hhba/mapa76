@@ -1,5 +1,3 @@
-class Person
-  include MongoMapper::Document
-  key :name, String
-  has_many :milestones
+class Person < Sequel::Model
+  one_to_many :milestones
 end

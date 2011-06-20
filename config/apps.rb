@@ -15,11 +15,20 @@
 # Note 1: Mounted apps (by default) should be placed into the project root at '/app_name'.
 # Note 2: If you use the host matching remember to respect the order of the rules.
 #
-# By default, this file mounts the parimary app which was generated with this project.
+# By default, this file mounts the primary app which was generated with this project.
 # However, the mounted app can be modified as needed:
 #
-#   Padrino.mount(:app_file => "path/to/file", :app_class => "Blog").to('/')
+#   Padrino.mount("AppName", :app_file => "path/to/file", :app_class => "BlogApp").to('/')
 #
+
+##
+# Setup global project settings for your apps. These settings are inherited by every subapp. You can
+# override these settings in the subapps as needed.
+#
+Padrino.configure_apps do
+  # enable :sessions
+  set :session_secret, 'ccf44d1c2fc0e1eea33e9c65db2506dc959e971af37b1a3fe81f93588db29d2c'
+end
 
 # Mounts the core application for this project
 Padrino.mount("Alegato").to('/')
