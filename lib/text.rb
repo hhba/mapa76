@@ -46,7 +46,7 @@ class Text
   DIRECCIONES_RE=Regexp.new("(?<!^)((?:Av.? )?#{NOMBRE_PROPIO_RE}+ [0-9]{1,5}(?![0-9\/])(,? )?#{NOMBRE_PROPIO_RE}*)")
   MESES = %w{enero febrero marzo abril mayo junio julio agosto septiembre octubre noviembre diciembre}
   MESES_RE="(?:#{MESES.join("|")})"
-  FECHAS_RE=Regexp.new("(?<![0-9])(?<day>[0-9]{1,2})? *(?:del?)? *(?<month>#{MESES_RE}) *(?:del?)? *´?(?<year>(20([01][0-9])|19[0-9]{2}|[0-9]{2})?(?![0-9]))|(?<day>[123]?[0-9])/(?<month>1?[0-9])(/(?<year>20([01][0-9])|19[0-9]{2}|[0-9]{2}))?",Regexp::IGNORECASE)
+  FECHAS_RE=Regexp.new("(?<![0-9])(?<day>[0-9]{1,2})? *°? *(?:del?)? *(?<month>#{MESES_RE}) *(?:del?)? *´?(?<year>(20([01][0-9])|19[0-9]{2}|[0-9]{2})?(?![0-9]))|(?<day>[123]?[0-9])/(?<month>1?[0-9])(/(?<year>20([01][0-9])|19[0-9]{2}|[0-9]{2}))?",Regexp::IGNORECASE)
   def dates
     res=find(FECHAS_RE)
     res.map{|date| 
