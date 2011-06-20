@@ -33,6 +33,9 @@ class TestDates < Test::Unit::TestCase
 
     t=Text.new "juicio del 25 de junio de 2008. "
     assert_equal(Date.civil(2008,6,25).to_s,  t.dates.first.to_s )
+
+    t=Text.new "1° de junio de 1978"
+    assert_equal(Date.civil(1978,6,1).to_s,  t.dates.first.to_s )
     
   end
 end
