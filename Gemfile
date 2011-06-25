@@ -24,4 +24,4 @@ gem "nokogiri"
 gem "ruby-stemmer"
 gem "classifier"
 gem "madeleine"
-
+gem "json"
