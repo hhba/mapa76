@@ -52,12 +52,12 @@
     <%}%>
   </ol>
   <div id='add_milestone'>
-    <h2><%=@person.name%></h2>
-
     <form method="post" action="<%=url_for(:person, :name => @person[:name])%>">
       <input type='hidden' name='person[milestones][][id]' value='' /><br />
-      Date From <input type='text' name='person[milestones][][date_from]' id='milestone_date_from' /><br />
-      Date To <input type='text' name='person[milestones][][date_to]' id='milestone_date_to' /><br />
+      <input type='hidden' name='person[milestones][][date_from]' id='milestone_date_from' /><br />
+      <input type='hidden' name='person[milestones][][date_to]' id='milestone_date_to' /><br />
+      Date From <input type='text'  id='milestone_human_date_from' /><br />
+      Date To <input type='text'  id='milestone_human_date_to' /><br />
       What <input type='text' name='person[milestones][][what]' /><br />
       Where <input type='text' name='person[milestones][][where]' /><br /> 
       Source <input type='text'name='person[milestones][][source]' id="milestone_source" /><br />
@@ -83,18 +83,23 @@
         }
         )
         $("p.fragment").each(function(idx,d){live_markup(d)})
-        $("#milestone_date_from").datepicker({dateFormat: "dd/mm/yy"} );
-        $("#milestone_date_to").datepicker({dateFormat: "dd/mm/yy"} );
+        $("#milestone_human_date_from").datepicker({dateFormat: "dd/mm/yy", altFormat: "yy/mm/dd", altField: "#milestone_date_from"} );
+        $("#milestone_human_date_to").datepicker({dateFormat: "dd/mm/yy", altFormat: "yy/mm/dd", altField: "#milestone_date_to"} );
     }
     )
     function live_markup(o){
-      console.log("Live markup",o)
       $(o).children(".date").click(function(e){
             var parts = $(e.currentTarget).attr("datetime").split("-",3)
-            $("#milestone_date_from").val(parts[2]+"/"+parts[1]+"/"+parts[0]);
-            $("#milestone_date_to").val(parts[2]+"/"+parts[1]+"/"+parts[0]);
-            $("#milestone_source").val(e.currentTarget.id);
-            $("#add_milestone").dialog()
+            $("#add_milestone").dialog({autoOpen: false, title: <%=@person.name.to_json%>})
+            console.log("dialog open?", $("#add_milestone").dialog("isOpen")) 
+            if (! $("#add_milestone").dialog("isOpen") ){
+              $("#milestone_human_date_from").datepicker("setDate",parts[2]+"/"+parts[1]+"/"+parts[0]);
+              $("#milestone_human_date_to").datepicker("setDate","");
+              $("#milestone_source").val(e.currentTarget.id);
+              $("#add_milestone").dialog("open")
+            }else{
+              $("#milestone_human_date_to").datepicker("setDate",parts[2]+"/"+parts[1]+"/"+parts[0]);
+            }
       })
       $(o).children(".name").click(function(e){
             person_info($(e.currentTarget).text(),e.currentTarget.id,<%=@person.name.to_json%>)
