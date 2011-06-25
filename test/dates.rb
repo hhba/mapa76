@@ -31,6 +31,10 @@ class TestDates < Test::Unit::TestCase
     assert_equal(IncompleteDate.new(1977,11),  t.dates.first )
     assert_equal("1977-11-0",  t.dates.first.to_s(0), "fill unknowns with 0" )
 
+    assert_equal(IncompleteDate.parse("1977-11-0"),  IncompleteDate.new(1977,11) )
+    assert_equal(IncompleteDate.parse("1977-01-00"),  IncompleteDate.new(1977,1) )
+    assert_equal(IncompleteDate.parse("1977"),  IncompleteDate.new(1977) )
+
     t=Text.new "juicio del 25 de junio de 2008. "
     assert_equal(IncompleteDate.new(2008,6,25),  t.dates.first )
 
