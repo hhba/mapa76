@@ -12,6 +12,7 @@ class Document
      docs[4] = {:path => "alegato_campo_mayo_III.txt", :title => "alegato_campo_mayo_III.txt"} 
      docs[5] = {:path => "AlegatoCampoMayoIIILunes20dic2010.doc.txt", :title=>"AlegatoCampoMayoIIILunes20dic2010.doc.txt"} 
      docs[6] = {:path => "causa_13_84.txt", :title=>"causa_13_84.txt"} 
+     docs[7] = {:path => "nicolaides.txt", :title=>"nicolaides.txt"} 
      self.new(File.join(File.expand_path(File.dirname(__FILE__)),"../../","data",docs[id][:path]),docs[id][:title],id)
   end
   def initialize(path,title,id=nil)
