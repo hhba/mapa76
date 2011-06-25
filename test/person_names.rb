@@ -14,6 +14,14 @@ class TestPersonNames < Test::Unit::TestCase
     assert_equal("Enrique Piñeiroi", n[1])
     assert_equal("Franco Macri", n[2])
 
+    pt=Text.new("Por Alejandra Dandan")
+    n=pt.person_names
+    assert_equal("Alejandra Dandan", n[0])
+
+    pt=Text.new("Jose Gonçalves")
+    n=pt.person_names
+    assert_equal("Jose Gonçalves", n[0])
+
   end
 end
 
