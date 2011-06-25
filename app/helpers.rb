@@ -15,7 +15,7 @@ Alegato.helpers do
       ret.gsub!(n,"<span class='name #{ActiveSupport::Inflector.parameterize(n)}' id='#{n.fragment_id}'>#{n}</span>")
     }
     dates.each{|n|
-      ret.gsub!(n.context(0),"<time class='date' datetime='#{n.to_s}' id='#{n.fragment_id}'>#{n.context(0)}</time>")
+      ret.gsub!(n.context(0),"<time class='date' datetime='#{n.to_s(0)}' id='#{n.fragment_id}'>#{n.context(0)}</time>")
     }
     addresses.each{|n|
       if n.geocode

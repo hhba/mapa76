@@ -2,6 +2,7 @@
 require "digest/md5"
 require File.join(File.expand_path(File.dirname(__FILE__)),"/classifiable")
 require File.join(File.expand_path(File.dirname(__FILE__)),"/cacheable")
+require File.join(File.expand_path(File.dirname(__FILE__)),"/incomplete_date")
 
 class String
   #remove invalid utf-8 chars from str
@@ -61,7 +62,7 @@ class Text
       if year > 0 and year < 100
         year += 1900
       end
-      day = 1 if day == 0
+      day = nil if day == 0
       begin
         DateWithContext.new_with_context([year,month,day],date.text,date.start_pos,date.end_pos,date.doc)
       rescue ArgumentError
@@ -141,7 +142,7 @@ class Text
   class StringWithContext < String
     include Context
   end
-  class DateWithContext < Date
+  class DateWithContext < IncompleteDate
     include Context
   end
 
