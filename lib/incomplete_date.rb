@@ -36,4 +36,8 @@ class IncompleteDate
   def last
     @range.last
   end
+  def partial?
+    "returns true if date is partial"
+    @range.begin != @range.last
+  end
 end

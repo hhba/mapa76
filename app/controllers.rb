@@ -8,6 +8,17 @@ Alegato.controllers  do
     @addresses = matches_ref.sort.uniq
     render 'index', :addresses => @addresses
   end
+  get :q do
+    
+    render :query
+  end
+  get :timeline_json do
+    puts Array(params[:names].to_s.split(",").map(&:strip))
+    @timelines = Person.filter(:name => Array(params[:names].to_s.split(",").map(&:strip))).map{|p|
+      p.timeline
+    }
+    @timelines.to_json
+  end
   # get :index, :map => "/foo/bar" do
   #   session[:foo] = "bar"
   #   render 'index'
