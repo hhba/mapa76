@@ -1,0 +1,6 @@
+<h1>Documentos conocidos</h1>
+<ol>
+<%@docs.each{|doc|%>
+  <li><%=link_to doc.title, url_for(:doc,:id => doc.id) %></li>
+<%}%>
+</ol>

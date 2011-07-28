@@ -1,8 +1,16 @@
 require "json"
 Alegato.controllers do
   layout :admin
+  get "/admin" do
+    @docs = Document.all
+    render "admin/doc_list", 
+  end
+  get :doc, :map => "/admin/:id" do
+    @doc = Document[params[:id]]
+    render "admin/doc"
+  end
   get :nombres, :map => "/admin/:doc_id/nombres" do
-    @doc = Document.find_by_id(params[:doc_id].to_i)
+    @doc = Document[params[:doc_id]]
     @person_names = Hash.new{|hash,key| hash[key]=[]}
     @doc.extract.person_names.each{|nombre| @person_names[ActiveSupport::Inflector.transliterate(nombre.to_s.downcase)] << nombre }
     render "admin/persons_list"
@@ -11,7 +19,7 @@ Alegato.controllers do
     @person = Person.where(:name => params[:name].strip).first || Person.new(:name => params[:name].strip)
     @what = Milestone.what_list
     @where = Milestone.where_list 
-    doc = Document.find_by_id(params[:doc_id].to_i)
+    doc = Document[params[:doc_id]]
     @fragments = doc.extract.person_names.find_all{|name| ActiveSupport::Inflector.transliterate(name.to_s.downcase) == ActiveSupport::Inflector.transliterate(params[:name].to_s.downcase)}
     render "admin/person"
   end
@@ -31,7 +39,7 @@ Alegato.controllers do
     pos_start   = 0 if pos_start < 0
     pos_end     = pos_end.to_i + params[:around].to_i
 
-    fragment=Document.find_by_id(doc_id).fragment(pos_start,pos_end)
+    fragment=Document[doc_id].fragment(pos_start,pos_end)
     r={:fragment_id => fragment.fragment_id, :text => markup_fragment(fragment)}.to_json
     r
   end
