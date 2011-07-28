@@ -1,6 +1,6 @@
 #encoding: utf-8
 Alegato.controllers  do
-  get :index do
+  get :addr do
     fd=open("data/alegato2.txt", 'r')
     no_dirs  = ['Batallón', 'Convención', 'El ', 'Tenía', 'Legajo ', 'Destacamento ', 'Decreto ', 'En ', 'Ley ', 'Tenia ', 'Tratado ', 'Eran ', 'Grupo de ', 'Conadep ', 'Desde la','Fallos ','Comisaria ','Puente ','Entre ', 'Cabo ', 'Peugeot ']
     texto = Text.new(fd)
@@ -8,35 +8,14 @@ Alegato.controllers  do
     @addresses = matches_ref.sort.uniq
     render 'index', :addresses => @addresses
   end
-  get :q do
-    
+  get :index do
+    @persons = params[:ids] ? Person.filter(:id => params[:ids].split(',')) : Person.all
     render :query
   end
   get :timeline_json do
-    puts Array(params[:names].to_s.split(",").map(&:strip))
-    @timelines = Person.filter(:name => Array(params[:names].to_s.split(",").map(&:strip))).map{|p|
+    @timelines = Person.filter(:id => params[:ids].split(",")).map{|p|
       p.timeline
     }
     @timelines.to_json
   end
-  # get :index, :map => "/foo/bar" do
-  #   session[:foo] = "bar"
-  #   render 'index'
-  # end
-
-  # get :sample, :map => "/sample/url", :provides => [:any, :js] do
-  #   case content_type
-  #     when :js then ...
-  #     else ...
-  # end
-
-  # get :foo, :with => :id do
-  #   "Maps to url '/foo/#{params[:id]}'"
-  # end
-
-  # get "/example" do
-  #   "Hello world!"
-  # end
-
-  
 end
