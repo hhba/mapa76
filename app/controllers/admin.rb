@@ -9,6 +9,8 @@ Alegato.controllers do
   end
   get :nombre, :map => "/admin/:doc_id/nombres/:name" do
     @person = Person.where(:name => params[:name].strip).first || Person.new(:name => params[:name].strip)
+    @what = Milestone.what_list
+    @where = Milestone.where_list 
     doc = Document.find_by_id(params[:doc_id].to_i)
     @fragments = doc.extract.person_names.find_all{|name| ActiveSupport::Inflector.transliterate(name.to_s.downcase) == ActiveSupport::Inflector.transliterate(params[:name].to_s.downcase)}
     render "admin/person"
@@ -49,9 +51,15 @@ Alegato.controllers do
   post :person, :map => "/admin/person/" do
     person = Person.where(:name => params[:name].strip).first || Person.create(:name => params[:name].strip)
     Array(params[:person][:milestones]).each{|milestone|
-      puts milestone.inspect
       data = milestone.dup
       data.delete("id")
+      data[:what] = ! data["what_txt"].blank? ? data["what_txt"] : data["what_opc"]
+      data.delete("what_txt")
+      data.delete("what_opc")
+      data[:where] = ! data["where_txt"].blank? ? data["where_txt"] : data["where_opc"]
+      data.delete("where_txt")
+      data.delete("where_opc")
+      puts data.inspect
       m=Milestone.new(data)
       person.add_milestone(m) 
     }
