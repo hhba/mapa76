@@ -20,7 +20,10 @@ Alegato.controllers do
     @what = Milestone.what_list
     @where = Milestone.where_list 
     doc = Document[params[:doc_id]]
-    @fragments = doc.extract.person_names.find_all{|name| ActiveSupport::Inflector.transliterate(name.to_s.downcase) == ActiveSupport::Inflector.transliterate(params[:name].to_s.downcase)}
+    person_name = ActiveSupport::Inflector.transliterate(params[:name].to_s).downcase
+    @fragments = doc.extract.person_names.find_all{|name| 
+      ActiveSupport::Inflector.transliterate(name.to_s.downcase) == person_name
+    }
     render "admin/person"
   end
   get :context do
