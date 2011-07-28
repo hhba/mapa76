@@ -11,6 +11,7 @@ class IncompleteDate
   def self.parse(str)
     "Parses a string like '1999-00' into IncompleteDate.new(1999)"
     p = str.split(/[-\/]/).map{|n| n.to_i > 0 && n.to_i }
+    return nil if p.length == 0
     new(*p)
   end
   def <=>(o)
