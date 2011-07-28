@@ -11,8 +11,13 @@ class TestAddresses < Test::Unit::TestCase
     assert_equal("Scalabrini Ortiz 1234",pt.addresses.first)
     pt = Text.new " Av. Gral Paz 5005, "
     assert_equal("Av. Gral Paz 5005",pt.addresses.first)
+    pt = Text.new " Olimpo "
+    assert_equal("Olimpo",pt.addresses(["Olimpo"]).first)
+
     pt = Text.new "Sanchez de Bustamante al 2000"
     assert_equal("Sanchez de Bustamante al 2000",pt.addresses.first)
+    pt = Text.new " Juan B Alberdi 5045"
+    assert_equal("Juan B Alberdi 5045",pt.addresses.first)
 
   end
 end
