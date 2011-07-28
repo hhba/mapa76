@@ -74,7 +74,7 @@ class Text
   def addresses(other=nil)
     # Nombres propios, seguidos de un numero
     a = find(DIRECCIONES_RE).map{|d| Text::Address.new_from_string_with_context(d)}
-    if other
+    if other and other.length > 0
       re=Regexp.new(other.compact.map(&:strip).find_all{|p| p.length > 0}.join("|"))
       puts re
       a += find(re).map{|d| Text::Address.new_from_string_with_context(d)}
