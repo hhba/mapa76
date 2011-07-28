@@ -14,7 +14,7 @@ class Person < Sequel::Model
       r[:title] = m.what
       r[:description] = "#{m.what} - #{m.where}"
       r[:startdate] = m.date_from_range.to_s(1)
-      r[:enddate] = m.date_to_range.to_s(1)
+      r[:enddate] = (m.date_to_range.to_s(1) if m.date_to_range)
       r[:date_display] = m.date_from_range.partial? ? :month : :day
       r[:importance] = 20
       r[:icon] = "square_blue.png"
