@@ -9,4 +9,10 @@ class Milestone < Sequel::Model
   def date_to_range
     date_range(date_to)
   end
+  def self.where_list
+    Milestone.select(:where).distinct(:where).map{|w| w.where}
+  end
+  def self.what_list
+    Milestone.select(:what).distinct(:what).map{|w| w.what}
+  end
 end

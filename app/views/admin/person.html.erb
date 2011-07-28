@@ -10,7 +10,7 @@
   }
   #add_milestone{
     display:none;
-    width:400px;
+    width:700px;
     height:200px;
     border:1px;
     background-color:#aaa;
@@ -58,8 +58,8 @@
       <input type='hidden' name='person[milestones][][date_to]' id='milestone_date_to' /><br />
       Date From <input type='text'  id='milestone_human_date_from' /><br />
       Date To <input type='text'  id='milestone_human_date_to' /><br />
-      What <input type='text' name='person[milestones][][what]' /><br />
-      Where <input type='text' name='person[milestones][][where]' /><br /> 
+      What <%=select_tag "person[milestones][][what_opc]",:options => @what%> <input type='text' name='person[milestones][][what_txt]' /><br />
+      Where <%=select_tag "person[milestones][][where_opc]",:options => @where, :id=> "milestone_where_opc"%> <input type='text' name='person[milestones][][where_txt]' id="milestone_where_txt" /><br /> 
       Source <input type='text'name='person[milestones][][source]' id="milestone_source" /><br />
       <input type='submit' value='Guardar' />
     </form>
@@ -91,7 +91,6 @@
       $(o).children(".date").click(function(e){
             var parts = $(e.currentTarget).attr("datetime").split("-",3)
             $("#add_milestone").dialog({autoOpen: false, title: <%=@person.name.to_json%>})
-            console.log("dialog open?", $("#add_milestone").dialog("isOpen")) 
             if (! $("#add_milestone").dialog("isOpen") ){
               $("#milestone_human_date_from").datepicker("setDate",parts[2]+"/"+parts[1]+"/"+parts[0]);
               $("#milestone_human_date_to").datepicker("setDate","");
@@ -105,10 +104,24 @@
             person_info($(e.currentTarget).text(),e.currentTarget.id,<%=@person.name.to_json%>)
       })
       $(o).children(".address").click(function(e){
+
+        if ( $("#add_milestone").dialog("isOpen") ){
+          var place_name = $(e.currentTarget).text().toLowerCase() 
+          console.log("placename: ",place_name)
+          var match_opt = $("#milestone_where_opc option").filter(function(i,e){return $(e).val().toLowerCase() == place_name} )
+          console.log("matching opc:",match_opt)
+          if (match_opt.length > 0){
+            match_opt.attr("selected",true)
+          }else{
+            $("#milestone_where_txt").val($(e.currentTarget).text())
+          }
+        }
+/*        
         console.log(e.currentTarget)
             var lat=e.currentTarget.children(".latitude").attr("latitude")
             var lon=e.currentTarget.children(".longitude").attr("longitude")
             address_info(lat,lon,$(e.currentTarget).text(),e.currentTarget.id)
+*/
       })
 
     }
