@@ -1,0 +1,35 @@
+Alegato.controllers :api do
+  get :person, :with => [:id], :provides => [:html,:json] do
+    p = {}
+    data = Person[params[:id]]
+    p[:include] = [:milestones] if params[:milestones]
+    case content_type
+      when :json then data.to_json(p)
+    end
+  end
+  post :person, :with => [:id], :provides => [:html,:json] do
+    halt 400, "Missing set param" unless params[:set]
+    person = Person[params[:id]]
+    if person
+      person.set(params[:set])
+      person.save.to_json
+    end
+  end
+
+  get :milestone, :with => [:id], :provides => [:html,:json] do
+    p = {}
+    data = Milestone[params[:id]]
+    p[:include] = [:person] if params[:person]
+    case content_type
+      when :json then data.to_json(p)
+    end
+  end
+  post :milestone, :with => [:id], :provides => [:html,:json] do
+    halt 400, "Missing set param" unless params[:set]
+    milestone = Milestone[params[:id]]
+    if milestone
+      milestone.set(params[:set])
+      milestone.save.to_json
+    end
+  end
+end
