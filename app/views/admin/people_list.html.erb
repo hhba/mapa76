@@ -1,0 +1,21 @@
+<style>
+  a{
+      text-decoration:none;
+  }
+</style>
+<script src='/javascripts/jquery.tinysort.min.js'></script>
+<h1><%=@doc.title%></h1>
+<div style='position:absolute; right:0px;'>
+<button id="sort_by_name">Ordenar por nombre</button>
+<button id="sort_by_mentions">Ordenar por menciones</button>
+</div>
+<ol class='list_mode' id='persons'>
+    <%@people.each{|nombre|%>
+        <li mentions='<%=33%>'><span class='name'><%=link_to(nombre.titleize,url_for(:nombre,:name => nombre, :id => params[:id]))%></span> (<%=@nombre.length%> menciones)  
+    <%}%>
+</ol>
+
+<script>
+    $("#sort_by_name").click(function(e){$("ol#persons>li").tsort()})
+    $("#sort_by_mentions").click(function(e){$("ol#persons>li").tsort({attr:"mentions",order:"desc"})})
+</script>
