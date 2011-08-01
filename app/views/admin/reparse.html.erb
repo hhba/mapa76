@@ -32,11 +32,15 @@
 <button id="sort_by_mentions">Ordenar por menciones</button>
 <button id="classification_mode">Clasificar nombres</button>
 </div>
-<ol class='list_mode' id='persons'>
-  <%@person_names.keys.sort.each{|nombre|%>
-    <li class='classified_<%=Text::PersonName.classify(nombre)%>' mentions='<%=@person_names[nombre].length%>'><span class='name mentions_<%=Math.sqrt(@person_names[nombre].length).floor%> '><%=link_to(nombre.titleize,url_for(:nombre,:name => nombre, :doc_id => params[:doc_id]))%></span> (<%=@person_names[nombre].length%> menciones) 
-  <%}%>
-</ol>
+<%form_tag url_for(:reparse_doc,:id => @doc.id), :method => "POST" do %> 
+  <%=submit_tag :save %>
+  <ol class='list_mode' id='persons'>
+    <%@person_names.keys.sort.each{|nombre|%>
+      <li class='classified_<%=Text::PersonName.classify(nombre)%>' mentions='<%=@person_names[nombre].length%>'><span class='name mentions_<%=Math.sqrt(@person_names[nombre].length).floor%> '><%=link_to(nombre.titleize,url_for(:nombre,:name => nombre, :id => params[:id]))%></span> (<%=@person_names[nombre].length%> menciones)  
+      <%=check_box_tag :"people[]", :value => nombre, :checked => Text::PersonName.classify(nombre) == "good" %>
+    <%}%>
+  </ol>
+<% end %>
 
 <script>
     function classification_mode(){

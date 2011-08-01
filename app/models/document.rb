@@ -1,9 +1,14 @@
 #encoding: utf-8
 require "text"
 class Document < Sequel::Model
+  many_to_many :person
   attr_accessor :sample_mode
   def path
       File.join(File.expand_path(File.dirname(__FILE__)),"../../","data","#{id}.txt")
+  end
+  def data=(data)
+    save if new?
+    open(path,'w'){|fd| fd.write(data)}
   end
   def fd
     return @fd if @fd
@@ -34,3 +39,4 @@ class Document < Sequel::Model
     fd.send(p,*args)
   end
 end
+Document.plugin :json_serializer

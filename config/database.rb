@@ -5,3 +5,5 @@ Sequel::Model.db = case Padrino.env
   when :production  then Sequel.connect("mysql2://hhba:pepino@localhost/hhba",  :loggers => [logger])
   when :test        then Sequel.connect("mysql2://hhba:pepino@localhost/hhba",  :loggers => [logger])
 end
+Sequel::Model.plugin :json_serializer
+Sequel::Model.plugin :timestamps

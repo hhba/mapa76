@@ -16,3 +16,4 @@ class Milestone < Sequel::Model
     Milestone.select(:what).distinct(:what).map{|w| w.what}
   end
 end
+Milestone.plugin :json_serializer

@@ -2,7 +2,7 @@
 
 <table id='doc_stats'>
   <tr>
-    <th><%=link_to "Personas mencionadas",url_for(:nombres,:doc_id => @doc.id)%></th><td>XX</td>
+    <th><%=link_to "Personas mencionadas",url_for(:persons,:id => @doc.id)%></th><td><%=@doc.person.length%></td>
   </tr><tr>
     <th>Personas incorporadas a la db</th><td>XX</td>
   </tr><tr>

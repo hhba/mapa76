@@ -5,22 +5,51 @@ Alegato.controllers do
     @docs = Document.all
     render "admin/doc_list", 
   end
+  get :doc_import, "/admin/import" do
+    render "admin/import"
+  end
+  put :doc_import,"/admin/import" do
+    if params[:text]
+      d = Document.new
+      d.title = params[:title]
+      d.data = params[:text]
+      if d.save
+        "Guardado ok"
+      else
+        "Error guardando"
+      end
+    end
+  end
   get :doc, :map => "/admin/:id" do
     @doc = Document[params[:id]]
     render "admin/doc"
   end
-  get :nombres, :map => "/admin/:doc_id/nombres" do
-    @doc = Document[params[:doc_id]]
+  post :reparse_doc, :map => "/admin/:id/reparse" do
+    @doc = Document[params[:id]]
+    params[:people].each{|n|
+      p = Person.find_or_create(:name => n)
+      if @doc.person_dataset.filter(:name => n).empty?
+        @doc.add_person(p)
+      end
+    }
+  end
+  get :reparse_doc, :map => "/admin/:id/reparse" do
+    @doc = Document[params[:id]]
     @person_names = Hash.new{|hash,key| hash[key]=[]}
     @doc.extract.person_names.each{|nombre| @person_names[ActiveSupport::Inflector.transliterate(nombre.to_s.downcase)] << nombre }
-    render "admin/persons_list"
+    render "admin/reparse"
   end
-  get :nombre, :map => "/admin/:doc_id/nombres/:name" do
-    @person = Person.where(:name => params[:name].strip).first || Person.new(:name => params[:name].strip)
+  get :persons, :map => "/admin/:id/nombres" do
+    @doc = Document[params[:id]]
+    @people = @doc.person
+    render "admin/people_list"
+  end
+  get :nombre, :map => "/admin/:doc_id/nombres/:id" do
+    @person = Person[params[:id]]
     @what = Milestone.what_list
     @where = Milestone.where_list 
     doc = Document[params[:doc_id]]
-    person_name = ActiveSupport::Inflector.transliterate(params[:name].to_s).downcase
+    person_name = ActiveSupport::Inflector.transliterate(@person.name).downcase
     @fragments = doc.extract.person_names.find_all{|name| 
       ActiveSupport::Inflector.transliterate(name.to_s.downcase) == person_name
     }

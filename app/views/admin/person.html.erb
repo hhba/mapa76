@@ -27,7 +27,7 @@
 <link type="text/css" href="/javascripts/css/ui-lightness/jquery-ui-1.8.13.custom.css" rel="Stylesheet" />
 <script src="/javascripts/js/jquery-ui-1.8.13.custom.min.js"></script>
 
-  <h2><%=params[:name]%></h2>
+  <h2><%=@person.name%></h2>
   <%if not @person.new? %>
     <ol id='milestones'>
       <%@person.milestones.each{|milestone|%>
