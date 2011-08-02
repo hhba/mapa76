@@ -32,4 +32,12 @@ Alegato.controllers :api do
       milestone.save.to_json
     end
   end
+  get :milestones, :with => [:doc_id], :provides => [:html,:json] do
+    p = {}
+    data = Document[params[:doc_id]].milestones
+    case content_type
+      when :json then data.to_json(p)
+    end
+  end
+
 end

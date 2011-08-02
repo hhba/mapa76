@@ -4,9 +4,9 @@
   <tr>
     <th><%=link_to "Personas mencionadas",url_for(:persons,:id => @doc.id)%></th><td><%=@doc.person.length%></td>
   </tr><tr>
-    <th>Personas incorporadas a la db</th><td>XX</td>
+  <th>Personas incorporadas a la db</th><td><%=@doc.milestones_dataset.distinct(:person_id).count%> </td>
   </tr><tr>
-    <th>Hitos registrados</th><td>XX</td>
+    <th>Hitos registrados</th><td><%=@doc.milestones_dataset.count%> </td>
   </tr>
 </table>
 

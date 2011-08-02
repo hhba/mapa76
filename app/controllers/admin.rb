@@ -28,15 +28,15 @@ Alegato.controllers do
     @doc = Document[params[:id]]
     params[:people].each{|n|
       p = Person.find_or_create(:name => n)
-      if @doc.person_dataset.filter(:name => n).empty?
-        @doc.add_person(p)
-      end
+      @doc.add_person(p)
     }
   end
   get :reparse_doc, :map => "/admin/:id/reparse" do
     @doc = Document[params[:id]]
     @person_names = Hash.new{|hash,key| hash[key]=[]}
-    @doc.extract.person_names.each{|nombre| @person_names[ActiveSupport::Inflector.transliterate(nombre.to_s.downcase)] << nombre }
+    @doc.extract.person_names.each{|nombre| 
+      @person_names[ActiveSupport::Inflector.transliterate(nombre.to_s.downcase)] << nombre 
+    }
     render "admin/reparse"
   end
   get :persons, :map => "/admin/:id/nombres" do
@@ -51,7 +51,8 @@ Alegato.controllers do
     doc = Document[params[:doc_id]]
     person_name = ActiveSupport::Inflector.transliterate(@person.name).downcase
     @fragments = doc.extract.person_names.find_all{|name| 
-      ActiveSupport::Inflector.transliterate(name.to_s.downcase) == person_name
+      name = ActiveSupport::Inflector.transliterate(name.to_s.downcase)
+      name == person_name
     }
     render "admin/person"
   end

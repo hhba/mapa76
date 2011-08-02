@@ -2,6 +2,7 @@
 require "text"
 class Document < Sequel::Model
   many_to_many :person
+  one_to_many :milestones
   attr_accessor :sample_mode
   def path
       File.join(File.expand_path(File.dirname(__FILE__)),"../../","data","#{id}.txt")
@@ -37,6 +38,16 @@ class Document < Sequel::Model
   end
   def method_missing(p,args=[])
     fd.send(p,*args)
+  end
+  def add_person(person)
+    r = false
+    if person_dataset.filter(:person_id => person.id).empty?
+      r=super
+    end
+    doc_id = self.id
+    person_id = person.id
+    DocumentsPerson.filter(:document_id => doc_id, :person_id => person_id).set(:mentions => :mentions + 1)
+    r
   end
 end
 Document.plugin :json_serializer

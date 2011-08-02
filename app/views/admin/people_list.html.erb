@@ -11,11 +11,11 @@
 </div>
 <ol class='list_mode' id='persons'>
     <%@people.each{|person|%>
-      <li mentions='<%=33%>'><span class='name'><%=link_to(person.name.titleize,url_for(:nombre, :id => person.id, :doc_id => @doc.id))%></span> (?? menciones)  
+      <li data-mentions='<%=person.mentions_in(@doc)%>'><span class='name'><%=link_to(person.name.titleize,url_for(:nombre, :id => person.id, :doc_id => @doc.id))%></span> (<%=person.mentions_in(@doc)%> menciones)  
     <%}%>
 </ol>
 
 <script>
     $("#sort_by_name").click(function(e){$("ol#persons>li").tsort()})
-    $("#sort_by_mentions").click(function(e){$("ol#persons>li").tsort({attr:"mentions",order:"desc"})})
+    $("#sort_by_mentions").click(function(e){$("ol#persons>li").tsort({attr:"data-mentions",order:"desc"})})
 </script>

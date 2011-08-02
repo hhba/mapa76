@@ -15,5 +15,16 @@ class Milestone < Sequel::Model
   def self.what_list
     Milestone.select(:what).distinct(:what).map{|w| w.what}
   end
+
+  many_to_one :documents
+  def source=(d)
+    data=d.split("frag:doc=").last
+    doc_id,fragment=data.split(":",2)
+    self.document_id=doc_id
+    pos = fragment.split("-",2)
+    self.source_doc_fragment_start = pos.first
+    self.source_doc_fragment_end   = pos.last
+    super
+  end
 end
 Milestone.plugin :json_serializer
