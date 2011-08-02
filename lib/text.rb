@@ -126,6 +126,9 @@ class Text
       context_start = start_pos - length 
       context_start = 0 if context_start < 0
       context_end = end_pos + length 
+
+      context_end = text.bytesize if context_end > text.bytesize
+
       ret = (context_start ... context_end).map{|pos| text.getbyte(pos).chr }.join.force_encoding("UTF-8").tidy_bytes
       StringWithContext.new_with_context(ret,text,context_start,context_end,doc)
     end
