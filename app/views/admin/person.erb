@@ -1,0 +1,11 @@
+<h1><%=@name%></h1>
+<ul>
+    <%@persons.each{|person|%>
+        <li><%=person.name%>
+        <ol>
+            <%person.documents.each{|doc|%>
+                <li><%= link_to doc.name, url_for(:nombre,:doc_id => doc.id, :id => person.id)%>
+            <%}%>
+        </ol>
+    <%}%>
+</ul>
