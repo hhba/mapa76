@@ -11,7 +11,7 @@
 </div>
 <ol class='list_mode' id='persons'>
     <%@people.each{|person|%>
-      <li data-mentions='<%=person.mentions_in(@doc)%>'><span class='name'><%=link_to(person.name.titleize,url_for(:nombre, :id => person.id, :doc_id => @doc.id))%></span> (<%=person.mentions_in(@doc)%> menciones)  
+      <li data-mentions='<%=person.mentions_in(@doc)%>'><span class='name'><%=link_to(person.name.titleize,url_for(:doc_admin_person, :id => person.id, :doc_id => @doc.id))%></span> (<%=person.mentions_in(@doc)%> menciones)  
     <%}%>
 </ol>
 

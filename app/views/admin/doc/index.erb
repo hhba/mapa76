@@ -2,7 +2,7 @@
 
 <table id='doc_stats'>
   <tr>
-    <th><%=link_to "Personas mencionadas",url_for(:persons,:id => @doc.id)%></th><td><%=@doc.person.length%></td>
+    <th><%=link_to "Personas mencionadas",url_for(:doc_admin_persons,:doc_id => @doc.id)%></th><td><%=@doc.person.length%></td>
   </tr><tr>
   <th>Personas incorporadas a la db</th><td><%=@doc.milestones_dataset.distinct(:person_id).count%> </td>
   </tr><tr>
@@ -13,6 +13,8 @@
 <h2>Mas mencionadas</h2>
 <ol>
   <%@most_mentioned.each{|p|%>
-    <li><%=link_to p.name,url_for(:nombre,:doc_id => @doc.id, :id => p.id)%>
+    <li><%=link_to p.name,url_for(:doc_admin_person,:doc_id => @doc.id, :id => p.id)%>
   <%}%>
 </ol>
+
+<%= link_to "Reparsear doc",url_for(:doc_admin_reparse,:doc_id => @doc.id)%>

@@ -4,7 +4,7 @@
         <li><%=person.name%>
         <ol>
             <%person.documents.each{|doc|%>
-                <li><%= link_to doc.name, url_for(:nombre,:doc_id => doc.id, :id => person.id)%>
+                <li><%= link_to doc.title, url_for(:doc_admin_person,:doc_id => doc.id, :id => person.id)%>
             <%}%>
         </ol>
     <%}%>

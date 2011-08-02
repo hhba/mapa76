@@ -32,7 +32,7 @@
 <button id="sort_by_mentions">Ordenar por menciones</button>
 <button id="classification_mode">Clasificar nombres</button>
 </div>
-<%form_tag url_for(:reparse_doc,:id => @doc.id), :method => "POST" do %> 
+<%form_tag url_for(:doc_admin_reparse,:doc_id => @doc.id), :method => "POST" do %> 
   <%=submit_tag :save %>
   <ol class='list_mode' id='persons'>
     <%@person_names.keys.sort.each{|nombre|%>
@@ -47,7 +47,7 @@
       $("ol").removeClass("list_mode")
       $("li").append("<span class='buttons'><button class='train' value='good'>Es nombre</button> <button class='train' value='bad'>No es nombre</button></span>")
       $("button.train").click(function(e){
-        $.post("<%=url_for :classify_name %>",
+        $.post("<%=url_for :admin_classify_name %>",
                 {name: $(e.currentTarget).parents("li").children("span.name").text(), training: $(e.currentTarget).attr("value")},
                 function(b){$(e.currentTarget).parents("span.buttons").text("res")},
                 "json"
