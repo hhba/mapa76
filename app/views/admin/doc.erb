@@ -10,3 +10,9 @@
   </tr>
 </table>
 
+<h2>Mas mencionadas</h2>
+<ol>
+  <%@most_mentioned.each{|p|%>
+    <li><%=link_to p.name,url_for(:nombre,:doc_id => @doc.id, :id => p.id)%>
+  <%}%>
+</ol>

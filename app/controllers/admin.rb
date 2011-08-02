@@ -22,30 +22,45 @@ Alegato.controllers do
   end
   get :doc, :map => "/admin/:id" do
     @doc = Document[params[:id]]
+    @most_mentioned = @doc.person_dataset.order_by(:mentions).reverse.limit(10)
     render "admin/doc"
   end
   post :reparse_doc, :map => "/admin/:id/reparse" do
     @doc = Document[params[:id]]
+    @person_names = Hash.new{|hash,key| hash[key]=[]}
+    @doc.extract.person_names.each{|nombre| 
+      @person_names[Person.normalize_name(nombre)] << nombre 
+    }
     params[:people].each{|n|
-      p = Person.find_or_create(:name => n)
-      @doc.add_person(p)
+      person_name = Person.normalize_name(n)
+      p = Person.find_or_create(:name => person_name)
+      @doc.add_person(p,@person_names[person_name].length) # link person and document and update the number of times this person gets mentioned
     }
   end
   get :reparse_doc, :map => "/admin/:id/reparse" do
     @doc = Document[params[:id]]
     @person_names = Hash.new{|hash,key| hash[key]=[]}
     @doc.extract.person_names.each{|nombre| 
-      @person_names[ActiveSupport::Inflector.transliterate(nombre.to_s.downcase)] << nombre 
+      @person_names[Person.normalize_name(nombre)] << nombre 
     }
     render "admin/reparse"
   end
   get :persons, :map => "/admin/:id/nombres" do
     @doc = Document[params[:id]]
     @people = @doc.person
-    render "admin/people_list"
+    render "admin/people_in_doc"
+  end
+  get :person, :with => [:name], :map => "/admin/person/" do
+    @name = params[:name]
+    @persons = Person.filter_by_name(params[:name]).all
+    render "admin/person"
   end
   get :nombre, :map => "/admin/:doc_id/nombres/:id" do
-    @person = Person[params[:id]]
+    if params[:id].to_i == 0
+      @person = Person.filter_by_name(params[:id]).first
+    else
+      @person = Person[params[:id]]
+    end
     @what = Milestone.what_list
     @where = Milestone.where_list 
     doc = Document[params[:doc_id]]
@@ -54,7 +69,7 @@ Alegato.controllers do
       name = ActiveSupport::Inflector.transliterate(name.to_s.downcase)
       name == person_name
     }
-    render "admin/person"
+    render "admin/person_in_doc"
   end
   get :context do
     if params[:fragment_id]

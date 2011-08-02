@@ -39,14 +39,14 @@ class Document < Sequel::Model
   def method_missing(p,args=[])
     fd.send(p,*args)
   end
-  def add_person(person)
+  def add_person(person,mentions=1)
     r = false
     if person_dataset.filter(:person_id => person.id).empty?
-      r=super
+      r=super(person)
     end
     doc_id = self.id
     person_id = person.id
-    DocumentsPerson.filter(:document_id => doc_id, :person_id => person_id).set(:mentions => :mentions + 1)
+    DocumentsPerson.filter(:document_id => doc_id, :person_id => person_id).set(:mentions => :mentions + mentions)
     r
   end
 end
