@@ -40,13 +40,29 @@ Alegato.controllers :admin do
       pos_start=params[:start]
       pos_end=params[:end]
     end
+
     params[:around] ||= 200
-    pos_start   = pos_start.to_i - params[:around].to_i
-    pos_start   = 0 if pos_start < 0
-    pos_end     = pos_end.to_i + params[:around].to_i
+
+    case params[:action].to_i
+	when 1 # more
+      pos_start   = pos_start.to_i - params[:around].to_i
+      pos_start   = 0 if pos_start < 0
+      pos_end     = pos_end.to_i + params[:around].to_i
+	when 2 # less
+      pos_start   = pos_start.to_i + params[:around].to_i
+      pos_start   = 0 if pos_start < 0
+      pos_end     = pos_end.to_i - params[:around].to_i
+	when 3 # down
+      pos_start   = pos_start.to_i + params[:around].to_i
+      pos_end     = pos_end.to_i + params[:around].to_i
+	when 4 # up
+      pos_start   = pos_start.to_i - params[:around].to_i
+      pos_start   = 0 if pos_start < 0
+      pos_end     = pos_end.to_i - params[:around].to_i
+	end
 
     fragment=Document[doc_id].fragment(pos_start,pos_end)
-    r={:fragment_id => fragment.fragment_id, :text => markup_fragment(fragment)}.to_json
+    r={:fragment_id => fragment.fragment_id, :text => markup_fragment(fragment), :prev_fragment_id => params[:fragment_id]}.to_json
     r
   end
   post :classify_name do

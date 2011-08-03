@@ -23,34 +23,124 @@
   .<%=ActiveSupport::Inflector.parameterize(@person.name)%>{
     font-weight:bold;
   }
+
+  /* TODO: pasara a un css */
+  /* Estilos para el layout de la pantalla */
+  body {
+    background: #666;
+    padding: 0;
+    margin: 0;
+  }
+  #pane-container {
+    float: left;
+  }
+  #fragment-pane {
+    float: left;
+    width: 950px;
+    padding: 20px;
+    border: 0;
+    font-family: sans-serif;
+    font-size: 14px;
+    background: white;
+    border-left: 3px solid #555;
+    border-right: 3px solid #555;
+  }
+
+  #milestone-pane {
+    float: left;
+    width: 300px;
+    border: 0;
+    padding: 20px 0;
+    background: #666;
+    color: white;
+    font-family: sans-serif;
+    font-size: 14px;
+    height: 100%;
+  }
+
+  #milestone-pane ul {
+    padding: 0;
+  }
+  #milestone-pane ul li {
+    list-style-type: none;
+  }
+
+  #milestone-pane ul li {
+    border-top: 1px solid #777;
+    border-bottom: 1px solid #666;
+    padding: 15px 5px;
+  }
+
+  /* para todo lo que está marcado */
+  span.name, .date, span.address { cursor: pointer; }
+  .date { border: 2px solid white; }
+  .date:hover { border: 2px solid yellow; }
+
+  /* clases genericas */
+  /* float clearing for IE7 */
+  *+html .clearfix{
+    min-height: 1%;
+  }
+
+  /* float clearing for everyone else */
+  .clearfix:after {
+    clear: both;
+    content: ".";
+    display: block;
+    height: 0;
+    visibility: hidden;
+    font-size: 0;
+  }
+  .clickable { cursor: pointer; }
+
+
 </style>
 <link type="text/css" href="/javascripts/css/ui-lightness/jquery-ui-1.8.13.custom.css" rel="Stylesheet" />
 <script src="/javascripts/js/jquery-ui-1.8.13.custom.min.js"></script>
+<script src="/javascripts/js/admin/person.js"></script>
 
-  <h2><%=@person.name%></h2>
-  <%if not @person.new? %>
-    <ol id='milestones'>
-      <%@person.milestones.each{|milestone|%>
-        <li><%=milestone.date_from%> - <%=milestone.date_to%> - <%=milestone.what%> - <%=milestone.where%>  - 
-      <%}%>
-    </ol>
-  <%else%>
-    <% form_for @person,url_for(:person,:name => params[:name]), :method => "post" do |f| %>
-          <%= f.error_messages  %>
-          <%= f.label :name, :caption => "Nombre"%>
-          <%= f.text_field :name %>
-          <%= f.submit "Guardar" %>
-    <% end %>
-  <%end%>
+<div id="pane-container" class="clearfix">
 
-  <ol style="list-style-type:round">
-    <%@fragments.each{|parte|%>
-      <li id='<%=parte.fragment_id%>' >
-        <button class='more' name='<%=parte.context(400).fragment_id%>'>[+]</button>
-        <p class='fragment'><%=markup_fragment(parte.context(400))%></p>
-      </li>
-    <%}%>
-  </ol>
+  <!-- Listado de Hitos -->
+  <div id="milestone-pane">
+    <h2>Hitos guardados</h2>
+		<ul id='milestones'>
+      <li>Hito 1</li>
+		</ul>
+  </div>
+
+  <!-- Listaod de fratmentos -->
+  <div id="fragment-pane">
+	  <h2><%=params[:name]%></h2>
+	  <%if not @person.new? %>
+		<ol id='milestones'>
+		  <%@person.milestones.each{|milestone|%>
+			<li><%=milestone.date_from%> - <%=milestone.date_to%> - <%=milestone.what%> - <%=milestone.where%>  - 
+		  <%}%>
+		</ol>
+	  <%else%>
+		<% form_for @person,url_for(:person,:name => params[:name]), :method => "post" do |f| %>
+			  <%= f.error_messages  %>
+			  <%= f.label :name, :caption => "Nombre"%>
+			  <%= f.text_field :name %>
+			  <%= f.submit "Guardar" %>
+		<% end %>
+	  <%end%>
+
+	  <ol style="list-style-type:round">
+		<%@fragments.each{|parte|%>
+		  <li id='<%=parte.fragment_id%>' >
+			<button class='more'> + </button>
+			<button class='less'> - </button>
+			<button class='up'>^</button>
+			<button class='down'>v</button>
+			<p class='fragment'><%=markup_fragment(parte.context(400))%></p>
+		  </li>
+		<%}%>
+	  </ol>
+  </div>
+</div>
+  <!-- Formulario para agregar milestones -->
   <div id='add_milestone'>
       <form method="post" action="<%=url_for(:doc_admin_person, :id => @person.id, :doc_id => @doc.id)%>">
       <input type='hidden' name='person[milestones][][id]' value='' /><br />
@@ -64,97 +154,10 @@
       <input type='submit' value='Guardar' />
     </form>
   </div>
+
+  <!-- Mapa -->
   <div id='map'>
     <img src='' id='map_img' />
   </div>
 
-<script>
-    $(document).ready(function(){
-        $(".more").click(function(e){
-            var curr_fragment_id=e.currentTarget.name;
-            var context_around = 400;
-            $.getJSON("/context",{fragment_id: curr_fragment_id, around: context_around},
-                    function(d){
-                        e.currentTarget.name=d.fragment_id
-                        $(e.currentTarget).siblings("p.fragment").html(d.text)
-                        live_markup($(e.currentTarget).siblings("p.fragment"))
-                    }
-                )
-        }
-        )
-        $("p.fragment").each(function(idx,d){live_markup(d)})
-        $("#milestone_human_date_from").datepicker({dateFormat: "dd/mm/yy", altFormat: "yy/mm/dd", altField: "#milestone_date_from"} );
-        $("#milestone_human_date_to").datepicker({dateFormat: "dd/mm/yy", altFormat: "yy/mm/dd", altField: "#milestone_date_to"} );
-    }
-    )
-    function live_markup(o){
-      $(o).children(".date").click(function(e){
-            var parts = $(e.currentTarget).attr("datetime").split("-",3)
-            $("#add_milestone").dialog({autoOpen: false, title: <%=@person.name.to_json%>})
-            if (! $("#add_milestone").dialog("isOpen") ){
-              $("#milestone_human_date_from").datepicker("setDate",parts[2]+"/"+parts[1]+"/"+parts[0]);
-              $("#milestone_human_date_to").datepicker("setDate","");
-              $("#milestone_source").val(e.currentTarget.id);
-              $("#add_milestone").dialog("open")
-            }else{
-              $("#milestone_human_date_to").datepicker("setDate",parts[2]+"/"+parts[1]+"/"+parts[0]);
-            }
-      })
-      $(o).children(".name").click(function(e){
-            person_info($(e.currentTarget).text(),e.currentTarget.id,<%=@person.name.to_json%>)
-      })
-      $(o).children(".address").click(function(e){
-
-        if ( $("#add_milestone").dialog("isOpen") ){
-          var place_name = $(e.currentTarget).text().toLowerCase() 
-          console.log("placename: ",place_name)
-          var match_opt = $("#milestone_where_opc option").filter(function(i,e){return $(e).val().toLowerCase() == place_name} )
-          console.log("matching opc:",match_opt)
-          if (match_opt.length > 0){
-            match_opt.attr("selected",true)
-          }else{
-            $("#milestone_where_txt").val($(e.currentTarget).text())
-          }
-        }
-/*        
-        console.log(e.currentTarget)
-            var lat=e.currentTarget.children(".latitude").attr("latitude")
-            var lon=e.currentTarget.children(".longitude").attr("longitude")
-            address_info(lat,lon,$(e.currentTarget).text(),e.currentTarget.id)
-*/
-      })
-
-    }
-    function add_milestone(person_name,milestone_date,fragment_id){
-      console.log(person_name,milestone_date,fragment_id)
-    }
-    function person_info(name,fragment_id,related_to){
-      var dialog_id = "dialog" + name.toLowerCase().replace(/[^a-z]/gi,"_")
-      var dialog = $("#"+dialog_id)
-      console.log(dialog_id)
-      if (dialog.length){
-        dialog.dialog("open")
-        return
-      }
-      var dialog = $("<div id='"+dialog_id+"'></div>")
-      dialog.html("<p><a href='"+name+"'>View in context</a></p>")
-
-      var loading_image = $("<img src='/images/ajax-loader.gif' />")
-      dialog.append(loading_image)
-      
-      $(".body").append(dialog) 
-      dialog.dialog({title: name})
-      dialog.dialog("open")
-
-      $.getJSON("/admin/person/",{name: name},
-        function(d){
-          $(loading_image).remove()
-          dialog.append("<p>"+d+"</p>")
-        }
-      )
-    }
-    function address_info(lat,lon,addr,fragment_id){
-      var url="http://maps.google.com/maps/api/staticmap?size=200x200&markers=color:blue|"+lat+","+lon;
-      $("#map #map_img").attr("src",url)
-    }
-</script>
+<!-- vim: se ts=2 sw=2 expandtab: -->
