@@ -29,7 +29,7 @@ Alegato.controllers :admin do
     render "admin/person"
   end
 
-  get :context, :with => :fragment_id do
+  get :context do
     if params[:fragment_id]
       data=params[:fragment_id].match(/frag:doc=([0-9]+):([0-9]+)-([0-9]+)/)
       doc_id=data[1]
