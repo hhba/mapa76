@@ -27,7 +27,7 @@ function update_fragment( el, cur_action) {
     var cur_fragment_id = el.attr('id');
 		var context_around = 400;
 
-		$.getJSON("/context", {fragment_id: cur_fragment_id, around: context_around, action: cur_action},
+		$.getJSON("/admin/context", {fragment_id: cur_fragment_id, around: context_around, action: cur_action},
       function(response) {
         // NO anda. Dios sabrá x que. Hay que usar document.getElementById() aca.
         // item = $('#' + response.prev_fragment_id.replace(/(:|\.)/g,'\\$1'), $('#fragment-pane')); // escapamos los : y . en el ID
