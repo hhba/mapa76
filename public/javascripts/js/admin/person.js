@@ -19,8 +19,17 @@ $(document).ready(function() {
 
 	$("#milestone_human_date_from").datepicker({dateFormat: "dd/mm/yy", altFormat: "yy/mm/dd", altField: "#milestone_date_from"} );
 	$("#milestone_human_date_to").datepicker({dateFormat: "dd/mm/yy", altFormat: "yy/mm/dd", altField: "#milestone_date_to"} );
+  $("#update_milestones").click(function(e){
+      update_milestones($(e.currentTarget).data("person-id"))
+  })
 });
 
+function update_milestones(person_id){
+    $.getJSON("/api/person/"+person_id+".json?milestones=true",{},function(d){set_milestones(d.milestones)})
+}
+function set_milestones(milestones){
+    $(milestones).each(function(n,d){return $("#milestones").append($("<li>").attr("id",d.id).text(d.date_from+" - "+d.date_to+" "+d.what))})
+}
 // Actualiza el fragmento
 function update_fragment( el, cur_action) {
 
