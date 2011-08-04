@@ -25,10 +25,10 @@ Alegato.controllers :doc_admin,  :parent => :doc do
     }
     render "admin/doc/reparse"
   end
-  get :persons do
+  get :people do
     @doc = Document[params[:doc_id]]
     @people = @doc.person
-    render "admin/doc/persons"
+    render "admin/doc/people"
   end
   get :person, :with => [:id] do
     if params[:id].to_i == 0
@@ -63,4 +63,17 @@ Alegato.controllers :doc_admin,  :parent => :doc do
     person.save_changes
     params.values.inspect
   end
+  get :milestones do
+    @doc = Document[params[:doc_id]]
+    @milestones = @doc.milestones_dataset.order(:date_from)
+    render "admin/doc/milestones"
+  end
+  get :milestone, :with => [:id] do
+    @doc = Document[params[:doc_id]]
+    @milestone = Milestone[params[:id]]
+    @fragment=@doc.fragment(@milestone.source_doc_fragment_start - 200 ,@milestone.source_doc_fragment_start + 200)
+
+    render "admin/doc/milestone"
+  end
+
 end
