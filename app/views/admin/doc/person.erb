@@ -110,21 +110,12 @@
 
   <!-- Listaod de fratmentos -->
   <div id="fragment-pane">
-	  <h2><%=params[:name]%></h2>
-	  <%if not @person.new? %>
+	  <h2><%=@person.name.titleize%></h2>
 		<ol id='milestones'>
 		  <%@person.milestones.each{|milestone|%>
 			<li><%=milestone.date_from%> - <%=milestone.date_to%> - <%=milestone.what%> - <%=milestone.where%>  - 
 		  <%}%>
 		</ol>
-	  <%else%>
-		<% form_for @person,url_for(:person,:name => params[:name]), :method => "post" do |f| %>
-			  <%= f.error_messages  %>
-			  <%= f.label :name, :caption => "Nombre"%>
-			  <%= f.text_field :name %>
-			  <%= f.submit "Guardar" %>
-		<% end %>
-	  <%end%>
 
 	  <ol style="list-style-type:round">
 		<%@fragments.each{|parte|%>
