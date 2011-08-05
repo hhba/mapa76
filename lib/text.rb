@@ -17,7 +17,7 @@ end
 class Text
   include Cacheable
   attr_reader :doc
-  def initialize(t)
+  def initialize(t,offset=0,offset_end=-1)
     @cache_id=''
     if t.respond_to?(:id)
       @doc_id = t.id 
@@ -38,6 +38,10 @@ class Text
     else
       @text = t.to_s
     end
+
+    @offset_start = offset
+    @offset_end = offset_end > -1 ? offset_end : @text.bytesize
+
   end
   LETRAS='áéíóúñüa-z'
   LETRASM='ÁÉÍÓÚÑÜA-Z'
@@ -76,7 +80,6 @@ class Text
     a = find(DIRECCIONES_RE).map{|d| Text::Address.new_from_string_with_context(d)}
     if other and other.length > 0
       re=Regexp.new(other.compact.map(&:strip).find_all{|p| p.length > 0}.join("|"))
-      puts re
       a += find(re).map{|d| Text::Address.new_from_string_with_context(d)}
     end
     a
@@ -87,8 +90,8 @@ class Text
     }
   end
   def find(re,t=Result)
-    next_start = 0
-    next_start_byte = 0
+    next_start = @offset_start 
+    next_start_byte = @text[0 ... @offset_start].bytesize
     results = []
     loop do 
       break if not @text.match(re,next_start){|match|
@@ -97,6 +100,8 @@ class Text
 
         next_start = match.end(0)
         next_start_byte = @text[prev_start ... next_start].bytesize + prev_start_byte 
+
+        break if next_start_byte > @offset_end
 
         curr_start_byte = @text[prev_start ... match.begin(0)].bytesize + prev_start_byte
 
@@ -124,18 +129,18 @@ class Text
     attr_accessor :start_pos,:end_pos,:doc,:text
     def context(length=50)
       context_start = start_pos - length 
-      context_start = 0 if context_start < 0
       context_end = end_pos + length 
 
+      context_start = 0 if context_start < 0
       context_end = text.bytesize if context_end > text.bytesize
 
       ret = (context_start ... context_end).map{|pos| text.getbyte(pos).chr }.join.force_encoding("UTF-8").tidy_bytes
       StringWithContext.new_with_context(ret,text,context_start,context_end,doc)
     end
     def extract
-      str = StringDocument.new(self.to_s)
-      str.id = doc.id
-      new_doc = Text.new(str)
+      doc_str = StringDocument.new(text)
+      doc_str.id = doc.id
+      new_doc = Text.new(doc_str,start_pos,end_pos)
       new_doc
     end
     def self.included(m)

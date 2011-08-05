@@ -28,4 +28,25 @@ class TestFragments < Test::Unit::TestCase
     assert_equal( "frag:doc=33:22-38", roque_from_pedro_context.id ) 
 
   end
+
+
+  def test_fragment_of_fragment
+    str = StringDocument.new(<<EOS
+ó reñidas con los valores democráticos. \r\n        * Martín Rodríguez
+EOS
+)
+    str.id = 33
+    doc = Text.new(str)
+    person_names = doc.person_names
+    puts person_names
+    assert_equal(1,person_names.length,"There's only one name in text")
+    assert_equal("Martín Rodríguez", person_names.first.context(0))
+    first_frag_id = person_names.first.fragment_id
+
+    martin_in_own_context = person_names.first.context.extract.person_names.first
+    assert_equal(first_frag_id, martin_in_own_context.fragment_id,"Wrong fragment id of the first name in its own context")
+    assert_equal("Martín Rodríguez", martin_in_own_context.context(0),"name.context(0) should be equal to name")
+
+
+  end
 end
