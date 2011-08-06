@@ -47,7 +47,7 @@ Alegato.controllers :doc_admin,  :parent => :doc do
     render "admin/doc/person"
   end
   post :person, :with => [:id] do
-    person = Person.where(:name => params[:name].strip).first || Person.create(:name => params[:name].strip)
+    person = Person[params[:id]]
     Array(params[:person][:milestones]).each{|milestone|
       data = milestone.dup
       data.delete("id")

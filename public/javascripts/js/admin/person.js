@@ -56,7 +56,7 @@ function live_markup(o)
   // Cuando hacen click sobre una fecha mostramos el popup de Hitos.
   $(o).children(".date").click(function(e) {
 		var parts = $(e.currentTarget).attr("datetime").split("-",3);
-		$("#add_milestone").dialog({autoOpen: false, title: 'XXX'});
+		$("#add_milestone").dialog({autoOpen: false, title: 'Nuevo hito'});
 		if (! $("#add_milestone").dialog("isOpen") ){
 		  $("#milestone_human_date_from").datepicker("setDate", parts[2] + "/" + parts[1] + "/" + parts[0]);
 		  $("#milestone_human_date_to").datepicker("setDate","");
