@@ -1,7 +1,11 @@
 Alegato.controllers :api do
   get :person, :with => [:id], :provides => [:html,:json] do
     p = {}
-    data = Person[params[:id]]
+    if params[:id].to_i == 0
+      data = Person.filter_by_name(params[:id])
+    else
+      data = Person[params[:id]]
+    end
     p[:include] = [:milestones] if params[:milestones]
     case content_type
       when :json then data.to_json(p)

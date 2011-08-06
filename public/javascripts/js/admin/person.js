@@ -21,7 +21,8 @@ $(document).ready(function() {
 	$("#milestone_human_date_to").datepicker({dateFormat: "dd/mm/yy", altFormat: "yy/mm/dd", altField: "#milestone_date_to"} );
   $("#update_milestones").click(function(e){
       update_milestones($(e.currentTarget).data("person-id"))
-  })
+  }).click()
+
 });
 
 function update_milestones(person_id){
@@ -98,24 +99,31 @@ function person_info(name,fragment_id,related_to)
   var dialog = $("#"+dialog_id)
   console.log(dialog_id)
   if (dialog.length){
-	dialog.dialog("open")
-	return
+    	dialog.dialog("open")
+    	return
   }
-  var dialog = $("<div id='"+dialog_id+"'></div>")
+  var dialog = $("<div class='person_info' id='"+dialog_id+"'></div>")
   dialog.html("<p><a href='"+name+"'>View in context</a></p>")
-
+  var info = $("<p>")
   var loading_image = $("<img src='/images/ajax-loader.gif' />")
-  dialog.append(loading_image)
+  info.append(loading_image)
+  var milestones = $("<ol>")
+  dialog.append(info.append(milestones))
   
   $(".body").append(dialog) 
-  dialog.dialog({title: name})
+  dialog.dialog({title: name, width: 500})
   dialog.dialog("open")
 
-  $.getJSON("/admin/person/",{name: name},
-	function(d){
-	  $(loading_image).remove()
-	  dialog.append("<p>"+d+"</p>")
-	}
+  $.getJSON("/api/person/"+name,{milestones: true},
+      function(d){
+        $(loading_image).remove()
+        console.log(d[0])
+        if (d[0].milestones){
+            $(d[0].milestones).each(function(n,milestone){
+                milestones.append($("<li />").text(milestone.what+" " + milestone.date_from + " - " + milestone.date_to + " " + milestone.where))
+            })
+        }
+      }
   );
 }
 
