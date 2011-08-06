@@ -26,12 +26,9 @@ class Document < Sequel::Model
     r
   end
   def fragment(start_pos,end_pos)
-    fd.seek(start_pos)
-    orig = self.read(end_pos - start_pos)
-    orig.force_encoding("UTF-8")
-    #fix UTF-8
-    r=orig.tidy_bytes
-    Text::StringWithContext.new_with_context(r,"",start_pos,start_pos + r.bytesize,self) 
+    text = read()
+    fragment = text.byte_substr(start_pos,end_pos)
+    Text::StringWithContext.new_with_context(fragment,text,start_pos,end_pos,self) 
   end
   def extract
     @process_text ||= Text.new(self)

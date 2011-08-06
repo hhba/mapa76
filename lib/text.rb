@@ -10,9 +10,10 @@ class String
    self.chars.select{|c| c.valid_encoding?}.join
   end
   def char_pos(byte_pos)
-      r=(0 ... byte_pos).map{|pos| self.getbyte(pos).chr }.join.force_encoding("UTF-8").length 
-#      puts "#{self} Byte pos: #{byte_pos} is char #{r}" 
-      r
+      byte_substr(0,byte_pos).length 
+  end
+  def byte_substr(start_pos, end_pos)
+    (start_pos ... end_pos).map{|pos| self.getbyte(pos).chr }.join.force_encoding("UTF-8").tidy_bytes 
   end
 end
 class StringDocument < String
