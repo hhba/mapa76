@@ -9,6 +9,11 @@ class String
   def tidy_bytes
    self.chars.select{|c| c.valid_encoding?}.join
   end
+  def char_pos(byte_pos)
+      r=(0 ... byte_pos).map{|pos| self.getbyte(pos).chr }.join.force_encoding("UTF-8").length 
+#      puts "#{self} Byte pos: #{byte_pos} is char #{r}" 
+      r
+  end
 end
 class StringDocument < String
   attr_accessor :id
@@ -17,11 +22,11 @@ end
 class Text
   include Cacheable
   attr_reader :doc
-  def initialize(t,offset=0,offset_end=-1)
+  def initialize(t,offset_start=0,offset_end=-1)
     @cache_id=''
     if t.respond_to?(:id)
       @doc_id = t.id 
-      @cache_id=@doc_id.to_s
+      @cache_id="#{@doc_id}:#{offset_start}-#{offset_end}"
       self.cache_enabled=true
     else
       t = StringDocument.new(t.to_s)
@@ -38,8 +43,9 @@ class Text
     else
       @text = t.to_s
     end
+    @cache_id += Digest::MD5.hexdigest(@text)
 
-    @offset_start = offset
+    @offset_start = offset_start
     @offset_end = offset_end > -1 ? offset_end : @text.bytesize
 
   end
@@ -85,30 +91,48 @@ class Text
     a
   end
   def person_names
-    cache_fetch("person_names"+Digest::MD5.hexdigest(@text)){
+    cache_fetch("person_names_#{@cache_id}"){
       find(Regexp.new("(#{NOMBRES_PROPIOS_RE})"),PersonName)
     }
   end
+  def to_s
+    offset_start_byte = @text[0 ... @offset_start].bytesize
+    offset_end_byte = @text[0 ... @offset_end].bytesize
+    (offset_start_byte ... offset_end_byte).map{|pos| @text.getbyte(pos).chr }.join.force_encoding("UTF-8").tidy_bytes
+  end
+
+  def debug()
+    STDERR.write("#{Time.now} - #{yield}\n") if ENV['DEBUG'] 
+  end
   def find(re,t=Result)
-    next_start = @offset_start 
-    next_start_byte = @text[0 ... @offset_start].bytesize
+    next_start = @text.char_pos(@offset_start)
+    next_start_byte = @offset_start
+    offset_end_byte = @offset_end
+    debug{ "Searching #{re} in #{@text[next_start ... @offset_end]}"}
     results = []
-    loop do 
-      break if not @text.match(re,next_start){|match|
-        prev_start_byte = next_start_byte
-        prev_start = next_start
+    catch(:out) do 
+      loop do 
+        break if not @text.match(re,next_start){|match|
+          prev_start_byte = next_start_byte
+          prev_start = next_start
 
-        next_start = match.end(0)
-        next_start_byte = @text[prev_start ... next_start].bytesize + prev_start_byte 
+          next_start = match.end(0)
+          next_start_byte = @text[prev_start ... next_start].bytesize + prev_start_byte 
 
-        break if next_start_byte > @offset_end
+          curr_start_byte = @text[prev_start ... match.begin(0)].bytesize + prev_start_byte
+          if curr_start_byte >= offset_end_byte
+            debug{"Breaking the match loop because next start is past offset_end_byte"} 
+            throw(:out) 
+          end
 
-        curr_start_byte = @text[prev_start ... match.begin(0)].bytesize + prev_start_byte
-
-        r = t.new_with_context(match[0].strip,@text,curr_start_byte,next_start_byte,@doc) 
-        results << r
-      }
+          r = t.new_with_context(match[0].strip,@text,curr_start_byte,next_start_byte,@doc) 
+          debug{ "-#{match[0]}- starts at byte #{curr_start_byte} - #{next_start_byte} (char #{match.begin(0)} - #{next_start})"}
+          results << r
+          r
+        }
+      end
     end
+    puts "Finished, got #{results.length} res"
     results
   end
   module Context
@@ -135,6 +159,7 @@ class Text
       context_end = text.bytesize if context_end > text.bytesize
 
       ret = (context_start ... context_end).map{|pos| text.getbyte(pos).chr }.join.force_encoding("UTF-8").tidy_bytes
+      puts "Creating context from #{context_start} - #{context_end}" 
       StringWithContext.new_with_context(ret,text,context_start,context_end,doc)
     end
     def extract

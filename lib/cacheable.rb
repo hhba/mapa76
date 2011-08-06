@@ -1,20 +1,30 @@
 module Cacheable
+  require "digest/md5" 
   CACHE_DIR='/tmp/cache_procesar_texto/'
   require "fileutils"
   File.exists?(CACHE_DIR) || FileUtils.mkdir_p(CACHE_DIR)
   require 'yaml'
+  def cache_debug(&block)
+    STDERR.write("#{Time.now} #{yield}\n") if ENV['CACHE_DEBUG']
+  end
   def cache_load(id)
     path = cache_dir(id)
-    return :notcached if not File.exists?(path)
+    if not File.exists?(path)
+      cache_debug{"#{id} is not cached (#{path})" }
+      return :notcached 
+    end
     begin
-      YAML.load_file(path)
+      cache_debug{"#{id} loading (#{path})" }
+      r=YAML.load_file(path)
+      cache_debug{"#{id} loaded" }
+      r
     rescue
       raise
       nil
     end
   end
   def cache_enabled
-    @cache_enabled
+    @cache_enabled && !ENV['SKIP_CACHE'] 
   end
   def cache_enabled=(v)
     @cache_enabled=v
@@ -46,6 +56,13 @@ module Cacheable
       puts "Cannot dump! #{$!}"
     end
     data
+  end
+  module ClassMethods
+    def self.clean_cache
+    end
+  end
+  def self.included(m)
+    m.extend(ClassMethods)
   end
 end
 

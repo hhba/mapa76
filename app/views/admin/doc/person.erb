@@ -119,7 +119,7 @@
 
 	  <ol style="list-style-type:round">
 		<%@fragments.each{|parte|%>
-		  <li id='<%=parte.fragment_id%>' >
+		  <li id='<%=parte.context(400).fragment_id%>' >
 			<button class='more'> + </button>
 			<button class='less'> - </button>
 			<button class='up'>^</button>
@@ -143,11 +143,6 @@
       Source <input type='text'name='person[milestones][][source]' id="milestone_source" /><br />
       <input type='submit' value='Guardar' />
     </form>
-  </div>
-
-  <!-- Mapa -->
-  <div id='map'>
-    <img src='#' id='map_img' />
   </div>
 
 <!-- vim: se ts=2 sw=2 expandtab: -->
