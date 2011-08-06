@@ -59,7 +59,9 @@ class Text
   MESES_RE="(?:#{MESES.join("|")})"
   FECHAS_RE=Regexp.new("(?<![0-9])(?<day>[0-9]{1,2})? *°? *(?:del?)? *(?<month>#{MESES_RE}) *(?:del?)? *´?(?<year>(20([01][0-9])|19[0-9]{2}|[0-9]{2})?(?![0-9]))|(?<day>[123]?[0-9])/(?<month>1?[0-9])(/(?<year>20([01][0-9])|19[0-9]{2}|[0-9]{2}))?",Regexp::IGNORECASE)
   def dates
-    res=find(FECHAS_RE)
+    res=cache_fetch("dates_#{@cache_id}"){
+      find(FECHAS_RE)
+    }
     res.map{|date| 
       d = date.match(FECHAS_RE)
       day=d["day"].to_i
@@ -83,12 +85,14 @@ class Text
 
   def addresses(other=nil)
     # Nombres propios, seguidos de un numero
-    a = find(DIRECCIONES_RE).map{|d| Text::Address.new_from_string_with_context(d)}
-    if other and other.length > 0
-      re=Regexp.new(other.compact.map(&:strip).find_all{|p| p.length > 0}.join("|"))
-      a += find(re).map{|d| Text::Address.new_from_string_with_context(d)}
-    end
-    a
+    cache_fetch("addrs_#{@other.to_s}_#{@cache_id}"){
+      a = find(DIRECCIONES_RE).map{|d| Text::Address.new_from_string_with_context(d)}
+
+      if other and other.length > 0
+        re=Regexp.new(other.compact.map(&:strip).find_all{|p| p.length > 0}.join("|"))
+        a += find(re).map{|d| Text::Address.new_from_string_with_context(d)}
+      end
+    }
   end
   def person_names
     cache_fetch("person_names_#{@cache_id}"){
@@ -108,7 +112,7 @@ class Text
     next_start = @text.char_pos(@offset_start)
     next_start_byte = @offset_start
     offset_end_byte = @offset_end
-    debug{ "Searching #{re} in #{@text[next_start ... @offset_end]}"}
+    debug{ "Searching #{re} "}
     results = []
     catch(:out) do 
       loop do 
@@ -132,7 +136,7 @@ class Text
         }
       end
     end
-    puts "Finished, got #{results.length} res"
+    debug{ "Finished, got #{results.length} res" }
     results
   end
   module Context
@@ -159,7 +163,7 @@ class Text
       context_end = text.bytesize if context_end > text.bytesize
 
       ret = (context_start ... context_end).map{|pos| text.getbyte(pos).chr }.join.force_encoding("UTF-8").tidy_bytes
-      puts "Creating context from #{context_start} - #{context_end}" 
+      #debug { "Creating context from #{context_start} - #{context_end}"  }
       StringWithContext.new_with_context(ret,text,context_start,context_end,doc)
     end
     def extract
