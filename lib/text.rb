@@ -4,21 +4,6 @@ require File.join(File.expand_path(File.dirname(__FILE__)),"/classifiable")
 require File.join(File.expand_path(File.dirname(__FILE__)),"/cacheable")
 require File.join(File.expand_path(File.dirname(__FILE__)),"/incomplete_date")
 
-class String
-  #remove invalid utf-8 chars from str
-  def tidy_bytes
-   self.chars.select{|c| c.valid_encoding?}.join
-  end
-  def char_pos(byte_pos)
-      byte_substr(0,byte_pos).length 
-  end
-  def byte_substr(start_pos, end_pos)
-    (start_pos ... end_pos).map{|pos| 
-      p=self.getbyte(pos)
-      p.chr if p
-    }.compact.join.force_encoding("UTF-8").tidy_bytes 
-  end
-end
 class StringDocument < String
   attr_accessor :id
 end
@@ -50,7 +35,7 @@ class Text
     @cache_id += Digest::MD5.hexdigest(@text)
 
     @offset_start = offset_start
-    @offset_end = offset_end > -1 ? offset_end : @text.bytesize
+    @offset_end = offset_end
 
   end
   LETRAS='áéíóúñüça-z'
@@ -104,42 +89,38 @@ class Text
     }
   end
   def to_s
-    offset_start_byte = @text[0 ... @offset_start].bytesize
-    offset_end_byte = @text[0 ... @offset_end].bytesize
-    (offset_start_byte ... offset_end_byte).map{|pos| @text.getbyte(pos).chr }.join.force_encoding("UTF-8").tidy_bytes
+    @text[@offset_start ... @offset_end]
   end
 
   def debug()
     STDERR.write("#{Time.now} - #{yield}\n") if ENV['DEBUG'] 
   end
   def find(re,t=Result)
-    next_start = @text.char_pos(@offset_start)
-    next_start_byte = @offset_start
-    offset_end_byte = @offset_end
+    if @offset_start > 0 || @offset_end > -1
+      debug{"Find in fragment: #{@offset_start} ... #{@offset_end}"}
+      @searchable_fragment ||= @text[@offset_start ... @offset_end]
+    else
+      debug{"Finding in the whole text #{@offset_start} ... #{@offset_end}"}
+      @searchable_fragment ||= @text
+    end
     debug{ "Searching #{re} "}
     results = []
-    catch(:out) do 
-      loop do 
-        break if not @text.match(re,next_start){|match|
-          prev_start_byte = next_start_byte
-          prev_start = next_start
-
-          next_start = match.end(0)
-          next_start_byte = @text[prev_start ... next_start].bytesize + prev_start_byte 
-
-          curr_start_byte = @text[prev_start ... match.begin(0)].bytesize + prev_start_byte
-          if curr_start_byte >= offset_end_byte
-            debug{"Breaking the match loop because next start is past offset_end_byte"} 
-            throw(:out) 
-          end
-
-          r = t.new_with_context(match[0].strip,@text,curr_start_byte,next_start_byte,@doc) 
-          debug{ "-#{match[0]}- starts at byte #{curr_start_byte} - #{next_start_byte} (char #{match.begin(0)} - #{next_start})"}
-          results << r
-          r
-        }
-      end
+    start_pos = 0
+    loop do
+      break if not @searchable_fragment.match(re,start_pos){|match| 
+        debug{ "-#{match[0]}- starts at char #{match.begin(0)} "}
+        result = t.new_with_context(match[0].strip,
+                                      @text,
+                                      match.begin(0) + @offset_start, 
+                                      match.end(0) + @offset_start,
+                                      @doc
+                                   ) 
+        results << result
+        start_pos = match.end(0)
+        match
+      }
     end
+
     debug{ "Finished, got #{results.length} res" }
     results
   end
@@ -164,9 +145,9 @@ class Text
       context_end = end_pos + length 
 
       context_start = 0 if context_start < 0
-      context_end = text.bytesize if context_end > text.bytesize
+      context_end = text.length if context_end > text.length
 
-      ret = (context_start ... context_end).map{|pos| text.getbyte(pos).chr }.join.force_encoding("UTF-8").tidy_bytes
+      ret = text[context_start ... context_end]
       #debug { "Creating context from #{context_start} - #{context_end}"  }
       StringWithContext.new_with_context(ret,text,context_start,context_end,doc)
     end

@@ -2,16 +2,20 @@
 require File.join(File.expand_path(File.dirname(__FILE__)),"/../lib/text")
 require "test/unit"
 class TestFragments < Test::Unit::TestCase
+  def setup
+    ENV["SKIP_CACHE"]="true" 
+  end
   def test_fragment_id
     str = StringDocument.new("aa Pedro Gomez ááá Róqúé Péréz #{"a " * 500} Don Nadie")
     str.id = 33
     doc = Text.new(str)
     names = doc.person_names
+    assert_equal( 3, names.length, "There're 3 names in orig str [Pedro Gomez, Roque Perez, Don Nadie] instead, got #{names.inspect}" ) 
     pedro = names[0]
     roque = names[1]
     assert_equal( "frag:doc=33:3-14", pedro.id ) 
     assert_equal( "Pedro Gomez",pedro.context(0))
-    assert_equal( "frag:doc=33:22-38", roque.id ) 
+    assert_equal( "frag:doc=33:19-30", roque.id ) 
     assert_equal( "Róqúé Péréz", roque.context(0))
 
     pedro_context = pedro.context(30).extract
@@ -20,7 +24,7 @@ class TestFragments < Test::Unit::TestCase
     assert_equal( 2 , pedro_context_names.length, "Expected '[Pedro Gomez, XX]'  got #{pedro_context_names.inspect}"  ) 
     
     roque_from_pedro_context = pedro_context_names[1]
-    assert_equal( "frag:doc=33:22-38", roque_from_pedro_context.id ) 
+    assert_equal( "frag:doc=33:19-30", roque_from_pedro_context.id ) 
 
   end
 

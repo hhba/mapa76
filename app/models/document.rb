@@ -18,17 +18,15 @@ class Document < Sequel::Model
     @fd
   end
   def read(*p)
-    if p.empty? and @sample_mode
-      p = [100 * 1024]
+    if p.empty?
+      @text ||= super
+    else
+      super
     end
-    r=fd.read(*p)
-    r.force_encoding("UTF-8")
-    r
   end
   def fragment(start_pos,end_pos)
-    seek(0)
     text = read()
-    fragment = text.byte_substr(start_pos,end_pos)
+    fragment = text[start_pos ... end_pos]
     Text::StringWithContext.new_with_context(fragment,text,start_pos,end_pos,self) 
   end
   def extract
