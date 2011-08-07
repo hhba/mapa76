@@ -6,8 +6,7 @@ Alegato.helpers do
     ret = fragment.dup
     person_names = fr.person_names
     dates = fr.dates
-    addresses = fr.addresses(Milestone.where_list)
-    puts "persons in doc: #{person_names.length}", person_names 
+    addresses = fr.addresses(env[:milestones] ||= Milestone.where_list)
 
     person_names.uniq_by{|w| w.to_s.downcase.strip}.find_all(&:classified_good?).sort_by{|n| n.length}.reverse.each{|n|
       ret.gsub!(n,"<span class='name #{ActiveSupport::Inflector.parameterize(n)}' id='#{n.fragment_id}'>#{n}</span>")
