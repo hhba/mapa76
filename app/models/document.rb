@@ -26,6 +26,7 @@ class Document < Sequel::Model
     r
   end
   def fragment(start_pos,end_pos)
+    seek(0)
     text = read()
     fragment = text.byte_substr(start_pos,end_pos)
     Text::StringWithContext.new_with_context(fragment,text,start_pos,end_pos,self) 

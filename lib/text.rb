@@ -13,7 +13,10 @@ class String
       byte_substr(0,byte_pos).length 
   end
   def byte_substr(start_pos, end_pos)
-    (start_pos ... end_pos).map{|pos| self.getbyte(pos).chr }.join.force_encoding("UTF-8").tidy_bytes 
+    (start_pos ... end_pos).map{|pos| 
+      p=self.getbyte(pos)
+      p.chr if p
+    }.compact.join.force_encoding("UTF-8").tidy_bytes 
   end
 end
 class StringDocument < String
