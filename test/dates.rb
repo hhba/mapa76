@@ -43,7 +43,13 @@ class TestDates < Test::Unit::TestCase
     
     t=Text.new "18/19 de julio de 1977"
     assert_equal(IncompleteDate.new(1977,7,19),  t.dates.first )
-   
+     
+    t=Text.new " 1º de diciembre de 1977 "
+    assert_equal(IncompleteDate.new(1977,12,1),  t.dates.first )
+      
+    t=Text.new " 1-1-1977 "
+    assert_equal(IncompleteDate.new(1977,1,1),  t.dates.first )
+ 
     t=Text.new "mayoria"
     assert_equal(nil,  t.dates.first )
    
