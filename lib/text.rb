@@ -50,10 +50,10 @@ class Text
     @offset_end = offset_end > -1 ? offset_end : @text.bytesize
 
   end
-  LETRAS='áéíóúñüa-z'
+  LETRAS='áéíóúñüça-z'
   LETRASM='ÁÉÍÓÚÑÜA-Z'
   # Palabra Palabra|de|del
-  NOMBRES_PROPIOS_RE="(?:[#{LETRASM}][#{LETRAS}]{2,}(?:[ ,](?:[#{LETRASM}][#{LETRASM}#{LETRAS}]+|(?:(?:de|la|del)(?= [#{LETRASM}])))){1,})"    
+  NOMBRES_PROPIOS_RE="(?:[#{LETRASM}][#{LETRAS}#{LETRASM}]{2,}(?:[ ,](?:[#{LETRASM}][#{LETRASM}#{LETRAS}]+|(?:(?:de|la|del)(?= [#{LETRASM}])))){1,})"    
   NOMBRE_PROPIO_RE="(?:[#{LETRASM}][#{LETRAS}]+(?:[ ,](?:[#{LETRASM}][#{LETRASM}#{LETRAS}]+|(?:(?:de|la|del)(?= ))))*)"    
   DIRECCIONES_RE=Regexp.new("(?<!^)((?:Av.? )?#{NOMBRE_PROPIO_RE}+ [0-9]{1,5}(?![0-9\/])(,? )?#{NOMBRE_PROPIO_RE}*)")
   MESES = %w{enero febrero marzo abril mayo junio julio agosto septiembre octubre noviembre diciembre}
