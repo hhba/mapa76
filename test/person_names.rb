@@ -14,13 +14,22 @@ class TestPersonNames < Test::Unit::TestCase
     assert_equal("Enrique Piñeiroi", n[1])
     assert_equal("Franco Macri", n[2])
 
-    pt=Text.new("Por Alejandra Dandan")
-    n=pt.person_names
-    assert_equal("Alejandra Dandan", n[0])
-
     pt=Text.new("Jose Gonçalves")
     n=pt.person_names
     assert_equal("Jose Gonçalves", n[0])
+
+    t="ctualmente detenido en el  JUAN CARLOS AVENA, de nacionalidad argentina "
+    pt=Text.new(t)
+    n=pt.person_names
+    assert_equal(["JUAN CARLOS AVENA"], n)
+
+    t=". En tanto que Leon permaneció en cautiverio también en el Banco desde donde fue trasladado a su destino final. LEON GAJNAJ PERMANECE DESPARECIDO."
+    pt=Text.new(t)
+    n=pt.person_names
+    assert_equal(["LEON GAJNAJ"], n)
+
+
+
 
   end
 end
