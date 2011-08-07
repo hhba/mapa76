@@ -4,3 +4,5 @@
   <li><%=link_to doc.title, url_for(:doc_admin_index,:doc_id => doc.id) %></li>
 <%}%>
 </ol>
+
+<%= link_to "Nuevo Doc", url_for(:admin_import)%>

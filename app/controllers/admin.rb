@@ -10,11 +10,11 @@ Alegato.controllers :admin do
   end
   put :import do
     if params[:text]
-      d = Document.new
-      d.title = params[:title]
-      d.data = params[:text]
-      if d.save
-        "Guardado ok"
+      @doc = Document.new
+      @doc.title = params[:title]
+      @doc.data = params[:text]
+      if @doc.save
+        render "admin/import_ok"
       else
         "Error guardando"
       end
@@ -41,7 +41,7 @@ Alegato.controllers :admin do
       pos_end=params[:end]
     end
 
-    params[:around] ||= 200
+    params[:around] ||= 1000
 
     case params[:action].to_i
 	when 1 # more

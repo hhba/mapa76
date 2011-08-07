@@ -16,6 +16,7 @@ Alegato.controllers :doc_admin,  :parent => :doc do
       p = Person.find_or_create(:name => person_name)
       @doc.add_person(p,@person_names[person_name].length) # link person and document and update the number of times this person gets mentioned
     }
+    render "admin/doc/reparse_ok.erb"
   end
   get :reparse do
     @doc = Document[params[:doc_id]]

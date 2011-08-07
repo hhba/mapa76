@@ -35,7 +35,7 @@ function set_milestones(milestones){
 function update_fragment( el, cur_action) {
 
     var cur_fragment_id = el.attr('id');
-		var context_around = 400;
+		var context_around = 1000;
 
 		$.getJSON("/admin/context", {fragment_id: cur_fragment_id, around: context_around, action: cur_action},
       function(response) {
