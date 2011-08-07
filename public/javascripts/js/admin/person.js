@@ -29,6 +29,7 @@ function update_milestones(person_id){
     $.getJSON("/api/person/"+person_id+".json?milestones=true",{},function(d){set_milestones(d.milestones)})
 }
 function set_milestones(milestones){
+    $("#milestones").empty()
     $(milestones).each(function(n,d){return $("#milestones").append($("<li>").attr("id",d.id).text(d.date_from+" - "+d.date_to+" "+d.what))})
 }
 // Actualiza el fragmento
@@ -59,7 +60,7 @@ function live_markup(o)
 		$("#add_milestone").dialog({autoOpen: false, title: 'Nuevo hito'});
 		if (! $("#add_milestone").dialog("isOpen") ){
 		  $("#milestone_human_date_from").datepicker("setDate", parts[2] + "/" + parts[1] + "/" + parts[0]);
-		  $("#milestone_human_date_to").datepicker("setDate","");
+		  $("#milestone_human_date_to").datepicker("setDate", parts[2] + "/" + parts[1] + "/" + parts[0]);
 		  $("#milestone_source").val(e.currentTarget.id);
 		  $("#add_milestone").dialog("open");
 		} else {
