@@ -26,5 +26,9 @@ class Milestone < Sequel::Model
     self.source_doc_fragment_end   = pos.last
     super
   end
+  def date_end=(v)
+    v=nil if v.blank?
+    super(v)
+  end
 end
 Milestone.plugin :json_serializer
