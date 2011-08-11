@@ -82,6 +82,7 @@ class Text
         re=Regexp.new(other.compact.map(&:strip).find_all{|p| p.length > 0}.join("|"))
         a += find(re).map{|d| Text::Address.new_from_string_with_context(d)}
       end
+      a
     }
   end
   def person_names
