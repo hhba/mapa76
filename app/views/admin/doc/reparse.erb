@@ -47,6 +47,7 @@
       $("ol").removeClass("list_mode")
       $("li").append("<span class='buttons'><button class='train' value='good'>Es nombre</button> <button class='train' value='bad'>No es nombre</button></span>")
       $("button.train").click(function(e){
+        e.preventDefault();
         $.post("<%=url_for :admin_classify_name %>",
                 {name: $(e.currentTarget).parents("li").children("span.name").text(), training: $(e.currentTarget).attr("value")},
                 function(b){$(e.currentTarget).parents("span.buttons").text("res")},
@@ -56,8 +57,9 @@
       )
     }
     $("button#classification_mode").click(function(e){
+        e.preventDefault();
         classification_mode()
     })
-    $("#sort_by_name").click(function(e){$("ol#persons>li").tsort()})
-    $("#sort_by_mentions").click(function(e){$("ol#persons>li").tsort({attr:"mentions",order:"desc"})})
+    $("#sort_by_name").click(function(e){e.preventDefault();$("ol#persons>li").tsort()})
+    $("#sort_by_mentions").click(function(e){e.preventDefault();$("ol#persons>li").tsort({attr:"mentions",order:"desc"})})
 </script>
