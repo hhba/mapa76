@@ -13,7 +13,7 @@ Alegato.controllers :doc_admin,  :parent => :doc do
     }
     params[:people].each{|n|
       person_name = Person.normalize_name(n)
-      p = Person.find_or_create(:name => person_name)
+      p = Person.find_or_create(:name => n)
       @doc.add_person(p,@person_names[person_name].length) # link person and document and update the number of times this person gets mentioned
     }
     render "admin/doc/reparse_ok.erb"

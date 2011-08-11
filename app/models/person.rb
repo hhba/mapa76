@@ -8,7 +8,10 @@ class Person < Sequel::Model
     ActiveSupport::Inflector.transliterate(name.to_s.downcase)
   end
   def self.filter_by_name(name)
-    self.filter(:name => normalize_name(name)) 
+    self.filter(:searchable_name => normalize_name(name)) 
+  end
+  def before_save
+    self.searchable_name = self.class.normalize_name(name)
   end
 end
 Person.plugin :json_serializer

@@ -112,11 +112,11 @@
   <!-- Listaod de fratmentos -->
   <div id="fragment-pane">
 	  <h2><%=@person.name.titleize%></h2>
-		<ol id='milestones'>
-		  <%@person.milestones.each{|milestone|%>
-			<li><%=milestone.date_from%> - <%=milestone.date_to%> - <%=milestone.what%> - <%=milestone.where%>  - 
-		  <%}%>
-		</ol>
+    <ol id='tags'>
+    <%{secuestr: "secuestro", asesin: "asesinato", transla: "translados"}.each{|search,name|%>
+        <li data-search=<%=search.to_json%>><%=name%>
+    <%}%>
+    </ol>
 
 	  <ol style="list-style-type:round">
 		<%@fragments.each{|parte|%>
