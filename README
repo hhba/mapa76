@@ -1,3 +1,25 @@
 mapa76
 ==========
+dependencias:
+ - ruby
+ - bundler
+ - mysql
+ 
+Cargar las dependencias ruby:
 
+    $ bundle
+
+Modificar la configuración local:
+    
+    $ cp config/local_config.yaml.example config/local_config.yaml
+    $ vim config/local_config.yaml
+
+y cambiar la linea que dice:
+
+    dsn: mysql2://user:pass@localhost/db_name
+    
+para que se ajuste a tu configuración
+   
+    
+    
+    
