@@ -1,9 +1,6 @@
-<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
-<script src="/javascripts/jquery.js"></script>
-<script type='text/javascript' src='http://static.simile.mit.edu/timeline/api-2.3.0/timeline-api.js?bundle=true'></script>
 <script>
- var tl;
- var resizeTimerID = null;
+   var tl;
+   var resizeTimerID = null;
 
    $(document).ready(function () { 
        var eventSource = new Timeline.DefaultEventSource();
@@ -39,6 +36,7 @@
          }
     });
 </script>
+
 <div id="timeline" style="height: 400px; border: 1px solid #aaa"></div>
 
 <%@persons.each{|person|%>
