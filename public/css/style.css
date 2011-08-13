@@ -599,4 +599,29 @@ tone-pane ul {
   }
   ol#tags li { float:left; margin-right: 1em; }
 
->>>>>>> 8d5800162e09cd42e8ffdb3db8ba06e8360bd348
+
+  /* Estilos para la pantalla de personas */
+  a {
+      text-decoration:none;
+  }
+  .classified_good a{
+    color:green;
+  }
+  .classified_bad a{
+    color:red;
+  }
+  ol.list_mode .classified_bad{
+      display:none
+  }
+  ol.list_mode .classified_good a{
+      color:black;
+  }
+ 
+  .mentions_1 a { font-size:100%; }
+  .mentions_2 a { font-size:110%; }
+  .mentions_3 a { font-size:120%; }
+  .mentions_4 a { font-size:130%; }
+  .mentions_5 a { font-size:140%; }
+  .mentions_6 a { font-size:140%; }
+  .mentions_7 a { font-size:150%; }
+  .mentions_8 a { font-size:150%; }
