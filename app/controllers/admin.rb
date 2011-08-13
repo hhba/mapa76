@@ -1,13 +1,18 @@
 require "json"
+
+
 Alegato.controllers :admin do
   layout :admin
+
   get :index do
     @docs = Document.all
-    render "admin/doc_list", 
+    render "admin/doc_list" 
   end
+
   get :import do
     render "admin/import"
   end
+
   put :import do
     if params[:text]
       @doc = Document.new
@@ -20,6 +25,7 @@ Alegato.controllers :admin do
       end
     end
   end
+
   get :person, :with => [:id] do
     if params[:id].to_i == 0
       @persons = Person.filter_by_name(params[:id]).all
@@ -44,27 +50,28 @@ Alegato.controllers :admin do
     params[:around] ||= 1000
 
     case params[:action].to_i
-	when 1 # more
-      pos_start   = pos_start.to_i - params[:around].to_i
-      pos_start   = 0 if pos_start < 0
-      pos_end     = pos_end.to_i + params[:around].to_i
-	when 2 # less
-      pos_start   = pos_start.to_i + params[:around].to_i
-      pos_start   = 0 if pos_start < 0
-      pos_end     = pos_end.to_i - params[:around].to_i
-	when 3 # down
-      pos_start   = pos_start.to_i + params[:around].to_i
-      pos_end     = pos_end.to_i + params[:around].to_i
-	when 4 # up
-      pos_start   = pos_start.to_i - params[:around].to_i
-      pos_start   = 0 if pos_start < 0
-      pos_end     = pos_end.to_i - params[:around].to_i
-	end
+      when 1 # more
+          pos_start   = pos_start.to_i - params[:around].to_i
+          pos_start   = 0 if pos_start < 0
+          pos_end     = pos_end.to_i + params[:around].to_i
+      when 2 # less
+          pos_start   = pos_start.to_i + params[:around].to_i
+          pos_start   = 0 if pos_start < 0
+          pos_end     = pos_end.to_i - params[:around].to_i
+      when 3 # down
+          pos_start   = pos_start.to_i + params[:around].to_i
+          pos_end     = pos_end.to_i + params[:around].to_i
+      when 4 # up
+          pos_start   = pos_start.to_i - params[:around].to_i
+          pos_start   = 0 if pos_start < 0
+          pos_end     = pos_end.to_i - params[:around].to_i
+    end
 
     fragment=Document[doc_id].fragment(pos_start,pos_end)
     r={:fragment_id => fragment.fragment_id, :text => markup_fragment(fragment), :prev_fragment_id => params[:fragment_id]}.to_json
     r
   end
+
   post :classify_name do
     r=false
     if params[:name] and params[:training]
@@ -73,4 +80,5 @@ Alegato.controllers :admin do
     end
     r.to_json
   end
+
 end
