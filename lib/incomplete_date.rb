@@ -4,6 +4,7 @@ class IncompleteDate
   def initialize(year,month=nil,day=nil)
     #convert falses in nils
     @parts = [year || nil,month || nil,day || nil]
+    raise ArgumentError if ! year
     from = Date.new(year, month || 1, day || 1)
     to   = Date.new(year, month || -1, day || -1)
     @range = (from .. to)

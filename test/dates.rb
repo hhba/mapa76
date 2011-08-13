@@ -57,6 +57,8 @@ class TestDates < Test::Unit::TestCase
     t=Text.new "mayoria"
     assert_equal(nil,  t.dates.first )
    
+    t=Text.new "mes de noviembre hasta"
+    assert_equal(nil,  t.dates.first )
 
   end
 end

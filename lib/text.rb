@@ -64,10 +64,17 @@ class Text
       if year > 0 and year < 100
         year += 1900
       end
-      day = nil if day == 0
-      begin
-        DateWithContext.new_with_context([year,month,day],date.text,date.start_pos,date.end_pos,date.doc)
-      rescue ArgumentError
+
+      # at least 2 values must be filled (day-month, month-year)
+      if (year > 0 and month > 0) or (day > 0 and month > 0)
+        day = nil if day == 0
+
+        begin
+          DateWithContext.new_with_context([year,month,day],date.text,date.start_pos,date.end_pos,date.doc)
+        rescue ArgumentError
+          nil
+        end
+      else
         nil
       end
     }.compact
