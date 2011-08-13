@@ -23,7 +23,9 @@ Alegato.helpers do
       end
       ret.gsub!(n,markup)
     }
-    ret.gsub!("\n","<br />")
+    if ret.scan(/\n\w+\n/).length < 5
+      ret.gsub!("\n","<br />")
+    end
     ret
   end
 end
