@@ -2,6 +2,7 @@
 log/**/*
 tmp/**/*
 bin/*
+config/local_config.yaml
 vendor/gems/*
 !vendor/gems/cache/
 .sass-cache/*
