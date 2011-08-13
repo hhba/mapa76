@@ -11,8 +11,8 @@ Alegato.helpers do
     person_names.uniq_by{|w| w.to_s.downcase.strip}.find_all(&:classified_good?).sort_by{|n| n.length}.reverse.each{|n|
       ret.gsub!(n,"<span class='name #{ActiveSupport::Inflector.parameterize(n)}' id='#{n.fragment_id}'>#{n}</span>")
     }
-    dates.each{|n|
-      ret.gsub!(n.context(0),"<time class='date' datetime='#{n.to_s(1)}' id='#{n.fragment_id}'>#{n.context(0)}</time>")
+    dates.sort_by{|n| n.to_s.length}.reverse.each{|n|
+      ret.gsub!(n.context(0),"<time class='date' datetime='#{n.to_s('')}' id='#{n.fragment_id}'>#{n.context(0)}</time>")
     }
     addresses.each{|n|
       if n.geocode

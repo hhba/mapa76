@@ -17,20 +17,44 @@ $(document).ready(function() {
     }
   );
 
+  /*
 	$("#milestone_human_date_from").datepicker({dateFormat: "dd/mm/yy", altFormat: "yy/mm/dd", altField: "#milestone_date_from"} );
 	$("#milestone_human_date_to").datepicker({dateFormat: "dd/mm/yy", altFormat: "yy/mm/dd", altField: "#milestone_date_to"} );
-  $("#update_milestones").click(function(e){
-      update_milestones($(e.currentTarget).data("person-id"))
-  }).click()
+  */
+  $("#update_milestones").click( update_milestones)
+  update_milestones()
+  highlight(); 
 
 });
 
-function update_milestones(person_id){
+function highlight(){
+  $("p.fragment a.highlight").removeClass("highlight") 
+  $("#tags li").each(function(n,tag){
+    var tag=$(tag)
+    var search_str = tag.data("search")
+    var class_name = "hl_"+search_str.replace(/[^a-z]/,"")
+    $("p.fragment").highlight(search_str,{element: 'a', className: "highlight "+class_name}) 
+    var count=$("p.fragment a.highlight."+class_name).removeClass(class_name).length
+    $("span.count",tag).text("("+count+")")
+    if (count > 0){
+        tag.css({display: "block"})
+    }else{
+        tag.css({display: "none"})
+    }
+  })
+}
+
+function update_milestones(){
+    var person_id = $("#milestone-pane").data("person-id")
     $.getJSON("/api/person/"+person_id+".json?milestones=true",{},function(d){set_milestones(d.milestones)})
 }
 function set_milestones(milestones){
     $("#milestones").empty()
-    $(milestones).each(function(n,d){return $("#milestones").append($("<li>").attr("id",d.id).text(d.date_from+" - "+d.date_to+" "+d.what))})
+    $(milestones).each(function(n,d){
+        var li = $("<li>").attr("id",d.id).text(d.date_from+" - "+d.date_to+" - "+d.what +" -  "+d.where)
+        li.append($("<button />").text("edit").click(function(e){edit_milestone(d,true)}))
+        return $("#milestones").append(li)
+    })
 }
 // Actualiza el fragmento
 function update_fragment( el, cur_action) {
@@ -48,24 +72,61 @@ function update_fragment( el, cur_action) {
         live_markup(item.children("p.fragment"))
         // le cambiamos el id al <li> con el nuevo fragmento.
         item.attr('id', response.fragment_id);
+        highlight()
       }
 		);
+}
+function edit_milestone(d,reset){
+		$("#add_milestone").dialog({autoOpen: false, title: 'Nuevo hito'});
+    var date_from = d.date_from.split(/[-\/]/,3).reverse().join("/")
+    var date_to = d.date_to.split(/[-\/]/,3).reverse().join("/")
+		if (! $("#add_milestone").dialog("isOpen") || reset ){
+		  $("#milestone_id").val(d.id);
+		  $("#milestone_date_from").val(date_from);
+		  $("#milestone_date_to").val(date_to);
+		  $("#milestone_source").val(d.source);
+      $("#milestone_what_opc option").attr("selected",false)
+      var what_opc = $.grep($("#milestone_what_opc option"),function(opc){ 
+          return $(opc).val() ==  d.what
+      })
+      if (what_opc.length > 0){
+          $(what_opc).attr("selected",true)
+      }else{
+        $("#milestone_what_txt").val(d.what)
+      }
+
+      $("#milestone_where_opc option").attr("selected",false)
+      var where_opc = $.grep($("#milestone_where_opc option"),function(opc){ 
+          return $(opc).val() ==  d.where
+      })
+      if (where_opc.length > 0){
+          $(where_opc).attr("selected",true)
+      }else{
+        $("#milestone_where_txt").val(d.where)
+      }
+      
+      $("#del_milestone").css({visibility: d.id ? "visible" : "hidden"})
+      $("#del_milestone").click(function(e){
+          e.preventDefault();
+          $.ajax({url: "/api/milestone/"+d.id+".json", type: "delete", success: update_milestones })
+      })
+		  $("#add_milestone").dialog("open");
+		} else {
+		  $("#milestone_date_to").val(date_to);
+		}
 }
 
 function live_markup(o)
 {
   // Cuando hacen click sobre una fecha mostramos el popup de Hitos.
   $(o).children(".date").click(function(e) {
-		var parts = $(e.currentTarget).attr("datetime").split("-",3);
-		$("#add_milestone").dialog({autoOpen: false, title: 'Nuevo hito'});
-		if (! $("#add_milestone").dialog("isOpen") ){
-		  $("#milestone_human_date_from").datepicker("setDate", parts[2] + "/" + parts[1] + "/" + parts[0]);
-		  $("#milestone_human_date_to").datepicker("setDate", parts[2] + "/" + parts[1] + "/" + parts[0]);
-		  $("#milestone_source").val(e.currentTarget.id);
-		  $("#add_milestone").dialog("open");
-		} else {
-		  $("#milestone_human_date_to").datepicker("setDate", parts[2] + "/" + parts[1] + "/" + parts[0]);
-		}
+		var date = $(e.currentTarget).attr("datetime");
+    var d ={
+        date_from: date,
+        date_to: date,
+        source: e.currentTarget.id,
+    }
+    edit_milestone(d)
   })
 
   // Cuando hacen click sobre un nombre mostramos la info de esa persona.

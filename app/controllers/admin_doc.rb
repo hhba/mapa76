@@ -49,20 +49,30 @@ Alegato.controllers :doc_admin,  :parent => :doc do
   end
   post :person, :with => [:id] do
     person = Person[params[:id]]
-    Array(params[:person][:milestones]).each{|milestone|
+    puts params[:person][:milestones].inspect
+    Array(params[:person][:milestones]).each{|idx,milestone|
       data = milestone.dup
-      data.delete("id")
       data[:what] = ! data["what_txt"].blank? ? data["what_txt"] : data["what_opc"]
       data.delete("what_txt")
       data.delete("what_opc")
       data[:where] = ! data["where_txt"].blank? ? data["where_txt"] : data["where_opc"]
       data.delete("where_txt")
       data.delete("where_opc")
-      m=Milestone.new(data)
+      #convert dates in spanish into YY-MM-DD
+      data["date_from"] = data["date_from"].split(/[-\/]/).reverse.join("-")
+      data["date_to"] = data["date_to"].split(/[-\/]/).reverse.join("-")
+      if data[:id].to_i > 0
+        id = data.delete("id")
+        m=Milestone[id]
+        m.set(data)
+      else
+        data.delete("id")
+        m=Milestone.new(data)
+      end
       person.add_milestone(m) 
     }
     person.save_changes
-    params.values.inspect
+    person.to_json
   end
   get :milestones do
     @doc = Document[params[:doc_id]]

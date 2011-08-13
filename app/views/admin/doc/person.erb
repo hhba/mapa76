@@ -93,6 +93,10 @@
   }
   .clickable { cursor: pointer; }
   .person_info { width:800px }
+  .highlight {
+      background-color: #aaeeaa;
+  }
+  ol#tags li { float:left; margin-right: 1em; }
 
 
 </style>
@@ -103,18 +107,18 @@
 <div id="pane-container" class="clearfix">
 
   <!-- Listado de Hitos -->
-  <div id="milestone-pane">
-    <h2>Hitos guardados <button id='update_milestones' data-person-id='<%=@person.id%>'>R</button></h2>
+  <div id="milestone-pane" data-person-id='<%=@person.id%>'>
+    <h2>Hitos guardados <button id='update_milestones'>R</button></h2>
 		<ul id='milestones'>
 		</ul>
   </div>
 
   <!-- Listaod de fratmentos -->
   <div id="fragment-pane">
-	  <h2><%=@person.name.titleize%></h2>
-    <ol id='tags'>
-    <%{secuestr: "secuestro", asesin: "asesinato", transla: "translados"}.each{|search,name|%>
-        <li data-search=<%=search.to_json%>><%=name%>
+    <h2><%=@person.name.titleize%></h2> (<%=link_to @doc.title, url_for(:doc_admin_index, :doc_id => @doc.id)%>)
+    <ol id='tags' class='clearfix'>
+    <%{tortur: "tortura", secuestr: "secuestro", asesin: "asesinato", transla: "translados", viola:"violacion"}.each{|search,name|%>
+        <li data-search=<%=search.to_json%>><%=name%> <span class='count' />
     <%}%>
     </ol>
 
@@ -134,15 +138,14 @@
   <!-- Formulario para agregar milestones -->
   <div id='add_milestone'>
       <form method="post" target='res' action="<%=url_for(:doc_admin_person, :id => @person.id, :doc_id => @doc.id)%>">
-      <input type='hidden' name='person[milestones][][id]' value='' /><br />
-      <input type='hidden' name='person[milestones][][date_from]' id='milestone_date_from' /><br />
-      <input type='hidden' name='person[milestones][][date_to]' id='milestone_date_to' /><br />
-      Date From <input type='text'  id='milestone_human_date_from' /><br />
-      Date To <input type='text'  id='milestone_human_date_to' /><br />
-      What <%=select_tag "person[milestones][][what_opc]",:options => @what%> <input type='text' name='person[milestones][][what_txt]' /><br />
-      Where <%=select_tag "person[milestones][][where_opc]",:options => @where, :id=> "milestone_where_opc"%> <input type='text' name='person[milestones][][where_txt]' id="milestone_where_txt" /><br /> 
-      Source <input type='text'name='person[milestones][][source]' id="milestone_source" /><br />
+      <input type='hidden' name='person[milestones][0][id]' id='milestone_id' value='' /><br />
+      Date From <input type='text' name='person[milestones][0][date_from]' id='milestone_date_from' /><br />
+      Date To <input type='text' name='person[milestones][0][date_to]' id='milestone_date_to' /><br />
+      What <%=select_tag "person[milestones][0][what_opc]",:options => @what, :id => "milestone_what_opc"%> <input type='text' name='person[milestones][0][what_txt]' id='milestone_what_txt' /><br />
+      Where <%=select_tag "person[milestones][0][where_opc]",:options => @where, :id=> "milestone_where_opc"%> <input type='text' name='person[milestones][0][where_txt]' id="milestone_where_txt" /><br /> 
+      Source <input type='text'name='person[milestones][0][source]' id="milestone_source" /><br />
       <input type='submit' value='Guardar' />
+      <button id='del_milestone'>Delete</button>
     </form>
     <iframe name='res' src=''></iframe>
   </div>

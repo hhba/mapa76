@@ -7,6 +7,7 @@ Alegato.controllers :api do
       data = Person[params[:id]]
     end
     p[:include] = [:milestones] if params[:milestones]
+
     case content_type
       when :json then data.to_json(p)
     end
@@ -44,6 +45,14 @@ Alegato.controllers :api do
       milestone.save.to_json
     end
   end
+
+  delete :milestone, :with => [:id], :provides => [:html,:json] do
+    milestone = Milestone[params[:id]]
+    if milestone
+      milestone.delete.to_json
+    end
+  end
+
   get :milestones, :with => [:doc_id], :provides => [:html,:json] do
     p = {}
     data = Document[params[:doc_id]].milestones
