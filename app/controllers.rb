@@ -9,7 +9,7 @@ Alegato.controllers  do
     render 'index', :addresses => @addresses
   end
   get :index do
-    @persons = params[:ids] ? Person.filter(:id => params[:ids].split(',')) : Person.all
+    @persons = params[:ids] ? Person.filter(:id => params[:ids].split(',')) : Person.filter(:id => Milestone.select(:person_id))
     render :query
   end
   get :timeline_json do
