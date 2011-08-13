@@ -1,3 +1,10 @@
+class String
+  #http://blog.monoweb.info/article/2010091116.html
+  alias_method :original_stem, :stem
+  def stem
+    self.original_stem.force_encoding(self.encoding)
+  end
+end
 module Classifiable
   class Classifiers < Hash
     require "singleton"
