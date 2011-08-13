@@ -411,14 +411,45 @@ list-style:none;
 .listado_persona {
 		margin: 20px;
 }
-.listado_nombre a {
 
-	color:#aaa;
+span.hitos {
+    background-color: #58A0DC;
+    border: 0 none;
+    border-radius: 5px 5px 5px 5px;
+    color: #FFFFFF;
+    cursor: pointer;
+/*    float: left; */
+    font-size: 11px;
+    margin: 8px 20px;
+    padding: 4px 10px;
+    text-decoration: none;
+}
+li.hito {
+	background-color: #FFCC33;
+	border: 2px solid #F5B800;
+	border-radius: 5px;
+	color: #333;
+	display: inline-block;
+	margin-bottom: 5px;
+}
+.listado_nombre a {
+	color:#666;
 	text-decoration: none !important;
 	font-size: 20px;
 }
+.listado_nombre h2 {
+	display: inline;
+}
+.listado_nombre .from, .listado_nombre .to  {
+	cursor: pointer;
+}
 .listado_foto {
 }
+ul.hitos {
+	display: none;
+}
+
+
 #timeline{
 background-color: #ccc;
 width: 100%;
