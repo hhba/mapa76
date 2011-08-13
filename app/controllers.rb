@@ -1,5 +1,6 @@
 #encoding: utf-8
 Alegato.controllers  do
+  layout :admin
   get :addr do
     fd=open("data/alegato2.txt", 'r')
     no_dirs  = ['Batallón', 'Convención', 'El ', 'Tenía', 'Legajo ', 'Destacamento ', 'Decreto ', 'En ', 'Ley ', 'Tenia ', 'Tratado ', 'Eran ', 'Grupo de ', 'Conadep ', 'Desde la','Fallos ','Comisaria ','Puente ','Entre ', 'Cabo ', 'Peugeot ']
@@ -31,6 +32,6 @@ Alegato.controllers  do
       } 
     }.flatten
 
-    t.to_json
+    render t, :layout => false
   end
 end
