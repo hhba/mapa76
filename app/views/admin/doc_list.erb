@@ -1,8 +1,10 @@
 <h1>Documentos conocidos</h1>
 <ol>
 <%@docs.each{|doc|%>
-  <li><%=link_to doc.title, url_for(:doc_admin_index,:doc_id => doc.id) %></li>
+  <li class="item_documentos"><%=link_to doc.title, url_for(:doc_admin_index,:doc_id => doc.id) %></li>
 <%}%>
 </ol>
 
-<%= link_to "Nuevo Doc", url_for(:admin_import)%>
+<div class="panel">
+  <%= link_to "Nuevo Doc", url_for(:admin_import)%>
+</div>

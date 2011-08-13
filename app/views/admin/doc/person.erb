@@ -9,12 +9,11 @@
     color: green
   }
   #add_milestone{
-    display:none;
-    width:700px;
-    height:200px;
-    border:1px;
-    background-color:#aaa;
-    font-size:small;
+    display: none;
+    width: 700px;
+    height: 200px;
+    border: 1px;
+    font-size: small;
   }
   #map{
     height:200px;
@@ -23,83 +22,9 @@
   .<%=ActiveSupport::Inflector.parameterize(@person.name)%>{
     font-weight:bold;
   }
-
-  /* TODO: pasara a un css */
-  /* Estilos para el layout de la pantalla */
-  body {
-    background: #666;
-    padding: 0;
-    margin: 0;
-  }
-  #pane-container {
-    float: left;
-  }
-  #fragment-pane {
-    float: left;
-    width: 950px;
-    padding: 20px;
-    border: 0;
-    font-family: sans-serif;
-    font-size: 14px;
-    background: white;
-    border-left: 3px solid #555;
-    border-right: 3px solid #555;
-  }
-
-  #milestone-pane {
-    float: left;
-    width: 300px;
-    border: 0;
-    padding: 20px 0;
-    background: #666;
-    color: white;
-    font-family: sans-serif;
-    font-size: 14px;
-    height: 100%;
-  }
-
-  #milestone-pane ul {
-    padding: 0;
-  }
-  #milestone-pane ul li {
-    list-style-type: none;
-  }
-
-  #milestone-pane ul li {
-    border-top: 1px solid #777;
-    border-bottom: 1px solid #666;
-    padding: 15px 5px;
-  }
-
-  /* para todo lo que está marcado */
-  span.name, .date, span.address { cursor: pointer; }
-  .date { border: 2px solid white; }
-  .date:hover { border: 2px solid yellow; }
-
-  /* clases genericas */
-  /* float clearing for IE7 */
-  *+html .clearfix{
-    min-height: 1%;
-  }
-
-  /* float clearing for everyone else */
-  .clearfix:after {
-    clear: both;
-    content: ".";
-    display: block;
-    height: 0;
-    visibility: hidden;
-    font-size: 0;
-  }
-  .clickable { cursor: pointer; }
-  .person_info { width:800px }
-  .highlight {
-      background-color: #aaeeaa;
-  }
-  ol#tags li { float:left; margin-right: 1em; }
-
-
 </style>
+
+
 <link type="text/css" href="/javascripts/css/ui-lightness/jquery-ui-1.8.13.custom.css" rel="Stylesheet" />
 <script src="/javascripts/js/jquery-ui-1.8.13.custom.min.js"></script>
 <script src="/javascripts/js/admin/person.js"></script>
@@ -135,19 +60,24 @@
 	  </ol>
   </div>
 </div>
+
   <!-- Formulario para agregar milestones -->
-  <div id='add_milestone'>
+  <div id="add_milestone">
       <form method="post" target='res' action="<%=url_for(:doc_admin_person, :id => @person.id, :doc_id => @doc.id)%>">
-      <input type='hidden' name='person[milestones][0][id]' id='milestone_id' value='' /><br />
-      Date From <input type='text' name='person[milestones][0][date_from]' id='milestone_date_from' /><br />
-      Date To <input type='text' name='person[milestones][0][date_to]' id='milestone_date_to' /><br />
-      What <%=select_tag "person[milestones][0][what_opc]",:options => @what, :id => "milestone_what_opc"%> <input type='text' name='person[milestones][0][what_txt]' id='milestone_what_txt' /><br />
-      Where <%=select_tag "person[milestones][0][where_opc]",:options => @where, :id=> "milestone_where_opc"%> <input type='text' name='person[milestones][0][where_txt]' id="milestone_where_txt" /><br /> 
-      Source <input type='text'name='person[milestones][0][source]' id="milestone_source" /><br />
+
+      <input type='hidden' name='person[milestones][0][id]' id='milestone_id' value='' />
+
+      <div class="field-label">Date From</div><div class="field-input"><input type='text' name='person[milestones][0][date_from]' id='milestone_date_from' /></div>
+      <div class="field-label">Date To</div><div class="field-input"><input type='text' name='person[milestones][0][date_to]' id='milestone_date_to' /></div>
+      <div class="field-label">What</div><div class="field-input"><%=select_tag "person[milestones][0][what_opc]",:options => @what, :id => "milestone_what_opc"%><input type='text' name='person[milestones][0][what_txt]' id='milestone_what_txt' /></div>
+      <div class="field-label">Where</div><div class="field-input"><%=select_tag "person[milestones][0][where_opc]",:options => @where, :id=> "milestone_where_opc"%><input type='text' name='person[milestones][0][where_txt]' id="milestone_where_txt" /></div>
+      <div class="field-label">Source</div><div class="field-input"><input type='text'name='person[milestones][0][source]' id="milestone_source" /></div>
+      <br /><br />
+
       <input type='submit' value='Guardar' />
       <button id='del_milestone'>Delete</button>
     </form>
-    <iframe name='res' src=''></iframe>
+    <iframe name='res' width="450" height="80" src=''></iframe>
   </div>
 
 <!-- vim: se ts=2 sw=2 expandtab: -->

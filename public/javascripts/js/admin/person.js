@@ -77,7 +77,7 @@ function update_fragment( el, cur_action) {
 		);
 }
 function edit_milestone(d,reset){
-		$("#add_milestone").dialog({autoOpen: false, title: 'Nuevo hito'});
+		$("#add_milestone").dialog({autoOpen: false, title: 'Nuevo hito', minWidth: 500});
     var date_from = d.date_from.split(/[-\/]/,3).reverse().join("/")
     var date_to = d.date_to.split(/[-\/]/,3).reverse().join("/")
 		if (! $("#add_milestone").dialog("isOpen") || reset ){
@@ -120,6 +120,7 @@ function live_markup(o)
 {
   // Cuando hacen click sobre una fecha mostramos el popup de Hitos.
   $(o).children(".date").click(function(e) {
+
 		var date = $(e.currentTarget).attr("datetime");
     var d ={
         date_from: date,
