@@ -1,0 +1,3 @@
+development:
+    dsn: mysql2://user:pass@localhost/db_name
+    
