@@ -2,6 +2,14 @@
    var tl;
    var resizeTimerID = null;
 
+   function centrarEnDia(tl, anio, mes, dia) {
+      var _anio = (anio!=undefined) ? anio : 1974;
+      var _mes  = (mes!=undefined) ? mes : 1;
+      var _dia  = (dia!=undefined) ? dia : 1;
+      tl.getBand(0).setCenterVisibleDate(new Date(_anio, _mes, _dia));
+   }
+   
+   
    $(document).ready(function () { 
        var eventSource = new Timeline.DefaultEventSource();
        var bandInfos = [
@@ -20,12 +28,25 @@
              intervalPixels: 100
          })
        ];
+       
+		bandInfos[0].syncWith = 1;
+		//Resto del ejemplo
+		//bandInfos[0].syncWith = 1;
+		//bandInfos[0].highlight = true;
+		
+		//bandInfos[1].syncWith = 1;
+		//bandInfos[3].syncWith = 2;
+		//bandInfos[3].highlight = true;
+            
        tl = Timeline.create(document.getElementById("timeline"), bandInfos);
+		
        Timeline.loadJSON("/timeline_json?ids=<%=@persons.map(&:id).join(",")%>", function(json, url) { 
            console.log("from: ",url)
            console.log(json)
            eventSource.loadJSON(json, url); 
-       })
+       });
+              
+       centrarEnDia(tl);
    });
    $(document).resize(function () { 
          if (resizeTimerID == null) {
