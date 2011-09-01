@@ -2,6 +2,11 @@ require "date"
 class IncompleteDate
   include Comparable
   def initialize(year,month=nil,day=nil)
+    if year.is_a?(Date)
+      day = year.day
+      month = year.month
+      year = year.year
+    end
     #convert falses in nils
     @parts = [year || nil,month || nil,day || nil]
     raise ArgumentError if ! year
