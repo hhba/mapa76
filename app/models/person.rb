@@ -7,8 +7,9 @@ class Person < Sequel::Model
   def self.normalize_name(name)
     ActiveSupport::Inflector.transliterate(name.to_s.downcase)
   end
-  def self.filter_by_name(name)
-    self.filter(:searchable_name => normalize_name(name)) 
+  def self.filter_by_name(name,is_prefix=false)
+    name +="%" if is_prefix
+    self.filter(:searchable_name.like(normalize_name(name)))
   end
   def before_save
     self.searchable_name = self.class.normalize_name(name)
