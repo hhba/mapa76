@@ -6,38 +6,47 @@ require File.join(File.expand_path(File.dirname(__FILE__)),"/incomplete_date")
 
 class StringDocument < String
   attr_accessor :id
+  alias :read :to_s
 end
 
 class Text
   include Cacheable
   attr_reader :doc
-  def initialize(t,offset_start=0,offset_end=-1)
+  def initialize(doc,offset_start=0,offset_end=-1)
     @cache_id=''
-    if t.respond_to?(:id)
-      @doc_id = t.id 
+    if doc.respond_to?(:id)
+      @doc_id = doc.id 
       @cache_id="#{@doc_id}:#{offset_start}-#{offset_end}"
       self.cache_enabled=true
     else
-      t = StringDocument.new(t.to_s)
-      t.id = "?"
-      @doc_id = t.id 
+      doc = StringDocument.new(doc.to_s)
+      doc.id = "?"
+      @doc_id = doc.id 
     end
 
-    @doc = t
-
-    if t.respond_to?(:read)
-      @text = t.read
-    elsif t.respond_to?(:join)
-      @text = t.join("\n")
-    else
-      @text = t.to_s
-    end
-    @cache_id += Digest::MD5.hexdigest(@text)
+    @doc = doc
 
     @offset_start = offset_start
     @offset_end = offset_end
 
   end
+  def text
+    @text ||= if @doc.respond_to?(:read)
+      @doc.read
+    elsif @doc.respond_to?(:join)
+      @doc.join("\n")
+    else
+      @doc.to_s
+    end
+  end
+
+  def marshal_dump
+    [@doc_id,@cache_id,@doc,@offset_start,@offset_end]
+  end
+  def marshal_load(a)
+    @doc_id,@cache_id,@doc,@offset_start,@offset_end = a
+  end
+
   LETRAS='áéíóúñüça-z'
   LETRASM='ÁÉÍÓÚÑÜA-Z'
   # Palabra Palabra|de|del
@@ -70,7 +79,7 @@ class Text
         day = nil if day == 0
 
         begin
-          DateWithContext.new_with_context([year,month,day],date.text,date.start_pos,date.end_pos,date.doc)
+          DateWithContext.new_with_context([year,month,day],date.text,date.start_pos,date.end_pos,@doc)
         rescue ArgumentError
           nil
         end
@@ -98,19 +107,20 @@ class Text
     }
   end
   def to_s
-    @text[@offset_start ... @offset_end]
+    text[@offset_start ... @offset_end]
   end
 
   def debug()
     STDERR.write("#{Time.now} - #{yield}\n") if ENV['DEBUG'] 
   end
+
   def find(re,t=Result)
     if @offset_start > 0 || @offset_end > -1
       debug{"Find in fragment: #{@offset_start} ... #{@offset_end}"}
-      @searchable_fragment ||= @text[@offset_start ... @offset_end]
+      @searchable_fragment ||= text[@offset_start ... @offset_end]
     else
       debug{"Finding in the whole text #{@offset_start} ... #{@offset_end}"}
-      @searchable_fragment ||= @text
+      @searchable_fragment ||= text
     end
     debug{ "Searching #{re} "}
     results = []
@@ -119,7 +129,7 @@ class Text
       break if not @searchable_fragment.match(re,start_pos){|match| 
         debug{ "-#{match[0]}- starts at char #{match.begin(0)} "}
         result = t.new_with_context(match[0].strip,
-                                      @text,
+                                      nil,
                                       match.begin(0) + @offset_start, 
                                       match.end(0) + @offset_start,
                                       @doc
@@ -135,10 +145,10 @@ class Text
   end
   module Context
     module InstanceMethods
-      def new_with_context(s,text,start_pos,end_pos,doc)
+      def new_with_context(s,custom_text,start_pos,end_pos,doc)
         o=new(*Array(s))
         o.doc=doc
-        o.text = text
+        o.custom_text = custom_text
         o.start_pos=start_pos
         o.end_pos=end_pos
         o
@@ -148,7 +158,10 @@ class Text
       "frag:doc=#{doc.id}:#{start_pos}-#{end_pos}"
     end
     alias :id :fragment_id
-    attr_accessor :start_pos,:end_pos,:doc,:text
+    attr_accessor :start_pos,:end_pos,:doc,:custom_text
+    def text
+      @custom_text || doc.read
+    end
     def context(length=50)
       context_start = start_pos - length 
       context_end = end_pos + length 
@@ -161,7 +174,7 @@ class Text
       StringWithContext.new_with_context(ret,text,context_start,context_end,doc)
     end
     def extract
-      doc_str = StringDocument.new(text)
+      doc_str = StringDocument.new(text || doc.read)
       doc_str.id = doc.id
       new_doc = Text.new(doc_str,start_pos,end_pos)
       new_doc
@@ -195,7 +208,7 @@ class Text
       else
         s=s.first
         s.gsub!(/, *$/,"") 
-        new_with_context(s,s.text,s.start_pos,s.end_pos,s.doc)
+        new_with_context(s,s.custom_text,s.start_pos,s.end_pos,s.doc)
       end
     end
     def geocode(place="Ciudad de Buenos Aires, Argentina")

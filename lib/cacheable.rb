@@ -15,7 +15,7 @@ module Cacheable
     end
     begin
       cache_debug{"#{id} loading (#{path})" }
-      r=YAML.load_file(path)
+      r=Marshal.load(open(path).read)
       cache_debug{"#{id} loaded" }
       r
     rescue
@@ -50,7 +50,7 @@ module Cacheable
     dir = cache_dir(id)
     begin
       open(dir,'w'){|fd|
-        YAML.dump(data,fd)
+        Marshal.dump(data,fd)
       }
     rescue
       puts "Cannot dump! #{$!}"

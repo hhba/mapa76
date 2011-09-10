@@ -3,25 +3,30 @@ require "text"
 class Document < Sequel::Model
   many_to_many :person
   one_to_many :milestones
-  attr_accessor :sample_mode
+  def _dump(level)
+    id.to_s
+  end
+  def self._load(arg)
+    self[arg]
+  end  
   def path
-      File.join(File.expand_path(File.dirname(__FILE__)),"../../","data","#{id}.txt")
+    File.join(File.expand_path(File.dirname(__FILE__)),"../../","data","#{id}.txt")
   end
   def data=(data)
     save if new?
     open(path,'w'){|fd| fd.write(data)}
   end
-  def fd
-    return @fd if @fd
-    @fd = open(path,"r:UTF-8")
-    @fd.set_encoding("UTF-8")
-    @fd
+  def fd(&block)
+    open(path,"r:UTF-8"){|fd|
+      fd.set_encoding("UTF-8")
+      yield(fd)
+    }
   end
   def read(*p)
     if p.empty?
-      @text ||= super
+      @___text ||= fd{|fd| fd.read}
     else
-      super
+      fd{|fd| fd.read(*p)}
     end
   end
   def fragment(start_pos,end_pos)
@@ -31,9 +36,6 @@ class Document < Sequel::Model
   end
   def extract
     @process_text ||= Text.new(self)
-  end
-  def method_missing(p,args=[])
-    fd.send(p,*args)
   end
   def add_person(person,mentions=1)
     r = false
