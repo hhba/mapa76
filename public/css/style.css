@@ -625,3 +625,28 @@ tone-pane ul {
   .mentions_6 a { font-size:140%; }
   .mentions_7 a { font-size:150%; }
   .mentions_8 a { font-size:150%; }
+
+  .date{
+    color:red
+  }
+  .name {
+    color: blue
+  }
+  .address {
+    color: green
+  }
+  #add_milestone{
+    display: none;
+    width: 700px;
+    height: 200px;
+    border: 1px;
+    font-size: small;
+  }
+  #map{
+    height:200px;
+    width:200px;
+  }
+  .<%=ActiveSupport::Inflector.parameterize(@person.name)%>{
+    font-weight:bold;
+  }
+

@@ -1,0 +1,29 @@
+<style type='text/css'>
+    div.list{
+        float:left;
+        width:300px;
+        border:1px solid black;
+        padding-left:10px;
+        margin-right:10px;
+    }
+</style>
+<h1><%=@doc.title%></h1>
+<p><strong>Zonas calientes</strong></p>
+<div class='list'>
+    <h2>Nombres</h2>
+    <ol>
+      <%@heatmap_people.hot_areas(10,10).each{|zone|%>
+          <li><%=link_to "#{zone[:start]} ... #{zone[:end]}", url_for(:doc_admin_curate_fragment,{:start => zone[:start] - 2000, :end => zone[:end] + 2000, :doc_id => @doc.id})%> <%=tag :span, :content => zone[:entries].length, :title => zone[:entries].join(", ")%> items
+      <%}%>
+    </ol>
+</div>    
+<div class='list'>
+    <h2>Fechas</h2>
+    <ol>
+      <%@heatmap_dates.hot_areas(10,10).each{|zone|%>
+          <li><%=link_to "#{zone[:start]} ... #{zone[:end]}", url_for(:doc_admin_curate_fragment,{:start => zone[:start] - 2000, :end => zone[:end] + 2000, :doc_id => @doc.id})%> <%=tag :span, :content => zone[:entries].length, :title => zone[:entries].join(", ")%> items
+      <%}%>
+    </ol>
+</div>
+
+

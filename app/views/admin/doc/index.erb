@@ -9,7 +9,6 @@
     <th>Hitos registrados</th><td><%=@doc.milestones_dataset.count%> </td>
   </tr>
 </table>
-
 <div id='most_mentioned'>
     <h2>Mas mencionadas</h2>
     <ol>
@@ -30,5 +29,11 @@
     <%=link_to "Ver todos", url_for(:doc_admin_milestones,:doc_id => @doc.id)%>
 </div>
 
+<p>
+    <%=link_to "Fragmentos densos de información", url_for(:doc_admin_hot_zones, :doc_id => @doc.id) %>
+</p>
 
-<%= link_to "Reparsear doc",url_for(:doc_admin_reparse,:doc_id => @doc.id)%>
+<p>
+    <%= link_to "Reparsear doc",url_for(:doc_admin_reparse,:doc_id => @doc.id)%>
+</p>
+

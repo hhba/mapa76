@@ -12,6 +12,9 @@ class Document < Sequel::Model
   def path
     File.join(File.expand_path(File.dirname(__FILE__)),"../../","data","#{id}.txt")
   end
+  def length
+    fd{|fd| fd.read.size}
+  end
   def data=(data)
     save if new?
     open(path,'w'){|fd| fd.write(data)}
