@@ -143,6 +143,36 @@ class Text
     debug{ "Finished, got #{results.length} res" }
     results
   end
+  def titles
+    titles = find_titles()
+    level_bullet = [] 
+    level_bullet[0] = find_title_bullet_type(titles.first)
+    curr_level = 0
+    titles.map{|title|
+      title_bullet = find_title_bullet_type(title)
+      title_level = level_bullet.index(title_bullet)
+      debug{"Title (#{title}) has bullet #{title_bullet} - level: #{title_level}"}
+      if not title_level
+        curr_level += 1
+        level_bullet[curr_level] = title_bullet
+      else
+        curr_level = title_level
+      end
+      [curr_level,title]
+    }
+  end
+  def find_titles
+    res=cache_fetch("titles_#{@cache_id}"){
+      find(/\r?\n[^a-z0-9A-Z]*?\r?\n\s*(.*[#{LETRAS}#{LETRASM}]+.*)\s*$/).map{|t| t.gsub(/^[^a-z0-9A-Z]+/,'').strip}.find_all{|t| t.length < 80}
+    }
+  end
+  BULLET_ROMAN=/^(?<bullet>[ivx]+)(?<separator>[^a-z0-9])/i
+  BULLET_ARABIC=/^(?<bullet>[0-9]+)(?<separator>[^a-z0-9]?)/i
+  BULLET_NONE=/./
+
+  def find_title_bullet_type(title)
+    [BULLET_ROMAN, BULLET_ARABIC, BULLET_NONE].find{|re| title.match(re)}
+  end
   module Context
     module InstanceMethods
       def new_with_context(s,custom_text,start_pos,end_pos,doc)
