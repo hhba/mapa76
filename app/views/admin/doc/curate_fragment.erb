@@ -1,4 +1,49 @@
 <h1><%=@doc.title%></h1>
-<p>
+<div class='document_dense'>
   <%=markup_fragment(@fragment)%>
-</p>
+</div>
+
+<!-- Formulario para agregar events -->
+<div id="add_event" title="New event">
+  <form method="post" target='res' action="#">
+    <input type='hidden' name='events[person_id]' id='event_person_id'>
+    <input type='hidden' name='events[person_frag]' id='event_person_frag'>
+    <input type='hidden' name='events[date_from_parsed]' id='event_date_from_parsed'>
+    <input type='hidden' name='events[date_from_frag]' id='event_date_from_frag'>
+    <input type='hidden' name='events[date_to_parsed]' id='event_date_to_parsed'>
+    <input type='hidden' name='events[date_to_frag]' id='event_date_to_frag'>
+    <input type='hidden' name='events[source_id]' id="event_source_id" />
+
+    <div class="field-label">Who</div>
+    <div class="field-input">
+      <input type='text' name='events[person_txt]' id='person_txt' required="required" />
+    </div>
+
+    <div class="field-label">Date From</div>
+    <div class="field-input">
+      <input type='text' name='events[date_from]' id='event_date_from_txt' class='datepicker' />
+    </div>
+
+    <div class="field-label">Date To</div>
+    <div class="field-input">
+      <input type='text' name='events[date_to]' id='event_date_to_txt' class='datepicker' />
+    </div>
+
+    <div class="field-label">What</div>
+    <div class="field-input">
+      <%#=select_tag "person[events][0][what_opc]",:options => "fd", :id => "event_what_opc"%>
+      <input type='text' name='events[what_txt]' id='event_what_txt' required="required" />
+    </div>
+
+    <div class="field-label">Where</div>
+    <div class="field-input">
+      <%#=select_tag "person[events][0][where_opc]",:options => "fsd", :id=> "event_where_opc"%>
+      <input type='text' name='events[where_txt]' id='event_where_txt' required="required" />
+    </div>
+
+    <div class='controls'>
+      <input type='submit' value='Guardar' />
+      <button id='del_event'>Delete</button>
+    </div>
+  </form>
+</div>

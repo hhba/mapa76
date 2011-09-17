@@ -4,36 +4,104 @@
 
 $(document).ready(function() {
 
-	// agrandar el fragmento
-	$(".more").click(function(e) { update_fragment( $(e.currentTarget).parent(), 1); });
-	$(".less").click(function(e) { update_fragment( $(e.currentTarget).parent(), 2); });
-	$(".down").click(function(e) { update_fragment( $(e.currentTarget).parent(), 3); });
-	$(".up").click(function(e) { update_fragment( $(e.currentTarget).parent(), 4); });
+    // agrandar el fragmento
+    $(".more").click(function(e) { update_fragment( $(e.currentTarget).parent(), 1); });
+    $(".less").click(function(e) { update_fragment( $(e.currentTarget).parent(), 2); });
+    $(".down").click(function(e) { update_fragment( $(e.currentTarget).parent(), 3); });
+    $(".up").click(function(e) { update_fragment( $(e.currentTarget).parent(), 4); });
 
-	// Bindeamos todos los eventos de JS a los fragmentos
-	$("p.fragment").each(
-	  function(idx,d){ 
-      live_markup(d); 
-    }
-  );
+    // Bindeamos todos los eventos de JS a los fragmentos
+    $("p.fragment").each(
+        function(idx,d){
+            live_markup(d);
+        }
+    );
+    /*
+     $("#milestone_human_date_from").datepicker({dateFormat: "dd/mm/yy", altFormat: "yy/mm/dd", altField: "#milestone_date_from"} );
+    $("#milestone_human_date_to").datepicker({dateFormat: "dd/mm/yy", altFormat: "yy/mm/dd", altField: "#milestone_date_to"} );
+    */
+    $("#update_milestones").click( update_milestones)
+    update_milestones();
+    highlight();
 
-  /*
-	$("#milestone_human_date_from").datepicker({dateFormat: "dd/mm/yy", altFormat: "yy/mm/dd", altField: "#milestone_date_from"} );
-	$("#milestone_human_date_to").datepicker({dateFormat: "dd/mm/yy", altFormat: "yy/mm/dd", altField: "#milestone_date_to"} );
-  */
-  $("#update_milestones").click( update_milestones)
-  update_milestones()
-  highlight(); 
-
+    $(".document_dense .popup").live("click", function(){
+        var $this = $(this);
+        $("#add_event").dialog();
+        populateSwitch($this);
+    });
+    $("#del_event").live("click", function(){
+        $("input").each(function(index){
+            if(this["type"] != "submit") {
+                this.value = "";
+            }
+        });
+    });
 });
-
+function populateSwitch($element){
+    var populators = [datePopulator, addressPopulator, personPopulator];
+    $.each(populators, function(index, populator) {
+        if(populator.canPopulate($element)){
+            populator.populate($element);
+        }
+    });
+}
+var datePopulator = {
+    className : "date",
+    canPopulate : function($element){
+        return $element.hasClass(this.className);
+    },
+    populate : function($element){
+        $(".datepicker").each(function(index){
+            if(this.value == ""){
+                var $this = $(this);
+                var input_parsed = $this.attr("id").replace("_txt", "_parsed");
+                var input_frag = $this.attr("id").replace("_txt", "_frag");
+                var date_parsed = $element.attr("datetime");
+                var date_frag = $element.attr("id");
+                var date_txt = $element.html();
+                $this.val(date_txt);
+                $("#" + input_parsed).val(date_parsed);
+                $("#" + input_frag).val(date_frag);
+                return false;
+            }
+        });
+    }
+};
+var addressPopulator = {
+    className : "address",
+    canPopulate : function($element){
+        return $element.hasClass(this.className);
+    },
+    populate : function($element){
+        var where = $element.children(".where").html();
+        var where_frag = $element.attr("frag");
+        $("#event_where_txt").val(where);
+        $("#event_where_frag").val(where_frag);
+        return true;
+    }
+};
+var personPopulator = {
+    className : "person",
+    canPopulate : function($element){
+        return $element.hasClass(this.className);
+    },
+    populate : function($element){
+        var person_id = $element.attr("person_id");
+        var who_txt = $element.html();
+        var who_frag = $element.attr("frag");
+        $("#person_txt").val(who_txt);
+        $("#event_person_id").val(person_id);
+        $("#event_person_frag").val(who_frag);
+        return true;
+    }
+};
 function highlight(){
-  $("p.fragment a.highlight").removeClass("highlight") 
+  $("p.fragment a.highlight").removeClass("highlight")
   $("#tags li").each(function(n,tag){
     var tag=$(tag)
     var search_str = tag.data("search")
     var class_name = "hl_"+search_str.replace(/[^a-z]/,"")
-    $("p.fragment").highlight(search_str,{element: 'a', className: "highlight "+class_name}) 
+    $("p.fragment").highlight(search_str,{element: 'a', className: "highlight "+class_name})
     var count=$("p.fragment a.highlight."+class_name).removeClass(class_name).length
     $("span.count",tag).text("("+count+")")
     if (count > 0){
@@ -86,7 +154,7 @@ function edit_milestone(d,reset){
 		  $("#milestone_date_to").val(date_to);
 		  $("#milestone_source").val(d.source);
       $("#milestone_what_opc option").attr("selected",false)
-      var what_opc = $.grep($("#milestone_what_opc option"),function(opc){ 
+      var what_opc = $.grep($("#milestone_what_opc option"),function(opc){
           return $(opc).val() ==  d.what
       })
       if (what_opc.length > 0){
@@ -96,7 +164,7 @@ function edit_milestone(d,reset){
       }
 
       $("#milestone_where_opc option").attr("selected",false)
-      var where_opc = $.grep($("#milestone_where_opc option"),function(opc){ 
+      var where_opc = $.grep($("#milestone_where_opc option"),function(opc){
           return $(opc).val() ==  d.where
       })
       if (where_opc.length > 0){
@@ -104,7 +172,7 @@ function edit_milestone(d,reset){
       }else{
         $("#milestone_where_txt").val(d.where)
       }
-      
+
       $("#del_milestone").css({visibility: d.id ? "visible" : "hidden"})
       $("#del_milestone").click(function(e){
           e.preventDefault();
@@ -138,7 +206,7 @@ function live_markup(o)
   // Cuando hacen click sobre una dirección ...
   $(o).children(".address").click(function(e) {
     if ( $("#add_milestone").dialog("isOpen") ) {
-      var place_name = $(e.currentTarget).text().toLowerCase() 
+      var place_name = $(e.currentTarget).text().toLowerCase()
       console.log("placename: ", place_name)
       var match_opt = $("#milestone_where_opc option").filter(function(i,e){return $(e).val().toLowerCase() == place_name} )
       console.log("matching opc:", match_opt)
@@ -172,8 +240,8 @@ function person_info(name,fragment_id,related_to)
   info.append(loading_image)
   var milestones = $("<ol>")
   dialog.append(info.append(milestones))
-  
-  $(".body").append(dialog) 
+
+  $(".body").append(dialog)
   dialog.dialog({title: name, width: 500})
   dialog.dialog("open")
 
