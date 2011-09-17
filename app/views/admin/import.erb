@@ -1,3 +1,8 @@
+<style>
+  label{
+    display:block;
+  }
+</style>
 <h1>Importar doc</h1>
 <%form_tag url_for(:admin_import),:method => "PUT", :multipart => true do %>
   <% field_set_tag do %>
@@ -10,6 +15,10 @@
     <%= label_tag :text %>
     <%= text_area_tag :text %>
     
+    <%= label_tag :Upload %>
+    <%= file_field_tag :file %>
+    
+    <br />
     <%= submit_tag :guardar %>
 
   <% end %>

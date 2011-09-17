@@ -1,4 +1,7 @@
 require "json"
+require "docsplit"
+require "open-uri"
+require "tempfile"
 
 
 Alegato.controllers :admin do
@@ -14,15 +17,39 @@ Alegato.controllers :admin do
   end
 
   put :import do
-    if params[:text]
-      @doc = Document.new
-      @doc.title = params[:title]
-      @doc.data = params[:text]
-      if @doc.save
-        render "admin/import_ok"
-      else
-        "Error guardando"
+#    {"_method"=>"PUT", "title"=>"", "url"=>"", "text"=>"", "file"=>{:filename=>"additional_account_specific_terms_and_conditions.pdf", :type=>"application/pdf", :name=>"file", :tempfile=>#<File:/tmp/RackMultipart20110917-14082-e6w8ps>, :head=>"Content-Disposition: form-data; name=\"file\"; filename=\"additional_account_specific_terms_and_conditions.pdf\"\r\nContent-Type: application/pdf\r\n"}}
+    puts params
+    if not params[:text].empty?
+      text = params[:text]
+      title =  params[:title]
+    elsif (params[:file] and params[:file][:tempfile])  or not params[:url].empty?
+      if not params[:url].empty?
+        require "httpi"
+        req = HTTPI.get(params[:url])
+        type = req.headers["Content-type"]
+        data = req.body
+      elsif params[:file]
+        type = params[:file][:type]
+        data = params[:file][:tempfile].read
       end
+
+      if type  == "application/pdf"
+        text = Docsplit.clean_text(Docsplit.extract_text_from_pdf_str(data))
+        title = Docsplit.extract_title_from_pdf_str(data)
+      elsif type  == "text/plain"
+        text = data
+        title = params[:title]
+      else
+        raise "Unknown filetype: #{type}" 
+      end
+    end
+    @doc = Document.new
+    @doc.title = title
+    @doc.data = text
+    if @doc.save
+      render "admin/import_ok"
+    else
+      "Error guardando"
     end
   end
 
