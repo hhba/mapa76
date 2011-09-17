@@ -186,7 +186,7 @@ class Text
     
     debug{"The closest title is #{title_idx}"}
     min_level = tree[title_idx].first + 1
-    (title_idx ... 0).each{|idx|
+    title_idx.downto(0){|idx|
       debug{"Title #{idx} level #{tree[idx].first}"}
       if tree[idx].first < min_level
         ret << tree[idx].last
@@ -194,7 +194,7 @@ class Text
       end
       break if min_level <= 0
     }
-    ret
+    ret.reverse
   end
   BULLET_ROMAN=/^(?<bullet>[ivx]+)(?<separator>[^a-z0-9])/i
   BULLET_ARABIC=/^(?<bullet>[0-9]+)(?<separator>[^a-z0-9]?)/i
