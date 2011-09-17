@@ -1,3 +1,6 @@
+require "stemmer"
+require 'madeleine'
+require "classifier"
 class String
   #http://blog.monoweb.info/article/2010091116.html
   alias_method :original_stem, :stem
@@ -11,8 +14,6 @@ module Classifiable
     include Singleton
   end
   module ClassMethods
-    require 'madeleine'
-    require "stemmer"
     def classifier
       return Classifiers.instance[self.name] if Classifiers.instance[self.name]
       path=File.join(File.expand_path(File.dirname(__FILE__) + "/../data/"), self.name)
