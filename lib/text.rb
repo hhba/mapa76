@@ -181,8 +181,8 @@ class Text
         prev_title_idx = index
       end
     }
-    raise "Cannot find title for pos #{fragment_pos}" if not title_idx
     ret = []
+    return ret if not title_idx
     
     debug{"The closest title is #{title_idx}"}
     min_level = tree[title_idx].first + 1
