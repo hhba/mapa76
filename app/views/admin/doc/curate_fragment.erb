@@ -1,4 +1,7 @@
 <h1><%=@doc.title%></h1>
+<%@doc.extract.title_for(@fragment).each.with_index{|title,idx|%>
+    <%=tag :"h#{idx+2}",:content => title%>
+<%}%>
 <p>
   <%=markup_fragment(@fragment)%>
 </p>

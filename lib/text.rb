@@ -143,6 +143,66 @@ class Text
     debug{ "Finished, got #{results.length} res" }
     results
   end
+  def title_tree
+    titles = titles()
+    level_bullet = [] 
+    level_bullet[0] = find_title_bullet_type(titles.first)
+    curr_level = 0
+    titles.map{|title|
+      title_bullet = find_title_bullet_type(title)
+      title_level = level_bullet.index(title_bullet)
+      debug{"Title (#{title}) has bullet #{title_bullet} - level: #{title_level}"}
+      if not title_level
+        curr_level += 1
+        level_bullet[curr_level] = title_bullet
+      else
+        curr_level = title_level
+      end
+      [curr_level,title]
+    }
+  end
+  def titles
+    res=cache_fetch("titles_#{@cache_id}"){
+      find(/\r?\n[^a-z0-9A-Z]*?\r?\n\s*(.*[#{LETRAS}#{LETRASM}]+.*)\s*$/).each{|t| t.gsub!(/^[^a-z0-9A-Z]+/,''); t.strip! }.find_all{|t| t.length < 80}
+    }
+  end
+  def title_for(fragment_or_pos)
+    fragment_pos = fragment_or_pos.start_pos rescue fragment_or_pos
+    tree = title_tree()
+    title_idx = nil
+    prev_title_idx = nil
+    tree.each.with_index{|level_title,index|
+      level,title = level_title
+      debug{"Title: #{title} starts at #{title.start_pos}. Looking for the last one before #{fragment_pos}"}
+      if title.start_pos > fragment_pos # ya se pasó
+        title_idx = prev_title_idx
+        break
+      else
+        prev_title_idx = index
+      end
+    }
+    raise "Cannot find title for pos #{fragment_pos}" if not title_idx
+    ret = []
+    
+    debug{"The closest title is #{title_idx}"}
+    min_level = tree[title_idx].first + 1
+    title_idx.downto(0){|idx|
+      debug{"Title #{idx} level #{tree[idx].first}"}
+      if tree[idx].first < min_level
+        ret << tree[idx].last
+        min_level -= 1
+      end
+      break if min_level <= 0
+    }
+    ret.reverse
+  end
+  BULLET_ROMAN=/^(?<bullet>[ivx]+)(?<separator>[^a-z0-9])/i
+  BULLET_ARABIC=/^(?<bullet>[0-9]+)(?<separator>[^a-z0-9]?)/i
+  BULLET_NONE=/./
+
+  def find_title_bullet_type(title)
+    [BULLET_ROMAN, BULLET_ARABIC, BULLET_NONE].find{|re| title.match(re)}
+  end
   module Context
     module InstanceMethods
       def new_with_context(s,custom_text,start_pos,end_pos,doc)
