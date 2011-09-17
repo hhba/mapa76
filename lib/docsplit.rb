@@ -17,4 +17,33 @@ module Docsplit
       tmp_dir = Dir.tmpdir
       Docsplit.extract_title(tmp_file.path)
   end
+  def self.clean_text(str)
+    ret = str.dup
+    ret = self.clean_line_numbers(ret)
+    header = find_header(ret)
+    if header
+      ret = ret.gsub(header,"") 
+    end
+    ret
+  end
+  def self.clean_line_numbers(str)
+    "clean line numbers" 
+    str.gsub(/\n\n[0-9]+\n\n\f/,"\n")
+  end
+  def self.find_header(str)
+    "finds the longest repeating header"
+    sample = str[0...40024]
+    newline = sample.index(/\r\n/) ? "\r\n" : "\n"
+    lines = sample.split(/\r?\n/)
+    (1 ... 20).each{|header_lines|
+      header = lines[0 .. header_lines].join(newline)
+      matches = sample.scan(Regexp.new(header)).size
+#      puts "Trying a header of #{header_lines} matches: #{matches} - #{header.inspect} "
+      if matches == 1 
+#        puts "header seems to be #{header_lines} long"
+        return lines[0...header_lines].join(newline) + newline
+      end
+    }
+    nil
+  end
 end

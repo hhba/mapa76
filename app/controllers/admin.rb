@@ -34,7 +34,7 @@ Alegato.controllers :admin do
       end
 
       if type  == "application/pdf"
-        text = Docsplit.extract_text_from_pdf_str(data)
+        text = Docsplit.clean_text(Docsplit.extract_text_from_pdf_str(data))
         title = Docsplit.extract_title_from_pdf_str(data)
       elsif type  == "text/plain"
         text = data
@@ -43,7 +43,6 @@ Alegato.controllers :admin do
         raise "Unknown filetype: #{type}" 
       end
     end
-    puts "Title: #{title} - Data: #{text}"
     @doc = Document.new
     @doc.title = title
     @doc.data = text
