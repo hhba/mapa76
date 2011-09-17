@@ -143,8 +143,8 @@ class Text
     debug{ "Finished, got #{results.length} res" }
     results
   end
-  def titles
-    titles = find_titles()
+  def title_tree
+    titles = titles()
     level_bullet = [] 
     level_bullet[0] = find_title_bullet_type(titles.first)
     curr_level = 0
@@ -161,10 +161,40 @@ class Text
       [curr_level,title]
     }
   end
-  def find_titles
+  def titles
     res=cache_fetch("titles_#{@cache_id}"){
-      find(/\r?\n[^a-z0-9A-Z]*?\r?\n\s*(.*[#{LETRAS}#{LETRASM}]+.*)\s*$/).map{|t| t.gsub(/^[^a-z0-9A-Z]+/,'').strip}.find_all{|t| t.length < 80}
+      find(/\r?\n[^a-z0-9A-Z]*?\r?\n\s*(.*[#{LETRAS}#{LETRASM}]+.*)\s*$/).each{|t| t.gsub!(/^[^a-z0-9A-Z]+/,''); t.strip! }.find_all{|t| t.length < 80}
     }
+  end
+  def title_for(fragment_or_pos)
+    fragment_pos = fragment_or_pos.start_pos rescue fragment_or_pos
+    tree = title_tree()
+    title_idx = nil
+    prev_title_idx = nil
+    tree.each.with_index{|level_title,index|
+      level,title = level_title
+      debug{"Title: #{title} starts at #{title.start_pos}. Looking for the last one before #{fragment_pos}"}
+      if title.start_pos > fragment_pos # ya se pasó
+        title_idx = prev_title_idx
+        break
+      else
+        prev_title_idx = index
+      end
+    }
+    raise "Cannot find title for pos #{fragment_pos}" if not title_idx
+    ret = []
+    
+    debug{"The closest title is #{title_idx}"}
+    min_level = tree[title_idx].first + 1
+    (title_idx ... 0).each{|idx|
+      debug{"Title #{idx} level #{tree[idx].first}"}
+      if tree[idx].first < min_level
+        ret << tree[idx].last
+        min_level -= 1
+      end
+      break if min_level <= 0
+    }
+    ret
   end
   BULLET_ROMAN=/^(?<bullet>[ivx]+)(?<separator>[^a-z0-9])/i
   BULLET_ARABIC=/^(?<bullet>[0-9]+)(?<separator>[^a-z0-9]?)/i
