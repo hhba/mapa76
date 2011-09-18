@@ -8,7 +8,7 @@ body {
 	background-color: #fff;
 	padding-bottom: 40px;
 	min-height: 700px
-	
+
 }
 html, .main {
 	padding:0;
@@ -347,7 +347,7 @@ ol li .send {
 .elemento_menu {
 	padding: 9px;
 	float: left;
-	
+
 }
 .elemento_menu  a {
 	color: #CCCCCC !important;
@@ -476,7 +476,7 @@ background: url(timeline.png) repeat-x;
 .item_documentos a {
 		float: left;
 		text-decoration: none;
-		border: 0px; color:#fff; padding: 4px 20px; font-size: 11px; margin: 8px 20px; 
+		border: 0px; color:#fff; padding: 4px 20px; font-size: 11px; margin: 8px 20px;
 		cursor:pointer;
 		border-radius: 5px;
 		-moz-border-radius: 5px;
@@ -510,7 +510,7 @@ background: url(timeline.png) repeat-x;
 	width: 380px;
 }
 
-#add_milestone input[type="text"] 
+#add_milestone input[type="text"]
 , #add_milestone iframe {
 	border-top: 1px solid #7C7C7C;
 	border-right: 1px solid #C3C3C3;
@@ -522,11 +522,11 @@ background: url(timeline.png) repeat-x;
 }
 
 #add_milestone iframe { background: #fff }
-
+#add_milestone .controls{ float:left; }
 #add_milestone select { width: 150px; }
 
   /* TODO: pasara a un css */
-  /* Estilos para el layout de la pantalla 
+  /* Estilos para el layout de la pantalla
   body {
     background: #666;
     padding: 0;
@@ -616,7 +616,7 @@ tone-pane ul {
   ol.list_mode .classified_good a{
       color:black;
   }
- 
+
   .mentions_1 a { font-size:100%; }
   .mentions_2 a { font-size:110%; }
   .mentions_3 a { font-size:120%; }
@@ -637,7 +637,7 @@ tone-pane ul {
   }
   #add_milestone{
     display: none;
-    width: 700px;
+    width: 380px;
     height: 200px;
     border: 1px;
     font-size: small;
@@ -649,4 +649,3 @@ tone-pane ul {
   .<%=ActiveSupport::Inflector.parameterize(@person.name)%>{
     font-weight:bold;
   }
-

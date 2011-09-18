@@ -11,9 +11,12 @@ class Person < Sequel::Model
     name +="%" if is_prefix
     self.filter(:searchable_name.like(normalize_name(name)))
   end
+  def self.get_id_by_name(name)
+    person = filter_by_name(name).first
+    person.id if person
+  end
   def before_save
     self.searchable_name = self.class.normalize_name(name)
   end
 end
 Person.plugin :json_serializer
-
