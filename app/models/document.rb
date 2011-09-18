@@ -1,22 +1,39 @@
 #encoding: utf-8
 require "text"
+
+=begin
 class Document < Sequel::Model
-  many_to_many :person
-  one_to_many :milestones
+  #many_to_many :person
+  #one_to_many :milestones
+=end
+class Document
+  include Mongoid::Document
+  include Mongoid::Timestamps
+
+  field :title, type: String
+  field :content, type: String
+
+  has_many :milestones
+  has_and_belongs_to_many :people
+
   attr_accessor :sample_mode
+
   def path
       File.join(File.expand_path(File.dirname(__FILE__)),"../../","data","#{id}.txt")
   end
+
   def data=(data)
     save if new?
     open(path,'w'){|fd| fd.write(data)}
   end
+
   def fd
     return @fd if @fd
     @fd = open(path,"r:UTF-8")
     @fd.set_encoding("UTF-8")
     @fd
   end
+
   def read(*p)
     if p.empty?
       @text ||= super
@@ -24,17 +41,21 @@ class Document < Sequel::Model
       super
     end
   end
+
   def fragment(start_pos,end_pos)
     text = read()
     fragment = text[start_pos ... end_pos]
-    Text::StringWithContext.new_with_context(fragment,text,start_pos,end_pos,self) 
+    Text::StringWithContext.new_with_context(fragment,text,start_pos,end_pos,self)
   end
+
   def extract
     @process_text ||= Text.new(self)
   end
+
   def method_missing(p,args=[])
     fd.send(p,*args)
   end
+
   def add_person(person,mentions=1)
     r = false
     if person_dataset.filter(:person_id => person.id).empty?
@@ -46,4 +67,5 @@ class Document < Sequel::Model
     r
   end
 end
-Document.plugin :json_serializer
+# Document.plugin :json_serializer
+

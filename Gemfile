@@ -9,8 +9,10 @@ gem 'rack-flash'
 
 # Component requirements
 gem 'erubis', "~> 2.7.0"
-gem 'mysql2'
-gem 'sequel'
+#gem 'mysql2'
+#gem 'sequel'
+gem 'mongoid'
+gem 'bson_ext'
 
 # Test requirements
 
@@ -25,3 +27,4 @@ gem "ruby-stemmer"
 gem "classifier"
 gem "madeleine"
 gem "json"
+
