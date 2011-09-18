@@ -1,0 +1,16 @@
+defaults: &defaults
+  host: staff.mongohq.com
+  port: 10014
+  username: alegato
+  password: alegato
+  database: alegato
+
+development:
+  <<: *defaults
+
+test:
+  <<: *defaults
+
+production:
+  <<: *defaults
+

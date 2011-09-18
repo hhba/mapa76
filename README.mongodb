@@ -1,0 +1,5 @@
+= Mongo Console 
+mongo staff.mongohq.com:10014/alegato -u alegato -palegato
+
+= Mongo URI 
+mongodb://alegato:alegato@staff.mongohq.com:10014/alegato
