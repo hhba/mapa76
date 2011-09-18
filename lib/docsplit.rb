@@ -19,8 +19,8 @@ module Docsplit
   end
   def self.clean_text(str)
     ret = str.dup
-    ret = self.clean_line_numbers(ret)
     header = find_header(ret)
+    ret = self.clean_line_numbers(ret)
     if header
       ret = ret.gsub(header,"") 
     end
@@ -28,20 +28,22 @@ module Docsplit
   end
   def self.clean_line_numbers(str)
     "clean line numbers" 
-    str.gsub(/\n\n[0-9]+\n\n\f/,"\n")
+    str.gsub(/\n\n?[0-9]+\n\n\f/,"\n")
   end
   def self.find_header(str)
     "finds the longest repeating header"
-    sample = str[0...40024]
+    sample = str[0...40004]
     newline = sample.index(/\r\n/) ? "\r\n" : "\n"
     lines = sample.split(/\r?\n/)
     (1 ... 20).each{|header_lines|
-      header = lines[0 .. header_lines].join(newline)
-      matches = sample.scan(Regexp.new(header)).size
-#      puts "Trying a header of #{header_lines} matches: #{matches} - #{header.inspect} "
-      if matches == 1 
-#        puts "header seems to be #{header_lines} long"
-        return lines[0...header_lines].join(newline) + newline
+      header = lines[0 ... header_lines].join(newline)
+      matches = sample.scan(Regexp.new("\f#{header}")).size
+#      puts "Trying a header of #{header_lines} lines matches: #{matches} - #{header.inspect} "
+      if matches == 0 
+        ret = lines[0...header_lines - 1].join(newline)
+        ret += newline if not ret.end_with?(newline)
+#       puts "header seems to be #{header_lines - 1} long: ----\n#{ret}----"
+        return ret
       end
     }
     nil
