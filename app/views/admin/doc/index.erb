@@ -2,11 +2,11 @@
 
 <table id='doc_stats'>
   <tr>
-    <th><%=link_to "Personas mencionadas",url_for(:doc_admin_people,:doc_id => @doc.id)%></th><td><%=@doc.person.length%></td>
+    <th><%=link_to "Personas mencionadas",url_for(:doc_admin_people,:doc_id => @doc.id)%></th><td><%=@doc.people.length%></td>
   </tr><tr>
-  <th>Personas incorporadas a la db</th><td><%=@doc.milestones_dataset.distinct(:person_id).count%> </td>
+  <th>Personas incorporadas a la db</th><td>TODO </td>
   </tr><tr>
-    <th>Hitos registrados</th><td><%=@doc.milestones_dataset.count%> </td>
+    <th>Hitos registrados</th><td><%=@doc.milestones.count%> </td>
   </tr>
 </table>
 <div id='most_mentioned'>
@@ -22,7 +22,7 @@
 <div id='milestones'>
     <h2>Hitos</h2>
     <ol>
-      <%@doc.milestones_dataset.limit(10).order(:created_at).reverse.each{|m|%>
+      <%@doc.milestones.order_by([[:created_at,:desc]]).reverse.each{|m|%>
           <li><%=link_to m.person.name, url_for(:doc_admin_person, :doc_id => @doc.id, :id => m.person.id)%> <%=link_to "#{m.what} #{m.date_from} - #{m.date_to}", url_for(:doc_admin_milestone, :doc_id => @doc.id, :id => m.id)%>
       <%}%>
     </ol>

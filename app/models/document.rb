@@ -57,16 +57,6 @@ class Document
     @process_text ||= Text.new(self)
   end
 
-  def add_person(person,mentions=1)
-    r = false
-    if person_dataset.filter(:person_id => person.id).empty?
-      r=super(person)
-    end
-    doc_id = self.id
-    person_id = person.id
-    DocumentsPerson.filter(:document_id => doc_id, :person_id => person_id).set(:mentions => :mentions + mentions)
-    r
-  end
 end
 # Document.plugin :json_serializer
 

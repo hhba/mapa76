@@ -16,7 +16,7 @@ class Person
   has_and_belongs_to_many :documents
 
   def mentions_in(doc)
-    DocumentsPerson.select(:mentions).first(:document_id => doc.id, :person_id => self.id).mentions
+    "TODO"
   end
 
   def self.normalize_name(name)
