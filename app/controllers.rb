@@ -10,11 +10,11 @@ Alegato.controllers  do
     render 'index', :addresses => @addresses
   end
   get :index do
-    @persons = params[:ids] ? Person.filter(:id => params[:ids].split(',')) : Person.filter(:id => Milestone.select(:person_id))
+    @persons = params[:ids] ? Person.find(params[:ids].split(',')) : Person.find(Milestone.all.map(&:person_id).uniq)
     render :query
   end
   get :timeline_json do
-    persons = Person.filter(:id => params[:ids].split(","))
+    persons = Person.find(params[:ids].split(","))
     t={}
     t[:dateTimeFormat] = "iso8601"
     t[:"wiki-section"] = "#{persons.map(&:name).join(", ")}"
