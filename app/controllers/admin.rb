@@ -64,7 +64,8 @@ Alegato.controllers :admin do
 
   get :context do
     if params[:fragment_id]
-      data=params[:fragment_id].match(/frag:doc=([0-9]+):([0-9]+)-([0-9]+)/)
+      data=params[:fragment_id].match(/frag:doc=([^:]+):([0-9]+)-([0-9]+)/)
+      puts params
       doc_id=data[1]
       pos_start=data[2]
       pos_end=data[3]
@@ -94,7 +95,7 @@ Alegato.controllers :admin do
           pos_end     = pos_end.to_i - params[:around].to_i
     end
 
-    fragment=Document[doc_id].fragment(pos_start,pos_end)
+    fragment=Document.find(doc_id).fragment(pos_start,pos_end)
     r={:fragment_id => fragment.fragment_id, :text => markup_fragment(fragment), :prev_fragment_id => params[:fragment_id]}.to_json
     r
   end

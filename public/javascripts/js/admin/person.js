@@ -119,7 +119,7 @@ function update_milestones(){
 function set_milestones(milestones){
     $("#milestones").empty()
     $(milestones).each(function(n,d){
-        var li = $("<li>").attr("id",d.id).text(d.date_from+" - "+d.date_to+" - "+d.what +" -  "+d.where)
+        var li = $("<li />").attr("id",d._id).text(d.date_from+" - "+d.date_to+" - "+d.what +" -  "+d.where)
         li.append($("<button />").text("edit").click(function(e){edit_milestone(d,true)}))
         return $("#milestones").append(li)
     })
@@ -149,7 +149,7 @@ function edit_milestone(d,reset){
     var date_from = d.date_from.split(/[-\/]/,3).reverse().join("/")
     var date_to = d.date_to.split(/[-\/]/,3).reverse().join("/")
 		if (! $("#add_milestone").dialog("isOpen") || reset ){
-		  $("#milestone_id").val(d.id);
+		  $("#milestone_id").val(d._id);
 		  $("#milestone_date_from").val(date_from);
 		  $("#milestone_date_to").val(date_to);
 		  $("#milestone_source").val(d.source);
@@ -172,11 +172,11 @@ function edit_milestone(d,reset){
       }else{
         $("#milestone_where_txt").val(d.where)
       }
-
-      $("#del_milestone").css({visibility: d.id ? "visible" : "hidden"})
+      
+      $("#del_milestone").css({visibility: d._id ? "visible" : "hidden"})
       $("#del_milestone").click(function(e){
           e.preventDefault();
-          $.ajax({url: "/api/milestone/"+d.id+".json", type: "delete", success: update_milestones })
+          $.ajax({url: "/api/milestone/"+d._id+".json", type: "delete", success: update_milestones })
       })
 		  $("#add_milestone").dialog("open");
 		} else {

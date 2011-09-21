@@ -64,14 +64,13 @@ Alegato.controllers :doc_admin,  :parent => :doc do
       if data[:id].to_i > 0
         id = data.delete("id")
         m=Milestone.find(id)
-        m.set(data)
+        m.update_attributes(data)
       else
         data.delete("id")
         m=Milestone.new(data)
       end
-      person.add_milestone(m) 
+      person.milestones << m
     }
-    person.save_changes
     person.to_json
   end
   get :milestones do
