@@ -9,7 +9,7 @@ class Document
     id.to_s
   end
   def self._load(arg)
-    self[arg]
+    self.find(arg)
   end  
 
 
