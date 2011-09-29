@@ -145,6 +145,7 @@ class Text
   end
   def title_tree
     titles = titles()
+    return [] if titles.empty?
     level_bullet = [] 
     level_bullet[0] = find_title_bullet_type(titles.first)
     curr_level = 0
@@ -164,7 +165,7 @@ class Text
   def titles
     res=cache_fetch("titles_#{@cache_id}"){
       find(/\r?\n[^a-z0-9A-Z]*?\r?\n\s*(.*[#{LETRAS}#{LETRASM}]+.*)\s*$/).each{|t| t.gsub!(/^[^a-z0-9A-Z]+/,''); t.strip! }.find_all{|t| t.length < 80}
-    }
+    }.compact
   end
   def title_for(fragment_or_pos)
     fragment_pos = fragment_or_pos.start_pos rescue fragment_or_pos
