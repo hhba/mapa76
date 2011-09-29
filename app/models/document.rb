@@ -5,14 +5,6 @@ class Document
   include Mongoid::Document
   include Mongoid::Timestamps
 
-  def _dump(level)
-    id.to_s
-  end
-  def self._load(arg)
-    self.find(arg)
-  end  
-
-
   field :title, type: String
   field :content, type: String
 
@@ -21,6 +13,12 @@ class Document
 
   attr_accessor :sample_mode
 
+  def _dump(level)
+    id.to_s
+  end
+  def self._load(arg)
+    self.find(arg)
+  end  
   def path
     File.join(File.expand_path(File.dirname(__FILE__)),"../../","data","#{id}.txt")
   end
@@ -55,6 +53,21 @@ class Document
 
   def extract
     @process_text ||= Text.new(self)
+  end
+
+  def method_missing(p,args=[])
+    fd.send(p,*args)
+  end
+
+  def add_person(person,mentions=1)
+    r = false
+    if person_dataset.filter(:person_id => person.id).empty?
+      r=super(person)
+    end
+    doc_id = self.id
+    person_id = person.id
+    DocumentsPerson.filter(:document_id => doc_id, :person_id => person_id).set(:mentions => :mentions + mentions)
+    r
   end
 
 end

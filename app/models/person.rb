@@ -34,9 +34,9 @@ class Person
     person = filter_by_name(name).first
     person.id if person
   end
+
   protected
   def store_normalize_name
     self.searchable_name = self.class.normalize_name(name)
   end
 end
-
