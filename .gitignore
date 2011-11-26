@@ -9,3 +9,4 @@ vendor/gems/*
 !vendor/gems/cache/
 .sass-cache/*
 config/mongoid.yml
+.rvmrc
