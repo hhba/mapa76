@@ -3,3 +3,9 @@ mongo staff.mongohq.com:10014/alegato -u alegato -palegato
 
 = Mongo URI 
 mongodb://alegato:alegato@staff.mongohq.com:10014/alegato
+
+= Create a dump from mongohq
+
+> mongodump -v -h staff.mongohq.com --port 10014 -d alegato -username "alegato" -password='alegato' -o ./dump
+> mongorestore --host localhost  ./dump
+
