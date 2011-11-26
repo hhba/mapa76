@@ -19,7 +19,7 @@ Alegato.helpers do
         lat,lon = n.geocode.ll.split(",",2)
         markup="<span class='address popup' frag='#{n.fragment_id}'><span class='geo' style='display:none' itemprop='geo' itemscope='itemscope' itemtype='http://data-vocabulary.org/Geo/'><abbr class='latitude' itemprop='latitude' title='#{lat}'>#{lat}</abbr> <abbr class='longitude' itemprop='longitude' title='#{lon}'>#{lon}</abbr></span><span class='where'>#{n}</span></span>"
       else
-        markup="<span class='address' id='#{n.fragment_id}'><span class='where'>#{n}</span></span>"
+        markup="<span class='address popup' id='#{n.fragment_id}'><span class='where'>#{n}</span></span>"
       end
       ret.gsub!(n,markup)
     }

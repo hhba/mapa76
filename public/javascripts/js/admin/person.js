@@ -4,6 +4,11 @@
 
 $(document).ready(function() {
 
+    // Clean single field
+    $("a.clear_field").live("click", function(){
+        $(this).prev("input").val("");
+        return false;
+    });
     // agrandar el fragmento
     $(".more").click(function(e) { update_fragment( $(e.currentTarget).parent(), 1); });
     $(".less").click(function(e) { update_fragment( $(e.currentTarget).parent(), 2); });
@@ -16,10 +21,15 @@ $(document).ready(function() {
             live_markup(d);
         }
     );
-    /*
-     $("#milestone_human_date_from").datepicker({dateFormat: "dd/mm/yy", altFormat: "yy/mm/dd", altField: "#milestone_date_from"} );
-    $("#milestone_human_date_to").datepicker({dateFormat: "dd/mm/yy", altFormat: "yy/mm/dd", altField: "#milestone_date_to"} );
-    */
+    var datepicker_options = {
+      /*dateFormat: "dd/mm/yy",*/
+      /*altFormtat: "yy/mm/dd",*/
+      yearRange: "1973:1983",
+      changeMonth: true,
+      changeYear: true
+    }
+    $("#event_date_from_txt").datepicker(datepicker_options);
+    $("#event_date_to_txt").datepicker(datepicker_options);
     $("#update_milestones").click( update_milestones)
     update_milestones();
     highlight();
@@ -28,6 +38,7 @@ $(document).ready(function() {
         var $this = $(this);
         $("#add_event").dialog();
         populateSwitch($this);
+        return false;
     });
     $("#del_event").live("click", function(){
         $("input").each(function(index){
@@ -35,6 +46,7 @@ $(document).ready(function() {
                 this.value = "";
             }
         });
+        return false;
     });
 });
 function populateSwitch($element){
