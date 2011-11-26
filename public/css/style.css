@@ -641,7 +641,6 @@ tone-pane ul {
     height: 200px;
     border: 1px;
     font-size: small;
-  }
   #map{
     height:200px;
     width:200px;
@@ -649,3 +648,8 @@ tone-pane ul {
   .<%=ActiveSupport::Inflector.parameterize(@person.name)%>{
     font-weight:bold;
   }
+.ui-dialog input[type='text']{
+width: 250px;
+height: 40px;
+font-size: 1.2em;
+}
