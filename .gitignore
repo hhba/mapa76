@@ -1,5 +1,5 @@
 .DS_Store
-.rmvrc
+.rvmrc
 log/**/*
 tmp/**/*
 bin/*
