@@ -29,4 +29,4 @@ gem "madeleine"
 gem "json"
 gem "docsplit"
 gem "httpi"
-
+gem "capistrano"
