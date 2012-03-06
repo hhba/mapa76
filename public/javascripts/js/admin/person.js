@@ -52,7 +52,7 @@ var datePopulator = {
     },
     populate : function($element){
         $(".datepicker").each(function(index){
-            if(this.value == ""){
+            if(this.value === ""){
                 var $this = $(this);
                 var input_parsed = $this.attr("id").replace("_txt", "_parsed");
                 var input_frag = $this.attr("id").replace("_txt", "_frag");
@@ -113,8 +113,12 @@ function highlight(){
 }
 
 function update_milestones(){
-    var person_id = $("#milestone-pane").data("person-id")
-    $.getJSON("/api/person/"+person_id+".json?milestones=true",{},function(d){set_milestones(d.milestones)})
+    var person_id = $("#milestone-pane").data("person-id");
+    if (typeOf(person_id) !== undefined){
+      $.getJSON("/api/person/"+person_id+".json?milestones=true",{},function(d){
+        set_milestones(d.milestones);
+      });
+    }
 }
 function set_milestones(milestones){
     $("#milestones").empty()
