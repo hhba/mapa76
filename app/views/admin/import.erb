@@ -7,7 +7,7 @@
 <%form_tag url_for(:admin_import),:method => "PUT", :multipart => true do %>
   <% field_set_tag do %>
     <%= label_tag :title %>
-    <%= text_field_tag :title %>
+    <%= text_field_tag :title, :required => true %>
 
     <%= label_tag :URL %>
     <%= text_field_tag :url %>

@@ -21,7 +21,6 @@ Alegato.controllers :admin do
     puts params
     if not params[:text].empty?
       text = params[:text]
-      title =  params[:title]
     elsif (params[:file] and params[:file][:tempfile])  or not params[:url].empty?
       if not params[:url].empty?
         require "httpi"
@@ -35,7 +34,7 @@ Alegato.controllers :admin do
 
       if type  == "application/pdf"
         text = Docsplit.clean_text(Docsplit.extract_text_from_pdf_str(data))
-        title = Docsplit.extract_title_from_pdf_str(data)
+        #title = Docsplit.extract_title_from_pdf_str(data)
       elsif type  == "text/plain"
         text = data
         title = params[:title]
@@ -43,11 +42,10 @@ Alegato.controllers :admin do
         raise "Unknown filetype: #{type}" 
       end
     end
-    @doc = Document.new
-    @doc.title = title
+    @doc = Document.new :title => params[:title]
     @doc.data = text
     if @doc.save
-      render "admin/import_ok"
+      redirect url_for(:doc_admin_index, :doc_id => @doc.id)
     else
       "Error guardando"
     end
@@ -55,7 +53,7 @@ Alegato.controllers :admin do
 
   get :person, :with => [:id] do
     if params[:id].to_i == 0
-      @persons = Person.filter_by_name(params[:id]).all
+      @persons = Person.filter_by_name(BSON::ObjectId((params[:id]))).all
     else
       @persons = [Person[params[:id]]]
     end
