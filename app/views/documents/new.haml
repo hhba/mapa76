@@ -1,0 +1,37 @@
+-# coding: utf-8
+.row
+  .span4
+    %h1 Importar doc
+    - form_tag url_for(:documents, :create),:method => "PUT", :multipart => true, :class => 'well' do
+      .control-group
+        %label.control-label Título
+        .controls
+          = text_field_tag :title, :class => 'input-xlarge'
+          %p.help-block
+            Nombre del documento a importar
+      .control-group
+        %label.control-label Fecha
+        .controls
+          = text_field_tag :date, :class => 'input-xlarge'
+          %p.help-block
+            Fecha de emisión del documento
+      .control-group
+        %label{:for => 'select_type', :class => "control-label"} Tipo
+        .controls
+          %select{:id => 'select_type', :name => 'type', :class => ""}
+            %option
+              Sentencia
+            %option
+              Otros
+      .control-group
+        %label{:for => 'file_input'}Archivo
+        .controls
+          = file_field_tag :file, :id => 'file_input', :class => 'input-file'
+      =# label_tag :URL
+      =# text_field_tag :url
+      =# label_tag :text
+      =# text_area_tag :text
+      .form-actions
+        %button.btn Cancelar
+        %button.btn.btn-primary{:type => "submit"} Importar
+  .span8
