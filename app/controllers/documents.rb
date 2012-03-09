@@ -6,7 +6,7 @@ require "tempfile"
 Alegato.controllers :documents do
   get :index do
     @docs = Document.all
-    render "documents/index" 
+    render "documents/index"
   end
 
   get :new, :map => '/documents/new' do
@@ -25,13 +25,9 @@ Alegato.controllers :documents do
   end
 
   put :create do
-#    {"_method"=>"PUT", "title"=>"", "url"=>"", "text"=>"", "file"=>{:filename=>"additional_account_specific_terms_and_conditions.pdf", :type=>"application/pdf", :name=>"file", :tempfile=>#<File:/tmp/RackMultipart20110917-14082-e6w8ps>, :head=>"Content-Disposition: form-data; name=\"file\"; filename=\"additional_account_specific_terms_and_conditions.pdf\"\r\nContent-Type: application/pdf\r\n"}}
     puts params
-    if not params[:text].empty?
-      text = params[:text]
-      title =  params[:title]
-    elsif (params[:file] and params[:file][:tempfile])  or not params[:url].empty?
-      if not params[:url].empty?
+    if (params[:file] and params[:file][:tempfile])
+      if params[:url]
         require "httpi"
         req = HTTPI.get(params[:url])
         type = req.headers["Content-type"]
@@ -48,14 +44,14 @@ Alegato.controllers :documents do
         text = data
         title = params[:title]
       else
-        raise "Unknown filetype: #{type}" 
+        raise "Unknown filetype: #{type}"
       end
     end
     @doc = Document.new
     @doc.title = title
     @doc.data = text
     if @doc.save
-      render "admin/import_ok"
+      redirect url(:documents, :show, :id => @doc.id)
     else
       "Error guardando"
     end

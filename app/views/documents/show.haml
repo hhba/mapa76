@@ -4,7 +4,7 @@
     %h1= @doc.title
     %table#doc_stats
       %tr
-        %th= link_to "Personas mencionadas",url_for(:doc_admin_people,:doc_id => @doc.id)
+        %th=# link_to "Personas mencionadas",url_for(:doc_admin_people,:doc_id => @doc.id)
         %td= @doc.people.length
       %tr
         %th Personas incorporadas a la db
@@ -31,7 +31,7 @@
           = link_to p.name,url_for(:doc_admin_person,:doc_id => @doc.id, :id => p.id)
           (#{p.mentions_in(@doc)} menciones, #{p.milestones_dataset.count} hitos registrados)
           - }
-      = link_to "Ver todas", url_for(:doc_admin_people,:doc_id => @doc.id)
+      =# link_to "Ver todas", url_for(:doc_admin_people,:doc_id => @doc.id)
   .span4
     #milestones
       %h2 Hitos
