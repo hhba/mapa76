@@ -104,6 +104,29 @@ Alegato.controllers :documents do
     r
   end
 
+  get :reparse, :map => '/documents/:id/reparse' do
+    @doc = Document.find(params[:id])
+    @person_names = Hash.new{|hash,key| hash[key]=[]}
+    @doc.extract.person_names.each do |name|
+      @person_names[Person.normalize_name(name)] << name
+    end
+    render "documents/reparse"
+  end
+
+  post :reparse, :map => '/documents/:id/reparse' do
+    @doc = Document.find(params[:id])
+    @person_names = Hash.new{|hash,key| hash[key]=[]}
+    @doc.extract.person_names.each{|nombre| 
+      @person_names[Person.normalize_name(nombre)] << nombre 
+    }
+    params[:people].each{|n|
+      person_name = Person.normalize_name(n)
+      p = Person.find_or_create_by(name: n)
+      @doc.people << p
+    }
+    redirect url_for(:documents, :show, :id => @doc._id)
+  end
+
   post :classify_name do
     r=false
     if params[:name] and params[:training]

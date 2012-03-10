@@ -1,0 +1,49 @@
+- content_for :include do
+  = javascript_include_tag 'jquery.tablesorter.min.js'
+- form_tag url_for(:documents, :reparse, :id => @doc.id), :method => :post do
+  %header#overview.jumbotron.subhead
+    %h1= @doc.title
+    %p
+      Verifique que todos los nombres encontrados sean verdaderamente nombres de personas.
+    .subnav
+      %ul.nav.nav-pills
+        %li
+          %button{:class=>"btn", :type=>"submit"}Clasificar nombres
+        %li
+          &nbsp;
+        %li
+          %button{:class=>"btn", :type=>"submit"}Mostrar solo seguros
+        %li
+          &nbsp;
+        %li
+          %input{:class=>".btn", :type=>"submit", :value=>"Grabar"}
+  .row
+    .span8
+      %table.table.table-condensed#sorteable
+        %thead
+          %tr
+            %th
+            %th
+              %a{:href => '#', "data-sort" => "name"}Nombre
+            %th
+              %a{:href => '#', "data-sort" => "mentions"}Menciones
+            %th
+
+        %tbody
+          - @person_names.keys.sort.each_with_index do |nombre, index|
+            %tr{:class => "classified_#{Text::PersonName.classify(nombre)}"}
+              %td.center
+                = index + 1
+              %td{:class => "classified_#{Text::PersonName.classify(nombre)}"}
+                %span{:class => "name mentions_#{Math.sqrt(@person_names[nombre].length).floor}"}
+                  .controls
+                    %label.checkbox{:for => "checkbox#{index}", :mentions => @person_names[nombre].length}
+                      %input{:type => 'checkbox', :id => "checkbox#{index}",
+                            :value => @person_names[nombre].first,
+                            :checked => Text::PersonName.classify(nombre) == "good",
+                            :name => "people[]"}
+                      = @person_names[nombre].first
+              %td
+                = @person_names[nombre].length
+              %td
+    .span4

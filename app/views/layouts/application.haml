@@ -14,9 +14,9 @@
     %title= [@title, "Mapa 76"].compact.join(" | ")
     = stylesheet_link_tag 'bootstrap.css', 'bootstrap-responsive', 'styles'
     = javascript_include_tag "https://www.google.com/jsapi"
-    = javascript_include_tag 'http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js'
-    = javascript_include_tag 'bootstrap.min', 'application'
+    = javascript_include_tag 'http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js', 'bootstrap.min', 'jquery.tablesorter.min'
     = yield_content :include
+    = javascript_include_tag 'application'
   %body
     .navbar.navbar-fixed-top
       .navbar-inner

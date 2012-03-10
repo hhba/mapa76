@@ -17,7 +17,7 @@
     %p
       = link_to "Fragmentos densos de información", url_for(:doc_admin_hot_zones, :doc_id => @doc.id)
     %p
-      = link_to "Reparsear doc",url_for(:doc_admin_reparse,:doc_id => @doc.id)
+      = link_to "Reparsear doc",url_for(:documents, :reparse, :id => @doc.id)
 .row
   .span12
     %hr
