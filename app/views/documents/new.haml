@@ -1,4 +1,8 @@
 -# coding: utf-8
+- content_for :include do
+  = javascript_include_tag 'jquery-ui-1.8.18.custom.min'
+- content_for :styles do
+  = stylesheet_link_tag "flick/jquery-ui-1.8.18.custom"
 .row
   .span4
     %h1 Importar doc
@@ -6,27 +10,42 @@
       .control-group
         %label.control-label Título
         .controls
-          = text_field_tag :title, :class => 'input-xlarge'
+          = text_field_tag :heading, :class => 'input-xlarge', :required => true
           %p.help-block
             Nombre del documento a importar
       .control-group
-        %label.control-label Fecha
+        %label.control-label{:for => 'published_at'} Fecha de publicación
         .controls
-          = text_field_tag :date, :class => 'input-xlarge'
+          = text_field_tag :published_at, :class => 'input-xlarge', :id => 'published_at'
+      .control-group
+        %label.control-label{:for => 'textarea'} Descripción
+        .controls
+          %textarea{:id => 'textarea', :rows => 3, :class => 'input-xlarge', :name => "description"}
           %p.help-block
-            Fecha de emisión del documento
+            Más información para ayudarlo a recordar el orígen del documento
       .control-group
         %label{:for => 'select_type', :class => "control-label"} Tipo
         .controls
-          %select{:id => 'select_type', :name => 'type', :class => ""}
+          %select{:id => 'select_type', :name => 'category', :class => ""}
+            %option
+              Alegato
+            %option
+              Artículo periodístico
+            %option
+              Fundamentos
+            %option
+              Pericia
             %option
               Sentencia
             %option
-              Otros
-      .control-group
+              Testimonio
+            %option
+              Veredicto
+            %option
+              Otro
         %label{:for => 'file_input'}Archivo
         .controls
-          = file_field_tag :file, :id => 'file_input', :class => 'input-file'
+          = file_field_tag :file, :id => 'file_input', :class => 'input-file', :required => true
       =# label_tag :URL
       =# text_field_tag :url
       =# label_tag :text

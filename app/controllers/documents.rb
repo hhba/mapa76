@@ -25,36 +25,17 @@ Alegato.controllers :documents do
   end
 
   put :create do
-    puts params
-    if (params[:file] and params[:file][:tempfile])
-      if params[:url]
-        require "httpi"
-        req = HTTPI.get(params[:url])
-        type = req.headers["Content-type"]
-        data = req.body
-      elsif params[:file]
-        type = params[:file][:type]
-        data = params[:file][:tempfile].read
-      end
-
-      if type  == "application/pdf"
-        text = Docsplit.clean_text(Docsplit.extract_text_from_pdf_str(data))
-        title = Docsplit.extract_title_from_pdf_str(data)
-      elsif type  == "text/plain"
-        text = data
-        title = params[:title]
-      else
-        raise "Unknown filetype: #{type}"
-      end
-    end
-    @doc = Document.new
+    data = params[:file][:tempfile].read
+    text = Docsplit.clean_text(Docsplit.extract_text_from_pdf_str(data))
+    title = Docsplit.extract_title_from_pdf_str(data)
+    @doc = Document.new :heading => params[:heading],
+                        :description => params[:description],
+                        :category => params[:category]
     @doc.title = title
+    @doc.published_at = Date.parse(params[:published_at]) unless params[:published_at].blank?
+    @doc.original_file = store_file(params[:file], data)
     @doc.data = text
-    if @doc.savedisabled
-      redirect url(:documents, :show, :id => @doc.id)
-    else
-      "Error guardando"
-    end
+    redirect url(:documents, :show, :id => @doc.id)
   end
 
   get :people, :map => '/documents/:id/people' do
@@ -106,20 +87,6 @@ Alegato.controllers :documents do
     }
     person.to_json
   end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   get :reparse, :map => '/documents/:id/reparse' do
     @doc = Document.find(params[:id])

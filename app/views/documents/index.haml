@@ -23,7 +23,7 @@
           %th
             %a{:href => '#', "data-sort" => "date"}Fecha
           %th
-            &nbsp;
+            Bajar archivo
       %tbody
         - @docs.each_with_index do |doc, index|
           %tr
@@ -32,8 +32,9 @@
             %td
               = link_to doc.title, url_for(:documents, :show, :id => doc._id)
             %td
-              Sentencia
+              = doc.category
             %td
               = doc._id.generation_time.strftime("%d/%m/%y")
             %td
+              = link_to doc.original_file, "/uploads/#{doc.original_file}"
   .span4

@@ -5,8 +5,13 @@ class Document
   include Mongoid::Document
   include Mongoid::Timestamps
 
-  field :title, type: String
-  field :content, type: String
+  field :title,         type: String
+  field :heading,       type: String
+  field :category,      type: String
+  field :content,       type: String
+  field :published_at,  type: Date
+  field :description,   type: String
+  field :original_file, type: String
 
   has_many :milestones
   has_and_belongs_to_many :people
@@ -16,12 +21,15 @@ class Document
   def _dump(level)
     id.to_s
   end
+
   def self._load(arg)
     self.find(arg)
-  end  
+  end
+
   def path
     File.join(File.expand_path(File.dirname(__FILE__)),"../../","data","#{id}.txt")
   end
+
   def length
     fd{|fd| fd.read.size}
   end
@@ -30,6 +38,7 @@ class Document
     save if new?
     open(path,'w'){|fd| fd.write(data)}
   end
+
   def fd(&block)
     open(path,"r:UTF-8"){|fd|
       fd.set_encoding("UTF-8")
@@ -71,5 +80,3 @@ class Document
   end
 
 end
-# Document.plugin :json_serializer
-

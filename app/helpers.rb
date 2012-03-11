@@ -28,4 +28,14 @@ Alegato.helpers do
     end
     ret
   end
+
+  def store_file(file, data)
+    userdir = File.join("public", "uploads")
+    filename = File.join(userdir, file[:filename].to_s)
+    File.open(filename, 'wb') do |file|
+      file.write(data)
+    end
+    file[:filename].to_s
+  end
+
 end

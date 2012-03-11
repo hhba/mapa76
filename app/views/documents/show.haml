@@ -1,7 +1,9 @@
 -# coding: utf-8
 .row
   .span8
-    %h1= @doc.title
+    %h1= @doc.heading
+    %p
+      = @doc.description
     %table#doc_stats
       %tr
         %th= link_to "Personas mencionadas",url_for(:documents, :people, :id => @doc.id)
@@ -15,6 +17,8 @@
       = link_to "Fragmentos densos de información", url_for(:doc_admin_hot_zones, :doc_id => @doc.id)
     %p
       = link_to "Reparsear doc",url_for(:documents, :reparse, :id => @doc.id)
+    %p
+      = link_to "Bajar archivo", "/uploads/#{@doc.original_file}"
 .row
   .span12
     %hr

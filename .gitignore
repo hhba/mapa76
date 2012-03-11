@@ -10,3 +10,5 @@ vendor/gems/*
 .sass-cache/*
 config/mongoid.yml
 .rvmrc
+public/uploads/*
+data/*
