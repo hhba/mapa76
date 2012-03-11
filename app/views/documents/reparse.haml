@@ -16,7 +16,7 @@
         %li
           &nbsp;
         %li
-          %button{"data-toggle" => "button", :class => "btn btn-primary disabled", :id => 'classify'}Entrenar
+          %button{"data-toggle" => "button", :class => "btn btn-primary", :id => 'classify'}Entrenar
         %li
           &nbsp;
         %li
@@ -53,10 +53,8 @@
                 = @person_names[nombre].length
               %td
                 .controls.hidden.claddifyName
-                  %label.checkbox
-                    %input{:type => 'checkbox',
-                           :value => nombre,
-                           :checked => Text::PersonName.classify(nombre) == "good",
-                           :name => "classifyName[]"}
-                    Es / No es nombre
+                  - if Text::PersonName.classify(nombre) == "good"
+                    %a{:href => '#', "data-name" => nombre, "data-value" => "bad", :class => "trainner"} No es nombre
+                  - else
+                    %a{:href => '#', "data-name" => nombre, "data-value" => "good", :class => "trainner"} Es nombre
     .span4

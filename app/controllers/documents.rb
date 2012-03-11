@@ -103,15 +103,6 @@ Alegato.controllers :documents do
     redirect url_for(:documents, :show, :id => @doc._id)
   end
 
-  post :classify_name do
-    r=false
-    if params[:name] and params[:training]
-      Text::PersonName.train(params[:training],params[:name])
-      r=Text::PersonName.training_save
-    end
-    r.to_json
-  end
-
   get :context do
     if params[:fragment_id]
       data=params[:fragment_id].match(/frag:doc=([^:]+):([0-9]+)-([0-9]+)/)

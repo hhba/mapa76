@@ -11,17 +11,17 @@
         %button{:type => "submit", :class => "btn"} Buscar
 .row
   .span8
-    %table{:class => 'table table-striped'}
+    %table{:class => 'table table-striped', :id => 'sorteable'}
       %thead
         %tr
           %th
-            &nbsp;
+            %a{:href => '#', "data-sort" => "number"}#
           %th
-            Título
+            %a{:href => '#', "data-sort" => "name"}Título
           %th
-            Tipo
+            %a{:href => '#', "data-sort" => "name"}Tipo
           %th
-            Fecha
+            %a{:href => '#', "data-sort" => "date"}Fecha
           %th
             &nbsp;
       %tbody
@@ -32,6 +32,8 @@
             %td
               = link_to doc.title, url_for(:documents, :show, :id => doc._id)
             %td
+              Sentencia
             %td
+              = doc._id.generation_time.strftime("%d/%m/%y")
             %td
   .span4
