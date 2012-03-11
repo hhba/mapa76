@@ -23,9 +23,9 @@ $(document).ready(function() {
       changeMonth: true,
       changeYear: true
     };
-    // $("#event_date_from_txt").datepicker(datepicker_options);
-    // $("#event_date_to_txt").datepicker(datepicker_options);
-    $("#update_milestones").click( update_milestones);
+    $("#event_date_from_txt").datepicker(datepicker_options);
+    $("#event_date_to_txt").datepicker(datepicker_options);
+    // $("#update_milestones").click( update_milestones);
     update_milestones();
     highlight();
 
@@ -204,7 +204,7 @@ function edit_milestone(d,reset){
 
 function live_markup(o)
 {
-  // Cuando hacen click sobre una fecha mostramos el popup de Hitos.
+  // Cuando hacen click sobre una fecha mostramos el   de Hitos.
   $(o).children(".date").click(function(e) {
 
     var date = $(e.currentTarget).attr("datetime");
@@ -243,7 +243,7 @@ function add_milestone(person_name, milestone_date, fragment_id) {
   console.log(person_name,milestone_date,fragment_id);
 }
 
-function person_info(name,fragment_id,related_to){
+function person_info(name, fragment_id, related_to){
   var dialog_id = "dialog" + name.toLowerCase().replace(/[^a-z]/gi,"_");
   var dialog = $("#"+dialog_id);
   console.log(dialog_id);
@@ -263,17 +263,17 @@ function person_info(name,fragment_id,related_to){
   dialog.dialog({title: name, width: 500});
   dialog.dialog("open");
 
-  $.getJSON("/api/person/"+name,{milestones: true},
-      function(d){
-        $(loading_image).remove();
-        console.log(d[0]);
-        if (d[0].milestones){
-            $(d[0].milestones).each(function(n,milestone){
-                milestones.append($("<li />").text(milestone.what+" " + milestone.date_from + " - " + milestone.date_to + " " + milestone.where));
-            });
-        }
-      }
-  );
+  // $.getJSON("/api/person/"+name,{milestones: true},
+  //     function(d){
+  //       $(loading_image).remove();
+  //       console.log(d[0]);
+  //       if (d[0].milestones){
+  //           $(d[0].milestones).each(function(n,milestone){
+  //               milestones.append($("<li />").text(milestone.what+" " + milestone.date_from + " - " + milestone.date_to + " " + milestone.where));
+  //           });
+  //       }
+  //     }
+  // );
 }
 
 function address_info(lat,lon,addr,fragment_id)
