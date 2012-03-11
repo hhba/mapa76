@@ -1,0 +1,22 @@
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+.hidden{
+  display:none;
+}
+.classified_good span{
+  color:green;
+}
+.classified_bad span{
+  color:red;
+}
+.name {
+    color: blue;
+}
+.address {
+    color: green;
+}
+span.name, .date, span.address {
+    cursor: pointer;
+}

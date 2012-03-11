@@ -1,11 +1,10 @@
 source :rubygems
 
 # Server requirements
- gem 'thin' #or mongrel
+# =>  gem 'thin' #or mongrel
 
 # Project requirements
 gem 'rake'
-gem 'rack-flash'
 
 # Component requirements
 gem 'erubis', "~> 2.7.0"
@@ -14,11 +13,8 @@ gem 'erubis', "~> 2.7.0"
 gem 'mongoid'
 gem 'bson_ext'
 
-# Test requirements
-
-
 # Padrino
-gem 'padrino', "0.9.29"
+gem 'padrino'
 # Padrino EDGE
 # gem 'padrino', :git => "git://github.com/padrino/padrino-framework.git"
 gem "geokit"
@@ -30,3 +26,4 @@ gem "json"
 gem "docsplit"
 gem "httpi"
 gem "capistrano"
+gem "haml"

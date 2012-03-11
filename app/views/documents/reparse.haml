@@ -1,0 +1,58 @@
+- form_tag url_for(:documents, :reparse, :id => @doc.id), :method => :post do
+  %header#overview.jumbotron.subhead
+    %h1= @doc.title
+    %p
+      Verifique que todos los nombres encontrados sean verdaderamente nombres de personas.
+    .subnav
+      %ul.nav.nav-pills
+        %li
+          %button{"data-toggle" => "button", :class => "btn btn-primary", :id => 'selectAll'}Seleccionar todo
+        %li
+          &nbsp;
+        %li
+          %button{"data-toggle" => "button", :class => "btn btn-primary", :id => 'showhide'}Mostrar solo seguros
+        %li
+          &nbsp;
+        %li
+          %button{"data-toggle" => "button", :class => "btn btn-primary", :id => 'classify'}Entrenar
+        %li
+          &nbsp;
+        %li
+          %button{:class=>"btn btn-success", :type=>"submit"}Grabar
+  .row
+    .span8
+      %table.table.table-condensed#sorteable
+        %thead
+          %tr
+            %th
+              %a{:href => '#', "data-sort" => "number"}#
+            %th
+              %a{:href => '#', "data-sort" => "name"}Nombre
+            %th
+              Guardar
+            %th
+              %a{:href => '#', "data-sort" => "mentions"}Menciones
+            %th
+        %tbody
+          - @person_names.keys.sort.each_with_index do |nombre, index|
+            %tr{:class => "classified_#{Text::PersonName.classify(nombre)}"}
+              %td.center
+                = index + 1
+              %td
+                %label.checkbox{:for => "checkbox#{index}", :mentions => @person_names[nombre].length}
+                  = @person_names[nombre].first
+              %td{:class => "classified_#{Text::PersonName.classify(nombre)}"}
+                %span{:class => "name mentions_#{Math.sqrt(@person_names[nombre].length).floor}"}
+                  %input{:type => 'checkbox', :id => "checkbox#{index}",
+                        :value => @person_names[nombre].first,
+                        :checked => Text::PersonName.classify(nombre) == "good",
+                        :name => "people[]"}
+              %td
+                = @person_names[nombre].length
+              %td
+                .controls.hidden.claddifyName
+                  - if Text::PersonName.classify(nombre) == "good"
+                    %a{:href => '#', "data-name" => nombre, "data-value" => "bad", :class => "trainner"} No es nombre
+                  - else
+                    %a{:href => '#', "data-name" => nombre, "data-value" => "good", :class => "trainner"} Es nombre
+    .span4

@@ -1,0 +1,40 @@
+!!! Strict
+%html
+  %head
+    %meta{ :content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type" }
+    %meta{:content => "width=device-width, initial-scale=1.0", :name => "viewport"}
+    %meta{:content => "", :name => "description"}
+    %meta{:content => "", :name => "author"}
+
+    %title= [@title, "Mapa 76"].compact.join(" | ")
+    = stylesheet_link_tag 'bootstrap.css', 'bootstrap-responsive', 'styles'
+    = yield_content :styles
+  %body
+    .navbar.navbar-fixed-top
+      .navbar-inner
+        .container
+          %a{ :class => "brand", :href => "/"} Mapa 76
+          .nav-collapse
+            %ul.nav
+              %li
+                %a{:href => '/'} Inicio
+              %li
+                %a{:href => '/documents'} Documentos
+    .container
+      - if content_for?(:hero)
+        .hero-unit
+          = yield_content :hero
+      - if content_for?(:row)
+        .row
+          = yield_content :row
+      = yield
+      %footer.footer
+        %p{:class => "pull-right"}
+          %a{:href => '#'} Arriba
+    / Javascript
+    = javascript_include_tag "https://www.google.com/jsapi"
+    = javascript_include_tag 'http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js'
+    = javascript_include_tag 'bootstrap.min', 'bootstrap-button'
+    = javascript_include_tag 'jquery.tablesorter.min'
+    = yield_content :include
+    = javascript_include_tag 'application'

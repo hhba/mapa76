@@ -1,0 +1,103 @@
+- content_for :hero do
+  %script{:src => "http://static.simile.mit.edu/timeline/api-2.3.0/timeline-api.js?bundle=true", :type => "text/javascript"}
+  %script{:src => "/javascripts/jquery.js"}
+  %script{:src => "http://static.simile.mit.edu/timeline/api-2.3.0/timeline-api.js?bundle=true", :type => "text/javascript"}
+
+:javascript
+  var tl;
+  var resizeTimerID = null;
+
+   function centrarEnDia(tl, anio, mes, dia) {
+      var _anio = (anio!=undefined) ? anio : 1974;
+      console.log(_anio);
+      var _mes  = (mes!=undefined) ? mes : 1;
+      var _dia  = (dia!=undefined) ? dia : 1;
+      tl.getBand(0).setCenterVisibleDate(new Date(_anio, _mes, _dia));
+   }
+   
+   
+   $(document).ready(function () { 
+       var eventSource = new Timeline.DefaultEventSource();
+       var bandInfos = [
+         Timeline.createBandInfo({
+             eventSource:    eventSource,
+             date:           "1977-06-09",
+             width:          "70%", 
+             intervalUnit:   Timeline.DateTime.MONTH, 
+             intervalPixels: 100
+         }),
+         Timeline.createBandInfo({
+             eventSource:    eventSource,
+             date:           "1977-06-09",
+             width:          "30%", 
+             intervalUnit:   Timeline.DateTime.YEAR, 
+             intervalPixels: 100
+         })
+       ];
+       
+    bandInfos[0].syncWith = 1;
+    //Resto del ejemplo
+    //bandInfos[0].syncWith = 1;
+    //bandInfos[0].highlight = true;
+    
+    //bandInfos[1].syncWith = 1;
+    //bandInfos[3].syncWith = 2;
+    //bandInfos[3].highlight = true;
+            
+       tl = Timeline.create(document.getElementById("timeline"), bandInfos);
+    
+       Timeline.loadJSON("/timeline_json?ids=@persons.map(&:id).join(",")", function(json, url) { 
+           console.log("from: ",url)
+           console.log(json)
+           eventSource.loadJSON(json, url); 
+       });
+              
+       //centrarEnDia(tl);
+       $("span.from, span.to").click(function() {
+      var txt = $(this).text();
+          
+          //parsearFecha
+          var tmp = txt.indexOf("-");
+          var tmp2 = txt.indexOf("-", tmp+1);
+          
+          var anio = txt.substring(0,tmp);
+          var mes  = txt.substring(tmp+1, tmp2);
+          var dia  = txt.substring(tmp2+1);
+          
+          //console.log(anio+","+mes+","+dia);
+          centrarEnDia(tl, anio, mes, dia);
+       });
+       
+       $("span.hitos").click(function() {
+      $(this).next("ul.hitos").toggle();
+       });
+   });
+   $(document).resize(function () { 
+         if (resizeTimerID == null) {
+             resizeTimerID = window.setTimeout(function() {
+                 resizeTimerID = null;
+                 tl.layout();
+             }, 500);
+         }
+    });
+
+#timeline{:style => "height: 400px; border: 1px solid #aaa"}
+%ul.listado_persona
+  - @persons.each{|person|
+  %li.listado_nombre
+    %h2>= link_to person.name,url_for(:index, :ids => person.id)
+    \ 
+    %span.hitos Hitos
+    %ul.hitos
+      - person.milestones.each{|milestone|
+      %li.hito
+        %span.from= milestone.date_from_range
+        |
+        %span.to= milestone.date_to_range
+        |
+        %span.what= milestone.what
+        |
+        %span.where= milestone.where
+      %br
+        - }
+  - }

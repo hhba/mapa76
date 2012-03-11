@@ -1,4 +1,14 @@
 Alegato.controllers :api do
+
+  post :classify_name, :map => '/api/classify_name' do
+    r=false
+    if params[:name] and params[:training]
+      Text::PersonName.train(params[:training], params[:name])
+      r = Text::PersonName.training_save
+    end
+    r.to_json
+  end
+
   get :person, :with => [:id], :provides => [:html,:json] do
     p = {}
     data = Person.find(params[:id])

@@ -1,0 +1,39 @@
+-# coding: utf-8
+%header#overview.jumbotron.subhead
+  .subnav.subnav-fixed
+    %ul.nav.nav-pills
+      %li.active
+        %a{:href => url_for(:documents, :index)} Documentos
+      %li
+        %a{:href => url_for(:documents, :new)} Nuevo
+      %form.navbar-search.pull-right{:action => url_for(:documents, :search), :type => :get}
+        %input.search-query.span2{:placeholder => "Search", :type => "text"}
+        %button{:type => "submit", :class => "btn"} Buscar
+.row
+  .span8
+    %table{:class => 'table table-striped', :id => 'sorteable'}
+      %thead
+        %tr
+          %th
+            %a{:href => '#', "data-sort" => "number"}#
+          %th
+            %a{:href => '#', "data-sort" => "name"}Título
+          %th
+            %a{:href => '#', "data-sort" => "name"}Tipo
+          %th
+            %a{:href => '#', "data-sort" => "date"}Fecha
+          %th
+            &nbsp;
+      %tbody
+        - @docs.each_with_index do |doc, index|
+          %tr
+            %td
+              = index + 1
+            %td
+              = link_to doc.title, url_for(:documents, :show, :id => doc._id)
+            %td
+              Sentencia
+            %td
+              = doc._id.generation_time.strftime("%d/%m/%y")
+            %td
+  .span4

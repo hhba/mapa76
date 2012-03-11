@@ -1,8 +1,3 @@
-=begin
-class Person < Sequel::Model
-  one_to_many :milestones, :order => [:date_from, :date_to]
-  many_to_many :documents
-=end
 class Person
   include Mongoid::Document
   include Mongoid::Timestamps

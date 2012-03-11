@@ -1,6 +1,7 @@
 class Alegato < Padrino::Application
   register Padrino::Mailer
   register Padrino::Helpers
+  register Padrino::Rendering
 
   enable :sessions
 
