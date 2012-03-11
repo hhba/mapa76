@@ -1,5 +1,3 @@
-- content_for :include do
-  = javascript_include_tag 'jquery.tablesorter.min.js'
 - form_tag url_for(:documents, :reparse, :id => @doc.id), :method => :post do
   %header#overview.jumbotron.subhead
     %h1= @doc.title

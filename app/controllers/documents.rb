@@ -80,6 +80,47 @@ Alegato.controllers :documents do
     render "documents/person"
   end
 
+  post :person, :map => '/documents/:id/people/:person_id' do
+    person = Person.find(params[:person_id])
+    puts params[:person][:milestones].inspect
+    Array(params[:person][:milestones]).each{|idx,milestone|
+      data = milestone.dup
+      data[:what] = ! data["what_txt"].blank? ? data["what_txt"] : data["what_opc"]
+      data.delete("what_txt")
+      data.delete("what_opc")
+      data[:where] = ! data["where_txt"].blank? ? data["where_txt"] : data["where_opc"]
+      data.delete("where_txt")
+      data.delete("where_opc")
+      #convert dates in spanish into YY-MM-DD
+      data["date_from"] = data["date_from"].split(/[-\/]/).reverse.join("-")
+      data["date_to"] = data["date_to"].split(/[-\/]/).reverse.join("-")
+      if data[:person_id].to_i > 0
+        id = data.delete("id")
+        m=Milestone.find(id)
+        m.update_attributes(data)
+      else
+        data.delete("id")
+        m=Milestone.new(data)
+      end
+      person.milestones << m
+    }
+    person.to_json
+  end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   get :reparse, :map => '/documents/:id/reparse' do
     @doc = Document.find(params[:id])
     @person_names = Hash.new{|hash,key| hash[key]=[]}
