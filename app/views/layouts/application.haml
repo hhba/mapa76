@@ -5,16 +5,13 @@
     %meta{:content => "width=device-width, initial-scale=1.0", :name => "viewport"}
     %meta{:content => "", :name => "description"}
     %meta{:content => "", :name => "author"}
-    / Le styles
-    :css
-      body {
-        padding-top: 60px;
-        padding-bottom: 40px;
-      }
+
     %title= [@title, "Mapa 76"].compact.join(" | ")
     = stylesheet_link_tag 'bootstrap.css', 'bootstrap-responsive', 'styles'
     = javascript_include_tag "https://www.google.com/jsapi"
-    = javascript_include_tag 'http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js', 'bootstrap.min', 'jquery.tablesorter.min'
+    = javascript_include_tag 'http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js'
+    = javascript_include_tag 'bootstrap.min', 'bootstrap-button'
+    = javascript_include_tag 'jquery.tablesorter.min'
     = yield_content :include
     = javascript_include_tag 'application'
   %body

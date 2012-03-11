@@ -4,11 +4,8 @@
     %h1= @doc.title
     %table#doc_stats
       %tr
-        %th=# link_to "Personas mencionadas",url_for(:doc_admin_people,:doc_id => @doc.id)
+        %th= link_to "Personas mencionadas",url_for(:documents, :people, :id => @doc.id)
         %td= @doc.people.length
-      %tr
-        %th Personas incorporadas a la db
-        %td TODO
       %tr
         %th Hitos registrados
         %td

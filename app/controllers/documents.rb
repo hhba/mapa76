@@ -50,20 +50,66 @@ Alegato.controllers :documents do
     @doc = Document.new
     @doc.title = title
     @doc.data = text
-    if @doc.save
+    if @doc.savedisabled
       redirect url(:documents, :show, :id => @doc.id)
     else
       "Error guardando"
     end
   end
 
-  get :person, :with => [:id] do
+  get :people, :map => '/documents/:id/people' do
+    @doc = Document.find(params[:id])
+    @people = @doc.people
+    render "documents/people"
+  end
+
+  get :person, :map => '/documents/:id/people/:person_id' do
     if params[:id].to_i == 0
-      @persons = Person.filter_by_name(params[:id]).all
+      @person = Person.filter_by_name(params[:person_id]).first
     else
-      @persons = [Person[params[:id]]]
+      @person = Person.find(params[:person_id])
     end
-    render "admin/person"
+    @what = Milestone.what_list
+    @where = Milestone.where_list
+    @doc = Document.find(params[:id])
+    person_name = ActiveSupport::Inflector.transliterate(@person.name).downcase
+    @fragments = @doc.extract.person_names.find_all{|name|
+      name = ActiveSupport::Inflector.transliterate(name.to_s.downcase)
+      name == person_name
+    }
+    render "documents/person"
+  end
+
+  get :reparse, :map => '/documents/:id/reparse' do
+    @doc = Document.find(params[:id])
+    @person_names = Hash.new{|hash,key| hash[key]=[]}
+    @doc.extract.person_names.each do |name|
+      @person_names[Person.normalize_name(name)] << name
+    end
+    render "documents/reparse"
+  end
+
+  post :reparse, :map => '/documents/:id/reparse' do
+    @doc = Document.find(params[:id])
+    @person_names = Hash.new{|hash,key| hash[key]=[]}
+    @doc.extract.person_names.each{|nombre| 
+      @person_names[Person.normalize_name(nombre)] << nombre 
+    }
+    params[:people].each{|n|
+      person_name = Person.normalize_name(n)
+      p = Person.find_or_create_by(name: n)
+      @doc.people << p
+    }
+    redirect url_for(:documents, :show, :id => @doc._id)
+  end
+
+  post :classify_name do
+    r=false
+    if params[:name] and params[:training]
+      Text::PersonName.train(params[:training],params[:name])
+      r=Text::PersonName.training_save
+    end
+    r.to_json
   end
 
   get :context do
@@ -102,38 +148,6 @@ Alegato.controllers :documents do
     fragment=Document.find(doc_id).fragment(pos_start,pos_end)
     r={:fragment_id => fragment.fragment_id, :text => markup_fragment(fragment), :prev_fragment_id => params[:fragment_id]}.to_json
     r
-  end
-
-  get :reparse, :map => '/documents/:id/reparse' do
-    @doc = Document.find(params[:id])
-    @person_names = Hash.new{|hash,key| hash[key]=[]}
-    @doc.extract.person_names.each do |name|
-      @person_names[Person.normalize_name(name)] << name
-    end
-    render "documents/reparse"
-  end
-
-  post :reparse, :map => '/documents/:id/reparse' do
-    @doc = Document.find(params[:id])
-    @person_names = Hash.new{|hash,key| hash[key]=[]}
-    @doc.extract.person_names.each{|nombre| 
-      @person_names[Person.normalize_name(nombre)] << nombre 
-    }
-    params[:people].each{|n|
-      person_name = Person.normalize_name(n)
-      p = Person.find_or_create_by(name: n)
-      @doc.people << p
-    }
-    redirect url_for(:documents, :show, :id => @doc._id)
-  end
-
-  post :classify_name do
-    r=false
-    if params[:name] and params[:training]
-      Text::PersonName.train(params[:training],params[:name])
-      r=Text::PersonName.training_save
-    end
-    r.to_json
   end
 
 end

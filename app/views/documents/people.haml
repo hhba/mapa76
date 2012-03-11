@@ -1,0 +1,20 @@
+:css
+  a{
+      text-decoration:none;
+  }
+%script{:src => "/javascripts/jquery.tinysort.min.js"}
+%h1= @doc.title
+.buttons
+  %button#sort_by_name Ordenar por nombre
+  %button#sort_by_mentions Ordenar por menciones
+%br/
+#listado
+  %ol#persons.list_mode
+    - @people.each{|person|
+    %li{"data-mentions" => person.mentions_in(@doc)}
+      %span.name= link_to(person.name.titleize, url_for(:documents, :person, :person_id => person.id, :id => @doc.id))
+      (#{person.mentions_in(@doc)} menciones)
+      - }
+:javascript
+  $("#sort_by_name").click(function(e){$("ol#persons>li").tsort()})
+  $("#sort_by_mentions").click(function(e){$("ol#persons>li").tsort({attr:"data-mentions",order:"desc"})})
