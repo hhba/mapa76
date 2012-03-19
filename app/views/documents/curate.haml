@@ -1,0 +1,64 @@
+-# coding: utf-8
+- content_for :styles do
+  = stylesheet_link_tag "flick/jquery-ui-1.8.18.custom"
+- content_for :javascripts do
+  = javascript_include_tag 'jquery-ui-1.8.18.custom.min', 'bootstrap-alert'
+  = javascript_include_tag 'milestones'
+.row
+  .span8.offset2
+    .alert.fade.in.alert-success#successMessage{:style => 'display:none;'}
+      %a.close{:href => '#', 'data-dismiss' => 'alert'}×
+      %strong
+        Evento guardado
+    .alert.fade.in.alert-error#errorMessage{:style => 'display:none;'}
+      %a.close{:href => '#', 'data-dismiss' => 'alert'}×
+      %strong
+        Ha habido un problema
+    %h1= @doc.heading
+    - @doc.extract.title_for(@fragment).each.with_index do |title,idx|
+      = tag :"h#{idx+2}", :class => 'fragment', :content => title
+    %p
+      .document_dense
+        = markup_fragment(@fragment)
+      / Formulario para agregar events
+      #add_event{:style => "display:none;"}
+        %form{:action => '/api/milestones', :method => "post", :class => 'add_event', :id => 'save_event'}
+          %input{:type => "hidden", :name => "event[frag_start]", :value => params[:start]}
+          %input{:type => "hidden", :name => "event[frag_end]", :value => params[:end]}
+          %input{:type => "hidden", :name => "event[paragraph_id]"}
+          %input#event_person_id{:name => "event[person_id]", :type => "hidden"}
+
+          %input#event_date_from_parsed{:name => "event[date_from_parsed]", :type => "hidden"}
+          %input#event_date_from_frag{:name => "event[date_from_frag]", :type => "hidden"}
+          %input#event_date_to_parsed{:name => "event[date_to_parsed]", :type => "hidden"}
+          %input#event_date_to_frag{:name => "event[date_to_frag]", :type => "hidden"}
+          %input#event_source_id{:name => "event[document_id]", :type => "hidden", :value => @doc.id}
+          .field-label Who
+          .field-input
+            %input#person_txt{:name => "event[person_txt]", :required => "required", :type => "text"}/
+            %a.clear_field{:href => "#"}
+              %img{:src => "/images/clear_16.png"}/
+          .field-label Fecha de inicio
+          .field-input
+            %input#event_date_from_txt.datepicker{:name => "event[date_from]", :type => "text"}/
+            %a.clear_field{:href => "#"}
+              %img{:src => "/images/clear_16.png"}/
+          .field-label Fecha de fin
+          .field-input
+            %input#event_date_to_txt.datepicker{:name => "event[date_to]", :type => "text"}/
+            %a.clear_field{:href => "#"}
+              %img{:src => "/images/clear_16.png"}/
+          .field-label Qué paso?
+          .field-input
+            %input#event_what_txt{:name => "event[what_txt]", :required => "required", :type => "text"}/
+            %a.clear_field{:href => "#"}
+              %img{:src => "/images/clear_16.png"}/
+          .field-label Dónde?
+          .field-input
+            %input#event_where_txt{:name => "event[where_txt]", :required => "required", :type => "text"}/
+            %a.clear_field{:href => "#"}
+              %img{:src => "/images/clear_16.png"}/
+          .controls
+            %button#save_event.btn.btn-primary
+              Guardar evento
+            %a{:href => '#', :class => "clear"} Clear all

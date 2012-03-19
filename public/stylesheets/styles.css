@@ -20,3 +20,12 @@ body {
 span.name, .date, span.address {
     cursor: pointer;
 }
+h2.fragment{
+  font-size: 17px;
+}
+h3.fragment{
+  font-size: 16px;
+}
+h4.fragment{
+  font-size: 15px;
+}

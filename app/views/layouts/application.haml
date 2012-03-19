@@ -9,6 +9,7 @@
     %title= [@title, "Mapa 76"].compact.join(" | ")
     = stylesheet_link_tag 'bootstrap.css', 'bootstrap-responsive', 'styles'
     = yield_content :styles
+    = stylesheet_link_tag 'styles'
   %body
     .navbar.navbar-fixed-top
       .navbar-inner
@@ -20,6 +21,8 @@
                 %a{:href => '/'} Inicio
               %li
                 %a{:href => '/documents'} Documentos
+              %li
+                %a{:href => '/people'} Personas
     .container
       - if content_for?(:hero)
         .hero-unit
@@ -36,5 +39,5 @@
     = javascript_include_tag 'http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js'
     = javascript_include_tag 'bootstrap.min', 'bootstrap-button'
     = javascript_include_tag 'jquery.tablesorter.min'
-    = yield_content :include
+    = yield_content :javascripts
     = javascript_include_tag 'application'

@@ -9,6 +9,15 @@ Alegato.controllers :api do
     r.to_json
   end
 
+  post :milestones, :map => '/api/milestones' do
+    @milestone = Milestone.new params[:event]
+    if @milestone.save
+      {:saved => true}.to_json
+    else
+      {:saved => false}.to_json
+    end
+  end
+
   get :person, :with => [:id], :provides => [:html,:json] do
     p = {}
     data = Person.find(params[:id])

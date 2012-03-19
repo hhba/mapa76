@@ -4,6 +4,7 @@ Alegato.controllers :person,  :parent => :doc do
     @people = @doc.people
     render "admin/doc/people"
   end
+
   get :person, :with => [:id] do
     if params[:id].to_i == 0
       @person = Person.filter_by_name(params[:id]).first
@@ -11,15 +12,16 @@ Alegato.controllers :person,  :parent => :doc do
       @person = Person.find(params[:id])
     end
     @what = Milestone.what_list
-    @where = Milestone.where_list 
+    @where = Milestone.where_list
     @doc = Document.find(params[:doc_id])
     person_name = ActiveSupport::Inflector.transliterate(@person.name).downcase
-    @fragments = @doc.extract.person_names.find_all{|name| 
+    @fragments = @doc.extract.person_names.find_all{|name|
       name = ActiveSupport::Inflector.transliterate(name.to_s.downcase)
       name == person_name
     }
     render "admin/doc/person"
   end
+
   post :person, :with => [:id] do
     person = Person.find(params[:id])
     puts params[:person][:milestones].inspect

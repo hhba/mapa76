@@ -1,17 +1,25 @@
-=begin
-class Milestone < Sequel::Model
-  many_to_one :person
-  many_to_one :documents
-=end
 class Milestone
   include Mongoid::Document
   include Mongoid::Timestamps
 
-  field :what, type: String
-  field :where, type: String
-  field :when, type: String
-  field :date_from, type: String
-  field :date_to, type: String
+  field :what,         type: String
+  field :where,        type: String
+  field :when,         type: String
+  field :date_from,    type: String
+  field :date_to,      type: String
+  field :person_frag,  type: String
+  field :paragraph_id, type: String
+  field :frag_start,   type: Integer
+  field :frag_end,     type: Integer
+
+  field :date_from_parsed, type: String
+  field :date_from_frag,   type: String
+  field :date_to_parsed,   type: String
+  field :date_to_frag,     type: String
+
+  field :person_txt,       type: String
+  field :what_txt,         type: String
+  field :where_txt,        type: String
 
   belongs_to :person
   belongs_to :document
@@ -46,6 +54,3 @@ class Milestone
     super(v)
   end
 end
-
-#Milestone.plugin :json_serializer
-

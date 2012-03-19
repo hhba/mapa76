@@ -100,8 +100,8 @@ Alegato.controllers :documents do
   post :reparse, :map => '/documents/:id/reparse' do
     @doc = Document.find(params[:id])
     @person_names = Hash.new{|hash,key| hash[key]=[]}
-    @doc.extract.person_names.each{|nombre| 
-      @person_names[Person.normalize_name(nombre)] << nombre 
+    @doc.extract.person_names.each{|nombre|
+      @person_names[Person.normalize_name(nombre)] << nombre
     }
     params[:people].each{|n|
       person_name = Person.normalize_name(n)
@@ -109,6 +109,13 @@ Alegato.controllers :documents do
       @doc.people << p
     }
     redirect url_for(:documents, :show, :id => @doc._id)
+  end
+
+  get :curate_fragment, '/documents/:id/curate/:start/:end' do
+    @doc = Document.find(params[:id])
+    params[:start] = 0 if params[:start].to_i < 0
+    @fragment = @doc.fragment(params[:start].to_i, params[:end].to_i)
+    render "documents/curate"
   end
 
   get :context do

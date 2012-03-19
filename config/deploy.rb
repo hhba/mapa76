@@ -19,7 +19,7 @@ set :rvm_type, :user
 
 set :scm, :git
 set :repository, "git://github.com/mapa76/alegato.git"
-set :branch, "develop"
+set :branch, "master"
 set :scm_verbose, true
 set :use_sudo, false
 set :ssh_options, :forward_agent => true

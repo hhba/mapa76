@@ -8,8 +8,8 @@ Alegato.controllers :doc_admin,  :parent => :doc do
   post :reparse do
     @doc = Document.find(params[:doc_id])
     @person_names = Hash.new{|hash,key| hash[key]=[]}
-    @doc.extract.person_names.each{|nombre| 
-      @person_names[Person.normalize_name(nombre)] << nombre 
+    @doc.extract.person_names.each{|nombre|
+      @person_names[Person.normalize_name(nombre)] << nombre
     }
     params[:people].each{|n|
       person_name = Person.normalize_name(n)
@@ -21,8 +21,8 @@ Alegato.controllers :doc_admin,  :parent => :doc do
   get :reparse do
     @doc = Document.find(params[:doc_id])
     @person_names = Hash.new{|hash,key| hash[key]=[]}
-    @doc.extract.person_names.each{|nombre| 
-      @person_names[Person.normalize_name(nombre)] << nombre 
+    @doc.extract.person_names.each{|nombre|
+      @person_names[Person.normalize_name(nombre)] << nombre
     }
     render "admin/doc/reparse"
   end

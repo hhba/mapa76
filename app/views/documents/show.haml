@@ -54,4 +54,4 @@
           - @doc.extract.title_tree.each do |m|
             %tr
               %td
-                = link_to m.last,url_for(:doc_admin_curate_fragment, :start => m.last.start_pos, :end => m.last.start_pos + 5000, :doc_id => @doc.id)
+                = link_to m.last,url_for(:documents, :curate_fragment, :start => m.last.start_pos, :end => m.last.start_pos + 5000, :id => @doc.id)
