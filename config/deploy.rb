@@ -19,7 +19,7 @@ set :rvm_type, :user
 
 set :scm, :git
 set :repository, "git://github.com/mapa76/alegato.git"
-set :branch, "master"
+set :branch, "develop"
 set :scm_verbose, true
 set :use_sudo, false
 set :ssh_options, :forward_agent => true
@@ -30,6 +30,7 @@ namespace :deploy do
   desc "symlink to mongoid.yml"
   task :create_symlink_shared do
     run "ln -nfs #{deploy_to}/shared/config/mongoid.yml #{release_path}/config/mongoid.yml"
+    run "ln -nfs #{deploy_to}/shared/data #{release_path}/data"
     run "ln -nfs #{deploy_to}/shared/uploads #{release_path}/public/uploads"
   end
 
