@@ -37,11 +37,10 @@
     #milestones
       %h2 Hitos
       %ol
-        - @doc.milestones.order_by([[:created_at,:desc]]).reverse.each{|m|
-        %li
-          = link_to m.person.name, url_for(:doc_admin_person, :doc_id => @doc.id, :id => m.person.id)
-          = link_to "#{m.what} #{m.date_from} - #{m.date_to}", url_for(:doc_admin_milestone, :doc_id => @doc.id, :id => m.id)
-          - }
+        - @doc.milestones.order_by([[:created_at,:desc]]).reverse.each do |m|
+          %li
+            = link_to m.person.name, url_for(:documents, :people, :id => @doc.id, :person_id => m.person.id)
+            = link_to "#{m.what} #{m.date_from} - #{m.date_to}", url_for(:milestones, :show, :id => m.id)
       = link_to "Ver todos", url_for(:doc_admin_milestones,:doc_id => @doc.id)
   .span4
     #index

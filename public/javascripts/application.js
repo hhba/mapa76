@@ -1,9 +1,9 @@
 $(document).ready(function(){
-  $("#published_at").datepicker({
-      changeMonth: true,
-      changeYear: true,
-      minDate: new Date(1976, 1 - 1, 1)
-    });
+  // $("#published_at").datepicker({
+  //     changeMonth: true,
+  //     changeYear: true,
+  //     minDate: new Date(1976, 1 - 1, 1)
+  // });
   $("#sorteable").tablesorter();
   $("#showhide").click(function(event){
     event.preventDefault();
@@ -50,6 +50,4 @@ $(document).ready(function(){
        //          "json"
        //        )
        //  }
-
-
 });

@@ -89,11 +89,11 @@ $(document).ready(function(){
     $(this).parent().find("input").val("");
     return false;
   });
-  $("button#save_event").click(function(){
+  $("#save_event_button").click(function(event){
+    event.preventDefault();
     $form = $("form.add_event");
     $.post($form.attr("action"), $form.selialize(), notifyResult, 'json');
     $("form.add_event input").val("");
     $("#add_event").dialog("close");
-    return false;
   });
 });
