@@ -14,6 +14,10 @@
           %p.help-block
             Nombre del documento a importar
       .control-group
+        %label{:for => 'file_input'}Archivo
+        .controls
+          = file_field_tag :file, :id => 'file_input', :class => 'input-file', :required => true
+      .control-group
         %label.control-label{:for => 'published_at'} Fecha de publicación
         .controls
           = text_field_tag :published_at, :class => 'input-xlarge', :id => 'published_at'
@@ -43,9 +47,6 @@
               Veredicto
             %option
               Otro
-        %label{:for => 'file_input'}Archivo
-        .controls
-          = file_field_tag :file, :id => 'file_input', :class => 'input-file', :required => true
       =# label_tag :URL
       =# text_field_tag :url
       =# label_tag :text
