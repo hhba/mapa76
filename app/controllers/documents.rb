@@ -32,7 +32,9 @@ Alegato.controllers :documents do
                         :description => params[:description],
                         :category => params[:category]
     @doc.title = title
-    @doc.published_at = Date.parse(params[:published_at]) unless params[:published_at].blank?
+    begin
+      @doc.published_at = Date.parse(params[:published_at]) unless params[:published_at].blank?
+    end
     @doc.original_file = store_file(params[:file], data)
     @doc.data = text
     redirect url(:documents, :show, :id => @doc.id)
@@ -109,6 +111,15 @@ Alegato.controllers :documents do
       @doc.people << p
     }
     redirect url_for(:documents, :show, :id => @doc._id)
+  end
+
+  get :hot_zones, :map => '/documents/:id/hot_zones' do
+    @doc = Document.find(params[:id])
+    @heatmap_people = Heatmap.new(@doc.length)
+    @heatmap_dates = Heatmap.new(@doc.length)
+    @doc.extract.person_names.each{|nombre| @heatmap_people.add_entry(nombre.start_pos,nombre) }
+    @doc.extract.dates.each{|date| @heatmap_dates.add_entry(date.start_pos,date) }
+    render "documents/hot_zones"
   end
 
   get :curate_fragment, '/documents/:id/curate/:start/:end' do

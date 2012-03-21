@@ -1,0 +1,37 @@
+:css
+  div.list{
+      float:left;
+      width:300px;
+      border:1px solid black;
+      padding-left:10px;
+      margin-right:10px;
+  }
+.row
+  .span8.offset2
+    %h1= @doc.heading
+    %p
+      = @doc.description
+    %p
+      %strong Zonas calientes
+    .list
+      %h2 Nombres
+      %ol
+        - @heatmap_people.hot_areas(10,10).each{|zone|
+        %li
+          = link_to @doc.extract.title_for(zone[:start]).join(" > "), 
+
+          url_for(:documents, :curate_fragment, {:start => zone[:start] - 2000, :end => zone[:end] + 2000, :id => @doc.id})
+
+
+          = tag :span, :content => zone[:entries].length, :title => zone[:entries].join(", ")
+          items
+          - }
+    .list
+      %h2 Fechas
+      %ol
+        - @heatmap_dates.hot_areas(10,10).each{|zone|
+        %li
+          = link_to @doc.extract.title_for(zone[:start]).join(" > "), url_for(:doc_admin_curate_fragment,{:start => zone[:start] - 2000, :end => zone[:end] + 2000, :doc_id => @doc.id})
+          = tag :span, :content => zone[:entries].length, :title => zone[:entries].join(", ")
+          items
+          - }

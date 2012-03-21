@@ -14,7 +14,7 @@
           = @doc.milestones.count
   .span4
     %p
-      = link_to "Fragmentos densos de información", url_for(:doc_admin_hot_zones, :doc_id => @doc.id)
+      = link_to "Fragmentos densos de información", url_for(:documents, :hot_zones, :id => @doc.id)
     %p
       = link_to "Reparsear doc",url_for(:documents, :reparse, :id => @doc.id)
     %p

@@ -14,7 +14,7 @@
       / Listaod de fratmentos
       #fragment-pane
         %h2= @person.name.titleize
-        (#{link_to @doc.title, url_for(:documents, :show, :id => @doc.id)})
+        (#{link_to @doc.heading, url_for(:documents, :show, :id => @doc.id)})
         %ol#tags.clearfix
           - {tortur: "tortura", secuestr: "secuestro", asesin: "asesinato", transla: "translados", viola:"violacion"}.each do |search,name|
             <li data-search=#{search.to_json}>#{name}

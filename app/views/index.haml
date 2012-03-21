@@ -4,12 +4,12 @@
   = javascript_include_tag "timeglider/TG_Date", "timeglider/TG_Org2", "timeglider/TG_Timeline", "timeglider/TG_TimelineView", "timeglider/TG_Mediator", "timeglider/timeglider.timeline.widget"
   :javascript
     var tg1;
-    $(document).ready(function(){
-      tg1 = $("#placement").timeline({
-        "data_source":"/idaho.json",
-        "min_zoom":15,
-        "max_zoom":60
-      });
+    / $(document).ready(function(){
+    /   tg1 = $("#placement").timeline({
+    /     "data_source":"/idaho.json",
+    /     "min_zoom":15,
+    /     "max_zoom":60
+    /   });
     });
 - content_for :styles do
   = stylesheet_link_tag "flick/jquery-ui-1.8.18.custom", 'Timeglider'
@@ -37,7 +37,7 @@
               %br
 :css
   #placement {
-    width:850px;
+    /*width:850px;*/
     margin:32px auto 32px auto;
-    height:400px;
+    /*height:400px;*/
   }
