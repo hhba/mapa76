@@ -18,19 +18,20 @@ class Person
     ActiveSupport::Inflector.transliterate(name.to_s.downcase)
   end
 
-  def self.filter_by_name(name,is_prefix=false)
+  def self.filter_by_name(name, is_prefix=false)
     #name +="%" if is_prefix
     #self.filter(:searchable_name.like(normalize_name(name)))
     regexp = "^#{normalize_name(name)}"
     regexp << '.*' if is_prefix
     self.where(searchable_name: Regexp.new(regexp))
   end
+
   def self.get_id_by_name(name)
     person = filter_by_name(name).first
     person.id if person
   end
 
-  protected
+protected
   def store_normalize_name
     self.searchable_name = self.class.normalize_name(name)
   end
