@@ -27,3 +27,9 @@ gem "docsplit"
 gem "httpi"
 gem "capistrano"
 gem "haml"
+
+# Test requirements
+group :test do
+  gem 'minitest', "~>2.6.0", :require => "minitest/autorun"
+  gem 'rack-test', :require => "rack/test"
+end
