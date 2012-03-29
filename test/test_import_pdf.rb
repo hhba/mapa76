@@ -1,8 +1,5 @@
 # encoding: utf-8
-require 'test/unit'
-require 'test_helpers'
-require 'ext/docsplit'
-require 'text'
+require File.expand_path(File.dirname(__FILE__) + '/../test_config.rb')
 
 class TestImportPdf < Test::Unit::TestCase
   def test_import

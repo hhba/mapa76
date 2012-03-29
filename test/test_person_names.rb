@@ -1,6 +1,5 @@
 # encoding: utf-8
-require 'test/unit'
-require 'text'
+require File.expand_path(File.dirname(__FILE__) + '/../test_config.rb')
 
 class TestPersonNames < Test::Unit::TestCase
   def test_simple

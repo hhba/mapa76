@@ -1,6 +1,5 @@
-#encoding: utf-8
-require 'test/unit'
-require 'text'
+# encoding: utf-8
+require File.expand_path(File.dirname(__FILE__) + '/../test_config.rb')
 
 class TestFragments < Test::Unit::TestCase
   def setup

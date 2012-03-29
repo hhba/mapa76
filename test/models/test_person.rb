@@ -1,9 +1,5 @@
-#!/usr/bin/env ruby
-#encoding: utf-8
-ENV["RACK_ENV"] = PADRINO_ENV = "test"
-require File.expand_path(File.dirname(__FILE__)) + "/../../config/boot.rb"
-
-require "test/unit"
+# encoding: utf-8
+require File.expand_path(File.dirname(__FILE__) + '/../test_config.rb')
 
 class TestPerson < Test::Unit::TestCase
   def setup

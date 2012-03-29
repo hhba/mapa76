@@ -1,6 +1,5 @@
 # encoding: utf-8
-require 'test/unit'
-require 'incomplete_date'
+require File.expand_path(File.dirname(__FILE__) + '/../test_config.rb')
 
 class TestIncompleteDate < Test::Unit::TestCase
   def test_simple
