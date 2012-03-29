@@ -20,7 +20,7 @@ class TestIncompleteDate < Test::Unit::TestCase
       ["year only","1981","1981"],
     ]
     tests.each{|msg,date,str|
-      assert_equal(IncompleteDate.new_from_str(date).to_s, str, msg )
+      assert_equal(IncompleteDate.parse(date).to_s, str, msg)
     }
   end
   def test_comparisions
