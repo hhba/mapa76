@@ -38,4 +38,18 @@ Alegato.helpers do
     file[:filename].to_s
   end
 
+  def documents_name(documents, document_ids)
+    output = ""
+    document_ids.each do |id|
+      output << link_to(document_from_id(documents, id), "/documents/#{id}") + " | "
+    end
+    output[0..-3]
+  end
+
+  def document_from_id(documents, id)
+    index = documents.index { |doc|doc.id == id }
+    puts documents[index].heading
+    documents[index].heading
+  end
+
 end

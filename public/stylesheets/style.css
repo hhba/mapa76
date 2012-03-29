@@ -627,10 +627,10 @@ tone-pane ul {
   .mentions_8 a { font-size:150%; }
 
   .date{
-    color:red
+    color:red;
   }
   .name {
-    color: blue
+    color: blue;
   }
   .address {
     color: green

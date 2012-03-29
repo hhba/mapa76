@@ -1,4 +1,11 @@
 Alegato.controllers :person,  :parent => :doc do
+
+  get :index, :map => '/people' do
+    @people = Person.all.limit(50)
+    @documents = Document.all.to_a
+    render 'people/index'
+  end
+
   get :people do
     @doc = Document.find(params[:doc_id])
     @people = @doc.people

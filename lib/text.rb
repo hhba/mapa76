@@ -10,26 +10,28 @@ class StringDocument < String
 end
 
 class Text
+
   include Cacheable
   attr_reader :doc
+
   def initialize(doc,offset_start=0,offset_end=-1)
     @cache_id=''
     if doc.respond_to?(:id)
-      @doc_id = doc.id 
+      @doc_id = doc.id
       @cache_id="#{@doc_id}:#{offset_start}-#{offset_end}"
       self.cache_enabled=true
     else
       doc = StringDocument.new(doc.to_s)
       doc.id = "?"
-      @doc_id = doc.id 
+      @doc_id = doc.id
     end
 
     @doc = doc
 
     @offset_start = offset_start
     @offset_end = offset_end
-
   end
+
   def text
     @text ||= if @doc.respond_to?(:read)
       @doc.read

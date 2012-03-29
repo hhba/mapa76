@@ -17,6 +17,9 @@ body {
 .address {
     color: green;
 }
+.date {
+  color: red;
+}
 span.name, .date, span.address {
     cursor: pointer;
 }

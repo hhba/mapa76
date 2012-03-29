@@ -34,7 +34,7 @@ Alegato.controllers  do
         r[:title] = "#{p.name} - #{m.what}"
         r[:description] =  "#{p.name} - #{m.what} - #{m.where}"
         r
-      } 
+      }
     }.flatten
 
     render t, :layout => false

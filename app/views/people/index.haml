@@ -1,0 +1,24 @@
+-# coding: utf-8
+.row
+  .span8
+    %table{:class => 'table table-striped', :id => 'sorteable'}
+      %thead
+        %tr
+          %th
+            %a{:href => '#', "data-sort" => "number"}#
+          %th
+            %a{:href => '#', "data-sort" => "name"}Nombre
+          %th
+            %a{:href => '#', "data-sort" => "name"}Documentos
+          %th
+            %a{:href => '#', "data-sort" => "date"}Hitos
+        - @people.each_with_index do |person, index|
+          %tr
+            %td
+              = index + 1
+            %td
+              = link_to person.name
+            %td
+              = documents_name(@documents, person.document_ids)
+            %td
+              = "TODO"
