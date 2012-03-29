@@ -1,8 +1,9 @@
 # encoding: utf-8
+require 'test/unit'
 require 'test_helpers'
-require 'docsplit'
+require 'ext/docsplit'
 require 'text'
- 
+
 class TestImportPdf < Test::Unit::TestCase
   def test_import
     text = Docsplit.extract_text_from_pdf_str(open(data_path("f.pdf")).read)
