@@ -1,7 +1,8 @@
 PADRINO_ENV = 'test' unless defined?(PADRINO_ENV)
 require File.expand_path('../../config/boot', __FILE__)
+require 'test/unit'
 
-class MiniTest::Unit::TestCase
+class Test::Unit::TestCase
   include Rack::Test::Methods
 
   def app

@@ -23,5 +23,7 @@ class TestAddresses < Test::Unit::TestCase
 
     pt = Text.new(" Juan B Alberdi 5045")
     assert_equal("Juan B Alberdi 5045", pt.addresses.first)
+
+    assert false
   end
 end
