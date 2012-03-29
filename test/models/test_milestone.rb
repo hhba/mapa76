@@ -2,7 +2,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/../test_config.rb')
 
 class TestMilestone < Test::Unit::TestCase
-
   def setup
     #Person.dataset.truncate
     Person.delete_all
@@ -20,12 +19,12 @@ class TestMilestone < Test::Unit::TestCase
     #@p1.add_milestone(milestone)
     @p1.milestones << milestone
 
-    assert_equal([milestone],@p1.milestones)
+    assert_equal([milestone], @p1.milestones)
   end
 
   def test_partial_start_end
     m1 = Milestone.new
-    m1.date_from = IncompleteDate.new(2007,10)
+    m1.date_from = IncompleteDate.new(2007, 10)
     m1.date_to = Date.today
     m1.where = "Aca"
     m1.what = "Eso"
@@ -33,13 +32,13 @@ class TestMilestone < Test::Unit::TestCase
 
     #milestone = Milestone[m1.id]
     milestone = Milestone.find(m1.id)
-    assert_equal(IncompleteDate.new(2007,10),milestone.date_from_range)
-    assert_equal(IncompleteDate.new(Date.today),milestone.date_to_range)
+    assert_equal(IncompleteDate.new(2007, 10), milestone.date_from_range)
+    assert_equal(IncompleteDate.new(Date.today), milestone.date_to_range)
   end
 
   def test_partial_start_no_end
     m1 = Milestone.new
-    m1.date_from = IncompleteDate.new(2007,10)
+    m1.date_from = IncompleteDate.new(2007, 10)
     m1.date_to = nil
     m1.where = "Aca"
     m1.what = "Eso"
@@ -47,20 +46,19 @@ class TestMilestone < Test::Unit::TestCase
 
     #milestone = Milestone[m1.id]
     milestone = Milestone.find(m1.id)
-    assert_equal(IncompleteDate.new(2007,10),milestone.date_from_range)
-    assert_equal(nil,milestone.date_to_range)
+    assert_equal(IncompleteDate.new(2007, 10), milestone.date_from_range)
+    assert_equal(nil, milestone.date_to_range)
   end
 
 end
 
 class TestMilestoneWhatWhereLists < Test::Unit::TestCase
-
   def setup
     #Person.dataset.truncate
     Person.delete_all
     #Milestone.dataset.truncate
     Milestone.delete_all
-    @p1=Person.create(name: "Cocó Fuente")
+    @p1 = Person.create(name: "Cocó Fuente")
     milestone = Milestone.new
     milestone.date_from = Date.today - 10
     milestone.date_to = Date.today
@@ -87,12 +85,10 @@ class TestMilestoneWhatWhereLists < Test::Unit::TestCase
   end
 
   def test_what_lists
-    assert_equal(["Aquello","Eso"].sort,Milestone.what_list.sort)
+    assert_equal(["Aquello", "Eso"].sort, Milestone.what_list.sort)
   end
 
   def test_where_lists
-    assert_equal(["Aca","Alla"],Milestone.where_list)
+    assert_equal(["Aca", "Alla"], Milestone.where_list)
   end
-
 end
-
