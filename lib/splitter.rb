@@ -1,13 +1,11 @@
 require 'docsplit'
 
 module Splitter
-  include Docsplit
-
   def self.extract_plain_text(path)
     basename = File.basename(path, 'pdf')
     tmp_dir = Dir.tmpdir
-    self.extract_text(path, :output => tmp_dir, :ocr => false)
-    text = File.open(File.join(tmp_dir, "#{basename}.txt")).read
+    Docsplit.extract_text(path, :output => tmp_dir, :ocr => false)
+    text = File.open(File.join(tmp_dir, basename + 'txt')).read
     self.clean_text(text)
   end
 
