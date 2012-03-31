@@ -1,6 +1,10 @@
 require 'docsplit'
 
 module Splitter
+  def self.extract_title(path)
+    Docsplit.extract_title(path)
+  end
+
   def self.extract_plain_text(path)
     basename = File.basename(path, 'pdf')
     tmp_dir = Dir.tmpdir

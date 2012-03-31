@@ -38,7 +38,7 @@ class Document
   # From the detected entities, create Person instances and try to resolve
   # correference, if possible.
   #
-  def analyse
+  def analyze
     # TODO
   end
 
