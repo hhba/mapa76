@@ -66,7 +66,7 @@ Alegato.controllers :documents do
   post :person, :map => '/documents/:id/people/:person_id' do
     person = Person.find(params[:person_id])
     puts params[:person][:milestones].inspect
-    Array(params[:person][:milestones]).each{|idx,milestone|
+    Array(params[:person][:milestones]).each{|idx, milestone|
       data = milestone.dup
       data[:what] = ! data["what_txt"].blank? ? data["what_txt"] : data["what_opc"]
       data.delete("what_txt")
@@ -101,15 +101,18 @@ Alegato.controllers :documents do
 
   post :reparse, :map => '/documents/:id/reparse' do
     @doc = Document.find(params[:id])
-    @person_names = Hash.new{|hash,key| hash[key]=[]}
-    @doc.extract.person_names.each{|nombre|
+    @person_names = Hash.new { |hash,key| hash[key]=[] }
+
+    @doc.extract.person_names.each do |nombre|
       @person_names[Person.normalize_name(nombre)] << nombre
-    }
-    params[:people].each{|n|
+    end
+
+    params[:people].each do |n|
       person_name = Person.normalize_name(n)
       p = Person.find_or_create_by(name: n)
       @doc.people << p
-    }
+    end
+
     redirect url_for(:documents, :show, :id => @doc._id)
   end
 

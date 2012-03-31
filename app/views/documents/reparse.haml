@@ -1,7 +1,7 @@
 -# coding: utf-8
 - form_tag url_for(:documents, :reparse, :id => @doc.id), :method => :post do
   %header#overview.jumbotron.subhead
-    %h1= @doc.title
+    %h1= @doc.heading
     %p
       Verifique que todos los nombres encontrados sean verdaderamente nombres de personas.
     .subnav

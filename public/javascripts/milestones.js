@@ -64,6 +64,7 @@ var datepicker_options = {
   changeYear: true
 };
 function notifyResult(data){
+  console.log(data);
   if(data['saved']){
     $("#successMessage").alert();
   } else {
@@ -92,7 +93,7 @@ $(document).ready(function(){
   $("#save_event_button").click(function(event){
     event.preventDefault();
     $form = $("form.add_event");
-    $.post($form.attr("action"), $form.selialize(), notifyResult, 'json');
+    $.post($form.attr("action"), $form.serialize(), notifyResult, 'json');
     $("form.add_event input").val("");
     $("#add_event").dialog("close");
   });

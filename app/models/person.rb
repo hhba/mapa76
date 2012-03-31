@@ -4,6 +4,7 @@ class Person
 
   field :name, type: String
   field :searchable_name, type: String
+  field :mentions, type: Integer
 
   before_save :store_normalize_name
 
