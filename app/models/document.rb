@@ -44,7 +44,7 @@ class Document
 
 
   def original_path
-    File.join(USER_DIR, self.original_filename)
+    File.join(USER_DIR, self.original_file)
   end
 
   def _dump(level)
