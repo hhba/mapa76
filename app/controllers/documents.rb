@@ -28,11 +28,11 @@ Alegato.controllers :documents do
   end
 
   put :create do
-    filename = store_file(params[:file)
+    filename = store_file(params[:file])
     @doc = Document.create({
       :title => filename,
       :original_filename => filename,
-    }.merge(params.slice(:heading, :description, :category)
+    }.merge(params.slice(:heading, :description, :category)))
 
     redirect url(:documents, :show, :id => @doc.id)
   end
