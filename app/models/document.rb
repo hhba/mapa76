@@ -1,5 +1,6 @@
 # encoding: utf-8
-require "text"
+require 'splitter'
+require 'text'
 
 class Document
   include Mongoid::Document
@@ -16,7 +17,35 @@ class Document
   has_many :milestones
   has_and_belongs_to_many :people
 
+  after_create :split, :analyze
+
   attr_accessor :sample_mode
+
+
+  # Split original document data and extract metadata and content as clean,
+  # plain text for further analysis.
+  #
+  def split
+    # Replace title with original title from document
+    self.title = Splitter.extract_title(self.original_path)
+    self.content = Splitter.extract_plain_text(self.original_path)
+    save
+  end
+
+  # Perform a morphological analysis and extract named entities like persons,
+  # organizations, places, dates and addresses.
+  #
+  # From the detected entities, create Person instances and try to resolve
+  # correference, if possible.
+  #
+  def analyse
+    # TODO
+  end
+
+
+  def original_path
+    File.join(USER_DIR, self.original_filename)
+  end
 
   def _dump(level)
     id.to_s

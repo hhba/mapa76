@@ -28,16 +28,11 @@ Alegato.controllers :documents do
   end
 
   put :create do
-    data = params[:file][:tempfile].read
-    text = Docsplit.clean_text(Docsplit.extract_text_from_pdf_str(data))
-    title = Docsplit.extract_title_from_pdf_str(data)
-    @doc = Document.new(:heading => params[:heading],
-                        :description => params[:description],
-                        :category => params[:category])
-    @doc.title = title
-    @doc.published_at = Date.parse(params[:published_at]) unless params[:published_at].blank?
-    @doc.original_file = store_file(params[:file], data)
-    @doc.data = text
+    filename = store_file(params[:file)
+    @doc = Document.create({
+      :title => filename,
+      :original_filename => filename,
+    }.merge(params.slice(:heading, :description, :category)
 
     redirect url(:documents, :show, :id => @doc.id)
   end

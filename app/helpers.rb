@@ -29,13 +29,11 @@ Alegato.helpers do
     ret
   end
 
-  def store_file(file, data)
-    userdir = File.join("public", "uploads")
-    filename = File.join(userdir, file[:filename].to_s)
-    File.open(filename, 'wb') do |file|
-      file.write(data)
-    end
-    file[:filename].to_s
+  def store_file(opts)
+    filename = opts[:filename].to_s
+    path = File.join(USER_DIR, filename)
+    File.open(path, 'wb') { |f| f.write(opts[:tempfile].read) }
+    return filename
   end
 
   def documents_name(documents, document_ids)
