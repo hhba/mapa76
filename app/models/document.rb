@@ -26,10 +26,12 @@ class Document
   # plain text for further analysis.
   #
   def split
-    # Replace title with original title from document
-    self.title = Splitter.extract_title(self.original_path)
-    self.content = Splitter.extract_plain_text(self.original_path)
-    save
+    if self.original_path
+      # Replace title with original title from document
+      self.title = Splitter.extract_title(self.original_path)
+      self.content = Splitter.extract_plain_text(self.original_path)
+      save
+    end
   end
 
   # Perform a morphological analysis and extract named entities like persons,
@@ -44,7 +46,7 @@ class Document
 
 
   def original_path
-    File.join(USER_DIR, self.original_file)
+    File.join(USER_DIR, self.original_file) if self.original_file
   end
 
   def _dump(level)
@@ -55,26 +57,23 @@ class Document
     self.find(arg)
   end
 
+  # deprecated
   def path
     File.join(File.expand_path(File.dirname(__FILE__)), "../../", "data", "#{id}.txt")
   end
 
+  # deprecated
   def length
     fd { |fd| fd.read.size }
   end
 
-  def data=(data)
-    save if new?
-    open(path, 'w') { |fd| fd.write(data) }
-  end
-
+  # deprecated
   def fd(&block)
-    open(path,"r:UTF-8") do |fd|
-      fd.set_encoding("UTF-8")
-      yield(fd)
-    end
+    require 'stringio'
+    yield StringIO.new(self.content)
   end
 
+  # deprecated
   def read(*p)
     if p.empty?
       @___text ||= fd { |fd| fd.read }
@@ -89,10 +88,12 @@ class Document
     Text::StringWithContext.new_with_context(fragment, text, start_pos, end_pos, self)
   end
 
+  # deprecated
   def extract
     @process_text ||= Text.new(self)
   end
 
+  # deprecated
   def method_missing(p, args=[])
     fd.send(p, *args)
   end

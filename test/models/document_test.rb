@@ -12,7 +12,7 @@ class TestDocument < Test::Unit::TestCase
   def test_new_doc
     d = Document.new
     d.title = "TestingDoc123"
-    d.data = "áAca viene Juan Perez maxt"
+    d.content = "áAca viene Juan Perez maxt"
     d.save
     assert_equal("Juan Perez", d.extract.person_names.first.to_s)
     assert_equal("áAca viene", d.fragment(0, 10))
@@ -21,7 +21,7 @@ class TestDocument < Test::Unit::TestCase
   def test_new_doc_person
     d = Document.new
     d.title = "TestingDoc123"
-    d.data = "Oxopato maxt"
+    d.content = "Oxopato maxt"
     d.save
     d.people << @person
 

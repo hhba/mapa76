@@ -1,6 +1,7 @@
 require 'rake/testtask'
 
 test_tasks = Dir['test/*/'].map { |d| File.basename(d) }
+                           .reject { |d| d == 'data' }
 
 test_tasks.each do |folder|
   Rake::TestTask.new("test:#{folder}") do |test|
