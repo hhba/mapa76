@@ -16,6 +16,7 @@ class Document
 
   has_many :milestones
   has_and_belongs_to_many :people
+  embeds_many :paragraphs
 
   after_create :split, :analyze
 
@@ -29,7 +30,10 @@ class Document
     if self.original_path
       # Replace title with original title from document
       self.title = Splitter.extract_title(self.original_path)
-      self.content = Splitter.extract_plain_text(self.original_path)
+      text = Splitter.extract_plain_text(self.original_path)
+      text.split(".\n").each do |paragraph|
+        self.paragraps << Paragraph.new(:content => paragraph) if paragraph != ""
+      end
       save
     end
   end
