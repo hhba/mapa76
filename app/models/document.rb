@@ -15,6 +15,7 @@ class Document
   field :original_file, type: String
 
   has_many :milestones
+  has_many :named_entities
   has_and_belongs_to_many :people
 
   after_create :split, :analyze
