@@ -27,6 +27,20 @@ Alegato.controllers :documents do
     render "documents/show"
   end
 
+  get :paragraph, :map => '/documents/:id/paragraph/:paragraph_index' do
+    @doc = Document.find(params[:id])
+    {:p => @doc.text(:from => params[:paragraph_index], :to => params[:paragraph_index].to_i + 1)}.to_json
+  end
+
+  get :paragraphs, :map => '/documents/:id/paragraphs/:from/:to' do
+    @doc = Document.find(params[:id])
+    if params[:to]
+      {:p => @doc.text(:from => params[:from], :to => params[:to])}.to_json
+    else
+      {:p => @doc.text(:from => params[:from], :to => params[:from].to_i + 1)}.to_json
+    end
+  end
+
   put :create do
     filename = store_file(params['file'])
     @doc = Document.create({

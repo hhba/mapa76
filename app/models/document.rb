@@ -1,6 +1,6 @@
 # encoding: utf-8
 require 'splitter'
-require 'text'
+#require 'text'
 
 class Document
   include Mongoid::Document
@@ -22,7 +22,6 @@ class Document
 
   attr_accessor :sample_mode
 
-
   # Split original document data and extract metadata and content as clean,
   # plain text for further analysis.
   #
@@ -32,7 +31,7 @@ class Document
       self.title = Splitter.extract_title(self.original_path)
       text = Splitter.extract_plain_text(self.original_path)
       text.split(".\n").each do |paragraph|
-        self.paragraps << Paragraph.new(:content => paragraph) if paragraph != ""
+        self.paragraphs << Paragraph.new(:content => paragraph) if paragraph != ""
       end
       save
     end
@@ -48,68 +47,89 @@ class Document
     # TODO
   end
 
+  # Returns text extracted from paragraphs
+  # It allow :from and :to params (should be integers)
+  def text(option = {})
+    max = self.paragraphs.length
+    from = option.has_key?(:from) ? option[:from].to_i : 0
+    to = option.has_key?(:to) ? option[:to].to_i : max
+    output = ""
+    self.paragraphs[from..to].each do |p|
+      output << p.content + "\n"
+    end
+    output
+  end
+
+  def indication
+    output = []
+    self.paragraphs.each do |p|
+      output << p.content[0..40]
+    end
+    output
+  end
+
 
   def original_path
     File.join(USER_DIR, self.original_file) if self.original_file
   end
 
-  def _dump(level)
-    id.to_s
-  end
+  # def _dump(level)
+  #   id.to_s
+  # end
 
-  def self._load(arg)
-    self.find(arg)
-  end
-
-  # deprecated
-  def path
-    File.join(File.expand_path(File.dirname(__FILE__)), "../../", "data", "#{id}.txt")
-  end
+  # def self._load(arg)
+  #   self.find(arg)
+  # end
 
   # deprecated
-  def length
-    fd { |fd| fd.read.size }
-  end
+  # def path
+  #   File.join(File.expand_path(File.dirname(__FILE__)), "../../", "data", "#{id}.txt")
+  # end
 
   # deprecated
-  def fd(&block)
-    require 'stringio'
-    yield StringIO.new(self.content)
-  end
+  # def length
+  #   fd { |fd| fd.read.size }
+  # end
 
-  # deprecated
-  def read(*p)
-    if p.empty?
-      @___text ||= fd { |fd| fd.read }
-    else
-      fd { |fd| fd.read(*p) }
-    end
-  end
+  # # deprecated
+  # def fd(&block)
+  #   require 'stringio'
+  #   yield StringIO.new(self.content)
+  # end
 
-  def fragment(start_pos, end_pos)
-    text = read()
-    fragment = text[start_pos ... end_pos]
-    Text::StringWithContext.new_with_context(fragment, text, start_pos, end_pos, self)
-  end
+  # # deprecated
+  # def read(*p)
+  #   if p.empty?
+  #     @___text ||= fd { |fd| fd.read }
+  #   else
+  #     fd { |fd| fd.read(*p) }
+  #   end
+  # end
 
-  # deprecated
-  def extract
-    @process_text ||= Text.new(self)
-  end
+  # def fragment(start_pos, end_pos)
+  #   text = read()
+  #   fragment = text[start_pos ... end_pos]
+  #   Text::StringWithContext.new_with_context(fragment, text, start_pos, end_pos, self)
+  # end
 
-  # deprecated
-  def method_missing(p, args=[])
-    fd.send(p, *args)
-  end
+  # # deprecated
+  # def extract
+  #   @process_text ||= Text.new(self)
+  # end
 
-  def add_person(person, mentions=1)
-    r = false
-    if person_dataset.filter(:person_id => person.id).empty?
-      r = super(person)
-    end
-    doc_id = self.id
-    person_id = person.id
-    DocumentsPerson.filter(:document_id => doc_id, :person_id => person_id).set(:mentions => :mentions + mentions)
-    r
-  end
+  # # deprecated
+  # def method_missing(p, args=[])
+  #   fd.send(p, *args)
+  # end
+
+  # def add_person(person, mentions=1)
+  #   r = false
+  #   if person_dataset.filter(:person_id => person.id).empty?
+  #     r = super(person)
+  #   end
+  #   doc_id = self.id
+  #   person_id = person.id
+  #   DocumentsPerson.filter(:document_id => doc_id, :person_id => person_id).set(:mentions => :mentions + mentions)
+  #   r
+  # end
 end
