@@ -50,7 +50,7 @@ class TestAnalyzer < Test::Unit::TestCase
 
     date = named_entities.find{|ne| ne[:form] == "día_26_de_noviembre_de_1952"}
     assert date
-    assert_equal NamedEntity::CLASSES_PER_TAG.invert[:date], date[:tag]
+    assert_equal NamedEntity::CLASSES_PER_TAG.invert[:dates], date[:tag]
     assert_equal 45, date[:pos]
     assert_equal "[??:26/11/1952:??.??:??]", date[:lemma]
   end
