@@ -1,6 +1,9 @@
 Mapa76
 ======
 
+Main repository for [Mapa76 project](http://mapa76.info/) (in spanish).
+
+
 Dependencies
 ------------
 
@@ -8,6 +11,19 @@ Dependencies
   * Bundler (`bundler` gem)
   * MongoDB server
   * FreeLing 3.0
+
+
+Install
+-------
+
+First, run `bundle install` to install all gem dependencies.
+
+    $ bundle install
+
+Create your MongoDB configuration file based on the sample file, and modify the
+connection options to suit your needs:
+
+    $ cp config/mongoid.yml.sample config/mongoid.yml
 
 
 ### FreeLing ###
@@ -29,19 +45,6 @@ Debian / Ubuntu machines, you can run:
     # apt-get install libboost-dev libboost-filesystem libboost-program-options libboost-regex libicu-dev
 
 Then, just execute `./configure`, `make` and `make install` as usual.
-
-
-Install
--------
-
-First, run `bundle install` to install all gem dependencies.
-
-    $ bundle install
-
-Create your MongoDB configuration file based on the sample file, and modify the
-connection options to suit your needs:
-
-    $ cp config/mongoid.yml.sample config/mongoid.yml
 
 
 Usage
