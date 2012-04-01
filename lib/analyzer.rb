@@ -18,7 +18,7 @@ module Analyzer
     end
   end
 
-  # Return an enumerator of named entities
+  # Return an enumerator of tokens with PoS tags
   #
   # NOTE This function works correctly *only if* the following FreeLing
   # config options are reset:
@@ -30,7 +30,7 @@ module Analyzer
   # contracted words (e.g. "he's" => "he is"), changing the original text.
   # An exception is raised if this happens.
   #
-  def self.extract_named_entities(content)
+  def self.extract_tagged_tokens(content)
     Enumerator.new do |yielder|
       st = self.extract_tokens(content)
       cur_st = st.next
@@ -39,12 +39,11 @@ module Analyzer
 
         # exact match
         if token[:form] == cur_st[:form]
+          new_token = token.merge(:pos => cur_st[:pos])
           if NamedEntity::CLASSES_PER_TAG[token[:tag]]
-            yielder << NamedEntity.new(token.merge({
-              :pos => cur_st[:pos],
-              :tokens => [{ :pos => cur_st[:pos], :form => cur_st[:form] }],
-            }))
+            new_token[:tokens] = [{ :pos => cur_st[:pos], :form => cur_st[:form] }]
           end
+          yielder << new_token
           cur_st = st.next rescue nil
 
         # multiword
@@ -59,18 +58,25 @@ module Analyzer
             m_word = m_word.slice(cur_st[:form].size + 1 .. -1).to_s
             cur_st = st.next rescue nil
           end
-          if ne_class = NamedEntity::CLASSES_PER_TAG[token[:tag]]
-            yielder << NamedEntity.new(token.merge({
-              :ne_class => ne_class,
-              :pos => token_pos,
-              :tokens => tokens,
-            }))
+          new_token = token.merge(:pos => token_pos)
+          if NamedEntity::CLASSES_PER_TAG[token[:tag]]
+            new_token[:tokens] = tokens
           end
+          yielder << new_token
 
         else
           raise "Simple tokens and tagged tokens do not match " \
                 "(#{cur_st[:form]} != #{token[:form]}). Maybe a contraction?"
         end
+      end
+    end
+  end
+
+  # Return an enumerator of named entities
+  def self.extract_named_entities(content)
+    Enumerator.new do |yielder|
+      self.extract_tagged_tokens(content).each do |token|
+        yielder << token if NamedEntity::CLASSES_PER_TAG[token[:tag]]
       end
     end
   end
