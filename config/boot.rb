@@ -16,7 +16,7 @@ Bundler.require(:default, PADRINO_ENV)
 # Padrino::Logger.log_static = true
 #
 
-USER_DIR = File.join(Padrino.root, 'public', 'uploads')
+DOCUMENTS_DIR  = 'uploads'
 
 ##
 # Add your before load hooks here
