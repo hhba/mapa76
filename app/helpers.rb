@@ -52,7 +52,15 @@ Alegato.helpers do
     documents[index].heading
   end
 
+  def original_file_url(document)
+    "/#{DOCUMENTS_DIR}/#{CGI.escape(document.original_file)}" if document.original_file
+  end
+
+  def thumbnail_url(document)
+    "/#{THUMBNAILS_DIR}/#{CGI.escape(document.thumbnail_file)}" if document.thumbnail_file
+  end
+
   def thumbnail_tag(document, opts={})
-    image_tag("/#{THUMBNAILS_DIR}/#{document.thumbnail_file}", opts)
+    image_tag(thumbnail_url(document), opts)
   end
 end

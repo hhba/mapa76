@@ -28,11 +28,13 @@ class Document
   # plain text for further analysis.
   #
   def split
-    if self.path_to_original_file
+    if self.original_file_path
       # Replace title with original title from document
-      self.title = Splitter.extract_title(self.path_to_original_file)
-      self.content = Splitter.extract_plain_text(self.path_to_original_file)
-      self.thumbnail_file = Splitter.create_thumbnail(self.path_to_original_file)
+      self.title = Splitter.extract_title(self.original_file_path)
+      self.content = Splitter.extract_plain_text(self.original_file_path)
+      self.thumbnail_file = Splitter.create_thumbnail(self.original_file_path,
+        :output => File.join(Padrino.root, 'public', THUMBNAILS_DIR)
+      )
       save
     end
   end
@@ -48,7 +50,7 @@ class Document
   end
 
 
-  def path_to_original_file
+  def original_file_path
     File.join(Padrino.root, 'public', DOCUMENTS_DIR, self.original_file) if self.original_file
   end
 
@@ -58,11 +60,6 @@ class Document
 
   def self._load(arg)
     self.find(arg)
-  end
-
-  # deprecated
-  def path
-    File.join(File.expand_path(File.dirname(__FILE__)), "../../", "data", "#{id}.txt")
   end
 
   # deprecated

@@ -57,10 +57,7 @@ module Splitter
     basename = File.basename(path, '.pdf')
     filename = basename + '.png'
 
-    Docsplit.extract_images(path,
-      :output => File.join(Padrino.root, 'public', THUMBNAILS_DIR),
-      :size => opts[:size],
-      :pages => 1)
+    Docsplit.extract_images(path, opts.merge(:pages => 1))
 
     return "#{basename}_1.png"
   end
