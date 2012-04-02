@@ -19,6 +19,8 @@ class Document
   has_many :named_entities
   has_and_belongs_to_many :people
 
+  validates_presence_of :original_file
+
   after_create :split, :analyze
 
   attr_accessor :sample_mode
@@ -28,15 +30,13 @@ class Document
   # plain text for further analysis.
   #
   def split
-    if self.original_file_path
-      # Replace title with original title from document
-      self.title = Splitter.extract_title(self.original_file_path)
-      self.content = Splitter.extract_plain_text(self.original_file_path)
-      self.thumbnail_file = Splitter.create_thumbnail(self.original_file_path,
-        :output => File.join(Padrino.root, 'public', THUMBNAILS_DIR)
-      )
-      save
-    end
+    # Replace title with original title from document
+    self.title = Splitter.extract_title(self.original_file_path)
+    self.content = Splitter.extract_plain_text(self.original_file_path)
+    self.thumbnail_file = Splitter.create_thumbnail(self.original_file_path,
+      :output => File.join(Padrino.root, 'public', THUMBNAILS_DIR)
+    )
+    save
   end
 
   # Perform a morphological analysis and extract named entities like persons,
