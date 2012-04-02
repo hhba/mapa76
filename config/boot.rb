@@ -17,6 +17,7 @@ Bundler.require(:default, PADRINO_ENV)
 #
 
 DOCUMENTS_DIR  = 'uploads'
+THUMBNAILS_DIR = 'thumbs'
 
 ##
 # Add your before load hooks here

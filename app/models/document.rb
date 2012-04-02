@@ -6,13 +6,14 @@ class Document
   include Mongoid::Document
   include Mongoid::Timestamps
 
-  field :title,         type: String
-  field :heading,       type: String
-  field :category,      type: String
-  field :content,       type: String
-  field :published_at,  type: Date
-  field :description,   type: String
-  field :original_file, type: String
+  field :title,          type: String
+  field :heading,        type: String
+  field :category,       type: String
+  field :content,        type: String
+  field :published_at,   type: Date
+  field :description,    type: String
+  field :original_file,  type: String
+  field :thumbnail_file, type: String
 
   has_many :milestones
   has_many :named_entities
@@ -31,6 +32,7 @@ class Document
       # Replace title with original title from document
       self.title = Splitter.extract_title(self.path_to_original_file)
       self.content = Splitter.extract_plain_text(self.path_to_original_file)
+      self.thumbnail_file = Splitter.create_thumbnail(self.path_to_original_file)
       save
     end
   end

@@ -52,4 +52,7 @@ Alegato.helpers do
     documents[index].heading
   end
 
+  def thumbnail_tag(document, opts={})
+    image_tag("/#{THUMBNAILS_DIR}/#{document.thumbnail_file}", opts)
+  end
 end

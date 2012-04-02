@@ -11,4 +11,5 @@ vendor/gems/*
 config/mongoid.yml
 .rvmrc
 public/uploads/*
+public/thumbs/*
 data/*

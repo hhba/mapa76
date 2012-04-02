@@ -46,4 +46,22 @@ module Splitter
     end
     nil
   end
+
+  # Export the first page of a document as a PNG file as a thumbnail of a
+  # document.
+  def self.create_thumbnail(path, opts={})
+    opts = {
+      :size => '65x80'
+    }.merge(opts)
+
+    basename = File.basename(path, '.pdf')
+    filename = basename + '.png'
+
+    Docsplit.extract_images(path,
+      :output => File.join(Padrino.root, 'public', THUMBNAILS_DIR),
+      :size => opts[:size],
+      :pages => 1)
+
+    return "#{basename}_1.png"
+  end
 end
