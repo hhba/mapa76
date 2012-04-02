@@ -27,10 +27,10 @@ class Document
   # plain text for further analysis.
   #
   def split
-    if self.original_path
+    if self.path_to_original_file
       # Replace title with original title from document
-      self.title = Splitter.extract_title(self.original_path)
-      self.content = Splitter.extract_plain_text(self.original_path)
+      self.title = Splitter.extract_title(self.path_to_original_file)
+      self.content = Splitter.extract_plain_text(self.path_to_original_file)
       save
     end
   end
@@ -46,8 +46,8 @@ class Document
   end
 
 
-  def original_path
-    File.join(USER_DIR, self.original_file) if self.original_file
+  def path_to_original_file
+    File.join(Padrino.root, 'public', DOCUMENTS_DIR, self.original_file) if self.original_file
   end
 
   def _dump(level)
