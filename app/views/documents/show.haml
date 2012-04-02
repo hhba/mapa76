@@ -19,6 +19,8 @@
       = link_to "Reparsear doc",url_for(:documents, :reparse, :id => @doc.id)
     %p
       = link_to "Bajar archivo", "/uploads/#{@doc.original_file}"
+    %p
+      = link_to "Ver mapa", url_for(:documents, :map, :id => @doc.id)
 .row
   .span12
     %hr

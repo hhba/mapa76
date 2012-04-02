@@ -26,7 +26,7 @@
         var myLatlng = new google.maps.LatLng(<%=dir.geocode.ll%>);
         var myOptions = { zoom: 4, center: myLatlng, mapTypeId: google.maps.MapTypeId.ROADMAP }
         if (!centered){ centered=true; map.panTo(myLatlng) }
-        var marker = new google.maps.Marker({ position: myLatlng, map: map, title:<%=dir.context.to_json%> });   
+        var marker = new google.maps.Marker({ position: myLatlng, map: map, title:<%=dir.context.to_json%> });
       <%end
     }%>
   }

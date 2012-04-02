@@ -11,18 +11,6 @@ Alegato.controllers  do
     render :index
   end
 
-  get :addr do
-    fd = open("data/alegato2.txt", 'r')
-    no_dirs = ['Batallón', 'Convención', 'El ', 'Tenía', 'Legajo ', 'Destacamento ', 'Decreto ', 'En ', 'Ley ', 'Tenia ', 'Tratado ', 'Eran ', 'Grupo de ', 'Conadep ', 'Desde la','Fallos ','Comisaria ','Puente ','Entre ', 'Cabo ', 'Peugeot ']
-    texto = Text.new(fd)
-    matches_ref = texto.addresses.find_all { |t|
-        !no_dirs.find { |nd| t.start_with?(nd) }
-      }.map { |d| Text::Address.new_from_string_with_context(d) }
-    @addresses = matches_ref.sort.uniq
-
-    render 'index', :addresses => @addresses
-  end
-
   get :timeline_json do
     persons = Person.find(params[:ids].split(","))
     t = {}
