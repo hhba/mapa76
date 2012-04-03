@@ -42,6 +42,7 @@ class TestAnalyzer < Test::Unit::TestCase
     assert person
     assert_equal NamedEntity::CLASSES_PER_TAG.invert[:people], person[:tag]
     assert_equal 0, person[:pos]
+    assert_equal 0, person[:sentence_pos]
     assert_equal [
         {:pos=>0, :form=>"Luis"},
         {:pos=>5, :form=>"Abelardo"},
@@ -52,6 +53,7 @@ class TestAnalyzer < Test::Unit::TestCase
     assert date
     assert_equal NamedEntity::CLASSES_PER_TAG.invert[:dates], date[:tag]
     assert_equal 45, date[:pos]
+    assert_equal 0, date[:sentence_pos]
     assert_equal "[??:26/11/1952:??.??:??]", date[:lemma]
   end
 end
