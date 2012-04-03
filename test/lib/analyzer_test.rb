@@ -10,6 +10,17 @@ class TestAnalyzer < Test::Unit::TestCase
       "retirado, titular del DNI n° 10.635.503, domiciliado en Belgrano " \
       "n° 349 de Escobar, Provincia de Buenos Aires y actualmente en " \
       "prisión preventiva."
+
+    @two_sentences = "Reynaldo Benito Antonio Bignone, es argentino, nacido el " \
+      "día 21 de enero de 1928 en el Partido de Morón, Provincia de Buenos " \
+      "Aires, casado, militar retirado, Libreta de Enrolamiento n° 4.779.986, " \
+      "con domicilio real en la calle Dorrego n° 2699, piso 6°, departamento " \
+      "2°, de la Ciudad Autónoma de Buenos Aires, actualmente con  prisión " \
+      "preventiva. Juan Fernando Meneghini, es argentino, nacido el día 28 de " \
+      "enero de 1936 en San Pedro, Provincia de Buenos Aires, instruido, " \
+      "Comisario reiterado, con domicilio real en Mariani n° 7868 de Mar del " \
+      "Plata, Partido de General Pueyrredón, Provincia de Buenos Aires y " \
+      "actualmente con prisión domiciliaria."
   end
 
   def test_extract_tokens
@@ -55,5 +66,19 @@ class TestAnalyzer < Test::Unit::TestCase
     assert_equal 45, date[:pos]
     assert_equal 0, date[:sentence_pos]
     assert_equal "[??:26/11/1952:??.??:??]", date[:lemma]
+  end
+
+  def test_extract_named_entities_multiple_sentences
+    named_entities = Analyzer.extract_named_entities(@two_sentences)
+
+    person_a = named_entities.find{|ne| ne[:form] == "Reynaldo_Benito_Antonio_Bignone"}
+    assert person_a
+    assert_equal NamedEntity::CLASSES_PER_TAG.invert[:people], person_a[:tag]
+    assert_equal 0, person_a[:sentence_pos]
+
+    person_b = named_entities.find{|ne| ne[:form] == "Juan_Fernando_Meneghini"}
+    assert person_b
+    assert_equal NamedEntity::CLASSES_PER_TAG.invert[:people], person_b[:tag]
+    assert_equal 1, person_b[:sentence_pos]
   end
 end

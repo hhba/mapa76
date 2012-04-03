@@ -75,7 +75,7 @@ module Analyzer
                   "(#{cur_st[:form]} != #{token[:form]}). Maybe a contraction?"
           end
         end
-        sentence_number += 1
+        sentence_pos += 1
       end
     end
   end
