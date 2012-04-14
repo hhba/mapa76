@@ -32,6 +32,7 @@ class Person
   end
 
 protected
+
   def store_normalize_name
     self.searchable_name = self.class.normalize_name(name)
   end

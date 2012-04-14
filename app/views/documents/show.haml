@@ -43,5 +43,5 @@
               = p
             %td.link
               = link_to('Ver más', url_for(:documents, :paragraph, @doc.id, :paragraph_index => index),
-                        "data-content" => "7 personas, 4 fechas y 2 direcciones mencionadas",
+                        "data-content" => @doc.paragraphs[index].info,
                         "title" => "Información")

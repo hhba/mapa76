@@ -1,6 +1,5 @@
 # encoding: utf-8
 require 'splitter'
-#require 'text'
 
 class Document
   include Mongoid::Document
