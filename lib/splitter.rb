@@ -47,24 +47,18 @@ module Splitter
     nil
   end
 
-=begin
-  def self.extract_text_from_pdf_string(str)
-    tmp_file = Tempfile.new(["docsplit", ".pdf"], :encoding => "binary")
-    tmp_file.write(str)
-    tmp_file.close
-    basename = File.basename(tmp_file.path, "pdf")
-    tmp_dir = Dir.tmpdir
-    Docsplit.extract_text(tmp_file.path, :output => tmp_dir, :ocr => false)
-    open(File.join(tmp_dir, basename + "txt")).read
-  end
+  # Export the first page of a document as a PNG file as a thumbnail of a
+  # document.
+  def self.create_thumbnail(path, opts={})
+    opts = {
+      :size => '65x80'
+    }.merge(opts)
 
-  def self.extract_title_from_pdf_string(str)
-    tmp_file = Tempfile.new(["docsplit", ".pdf"], :encoding => "binary")
-    tmp_file.write(str)
-    tmp_file.close
-    basename = File.basename(tmp_file.path, "pdf")
-    tmp_dir = Dir.tmpdir
-    Docsplit.extract_title(tmp_file.path)
+    basename = File.basename(path, '.pdf')
+    filename = basename + '.png'
+
+    Docsplit.extract_images(path, opts.merge(:pages => 1))
+
+    return "#{basename}_1.png"
   end
-=end
 end

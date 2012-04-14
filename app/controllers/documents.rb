@@ -1,3 +1,4 @@
+# encoding: utf-8
 require 'json'
 require 'docsplit'
 require 'open-uri'
@@ -185,5 +186,16 @@ Alegato.controllers :documents do
       :text => markup_fragment(fragment),
       :prev_fragment_id => params[:fragment_id]
     }.to_json
+  end
+
+  get :map, :map => '/documents/:id/map' do
+    @doc = Document.find(params[:id])
+    no_dirs = ['Batallón', 'Convención', 'El ', 'Tenía', 'Legajo ', 'Destacamento ', 'Decreto ', 'En ', 'Ley ', 'Tenia ', 'Tratado ', 'Eran ', 'Grupo de ', 'Conadep ', 'Desde la','Fallos ','Comisaria ','Puente ','Entre ', 'Cabo ', 'Peugeot ']
+    matches_ref = @doc.extract.addresses.find_all { |t|
+        !no_dirs.find { |nd| t.start_with?(nd) }
+      }.map { |d| Text::Address.new_from_string_with_context(d) }
+    @addresses = matches_ref.sort.uniq
+
+    render 'documents/map'
   end
 end

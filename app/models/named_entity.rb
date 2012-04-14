@@ -9,8 +9,7 @@ class NamedEntity
   field :prob,     :type => Float
   field :tokens,   :type => Array
 
-  belongs_to :document
-
+  embedded_in :document
 
   CLASSES_PER_TAG = {
     'NP00O00' => :organizations,
@@ -21,7 +20,7 @@ class NamedEntity
     'W'       => :dates,
   }
 
-  #def original_text
-  #  document.content[pos ... pos + form.size]
-  #end
+  def orginal_text
+    document.content[pos...pos + form.size]
+  end
 end

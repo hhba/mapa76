@@ -3,7 +3,7 @@ require 'yaml'
 # Defines our constants
 PADRINO_ENV  = ENV["PADRINO_ENV"] ||= ENV["RACK_ENV"] ||= "development"  unless defined?(PADRINO_ENV)
 PADRINO_ROOT = File.expand_path('../..', __FILE__) unless defined?(PADRINO_ROOT)
-#CONFIG = YAML.load_file(::File.dirname(__FILE__)+'/local_config.yaml')[PADRINO_ENV]
+
 # Load our dependencies
 require 'rubygems' unless defined?(Gem)
 require 'bundler/setup'
@@ -16,7 +16,8 @@ Bundler.require(:default, PADRINO_ENV)
 # Padrino::Logger.log_static = true
 #
 
-USER_DIR = File.join(Padrino.root, 'public', 'uploads')
+DOCUMENTS_DIR  = 'uploads'
+THUMBNAILS_DIR = 'thumbs'
 
 ##
 # Add your before load hooks here

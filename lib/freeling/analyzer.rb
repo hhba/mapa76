@@ -37,8 +37,8 @@ module FreeLing
     end
 
     def sentences(run_again=false)
-      if @options[:output_format] == :plain
-        raise "Sentence splitter is not available with output format set to 'plain'"
+      if @options[:output_format] == :token
+        raise "Sentence splitter is not available with output format set to 'token'"
       end
 
       if not run_again and @sentences

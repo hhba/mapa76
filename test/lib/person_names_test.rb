@@ -1,7 +1,11 @@
 # encoding: utf-8
 require File.expand_path(File.dirname(__FILE__) + '/../test_config.rb')
 
+# TODO Migrate these tests to another test for coverage of border cases and
+# precision of named entities detection.
+
 class TestPersonNames < Test::Unit::TestCase
+=begin
   def test_simple
     d = []
     d << "Tambien dijo que Colores y Turco Julian, a quienes vio a cara descubierta, le hicieron presenciar la tortura de su prima"
@@ -29,4 +33,5 @@ class TestPersonNames < Test::Unit::TestCase
     n = pt.person_names
     assert_equal(["LEON GAJNAJ"], n)
   end
+=end
 end

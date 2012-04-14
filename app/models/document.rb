@@ -5,46 +5,45 @@ class Document
   include Mongoid::Document
   include Mongoid::Timestamps
 
-  field :title,         type: String
-  field :heading,       type: String
-  field :category,      type: String
-  field :content,       type: String
-  field :published_at,  type: Date
-  field :description,   type: String
-  field :original_file, type: String
+  field :title,            type: String
+  field :heading,          type: String
+  field :category,         type: String
+  field :published_at,     type: Date
+  field :description,      type: String
+  field :original_file,    type: String
+  field :thumbnail_file,   type: String
+  field :information,      type: Hash
+  field :last_analysis_at, type: Time
 
   has_many :milestones
-  has_many :named_entities
   has_and_belongs_to_many :people
+  embeds_many :named_entities
   embeds_many :paragraphs
+
+  validates_presence_of :original_file
 
   after_create :split, :analyze
 
   attr_accessor :sample_mode
 
+  def content
+    self.paragraphs.map { |p| p.content }.join("\n")
+  end
+
   # Split original document data and extract metadata and content as clean,
   # plain text for further analysis.
   #
   def split
-    if self.original_path
-      # Replace title with original title from document
-      self.title = Splitter.extract_title(self.original_path)
-      text = Splitter.extract_plain_text(self.original_path)
-      text.split(".\n").each do |paragraph|
-        self.paragraphs << Paragraph.new(:content => paragraph) if paragraph != ""
-      end
-      save
+    # Replace title with original title from document
+    self.title = Splitter.extract_title(self.original_file_path)
+    self.thumbnail_file = Splitter.create_thumbnail(self.original_file_path,
+      :output => File.join(Padrino.root, 'public', THUMBNAILS_DIR)
+    )
+    text = Splitter.extract_plain_text(self.original_file_path)
+    text.split(".\n").each do |paragraph|
+      self.paragraphs << Paragraph.new(:content => paragraph) if paragraph != ""
     end
-  end
-
-  # Perform a morphological analysis and extract named entities like persons,
-  # organizations, places, dates and addresses.
-  #
-  # From the detected entities, create Person instances and try to resolve
-  # correference, if possible.
-  #
-  def analyze
-    # TODO
+    save
   end
 
   # Returns text extracted from paragraphs
@@ -68,68 +67,57 @@ class Document
     output
   end
 
-
-  def original_path
-    File.join(USER_DIR, self.original_file) if self.original_file
+  def original_file_path
+    File.join(Padrino.root, 'public', DOCUMENTS_DIR, self.original_file) if self.original_file
   end
 
-  # def _dump(level)
-  #   id.to_s
-  # end
+  def _dump(level)
+    id.to_s
+  end
 
-  # def self._load(arg)
-  #   self.find(arg)
-  # end
-
-  # deprecated
-  # def path
-  #   File.join(File.expand_path(File.dirname(__FILE__)), "../../", "data", "#{id}.txt")
-  # end
+  def self._load(arg)
+    self.find(arg)
+  end
 
   # deprecated
-  # def length
-  #   fd { |fd| fd.read.size }
-  # end
+  def length
+    fd { |fd| fd.read.size }
+  end
 
-  # # deprecated
-  # def fd(&block)
-  #   require 'stringio'
-  #   yield StringIO.new(self.content)
-  # end
+  def re_analyze
+    self.named_entities.destroy_all
+    analyze
+  end
 
-  # # deprecated
-  # def read(*p)
-  #   if p.empty?
-  #     @___text ||= fd { |fd| fd.read }
-  #   else
-  #     fd { |fd| fd.read(*p) }
-  #   end
-  # end
+  def people_found
+    self.named_entities.select { |ne| ne.ne_class == :people }
+  end
 
-  # def fragment(start_pos, end_pos)
-  #   text = read()
-  #   fragment = text[start_pos ... end_pos]
-  #   Text::StringWithContext.new_with_context(fragment, text, start_pos, end_pos, self)
-  # end
+  def dates_found
+    self.named_entities.select { |ne| ne.ne_class == :dates }
+  end
 
-  # # deprecated
-  # def extract
-  #   @process_text ||= Text.new(self)
-  # end
+  def organizations_found
+    self.named_entities.select { |ne| ne.ne_class == :organizations }
+  end
 
-  # # deprecated
-  # def method_missing(p, args=[])
-  #   fd.send(p, *args)
-  # end
+  private
 
-  # def add_person(person, mentions=1)
-  #   r = false
-  #   if person_dataset.filter(:person_id => person.id).empty?
-  #     r = super(person)
-  #   end
-  #   doc_id = self.id
-  #   person_id = person.id
-  #   DocumentsPerson.filter(:document_id => doc_id, :person_id => person_id).set(:mentions => :mentions + mentions)
-  #   r
-  # end
+    # Perform a morphological analysis and extract named entities like persons,
+    # organizations, places, dates and addresses.
+    #
+    # From the detected entities, create Person instances and try to resolve
+    # correference, if possible.
+    #
+    def analyze
+      Analyzer.extract_named_entities(self.content).each do |ne_attrs|
+        self.named_entities.push(NamedEntity.new(ne_attrs))
+      end
+      self.information = {
+        :people => self.named_entities.select { |ne| ne.ne_class == :people }.size,
+        :dates => self.named_entities.select { |ne| ne.ne_class == :dates }.size
+      }
+      self.last_analysis_at = Time.now
+      save
+    end
 end

@@ -31,7 +31,9 @@ Alegato.helpers do
 
   def store_file(opts)
     filename = opts[:filename].to_s
-    path = File.join(USER_DIR, filename)
+    dir = File.join(Padrino.root, 'public', DOCUMENTS_DIR)
+    path = File.join(dir, filename)
+    FileUtils.mkdir_p(dir)
     File.open(path, 'wb') { |f| f.write(opts[:tempfile].read) }
     return filename
   end
@@ -50,4 +52,15 @@ Alegato.helpers do
     documents[index].heading
   end
 
+  def original_file_url(document)
+    "/#{DOCUMENTS_DIR}/#{CGI.escape(document.original_file)}" if document.original_file
+  end
+
+  def thumbnail_url(document)
+    "/#{THUMBNAILS_DIR}/#{CGI.escape(document.thumbnail_file)}" if document.thumbnail_file
+  end
+
+  def thumbnail_tag(document, opts={})
+    image_tag(thumbnail_url(document), opts)
+  end
 end
