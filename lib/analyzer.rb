@@ -1,6 +1,13 @@
+# encoding: utf-8
 require 'freeling/analyzer'
 
 module Analyzer
+  LETTERS = 'áéíóúñüça-z'
+  LETTERS_UPCASE = 'ÁÉÍÓÚÑÜA-Z'
+
+  NP_RE = "(?:[#{LETTERS_UPCASE}][#{LETTERS}]+(?:[ ,](?:[#{LETTERS_UPCASE}][#{LETTERS_UPCASE}#{LETTERS}]+|(?:(?:de|la|del)(?= ))))*)"
+  ADDRESS_RE = Regexp.new("(?<!^)((?:Av.? )?#{NP_RE}+ [0-9]{1,5}(?![0-9\/])(,? )?#{NP_RE}*)")
+
   # Return an enumerator of tokens
   #
   # All tokens have a reference to its position in the string
@@ -93,6 +100,27 @@ module Analyzer
     Enumerator.new do |yielder|
       self.extract_tagged_tokens(content).each do |token|
         yielder << token if NamedEntity::CLASSES_PER_TAG[token[:tag]]
+      end
+      self.extract_addresses(content).each do |address|
+        yielder << address
+      end
+    end
+  end
+
+  # Return an enumerator of addressese
+  #
+  def self.extract_addresses(content)
+    Enumerator.new do |yielder|
+      start_pos = 0
+      loop do
+        break if not content.match(ADDRESS_RE, start_pos) do |match|
+          yielder << {
+            :form => match[0].strip,
+            :pos => match.begin(0),
+            :tag => 'NP00GA0',
+          }
+          start_pos = match.end(0)
+        end
       end
     end
   end

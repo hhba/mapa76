@@ -81,4 +81,11 @@ class TestAnalyzer < Test::Unit::TestCase
     assert_equal NamedEntity::CLASSES_PER_TAG.invert[:people], person_b[:tag]
     assert_equal 1, person_b[:sentence_pos]
   end
+
+  def test_extract_addresses
+    named_entities = Analyzer.extract_named_entities("Scalabrini Ortiz 1234, Sanchez de Bustamante al 2000.").to_a
+
+    address_a = named_entities.find { |ne| ne[:tag] == NamedEntity::CLASSES_PER_TAG.invert[:addresses] }
+    assert address_a
+  end
 end
