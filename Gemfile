@@ -27,6 +27,7 @@ gem "docsplit"
 gem "httpi"
 gem "capistrano"
 gem "haml"
+gem "amatch"
 
 # Test requirements
 group :test do

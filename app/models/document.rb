@@ -101,6 +101,9 @@ class Document
     self.named_entities.select { |ne| ne.ne_class == :organizations }
   end
 
+  def process
+  end
+
   private
 
     # Perform a morphological analysis and extract named entities like persons,
