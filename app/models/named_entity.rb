@@ -18,6 +18,7 @@ class NamedEntity
     'NP00G00' => :places,
     'NP00000' => :unknown,
     'W'       => :dates,
+    'NP00GA0' => :addresses,
   }
 
   def orginal_text
