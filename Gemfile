@@ -31,6 +31,7 @@ gem "haml"
 gem "amatch"
 gem "multi_json"
 gem "oj"
+gem "activesupport", :require => nil
 
 # Test requirements
 group :test do
