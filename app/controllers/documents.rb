@@ -21,6 +21,26 @@ Alegato.controllers :documents do
     render "documents/index"
   end
 
+  put :create do
+    filename = store_file(params['file'])
+    @doc = Document.create({
+      :title => filename,
+      :original_file => filename,
+    }.merge(params.slice('heading', 'description', 'category')))
+
+    redirect url(:documents, :preprocess, :id => @doc.id)
+  end
+
+  get :preprocess, :map => '/documents/:id/preprocess' do
+    @doc = Document.find(params[:id])
+    render "documents/preprocess"
+  end
+
+  post :process, :map => '/documents/:id/process' do
+    @doc = Document.find(params[:id]).store_names
+    redirect url(:documents, :show, :id => @doc.id)
+  end
+
   get :show, :map => '/documents/:id' do
     @doc = Document.find(params[:id])
     @most_mentioned = []
@@ -42,15 +62,6 @@ Alegato.controllers :documents do
     end
   end
 
-  put :create do
-    filename = store_file(params['file'])
-    @doc = Document.create({
-      :title => filename,
-      :original_file => filename,
-    }.merge(params.slice('heading', 'description', 'category')))
-
-    redirect url(:documents, :show, :id => @doc.id)
-  end
 
   get :people, :map => '/documents/:id/people' do
     @doc = Document.find(params[:id])

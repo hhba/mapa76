@@ -1,4 +1,5 @@
 class NamedEntity
+
   include Mongoid::Document
 
   field :form,     :type => String
@@ -9,7 +10,8 @@ class NamedEntity
   field :prob,     :type => Float
   field :tokens,   :type => Array
 
-  embedded_in :document
+  belongs_to :document
+  belongs_to :person
 
   CLASSES_PER_TAG = {
     'NP00O00' => :organizations,
@@ -24,4 +26,9 @@ class NamedEntity
   def orginal_text
     document.content[pos...pos + form.size]
   end
+
+  def to_s
+    orginal_text
+  end
+
 end

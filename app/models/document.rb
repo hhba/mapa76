@@ -16,8 +16,8 @@ class Document
   field :last_analysis_at, type: Time
 
   has_many :milestones
+  has_many :named_entities
   has_and_belongs_to_many :people
-  embeds_many :named_entities
   embeds_many :paragraphs
 
   validates_presence_of :original_file
@@ -101,7 +101,25 @@ class Document
     self.named_entities.select { |ne| ne.ne_class == :organizations }
   end
 
-  def process
+  def store_names
+    groups = Coreference.resolve(self.people_found)
+    groups.each do |group|
+      Person.all.each do |known_person|
+        if Coreference.search_matching_groups(group, known_person)
+          known_person.named_entities << group
+        else
+          store_name(group)
+        end
+      end
+    end
+    self
+  end
+
+  def store_name(group)
+    person = Person.new(:name => group.first.to_s)
+    person.documents << self
+    person.named_entities << group
+    person.save
   end
 
   private
@@ -117,8 +135,9 @@ class Document
         self.named_entities.push(NamedEntity.new(ne_attrs))
       end
       self.information = {
-        :people => self.named_entities.select { |ne| ne.ne_class == :people }.size,
-        :dates => self.named_entities.select { |ne| ne.ne_class == :dates }.size
+        :people => people_found.size,
+        :dates => dates_found.size,
+        :organizations => organizations_found.size
       }
       self.last_analysis_at = Time.now
       save
