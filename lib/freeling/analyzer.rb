@@ -97,7 +97,7 @@ module FreeLing
         "--inpf #{@options[:input_format]} " \
         "--outf #{@options[:output_format]} " \
         "--nec " \
-        "--noflush"
+        "--flush"
     end
 
     def run_process

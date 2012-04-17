@@ -27,7 +27,7 @@ class Document
   attr_accessor :sample_mode
 
   def content
-    self.paragraphs.map { |p| p.content }.join("\n")
+    self.paragraphs.map(&:content).join(".\n")
   end
 
   # Split original document data and extract metadata and content as clean,
@@ -36,13 +36,19 @@ class Document
   def split
     # Replace title with original title from document
     self.title = Splitter.extract_title(self.original_file_path)
+
     self.thumbnail_file = Splitter.create_thumbnail(self.original_file_path,
       :output => File.join(Padrino.root, 'public', THUMBNAILS_DIR)
     )
+
     text = Splitter.extract_plain_text(self.original_file_path)
     text.split(".\n").each do |paragraph|
-      self.paragraphs << Paragraph.new(:content => paragraph) if paragraph != ""
+      # Because Analyzer is configured to flush buffer at every linefeed,
+      # replace all possible '\n' inside paragraphs to avoid a bad sentence split.
+      paragraph = paragraph.strip.gsub("\n", ' ')
+      self.paragraphs << Paragraph.new(:content => paragraph) if not paragraph.empty?
     end
+
     save
   end
 
