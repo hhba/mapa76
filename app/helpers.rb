@@ -30,7 +30,7 @@ Alegato.helpers do
   end
 
   def store_file(opts)
-    filename = opts[:filename].to_s
+    filename = opts[:filename].to_s.gsub(' ', '_')
     dir = File.join(Padrino.root, 'public', DOCUMENTS_DIR)
     path = File.join(dir, filename)
     FileUtils.mkdir_p(dir)

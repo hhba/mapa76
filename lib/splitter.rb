@@ -6,10 +6,10 @@ module Splitter
   end
 
   def self.extract_plain_text(path)
-    basename = File.basename(path, 'pdf')
+    basename = File.basename(path).split('.')[0..-2].join('.')
     tmp_dir = Dir.tmpdir
-    Docsplit.extract_text(path, :output => tmp_dir, :ocr => false)
-    text = File.open(File.join(tmp_dir, basename + 'txt')).read
+    Docsplit.extract_text(path, :output => tmp_dir)
+    text = File.open(File.join(tmp_dir, "#{basename}.txt")).read
     self.clean_text(text)
   end
 
@@ -54,7 +54,7 @@ module Splitter
       :size => '65x80'
     }.merge(opts)
 
-    basename = File.basename(path, '.pdf')
+    basename = File.basename(path).split('.')[0..-2].join('.')
     filename = basename + '.png'
 
     Docsplit.extract_images(path, opts.merge(:pages => 1))
