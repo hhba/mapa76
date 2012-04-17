@@ -23,12 +23,14 @@ class NamedEntity
     'NP00GA0' => :addresses,
   }
 
-  def orginal_text
-    document.content[pos...pos + form.size]
+  def original_text
+    @@content ||= {}
+    @@content[document_id] ||= document.content
+    @@content[document_id][pos ... pos + form.size]
   end
 
   def to_s
-    orginal_text
+    original_text
   end
 
 end
