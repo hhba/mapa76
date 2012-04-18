@@ -42,7 +42,7 @@ release, there are no binary packages available. You can download the source
 For compiling the source, you need the `libboost` and `libicu` libraries. On
 Debian / Ubuntu machines, you can run:
 
-    # apt-get install libboost-dev libboost-filesystem libboost-program-options libboost-regex libicu-dev
+    # apt-get install libboost-dev libboost-filesystem-dev libboost-program-options-dev libboost-regex-dev libicu-dev
 
 Then, just execute `./configure`, `make` and `make install` as usual.
 
