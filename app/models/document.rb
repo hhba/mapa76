@@ -107,6 +107,10 @@ class Document
     self.named_entities.where(:ne_class => :organizations)
   end
 
+  def addresses_found
+    self.named_entities.where(:ne_class => :addresses)
+  end
+
   def process_names
     groups = Coreference.resolve(self.people_found)
     groups.each_with_index do |group, index|
