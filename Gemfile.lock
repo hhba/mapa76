@@ -31,7 +31,6 @@ GEM
     debugger-ruby_core_source (1.1.1)
     diff-lcs (1.1.3)
     docsplit (0.6.3)
-    erubis (2.7.0)
     fast-stemmer (1.0.0)
     geokit (1.6.5)
       multi_json
@@ -46,7 +45,6 @@ GEM
     httpi (0.9.6)
       rack
     i18n (0.6.0)
-    json (1.6.5)
     madeleine (0.7.3)
     mail (2.3.2)
       i18n (>= 0.4.0)
@@ -68,7 +66,6 @@ GEM
     net-ssh (2.3.0)
     net-ssh-gateway (1.1.0)
       net-ssh (>= 1.99.1)
-    nokogiri (1.5.0)
     oj (1.2.4)
     padrino (0.10.5)
       padrino-admin (= 0.10.5)
@@ -131,16 +128,13 @@ DEPENDENCIES
   classifier
   debugger
   docsplit
-  erubis (~> 2.7.0)
   geokit
   haml
   httpi
-  json
   madeleine
   minitest (~> 2.6.0)
   mongoid
   multi_json
-  nokogiri
   oj
   padrino
   rack-test
