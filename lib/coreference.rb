@@ -16,21 +16,18 @@ module Coreference
   end
 
   def self.search_matching_groups(group, known_person)
-    known_names = known_person.map { |km| km.names }
-    known_names.each do |km|
-      return known_person if match_groups(group, km)
+    group.each do |name|
+      return known_person if name_in_list?(name, known_person.names)
     end
-    nil
+    false
   end
 
   private
 
-    def self.match_groups(list1, list2)
-      list1.each do |element1|
-        jw = Amatch::JaroWinkler.new(element1)
-        list2.each do |element2|
-          return true if jw.match(element2) >= MIN_SIMILARITY
-        end
+    def self.name_in_list?(name, list)
+      list.each do |element|
+        jw = Amatch::JaroWinkler.new(element)
+        return true if jw.match(name) >= MIN_SIMILARITY
       end
       false
     end

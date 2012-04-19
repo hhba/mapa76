@@ -13,7 +13,7 @@ class Person
   has_many :named_entities
   has_and_belongs_to_many :documents
 
-  def conadep
+  def self.conadep
     Person.all.collect { |person| person.tags.includes?("conadep")}
   end
 
@@ -36,6 +36,14 @@ class Person
   def self.get_id_by_name(name)
     person = filter_by_name(name).first
     person.id if person
+  end
+
+  def names
+    if name.nil?
+      self.named_entities.collect { |ne| ne.original_text.downcase }
+    else
+      [self.name.downcase]
+    end
   end
 
 protected

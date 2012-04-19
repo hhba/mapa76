@@ -107,9 +107,9 @@ class Document
     self.named_entities.where(:ne_class => :organizations)
   end
 
-  def store_names
+  def process_names
     groups = Coreference.resolve(self.people_found)
-    groups.each do |group|
+    groups.each_with_index do |group, index|
       Person.all.each do |known_person|
         if Coreference.search_matching_groups(group, known_person)
           known_person.named_entities << group
