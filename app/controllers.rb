@@ -1,41 +1,34 @@
-#encoding: utf-8
-Alegato.controllers  do
+# encoding: utf-8
 
+Alegato.controllers  do
   get :index do
     @persons = if params[:ids]
       Person.find(params[:ids].split(','))
     else
       Person.find(Milestone.all.map(&:person_id).uniq)
     end
+
     render :index
   end
 
-  get :addr do
-    fd=open("data/alegato2.txt", 'r')
-    no_dirs  = ['Batallón', 'Convención', 'El ', 'Tenía', 'Legajo ', 'Destacamento ', 'Decreto ', 'En ', 'Ley ', 'Tenia ', 'Tratado ', 'Eran ', 'Grupo de ', 'Conadep ', 'Desde la','Fallos ','Comisaria ','Puente ','Entre ', 'Cabo ', 'Peugeot ']
-    texto = Text.new(fd)
-    matches_ref = texto.addresses.find_all{|t| ! no_dirs.find{|nd| t.start_with?(nd) } }.map{|d| Text::Address.new_from_string_with_context(d)}
-    @addresses = matches_ref.sort.uniq
-    render 'index', :addresses => @addresses
-  end
   get :timeline_json do
     persons = Person.find(params[:ids].split(","))
-    t={}
+    t = {}
     t[:dateTimeFormat] = "iso8601"
     t[:"wiki-section"] = "#{persons.map(&:name).join(", ")}"
-    t[:events] = persons.map{|p|
-      p.milestones.map{|m|
-        r={}
+    t[:events] = persons.map do |p|
+      p.milestones.map do |m|
+        r = {}
         r[:start] = "#{m.date_from_range.begin.iso8601}"
         if m.date_to_range
           r[:end] = "#{m.date_to_range.last.iso8601}"
         end
-        r[:durationEvent] = !! (m.date_from_range && m.date_to_range)
+        r[:durationEvent] = !!(m.date_from_range && m.date_to_range)
         r[:title] = "#{p.name} - #{m.what}"
         r[:description] =  "#{p.name} - #{m.what} - #{m.where}"
         r
-      }
-    }.flatten
+      end
+    end.flatten
 
     render t, :layout => false
   end

@@ -17,6 +17,7 @@ gem 'bson_ext'
 gem 'padrino'
 # Padrino EDGE
 # gem 'padrino', :git => "git://github.com/padrino/padrino-framework.git"
+
 gem "geokit"
 gem "nokogiri"
 gem "ruby-stemmer"
@@ -27,3 +28,17 @@ gem "docsplit"
 gem "httpi"
 gem "capistrano"
 gem "haml"
+gem "amatch"
+gem "multi_json"
+gem "oj"
+gem "activesupport", :require => nil
+
+# Test requirements
+group :test do
+  gem 'minitest', "~>2.6.0", :require => "minitest/autorun"
+  gem 'rack-test', :require => "rack/test"
+end
+
+group :development do
+  gem 'debugger'
+end

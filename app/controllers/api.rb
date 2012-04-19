@@ -1,7 +1,6 @@
 Alegato.controllers :api do
-
   post :classify_name, :map => '/api/classify_name' do
-    r=false
+    r = false
     if params[:name] and params[:training]
       Text::PersonName.train(params[:training], params[:name])
       r = Text::PersonName.training_save
@@ -12,13 +11,13 @@ Alegato.controllers :api do
   post :milestones, :map => '/api/milestones' do
     @milestone = Milestone.new params[:event]
     if @milestone.save
-      {:saved => true}.to_json
+      { :saved => true }.to_json
     else
-      {:saved => false}.to_json
+      { :saved => false }.to_json
     end
   end
 
-  get :person, :with => [:id], :provides => [:html,:json] do
+  get :person, :with => [:id], :provides => [:html, :json] do
     p = {}
     data = Person.find(params[:id])
 
@@ -32,7 +31,8 @@ Alegato.controllers :api do
       when :json then data.to_json(p)
     end
   end
-  post :person, :with => [:id], :provides => [:html,:json] do
+
+  post :person, :with => [:id], :provides => [:html, :json] do
     halt 400, "Missing set param" unless params[:set]
     if params[:id].to_i == 0
       person = Person.filter_by_name(params[:id])
@@ -49,7 +49,7 @@ Alegato.controllers :api do
     end
   end
 
-  get :milestone, :with => [:id], :provides => [:html,:json] do
+  get :milestone, :with => [:id], :provides => [:html, :json] do
     p = {}
     data = Milestone.find(params[:id])
     if params[:person] # poor man's data.to_json(:include => :milestones) which do not seems to work..
@@ -62,7 +62,8 @@ Alegato.controllers :api do
       when :json then data.to_json(p)
     end
   end
-  post :milestone, :with => [:id], :provides => [:html,:json] do
+
+  post :milestone, :with => [:id], :provides => [:html, :json] do
     halt 400, "Missing set param" unless params[:set]
     milestone = Milestone.find(params[:id])
     if milestone
@@ -71,19 +72,18 @@ Alegato.controllers :api do
     end
   end
 
-  delete :milestone, :with => [:id], :provides => [:html,:json] do
+  delete :milestone, :with => [:id], :provides => [:html, :json] do
     milestone = Milestone.find(params[:id])
     if milestone
       milestone.delete.to_json
     end
   end
 
-  get :milestones, :with => [:doc_id], :provides => [:html,:json] do
+  get :milestones, :with => [:doc_id], :provides => [:html, :json] do
     p = {}
     data = Document.find(params[:doc_id]).milestones
     case content_type
       when :json then data.to_json(p)
     end
   end
-
 end

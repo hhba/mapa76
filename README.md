@@ -1,49 +1,55 @@
-mapa76
-==========
+Mapa76
+======
 
-Instalación:
---------------
+Main repository for [Mapa76 project](http://mapa76.info/) (in spanish).
 
-Se asume un sistema linux o unix que cuenta con :
 
- - git   
- - ruby, rvm y bundler
- - mysql
- - mongodb
- - Las cabeceras de desarrollo de libxml2 y libxslt.
- 
-Copiar el repositorio localmente y poner a punto el entorno :
+Dependencies
+------------
 
-    $ rvm use 1.9.3
-    $ git clone git://github.com/mapa76/alegato.git # commiters tienen otra url
-    $ cd alegato
+  * Ruby 1.9+
+  * Bundler (`bundler` gem)
+  * MongoDB server
+  * FreeLing 3.0
+
+
+Install
+-------
+
+First, run `bundle install` to install all gem dependencies.
+
     $ bundle install
 
-Configuración:
-----------------
+Create your MongoDB configuration file based on the sample file, and modify the
+connection options to suit your needs:
 
-Modificar la configuración local:
-    
-    $ cp config/local_config.yaml.example config/local_config.yaml
-    $ cp config/mongoid.yml.example config/mongoid.yml #XXX mover a local_config.yml
-    $ vim config/local_config.yaml
+    $ cp config/mongoid.yml.sample config/mongoid.yml
 
-La configuración por defecto apunta a un mongohq compartido: 
-    mongodb://alegato:alegato@staff.mongohq.com:10014/alegato
 
-Para actualizar una bd local desde mongohq:
+### FreeLing ###
 
-    $ mongodump -v -h staff.mongohq.com --port 10014 -d alegato -username 'alegato' -password='alegato' -o ./dump
-    $ mongorestore --host localhost  ./dump
+The NER module currently uses FreeLing, an open source suite of language
+analyzers written in C++.
 
-Servidor de desarrollo:
-------------------
+#### Download ####
 
-Sobre la raiz del repositorio:
+This has been tested on *FreeLing 3.0a1* only. Because this is an alpha
+release, there are no binary packages available. You can download the source
+[here](http://devel.cpl.upc.edu/freeling/downloads/16) (114Mb~) and compile it.
 
-    $ padrino start
-    
-    ...
-    => Padrino/0.10.6 has taken the stage development at http://0.0.0.0:3000
+#### Compile and Install ####
 
-Ya podemos apuntar nuestro navegador a http://localhost:3000
+For compiling the source, you need the `libboost` and `libicu` libraries. On
+Debian / Ubuntu machines, you can run:
+
+    # apt-get install libboost-dev libboost-filesystem-dev libboost-program-options-dev libboost-regex-dev libicu-dev
+
+Then, just execute `./configure`, `make` and `make install` as usual.
+
+
+Usage
+-----
+
+Start the Padrino server and visit [http://localhost:3000/](http://localhost:3000/)
+
+    $ bundle exec padrino start
