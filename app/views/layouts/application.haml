@@ -7,39 +7,14 @@
     %meta{:content => '', :name => 'author'}/
     /[if lt IE 9]
       %script{:src => 'http://html5shim.googlecode.com/svn/trunk/html5.js'}
-    = stylesheet_link_tag 'bootstrap.css', 'bootstrap-responsive', 'styles'
+    = stylesheet_link_tag 'bootstrap', 'bootstrap-responsive'
+    = stylesheet_link_tag :styles
     = yield_content :styles
-    = stylesheet_link_tag 'styles'
-    :css
-      body {
-        padding-top: 60px;
-        padding-bottom: 40px;
-      }
-      .sidebar-nav {
-        padding: 9px 0;
-        /*margin-top: -20px;*/
-      }
-      /*
-      body > .container-fluid {
-        padding-right: 0;
-      }
-      html, body {
-        height: 100%;
-        overflow: hidden;
-      }
-      body > .container-fluid {
-        min-height: 100%;
-      }
-      */
 
   %body
     .navbar.navbar-fixed-top
       .navbar-inner
         .container-fluid
-          %a.btn.btn-navbar{'data-target' => '.nav-collapse', 'data-toggle' => 'collapse'}
-            %span.icon-bar
-            %span.icon-bar
-            %span.icon-bar
           %a.brand{:href => '/'} Mapa76
           .nav-collapse
             %ul.nav
@@ -49,15 +24,21 @@
                 %a{:href => '/documents'} Documentos
               %li
                 %a{:href => '/people'} Personas
-            %form{:class => 'navbar-search pull-left'}
-              %input{:type => 'text', :class => 'search-query', :placeholder => 'Buscar'}
-            %p.navbar-text.pull-right
-              %a{:href => '#'} usuario
+            %ul.nav.pull-right
+              %li
+                %form{:class => 'navbar-search pull-left'}
+                  %input{:type => 'text', :class => 'search-query', :placeholder => 'Buscar'}
+              %li.divider-vertical
+              %li
+                %a{:href => File.join(request.path_info, 'help')} Ayuda
+              %li.divider-vertical
+              %li
+                %a{:href => '#'} usuario
           / /.nav-collapse
 
     .container-fluid
       .row-fluid
-        .span9
+        .content.span9
           - if content_for?(:hero)
             .hero-unit
               = yield_content :hero
@@ -65,55 +46,22 @@
             .row-fluid
               = yield_content :row
           = yield
-        / /.span9
 
-        .span3
-          .well.sidebar-nav
-            %ul.nav.nav-list
-              %li.nav-header Sidebar
-              %li.active
-                %a{:href => "#"} Link
-              %li
-                %a{:href => "#"} Link
-              %li
-                %a{:href => "#"} Link
-              %li
-                %a{:href => "#"} Link
-              %li.nav-header Sidebar
-              %li
-                %a{:href => "#"} Link
-              %li
-                %a{:href => "#"} Link
-              %li
-                %a{:href => "#"} Link
-              %li
-                %a{:href => "#"} Link
-              %li
-                %a{:href => "#"} Link
-              %li
-                %a{:href => "#"} Link
-              %li.nav-header Sidebar
-              %li
-                %a{:href => "#"} Link
-              %li
-                %a{:href => "#"} Link
-              %li
-                %a{:href => "#"} Link
-          / /.sidebar-nav
-        / /.span3
+          %hr/
+          %footer.footer
+            %p{:class => 'pull-right'}
+              %a{:href => '#'} Arriba
+
+        .sidebar.span3
+          - if content_for?(:sidebar)
+            .well.sidebar-nav
+              = yield_content :sidebar
       / /.row-fuild
-
-      %hr/
-      %footer.footer
-        %p{:class => 'pull-right'}
-          %a{:href => '#'} Arriba
-
     / /.container-fuild
 
     / Javascript
-    = javascript_include_tag 'https://www.google.com/jsapi'
     = javascript_include_tag 'http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js'
     = javascript_include_tag 'bootstrap.min', 'bootstrap-button'
     = javascript_include_tag 'jquery.tablesorter.min'
+    = javascript_include_tag :application
     = yield_content :javascripts
-    = javascript_include_tag 'application'

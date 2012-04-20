@@ -1,6 +1,10 @@
 # encoding: utf-8
 
 Alegato.controllers  do
+  get :test do
+    render :test
+  end
+
   get :index do
     @persons = if params[:ids]
       Person.find(params[:ids].split(','))

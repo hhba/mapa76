@@ -2,33 +2,83 @@ body {
   padding-top: 60px;
   padding-bottom: 40px;
 }
-.hidden{
-  display:none;
+.sidebar-nav {
+  padding: 9px 0;
 }
-.classified_good span{
-  color:green;
+.sidebar {
+  position: fixed;
+  right: 20px;
 }
-.classified_bad span{
-  color:red;
+.hidden {
+  display: none;
+}
+.classified_good span {
+  color: green;
+}
+.classified_bad span {
+  color: red;
 }
 .name {
-    color: blue;
+  color: blue;
 }
 .address {
-    color: green;
+  color: green;
 }
 .date {
   color: red;
 }
 span.name, .date, span.address {
-    cursor: pointer;
+  cursor: pointer;
 }
-h2.fragment{
+h2.fragment {
   font-size: 17px;
 }
-h3.fragment{
+h3.fragment {
   font-size: 16px;
 }
-h4.fragment{
+h4.fragment {
   font-size: 15px;
+}
+
+/* Events */
+.events {
+  margin-left: 0;
+}
+
+.event {
+  display: block;
+  background-color: #ddd;
+  padding: 3px 4px;
+  border-radius: 3px;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  margin-bottom: 6px;
+}
+.event ul {
+  margin-left: 0;
+}
+.event ul li {
+  display: inline-block;
+  color: white;
+  padding: 3px 4px;
+  margin: .2em .1em;
+  border-radius: 3px;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+}
+.event ul li.type {
+  background-color: gray;
+}
+.event ul li.person {
+  background-color: red;
+}
+.event ul li.organization {
+  background-color: blue;
+}
+.event ul li.place {
+  color: black;
+  background-color: yellow;
+}
+.event ul li.date {
+  background-color: green;
 }
