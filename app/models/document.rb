@@ -14,6 +14,7 @@ class Document
   field :thumbnail_file,   type: String
   field :information,      type: Hash
   field :last_analysis_at, type: Time
+  field :state,            type: String, default: "waiting"
 
   has_many :milestones
   has_many :named_entities
@@ -22,8 +23,7 @@ class Document
 
   validates_presence_of :original_file
 
-  after_create :split, :analyze
-
+  #after_create :split, :analyze
   attr_accessor :sample_mode
 
   def content
@@ -132,24 +132,22 @@ class Document
     person.save
   end
 
-  private
-
-    # Perform a morphological analysis and extract named entities like persons,
-    # organizations, places, dates and addresses.
-    #
-    # From the detected entities, create Person instances and try to resolve
-    # correference, if possible.
-    #
-    def analyze
-      Analyzer.extract_named_entities(self.content).each do |ne_attrs|
-        self.named_entities.push(NamedEntity.new(ne_attrs))
-      end
-      self.information = {
-        :people => people_found.size,
-        :dates => dates_found.size,
-        :organizations => organizations_found.size
-      }
-      self.last_analysis_at = Time.now
-      save
+  # Perform a morphological analysis and extract named entities like persons,
+  # organizations, places, dates and addresses.
+  #
+  # From the detected entities, create Person instances and try to resolve
+  # correference, if possible.
+  #
+  def analyze
+    Analyzer.extract_named_entities(self.content).each do |ne_attrs|
+      self.named_entities.push(NamedEntity.new(ne_attrs))
     end
+    self.information = {
+      :people => people_found.size,
+      :dates => dates_found.size,
+      :organizations => organizations_found.size
+    }
+    self.last_analysis_at = Time.now
+    save
+  end
 end

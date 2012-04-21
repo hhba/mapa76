@@ -54,7 +54,7 @@ module Analyzer
         analyzer = FreeLing::Analyzer.new(content, :output_format => :tagged, :memoize => false)
         analyzer.sentences.each do |sentence|
           sentence.each do |token|
-            logger.debug "Token (#{cur_st[:pos]}/#{total_size}): #{token}"
+            # logger.debug "Token (#{cur_st[:pos]}/#{total_size}): #{token}"
 
             # exact match
             if token[:form] == cur_st[:form]

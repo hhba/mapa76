@@ -3,6 +3,8 @@ require 'json'
 require 'docsplit'
 require 'open-uri'
 require 'tempfile'
+require 'resque'
+Dir[Padrino.root + "/app/workers/*.rb"].each {|file| require file }
 
 Alegato.controllers :documents do
   get :index do
@@ -27,8 +29,8 @@ Alegato.controllers :documents do
       :title => filename,
       :original_file => filename,
     }.merge(params.slice('heading', 'description', 'category')))
-
-    redirect url(:documents, :preprocess, :id => @doc.id)
+    Resque.enqueue(ProcessDocument, @doc.id)
+    redirect :index
   end
 
   get :preprocess, :map => '/documents/:id/preprocess' do
@@ -37,7 +39,7 @@ Alegato.controllers :documents do
   end
 
   post :process, :map => '/documents/:id/process' do
-    @doc = Document.find(params[:id]).store_names
+    @doc = Document.find(params[:id]).process_names
     redirect url(:documents, :show, :id => @doc.id)
   end
 

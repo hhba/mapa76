@@ -1,4 +1,7 @@
 -# coding: utf-8
+- content_for :javascripts do
+  = javascript_include_tag 'bootstrap-alert', 'documents'
+
 %header#overview.jumbotron.subhead
   .subnav.subnav-fixed
     %ul.nav.nav-pills
@@ -9,6 +12,12 @@
       %form.navbar-search.pull-right{:action => url_for(:documents, :search), :type => :get}
         %input.search-query.span2{:placeholder => "Search", :type => "text"}
         %button{:type => "submit", :class => "btn"} Buscar
+.row
+  .span12
+    .alert.fade.in.alert-success#stillProcessing{:style => 'display:none;'}
+      %a.close{:href => '#', 'data-dismiss' => 'alert'}×
+      %strong
+        Recuerde que el procesamiento de tareas puede tomar algunos minutos
 .row
   .span8
     %table{:class => 'table table-striped', :id => 'sorteable'}
@@ -25,6 +34,8 @@
             %a{:href => '#', "data-sort" => "date"}Fecha
           %th
             Bajar archivo
+          %th
+            Estado
       %tbody
         - @docs.each_with_index do |doc, index|
           %tr
@@ -41,4 +52,6 @@
               = doc._id.generation_time.strftime("%d/%m/%y")
             %td
               = link_to doc.original_file, "/uploads/#{doc.original_file}"
+            %td
+              = doc.state
   .span4
