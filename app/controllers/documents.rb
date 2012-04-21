@@ -4,7 +4,6 @@ require 'docsplit'
 require 'open-uri'
 require 'tempfile'
 require 'resque'
-Dir[Padrino.root + "/app/workers/*.rb"].each {|file| require file }
 
 Alegato.controllers :documents do
   get :index do
