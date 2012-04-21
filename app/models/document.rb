@@ -26,6 +26,8 @@ class Document
   #after_create :split, :analyze
   attr_accessor :sample_mode
 
+  DOCUMENT_STATES = %w(waiting preprocessing processing processed)
+
   def content
     self.paragraphs.map(&:content).join(".\n")
   end
@@ -149,5 +151,9 @@ class Document
     }
     self.last_analysis_at = Time.now
     save
+  end
+
+  def processed?
+    self.state == DOCUMENT_STATES.last
   end
 end

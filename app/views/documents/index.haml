@@ -45,7 +45,10 @@
               - if doc.thumbnail_file
                 = thumbnail_tag doc
             %td
-              = link_to doc.heading, url_for(:documents, :show, :id => doc._id)
+              - if doc.processed?
+                = link_to doc.heading, url_for(:documents, :show, :id => doc._id)
+              - else
+                = doc.heading
             %td
               = doc.category
             %td

@@ -30,7 +30,7 @@ Alegato.controllers :documents do
       :original_file => filename,
     }.merge(params.slice('heading', 'description', 'category')))
     Resque.enqueue(ProcessDocument, @doc.id)
-    redirect :index
+    redirect url(:documents, :index)
   end
 
   get :preprocess, :map => '/documents/:id/preprocess' do

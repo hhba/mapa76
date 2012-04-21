@@ -20,7 +20,7 @@ $(document).ready(function(){
   for(i=0;i<td_length;i++){
     state = $.trim($($td[i]).text());
     if(state === "waiting" || state === "processing" || state === "preprocessing"){
-      $("#stillProcessing").alert();
+      $("#stillProcessing").alert().css("display", "block");
       break;
     }
   }
