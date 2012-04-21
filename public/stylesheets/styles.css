@@ -32,3 +32,10 @@ h3.fragment{
 h4.fragment{
   font-size: 15px;
 }
+
+/* Thumbnail */
+.thumbnail {
+  background-color: #fff;
+  width: 65px;
+  height: 80px;
+}

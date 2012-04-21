@@ -15,8 +15,6 @@
       %thead
         %tr
           %th
-            %a{:href => '#', "data-sort" => "number"}#
-          %th
           %th
             %a{:href => '#', "data-sort" => "name"}Título
           %th
@@ -26,13 +24,10 @@
           %th
             Bajar archivo
       %tbody
-        - @docs.each_with_index do |doc, index|
+        - @docs.each do |doc|
           %tr
             %td
-              = index + 1
-            %td
-              - if doc.thumbnail_file
-                = thumbnail_tag doc
+              = thumbnail_tag doc
             %td
               = link_to doc.heading, url_for(:documents, :show, :id => doc._id)
             %td

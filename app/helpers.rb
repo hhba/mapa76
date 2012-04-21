@@ -61,6 +61,8 @@ Alegato.helpers do
   end
 
   def thumbnail_tag(document, opts={})
-    image_tag(thumbnail_url(document), opts)
+    url = document.thumbnail_file ? thumbnail_url(document) : image_path('thumbnail_placeholder.png')
+    img = image_tag(url, opts)
+    content_tag :div, img, :class => :thumbnail
   end
 end
