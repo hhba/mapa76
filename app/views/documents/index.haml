@@ -55,6 +55,6 @@
               = doc._id.generation_time.strftime("%d/%m/%y")
             %td
               = link_to doc.original_file, "/uploads/#{doc.original_file}"
-            %td
+            %td.state
               = doc.state
   .span4
