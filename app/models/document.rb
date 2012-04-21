@@ -14,7 +14,7 @@ class Document
   field :thumbnail_file,   type: String
   field :information,      type: Hash
   field :last_analysis_at, type: Time
-  field :state,            type: String, default: "waiting"
+  field :state,            type: String, default: :waiting
 
   has_many :milestones
   has_many :named_entities
@@ -23,10 +23,9 @@ class Document
 
   validates_presence_of :original_file
 
-  #after_create :split, :analyze
+  after_create :enqueue_process
   attr_accessor :sample_mode
 
-  DOCUMENT_STATES = %w(waiting preprocessing processing processed)
 
   def content
     self.paragraphs.map(&:content).join(".\n")
@@ -142,9 +141,6 @@ class Document
   # Perform a morphological analysis and extract named entities like persons,
   # organizations, places, dates and addresses.
   #
-  # From the detected entities, create Person instances and try to resolve
-  # correference, if possible.
-  #
   def analyze
     Analyzer.extract_named_entities(self.content).each do |ne_attrs|
       self.named_entities.push(NamedEntity.new(ne_attrs))
@@ -159,6 +155,12 @@ class Document
   end
 
   def processed?
-    self.state == DOCUMENT_STATES.last
+    self.state == :finished
+  end
+
+protected
+  def enqueue_process
+    Resque.enqueue(NormalizationTask, self.id)
+    return true
   end
 end

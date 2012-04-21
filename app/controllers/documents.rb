@@ -28,7 +28,6 @@ Alegato.controllers :documents do
       :title => filename,
       :original_file => filename,
     }.merge(params.slice('heading', 'description', 'category')))
-    Resque.enqueue(NormalizationTask, @doc.id)
 
     redirect url(:documents, :index)
   end
