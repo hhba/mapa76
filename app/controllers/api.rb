@@ -86,4 +86,8 @@ Alegato.controllers :api do
       when :json then data.to_json(p)
     end
   end
+
+  get :documents_states do
+    Document.all.collect { |doc| doc.state }.to_json
+  end
 end

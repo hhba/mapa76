@@ -14,6 +14,7 @@ class Document
   field :thumbnail_file,   type: String
   field :information,      type: Hash
   field :last_analysis_at, type: Time
+  field :state,            type: String, default: :waiting
 
   has_many :milestones
   has_many :named_entities
@@ -22,9 +23,9 @@ class Document
 
   validates_presence_of :original_file
 
-  after_create :split, :analyze
-
+  after_create :enqueue_process
   attr_accessor :sample_mode
+
 
   def content
     self.paragraphs.map(&:content).join(".\n")
@@ -35,13 +36,18 @@ class Document
   #
   def split
     # Replace title with original title from document
+    logger.info { "Extract title from '#{self.original_file_path}'" }
     self.title = Splitter.extract_title(self.original_file_path)
 
+    logger.info { "Generate a thumbnail from the first page of the document" }
     self.thumbnail_file = Splitter.create_thumbnail(self.original_file_path,
       :output => File.join(Padrino.root, 'public', THUMBNAILS_DIR)
     )
 
+    logger.info { "Extract plain text" }
     text = Splitter.extract_plain_text(self.original_file_path)
+
+    logger.info { "Split into paragraphs and save them" }
     text.split(".\n").each do |paragraph|
       # Because Analyzer is configured to flush buffer at every linefeed,
       # replace all possible '\n' inside paragraphs to avoid a bad sentence split.
@@ -132,24 +138,29 @@ class Document
     person.save
   end
 
-  private
-
-    # Perform a morphological analysis and extract named entities like persons,
-    # organizations, places, dates and addresses.
-    #
-    # From the detected entities, create Person instances and try to resolve
-    # correference, if possible.
-    #
-    def analyze
-      Analyzer.extract_named_entities(self.content).each do |ne_attrs|
-        self.named_entities.push(NamedEntity.new(ne_attrs))
-      end
-      self.information = {
-        :people => people_found.size,
-        :dates => dates_found.size,
-        :organizations => organizations_found.size
-      }
-      self.last_analysis_at = Time.now
-      save
+  # Perform a morphological analysis and extract named entities like persons,
+  # organizations, places, dates and addresses.
+  #
+  def analyze
+    Analyzer.extract_named_entities(self.content).each do |ne_attrs|
+      self.named_entities.push(NamedEntity.new(ne_attrs))
     end
+    self.information = {
+      :people => people_found.size,
+      :dates => dates_found.size,
+      :organizations => organizations_found.size
+    }
+    self.last_analysis_at = Time.now
+    save
+  end
+
+  def processed?
+    self.state == :finished
+  end
+
+protected
+  def enqueue_process
+    Resque.enqueue(NormalizationTask, self.id)
+    return true
+  end
 end

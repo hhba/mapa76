@@ -21,6 +21,9 @@ group :workers do
   # Splitter
   gem 'docsplit'
 
+  # queue
+  gem 'resque'
+
   # Coreference solver
   gem 'amatch'
   gem 'multi_json'

@@ -3,6 +3,7 @@ require 'json'
 require 'docsplit'
 require 'open-uri'
 require 'tempfile'
+require 'resque'
 
 Alegato.controllers :documents do
   get :index do
@@ -28,7 +29,7 @@ Alegato.controllers :documents do
       :original_file => filename,
     }.merge(params.slice('heading', 'description', 'category')))
 
-    redirect url(:documents, :preprocess, :id => @doc.id)
+    redirect url(:documents, :index)
   end
 
   get :preprocess, :map => '/documents/:id/preprocess' do
@@ -37,7 +38,7 @@ Alegato.controllers :documents do
   end
 
   post :process, :map => '/documents/:id/process' do
-    @doc = Document.find(params[:id]).store_names
+    @doc = Document.find(params[:id]).process_names
     redirect url(:documents, :show, :id => @doc.id)
   end
 
