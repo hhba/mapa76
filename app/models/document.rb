@@ -126,7 +126,7 @@ class Document
   end
 
   def store_name(group)
-    person = Person.new(:name => group.first.to_s)
+    person = Person.new(:name => group.first.text)
     person.documents << self
     person.named_entities << group
     person.save
