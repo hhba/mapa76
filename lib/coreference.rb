@@ -5,11 +5,12 @@ module Coreference
   MIN_SIMILARITY = 0.8
 
   def self.resolve(named_entities)
+    named_entities = named_entities.to_a
     output = []
     while !named_entities.empty?
       named_entity = named_entities.first
-      jw = Amatch::JaroWinkler.new(named_entity.to_s)
-      output << [name, named_entities.select { |ne| jw.match(ne.to_s) >= MIN_SIMILARITY }].flatten
+      jw = Amatch::JaroWinkler.new(named_entity.text)
+      output << [name, named_entities.select { |ne| jw.match(ne.text) >= MIN_SIMILARITY }].flatten
       named_entities.reject! { |ne| output.flatten.include?(ne) }
     end
     output
