@@ -5,6 +5,7 @@ module Coreference
   MIN_SIMILARITY = 0.8
 
   def self.resolve(named_entities)
+    named_entities = named_entities.to_a
     output = []
     while !named_entities.empty?
       named_entity = named_entities.first
