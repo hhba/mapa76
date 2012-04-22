@@ -1,38 +1,64 @@
 -# coding: utf-8
+
+- content_for :javascripts do
+  = javascript_include_tag 'jquery-ui-1.8.18.custom.min.js'
+  :javascript
+    $(document).ready(function(){
+      $('.document_dense time, .document_dense span').draggable({
+        helper: 'clone'
+      }).css('cursor', 'move');
+        init_drops();
+      });
+
+      function init_drops() {
+        $('.drop-target.new').removeClass('new').droppable({
+        drop: function(ev, ui) {
+          if ($(this).html() == '') {
+            $(this).removeClass('empty').after('<div ondragover="event.preventDefault()" class="drop-target new empty"></div>');
+            init_drops();
+          }
+          var draggable = ui.draggable;
+          $(this).append('<span class="dragged" style="background-color:' + draggable.css('color') + '">' + draggable.text() + '</span>');
+        }
+      });
+    };
+
+
 - content_for :sidebar do
   %ul.nav.nav-list
     %li.nav-header Eventos
     %li
       %ul.events
         %li.event
+          %a.close ×
           %ul
             %li.person
+              %a.close ×
               %span El Vasco
-              %a.close ×
-            %li.type
-              %span visto en
-              %a.close ×
             %li.organization
+              %a.close ×
               %span ERP
+            %li.type
               %a.close ×
+              %span visto en
             %li.place
+              %a.close ×
               %span Campo de Mayo
-              %a.close ×
             %li.date
-              %span 13 Mayo 1978
               %a.close ×
+              %span 13 Mayo 1978
         %li.event
+          %a.close ×
           %ul
             %li.person
+              %a.close ×
               %span Juan Gómez
-              %a.close ×
             %li.date
-              %span Abril 1979
               %a.close ×
-    %li
-      %a{:href => "#"} Link
+              %span Abril 1979
     %li.nav-header Herramientas
     %li.nav-header Contexto
+
 
 .row-fluid
   %p
