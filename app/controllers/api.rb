@@ -88,6 +88,6 @@ Alegato.controllers :api do
   end
 
   get :documents_states do
-    Document.all.collect { |doc| doc.state }.to_json
+    Document.all.collect { |doc| doc.state_to_percentage }.to_json
   end
 end

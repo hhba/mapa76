@@ -158,6 +158,16 @@ class Document
     self.state == :finished
   end
 
+  def state_to_percentage
+    {
+      :waiting => 0,
+      :normalizing => 10,
+      :extracting => 40,
+      :solving_coreference => 70,
+      :finished => 100
+    }[self.state.to_sym]
+  end
+
 protected
   def enqueue_process
     Resque.enqueue(NormalizationTask, self.id)

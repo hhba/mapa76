@@ -51,5 +51,7 @@
             %td
               = link_to doc.original_file, "/uploads/#{doc.original_file}"
             %td.state
-              = doc.state
+              .progress.progress-striped.active
+                .bar{:style => "width:0%;"}
   .span4
+

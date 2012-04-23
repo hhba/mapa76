@@ -1,5 +1,4 @@
 $(document).ready(function(){
-  var td_length = 0;
   var i=0;
   var $td;
   var state;
@@ -7,9 +6,9 @@ $(document).ready(function(){
   function checkDocumentsStatuses(){
     console.log("vueltas");
     $.getJSON("/api/documents_states", function(data){
-      var $tds = $("td.state");
-      for(i=0;i<$tds.length;i++){
-        $($tds[i]).text(data[i]);
+      var $bars = $(".bar");
+      for(i=0;i<$bars.length;i++){
+        $($bars[i]).css("width", data[i] + "%");
       }
     });
     setTimeout(checkDocumentsStatuses, 15000 );
@@ -27,14 +26,6 @@ $(document).ready(function(){
       'json');
   });
 
-  $td = $("td");
-  td_length = $td.length;
-  for(i=0;i<td_length;i++){
-    state = $.trim($($td[i]).text());
-    if(state === "waiting" || state === "processing" || state === "preprocessing"){
-      $("#stillProcessing").alert().css("display", "block");
-      break;
-    }
-  }
+  $("#stillProcessing").alert().css("display", "block");
   setTimeout(checkDocumentsStatuses, 15000 );
 });
