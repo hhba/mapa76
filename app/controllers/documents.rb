@@ -17,7 +17,7 @@ Alegato.controllers :documents do
   end
 
   get :search, :map => '/documents/search' do
-    @docs = Document.where(:title => params[:title])
+    @docs = Document.where(:heading => /#{params[:title]}/i)
 
     render "documents/index"
   end

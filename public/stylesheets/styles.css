@@ -39,3 +39,6 @@ h4.fragment{
   width: 65px;
   height: 80px;
 }
+.navbar-search .search-query {
+  color:#CCC;
+}
