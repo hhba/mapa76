@@ -45,5 +45,5 @@ group :test do
 end
 
 group :development do
-  gem 'debugger'
+  gem 'debugger', :require => 'ruby-debug'
 end
