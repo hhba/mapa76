@@ -12,10 +12,27 @@ Bundler.require(:default, PADRINO_ENV)
 ##
 # Enable devel logging
 #
-Padrino::Logger::Config[:production] = { :log_level => :devel }
+# Padrino::Logger::Config[:production] = { :log_level => :devel }
 # Padrino::Logger.log_static = true
 #
+Padrino::Logger::Config[:development] = {
+  :log_level => :debug,
+  :stream => :stdout,
+  :format_datetime => '',
+  :format_message => '%s%s - %s',
+}
 
+Padrino::Logger::Config[:production] = {
+  :log_level => :debug,
+  :stream => :stdout,
+  :format_datetime => '%d/%b/%Y %H:%M:%S',
+  :format_message => '%s - [%s] %s',
+}
+Mongoid.logger = Padrino.logger
+
+##
+# Various asset paths
+#
 DOCUMENTS_DIR  = 'uploads'
 THUMBNAILS_DIR = 'thumbs'
 
