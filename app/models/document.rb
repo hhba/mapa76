@@ -36,18 +36,18 @@ class Document
   #
   def split
     # Replace title with original title from document
-    logger.info { "Extract title from '#{self.original_file_path}'" }
+    logger.info "Extract title from '#{self.original_file_path}'"
     self.title = Splitter.extract_title(self.original_file_path)
 
-    logger.info { "Generate a thumbnail from the first page of the document" }
+    logger.info "Generate a thumbnail from the first page of the document"
     self.thumbnail_file = Splitter.create_thumbnail(self.original_file_path,
       :output => File.join(Padrino.root, 'public', THUMBNAILS_DIR)
     )
 
-    logger.info { "Extract plain text" }
+    logger.info "Extract plain text"
     text = Splitter.extract_plain_text(self.original_file_path)
 
-    logger.info { "Split into paragraphs and save them" }
+    logger.info "Split into paragraphs and save them"
     text.split(".\n").each do |paragraph|
       # Because Analyzer is configured to flush buffer at every linefeed,
       # replace all possible '\n' inside paragraphs to avoid a bad sentence split.
