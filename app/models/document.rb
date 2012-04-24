@@ -155,7 +155,7 @@ class Document
   end
 
   def processed?
-    self.state == :finished
+    self.state == "finished"
   end
 
   def state_to_percentage
