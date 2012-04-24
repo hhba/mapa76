@@ -26,9 +26,11 @@ class Document
   after_create :enqueue_process
   attr_accessor :sample_mode
 
+  PARAGRAPH_SEP = ".\n"
+
 
   def content
-    self.paragraphs.map(&:content).join(".\n")
+    self.paragraphs.map(&:content).join(PARAGRAPH_SEPARATOR)
   end
 
   # Split original document data and extract metadata and content as clean,
@@ -48,7 +50,7 @@ class Document
     text = Splitter.extract_plain_text(self.original_file_path)
 
     logger.info "Split into paragraphs and save them"
-    text.split(".\n").each do |paragraph|
+    text.split(PARAGRAPH_SEPARATOR).each do |paragraph|
       # Because Analyzer is configured to flush buffer at every linefeed,
       # replace all possible '\n' inside paragraphs to avoid a bad sentence split.
       paragraph = paragraph.strip.gsub("\n", ' ')
@@ -66,7 +68,7 @@ class Document
     to = option.has_key?(:to) ? option[:to].to_i : max
     output = ""
     self.paragraphs[from..to].each do |p|
-      output << p.content + "\n"
+      output << p.content + PARAGRAPH_SEPARATOR
     end
     output
   end
