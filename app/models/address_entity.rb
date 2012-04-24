@@ -46,7 +46,7 @@ class AddressEntity < NamedEntity
 
     geoloc = MultiGeocoder.geocode(dir)
 
-    if geoloc.sucess
+    if geoloc and geoloc.success
       self.lat, self.lng = [geoloc.lat, geoloc.lng]
       geoloc
     end
