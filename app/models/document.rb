@@ -14,7 +14,7 @@ class Document
   field :thumbnail_file,   type: String
   field :information,      type: Hash
   field :last_analysis_at, type: Time
-  field :state,            type: String, default: :waiting
+  field :state,            type: Symbol, default: :waiting
 
   has_many :milestones
   has_many :named_entities
@@ -171,7 +171,7 @@ class Document
       :extracting => 40,
       :solving_coreference => 70,
       :finished => 100
-    }[self.state.to_sym]
+    }[self.state]
   end
 
 protected
