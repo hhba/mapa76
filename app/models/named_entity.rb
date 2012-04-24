@@ -3,10 +3,8 @@ class NamedEntity
 
   field :form,     :type => String
   field :text,     :type => String, :default => lambda { human_form }
-
   field :pos,      :type => Integer
   field :ne_class, :type => Symbol, :default => lambda { tag ? CLASSES_PER_TAG[tag] : nil }
-
   field :lemma,    :type => String
   field :tag,      :type => String
   field :prob,     :type => Float

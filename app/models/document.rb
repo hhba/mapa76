@@ -14,7 +14,7 @@ class Document
   field :thumbnail_file,   type: String
   field :information,      type: Hash
   field :last_analysis_at, type: Time
-  field :state,            type: String, default: :waiting
+  field :state,            type: Symbol, default: :waiting
 
   has_many :milestones
   has_many :named_entities
@@ -26,9 +26,11 @@ class Document
   after_create :enqueue_process
   attr_accessor :sample_mode
 
+  PARAGRAPH_SEP = ".\n"
+
 
   def content
-    self.paragraphs.map(&:content).join(".\n")
+    self.paragraphs.map(&:content).join(PARAGRAPH_SEPARATOR)
   end
 
   # Split original document data and extract metadata and content as clean,
@@ -48,7 +50,7 @@ class Document
     text = Splitter.extract_plain_text(self.original_file_path)
 
     logger.info "Split into paragraphs and save them"
-    text.split(".\n").each do |paragraph|
+    text.split(PARAGRAPH_SEPARATOR).each do |paragraph|
       # Because Analyzer is configured to flush buffer at every linefeed,
       # replace all possible '\n' inside paragraphs to avoid a bad sentence split.
       paragraph = paragraph.strip.gsub("\n", ' ')
@@ -66,7 +68,7 @@ class Document
     to = option.has_key?(:to) ? option[:to].to_i : max
     output = ""
     self.paragraphs[from..to].each do |p|
-      output << p.content + "\n"
+      output << p.content + PARAGRAPH_SEPARATOR
     end
     output
   end
@@ -143,7 +145,11 @@ class Document
   #
   def analyze
     Analyzer.extract_named_entities(self.content).each do |ne_attrs|
-      self.named_entities.push(NamedEntity.new(ne_attrs))
+      ne_klass = case NamedEntity::CLASSES_PER_TAG[ne_attrs[:tag]]
+        when :addresses then AddressEntity
+        else NamedEntity
+      end
+      self.named_entities << ne_klass.new(ne_attrs)
     end
     self.information = {
       :people => people_found.size,
@@ -165,7 +171,7 @@ class Document
       :extracting => 40,
       :solving_coreference => 70,
       :finished => 100
-    }[self.state.to_sym]
+    }[self.state]
   end
 
 protected
