@@ -204,11 +204,10 @@ Alegato.controllers :documents do
 
   get :map, :map => '/documents/:id/map' do
     @doc = Document.find(params[:id])
-    no_dirs = ['Batallón', 'Convención', 'El ', 'Tenía', 'Legajo ', 'Destacamento ', 'Decreto ', 'En ', 'Ley ', 'Tenia ', 'Tratado ', 'Eran ', 'Grupo de ', 'Conadep ', 'Desde la','Fallos ','Comisaria ','Puente ','Entre ', 'Cabo ', 'Peugeot ']
-    matches_ref = @doc.extract.addresses.find_all { |t|
-        !no_dirs.find { |nd| t.start_with?(nd) }
-      }.map { |d| Text::Address.new_from_string_with_context(d) }
-    @addresses = matches_ref.sort.uniq
+    @addresses = @doc.addresses_found.select { |addr| addr.geocoded? }
+    @center = @addresses.first
+
+    raise 'No addresses were found!' if @center.nil?
 
     render 'documents/map'
   end
