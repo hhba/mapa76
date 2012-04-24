@@ -143,7 +143,11 @@ class Document
   #
   def analyze
     Analyzer.extract_named_entities(self.content).each do |ne_attrs|
-      self.named_entities.push(NamedEntity.new(ne_attrs))
+      ne_klass = case NamedEntity::CLASSES_PER_TAG[ne_attrs[:tag]]
+        when :addresses then AddressEntity
+        else NamedEntity
+      end
+      self.named_entities << ne_klass.new(ne_attrs)
     end
     self.information = {
       :people => people_found.size,
