@@ -100,3 +100,20 @@ h4.fragment {
 .event ul li.date {
   background-color: #468847;
 }
+
+/* Thumbnail */
+.thumbnail {
+  background-color: #fff;
+  width: 65px;
+  height: 80px;
+}
+.navbar-search .search-query {
+  color:#CCC;
+}
+
+/* Show document info */
+.loading{
+  text-align: center;
+  margin-top: 150px;
+}
+

@@ -13,4 +13,8 @@ class Paragraph
     # end
     output
   end
+
+  def first_words
+    self.content[0..40]
+  end
 end

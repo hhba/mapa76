@@ -86,4 +86,18 @@ Alegato.controllers :api do
       when :json then data.to_json(p)
     end
   end
+
+  get :documents_states do
+    Document.all.collect { |doc| doc.state_to_percentage }.to_json
+  end
+
+  get :document_index, :map => "/api/:id/document_index", :provides => :json do
+    document = Document.find(params[:id])
+    document.build_index.to_json
+  end
+
+  get :paragraph, :map => "/api/document/:document_id/paragraph/:paragraph_id", :provides => :json do
+    Document.find(params[:document_id]).paragraphs.first.to_json
+  end
+
 end

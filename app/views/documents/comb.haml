@@ -1,0 +1,34 @@
+-# coding: utf-8
+- content_for :styles do
+  = stylesheet_link_tag "flick/jquery-ui-1.8.18.custom"
+- content_for :javascripts do
+  = javascript_include_tag 'jquery-ui-1.8.18.custom.min', 'bootstrap-alert', 'bootstrap-collapse', 'mustache'
+  = javascript_include_tag 'analize'
+
+#document_id{:style => "display:none;"}
+  = params[:id]
+%script#indexTemplate{:type => "text/template"}
+  %table{:class => "table table-striped table-bordered table-condensed"}
+    %thead
+      %th
+      %th{:colspan => 2}
+        Índice
+    %tbody
+      {{#.}}
+      %tr
+        %td
+          {{number}}
+        %td.paragraph{:id => "paragraph_{{paragraph_id}}"}
+          {{first_words}}
+        %td
+          %a{:href => "/api/document/#{params[:id]}/paragraph/{{paragraph_id}}",
+             :class => 'paragraph', "data-id" => "paragraph_{{paragraph_id}}"}
+            %i{:class => "icon-plus"}
+      {{/.}}
+.row
+  .span8.content
+    %p{:class => "loading"}
+      = image_tag 'loading.gif'
+  .span4
+
+

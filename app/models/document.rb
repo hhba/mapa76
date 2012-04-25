@@ -152,4 +152,33 @@ class Document
       self.last_analysis_at = Time.now
       save
     end
+  end
+
+  def processed?
+    self.state == :finished
+  end
+
+  def state_to_percentage
+    {
+      :waiting => 0,
+      :normalizing => 10,
+      :extracting => 40,
+      :solving_coreference => 70,
+      :finished => 100
+    }[self.state]
+  end
+
+  def build_index
+    output = []
+    self.paragraphs.each_with_index do |p, index|
+      output << { :first_words => p.first_words, :paragraph_id => p.id, :number => index + 1 }
+    end
+    output
+  end
+
+protected
+  def enqueue_process
+    Resque.enqueue(NormalizationTask, self.id)
+    return true
+  end
 end
