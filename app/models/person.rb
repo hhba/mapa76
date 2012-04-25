@@ -40,7 +40,7 @@ class Person
 
   def names
     if name.nil?
-      self.named_entities.collect { |ne| ne.original_text.downcase }
+      self.named_entities.collect { |ne| ne.text.downcase }
     else
       [self.name.downcase]
     end

@@ -21,6 +21,9 @@ group :workers do
   # Splitter
   gem 'docsplit'
 
+  # queue
+  gem 'resque'
+
   # Coreference solver
   gem 'amatch'
   gem 'multi_json'
@@ -42,5 +45,5 @@ group :test do
 end
 
 group :development do
-  gem 'debugger'
+  gem 'debugger', :require => 'ruby-debug'
 end

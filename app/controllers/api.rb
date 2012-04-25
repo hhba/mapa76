@@ -99,5 +99,4 @@ Alegato.controllers :api do
   get :paragraph, :map => "/api/document/:document_id/paragraph/:paragraph_id", :provides => :json do
     Document.find(params[:document_id]).paragraphs.first.to_json
   end
-
 end

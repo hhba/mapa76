@@ -53,3 +53,11 @@ Usage
 Start the Padrino server and visit [http://localhost:3000/](http://localhost:3000/)
 
     $ bundle exec padrino start
+
+To start workers for document processing, you need to run at least one Resque worker:
+
+    $ QUEUE=* VERBOSE=1 bundle exec rake resque:work
+
+you can run multiple workers with the `resque:workers` task:
+
+    $ COUNT=2 QUEUE=* bundle exec rake resque:workers

@@ -14,6 +14,7 @@ class Document
   field :thumbnail_file,   type: String
   field :information,      type: Hash
   field :last_analysis_at, type: Time
+  field :state,            type: Symbol, default: :waiting
 
   has_many :milestones
   has_many :named_entities
@@ -22,12 +23,14 @@ class Document
 
   validates_presence_of :original_file
 
-  after_create :split, :analyze
-
+  after_create :enqueue_process
   attr_accessor :sample_mode
 
+  PARAGRAPH_SEPARATOR = ".\n"
+
+
   def content
-    self.paragraphs.map(&:content).join(".\n")
+    self.paragraphs.map(&:content).join(PARAGRAPH_SEPARATOR)
   end
 
   # Split original document data and extract metadata and content as clean,
@@ -35,14 +38,19 @@ class Document
   #
   def split
     # Replace title with original title from document
+    logger.info "Extract title from '#{self.original_file_path}'"
     self.title = Splitter.extract_title(self.original_file_path)
 
+    logger.info "Generate a thumbnail from the first page of the document"
     self.thumbnail_file = Splitter.create_thumbnail(self.original_file_path,
       :output => File.join(Padrino.root, 'public', THUMBNAILS_DIR)
     )
 
+    logger.info "Extract plain text"
     text = Splitter.extract_plain_text(self.original_file_path)
-    text.split(".\n").each do |paragraph|
+
+    logger.info "Split into paragraphs and save them"
+    text.split(PARAGRAPH_SEPARATOR).each do |paragraph|
       # Because Analyzer is configured to flush buffer at every linefeed,
       # replace all possible '\n' inside paragraphs to avoid a bad sentence split.
       paragraph = paragraph.strip.gsub("\n", ' ')
@@ -60,7 +68,7 @@ class Document
     to = option.has_key?(:to) ? option[:to].to_i : max
     output = ""
     self.paragraphs[from..to].each do |p|
-      output << p.content + "\n"
+      output << p.content + PARAGRAPH_SEPARATOR
     end
     output
   end
@@ -126,7 +134,7 @@ class Document
   end
 
   def store_name(group)
-    person = Person.new(:name => group.first.to_s)
+    person = Person.new(:name => group.first.text)
     person.documents << self
     person.named_entities << group
     person.save
@@ -154,29 +162,30 @@ class Document
     output
   end
 
-  private
-
-    # Perform a morphological analysis and extract named entities like persons,
-    # organizations, places, dates and addresses.
-    #
-    # From the detected entities, create Person instances and try to resolve
-    # correference, if possible.
-    #
-    def analyze
-      Analyzer.extract_named_entities(self.content).each do |ne_attrs|
-        self.named_entities.push(NamedEntity.new(ne_attrs))
+  # Perform a morphological analysis and extract named entities like persons,
+  # organizations, places, dates and addresses.
+  #
+  def analyze
+    Analyzer.extract_named_entities(self.content).each do |ne_attrs|
+      ne_klass = case NamedEntity::CLASSES_PER_TAG[ne_attrs[:tag]]
+        when :addresses then AddressEntity
+        else NamedEntity
       end
-      self.information = {
-        :people => people_found.size,
-        :dates => dates_found.size,
-        :organizations => organizations_found.size
-      }
-      self.last_analysis_at = Time.now
-      save
+      self.named_entities << ne_klass.new(ne_attrs)
     end
+    self.information = {
+      :people => people_found.size,
+      :dates => dates_found.size,
+      :organizations => organizations_found.size
+    }
+    self.last_analysis_at = Time.now
+    save
+  end
 
-    def enqueue_process
-      Resque.enqueue(NormalizationTask, self.id)
-      return true
-    end
+
+protected
+  def enqueue_process
+    Resque.enqueue(NormalizationTask, self.id)
+    return true
+  end
 end

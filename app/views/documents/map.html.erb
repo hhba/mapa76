@@ -1,44 +1,60 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
-<link rel="stylesheet" href="/css/style.css" type="text/css"/>
-<style type="text/css">
-  html { height: 100% }
-  body { height: 100%; margin: 0px; padding: 0px; font-family:Helvetica; }
-  #map_canvas { height: 60%; width:100%; }
-</style>
-<script type="text/javascript"
-    src="http://maps.google.com/maps/api/js?sensor=true">
-</script>
-<script type="text/javascript">
-  function initialize() {
-      var latlng = new google.maps.LatLng(<%=@addresses.find{|d| d.geocode}.geocode.ll%>);
-    var myOptions = {
-      zoom: 11,
-      center: latlng,
-      mapTypeId: google.maps.MapTypeId.ROADMAP
-    };
-    var map = new google.maps.Map(document.getElementById("map_canvas"),
-        myOptions);
-    <%@addresses.each.with_index{|dir,n| if dir.geocode %>
-        var myLatlng = new google.maps.LatLng(<%=dir.geocode.ll%>);
-        var myOptions = { zoom: 4, center: myLatlng, mapTypeId: google.maps.MapTypeId.ROADMAP }
-        if (!centered){ centered=true; map.panTo(myLatlng) }
-        var marker = new google.maps.Marker({ position: myLatlng, map: map, title:<%=dir.context.to_json%> });
-      <%end
-    }%>
-  }
-  centered=false;
+  <title>Mapa</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+  <link rel="stylesheet" href="/css/style.css" type="text/css"/>
+  <style type="text/css">
+    html {
+      height: 100%;
+    }
+    body {
+      height: 100%;
+      margin: 0px;
+      padding: 0px;
+      font-family: Helvetica;
+    }
+    #map_canvas {
+      height: 100%;
+      width: 100%;
+    }
+  </style>
 
-</script>
+  <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
+  <script type="text/javascript">
+    function initialize() {
+      var latlng = new google.maps.LatLng(<%= @center.lat %>, <%= @center.lng %>);
+      var myOptions = {
+        zoom: 11,
+        center: latlng,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+      };
+      var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+      <% @addresses.each do |addr| %>
+        var myLatlng = new google.maps.LatLng(<%= addr.lat %>, <%= addr.lng %>);
+        var myOptions = {
+          zoom: 4,
+          center: myLatlng,
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        if (!centered) {
+          centered = true;
+          map.panTo(myLatlng);
+        }
+        var marker = new google.maps.Marker({
+          position: myLatlng,
+          map: map,
+          title: <%= addr.context.to_json %>
+        });
+      <% end %>
+    }
+    centered = false;
+  </script>
 </head>
+
 <body onload="initialize()">
-  <h1>HHBA - Extracción automática de addresses y mapeo.</h1>
-  <p>Las addresses mapeadas fueron extraídas del alegato del fiscal del juicio Atlético - Banco - Olimpo.<br /></P>
   <div id="map_canvas" ></div>
-  <p>Este prototipo acompaña la charla: "<a href='http://goo.gl/M5CL1'>¿Que (pomo) hacen los programadores?</a>" en <a href='http://hackshackers.com/blog/2011/04/29/%C2%A1invasion-hackshackers-en-buenos-aires-periodismo-de-datos-y-datos-para-el-periodismo/'>HacksHackers Buenos Aires, 28/4/2011</a><br />martin sarsale - martin@malditainternet.com</p>
 </body>
 </html>
 

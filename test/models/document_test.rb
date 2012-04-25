@@ -29,4 +29,5 @@ class TestDocument < Test::Unit::TestCase
     assert_equal(1, d.people.length)
     assert_equal([@person], d.people)
   end
+
 end
