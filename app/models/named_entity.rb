@@ -29,6 +29,18 @@ class NamedEntity
     text || human_form || super
   end
 
+  def context(length=50)
+    content = self.document.content
+
+    context_start = self.pos - length
+    context_end = self.pos + self.form.size + length
+
+    context_start = 0 if context_start < 0
+    context_end = content.size if context_end > content.size
+
+    content[context_start .. context_end]
+  end
+
 
 protected
   def human_form
