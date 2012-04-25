@@ -132,28 +132,6 @@ class Document
     person.save
   end
 
-  private
-
-    # Perform a morphological analysis and extract named entities like persons,
-    # organizations, places, dates and addresses.
-    #
-    # From the detected entities, create Person instances and try to resolve
-    # correference, if possible.
-    #
-    def analyze
-      Analyzer.extract_named_entities(self.content).each do |ne_attrs|
-        self.named_entities.push(NamedEntity.new(ne_attrs))
-      end
-      self.information = {
-        :people => people_found.size,
-        :dates => dates_found.size,
-        :organizations => organizations_found.size
-      }
-      self.last_analysis_at = Time.now
-      save
-    end
-  end
-
   def processed?
     self.state == :finished
   end
@@ -176,9 +154,29 @@ class Document
     output
   end
 
-protected
-  def enqueue_process
-    Resque.enqueue(NormalizationTask, self.id)
-    return true
-  end
+  private
+
+    # Perform a morphological analysis and extract named entities like persons,
+    # organizations, places, dates and addresses.
+    #
+    # From the detected entities, create Person instances and try to resolve
+    # correference, if possible.
+    #
+    def analyze
+      Analyzer.extract_named_entities(self.content).each do |ne_attrs|
+        self.named_entities.push(NamedEntity.new(ne_attrs))
+      end
+      self.information = {
+        :people => people_found.size,
+        :dates => dates_found.size,
+        :organizations => organizations_found.size
+      }
+      self.last_analysis_at = Time.now
+      save
+    end
+
+    def enqueue_process
+      Resque.enqueue(NormalizationTask, self.id)
+      return true
+    end
 end
