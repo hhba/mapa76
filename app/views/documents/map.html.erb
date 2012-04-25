@@ -45,7 +45,7 @@
         var marker = new google.maps.Marker({
           position: myLatlng,
           map: map,
-          title: "TODO"
+          title: <%= addr.context.to_json %>
         });
       <% end %>
     }
