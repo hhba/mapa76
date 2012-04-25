@@ -26,7 +26,7 @@ class Document
   after_create :enqueue_process
   attr_accessor :sample_mode
 
-  PARAGRAPH_SEP = ".\n"
+  PARAGRAPH_SEPARATOR = ".\n"
 
 
   def content
@@ -161,7 +161,7 @@ class Document
   end
 
   def processed?
-    self.state == "finished"
+    self.state == :finished
   end
 
   def state_to_percentage
