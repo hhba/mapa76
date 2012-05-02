@@ -53,11 +53,11 @@
             %td.state
               - if doc.processed?
                 Finalizado
-                .hidden{:style => "display:none;"}
+                .hidden{:style => "display: none;"}
                   .progress.progress-striped.active
-                    .bar{:style => "width:0%;"}
+                    .bar{:style => "width: 100%;"}
               - else
                 .progress.progress-striped.active
-                  .bar{:style => "width:0%;"}
+                  .bar{:style => "width: #{doc.state_to_percentage}%;"}
   .span4
 
