@@ -40,7 +40,7 @@
             %td
               = thumbnail_tag doc
             %td
-              - if doc.processed?
+              - if doc.readable?
                 = link_to doc.heading, url_for(:documents, :show, :id => doc._id)
               - else
                 = doc.heading

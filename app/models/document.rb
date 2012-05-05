@@ -144,6 +144,10 @@ class Document
     self.state == :finished
   end
 
+  def readable?
+    state_to_percentage > 10
+  end
+
   def state_to_percentage
     {
       :waiting => 0,
