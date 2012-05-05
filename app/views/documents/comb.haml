@@ -17,35 +17,7 @@
 - content_for :sidebar do
   %ul.nav.nav-list
     %li.nav-header Eventos
-    %li
-      %ul.events
-        %li.event
-          %a.close ×
-          %ul
-            %li.person
-              %a.close ×
-              %span El Vasco
-            %li.organization
-              %a.close ×
-              %span ERP
-            %li.type
-              %a.close ×
-              %span visto en
-            %li.place
-              %a.close ×
-              %span Campo de Mayo
-            %li.date
-              %a.close ×
-              %span 13 Mayo 1978
-        %li.event
-          %a.close ×
-          %ul
-            %li.person
-              %a.close ×
-              %span Juan Gómez
-            %li.date
-              %a.close ×
-              %span Abril 1979
+    .event.new.empty{:ondragover => "event.preventDefault()"}
     %li.nav-header Herramientas
     %li.nav-header Contexto
 
