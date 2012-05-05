@@ -1,0 +1,40 @@
+-# coding: utf-8
+- content_for :styles do
+  = stylesheet_link_tag "flick/jquery-ui-1.8.18.custom"
+- content_for :javascripts do
+  = javascript_include_tag 'jquery-ui-1.8.18.custom.min', 'bootstrap-alert', 'bootstrap-collapse', 'mustache'
+  = javascript_include_tag 'analize'
+
+%script#paragraphTemplate{:type => "text/template"}
+  {{#paragraphs}}
+  %p{"data-paragraph" => "{{_id}}"}
+    {{content}}
+  {{/paragraphs}}
+%script#nextPageTemplate{:type => "text/template"}
+  %a{:href => "{{url}}", :id => "next_page", "data-next" => "{{next_page}}", "data-document" => "{{id}}" }
+    Cargar más contenido
+
+- content_for :sidebar do
+  %ul.nav.nav-list
+    %li.nav-header Eventos
+    .event.new.empty{:ondragover => "event.preventDefault()"}
+    %li.nav-header Herramientas
+    %li.nav-header Contexto
+
+.row-fluid
+  .paragraphs
+    - @paragraphs.each do |p|
+      %p{"data-paragraph" => p.id}
+        = paragraph_with_tagged_named_entities(p)
+  .span4
+
+.row-fluid
+  .pages
+  - if @paragraphs.length > 1
+    .next_page
+      = link_to "Cargar más contenido", url_for(:documents, :comb, :id => @document.id, :page => params[:page].to_i + 2),
+        :id => "next_page",
+        "data-next" => params[:page].to_i + 2,
+        "data-document" => @document.id
+    #loading{:style => "display:none; text-align: center;"}
+      = image_tag 'ajax-bar-loader.gif', :style => "margin:0 auto;"

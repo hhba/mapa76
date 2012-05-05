@@ -1,0 +1,54 @@
+- content_for :javascripts do
+  = javascript_include_tag 'jquery.highlight', 'jquery-ui-1.8.18.custom.min', 'person'
+- content_for :styles do
+  = stylesheet_link_tag "flick/jquery-ui-1.8.18.custom"
+.row
+  .span12
+    #pane-container.clearfix
+      / Listado de Hitos
+      #milestone-pane{"data-person-id" => @person.id}
+        %h2
+          Hitos guardados
+          %button#update_milestones R
+        %ul#milestones
+      / Listaod de fratmentos
+      #fragment-pane
+        %h2= @person.name.titleize
+        (#{link_to @doc.heading, url_for(:documents, :show, :id => @doc.id)})
+        %ol#tags.clearfix
+          - {tortur: "tortura", secuestr: "secuestro", asesin: "asesinato", transla: "translados", viola:"violacion"}.each do |search,name|
+            <li data-search=#{search.to_json}>#{name}
+            %span.count/
+        %ol{:style => "list-style-type:round"}
+          - @fragments.each do |parte|
+            %li{:id => parte.context(400).fragment_id}
+              %button.more +
+              %button.less -
+              %button.up ^
+              %button.down v
+              %p.fragment= markup_fragment(parte.context(400))
+    / Formulario para agregar milestones
+    #add_milestone{:style => 'display:none;'}
+      %form{:action => url_for(:documents, :person, :person_id => @person.id, :id => @doc.id), :method => "post", :target => "res"}
+        %input#milestone_id{:name => "person[milestones][0][id]", :type => "hidden", :value => ""}/
+        .field-label Date From
+        .field-input
+          %input#milestone_date_from{:name => "person[milestones][0][date_from]", :type => "text"}/
+        .field-label Date To
+        .field-input
+          %input#milestone_date_to{:name => "person[milestones][0][date_to]", :type => "text"}/
+        .field-label What
+        .field-input
+          = select_tag "person[milestones][0][what_opc]",:options => @what, :id => "milestone_what_opc"
+          %input#milestone_what_txt{:name => "person[milestones][0][what_txt]", :type => "text"}/
+        .field-label Where
+        .field-input
+          = select_tag "person[milestones][0][where_opc]",:options => @where, :id=> "milestone_where_opc"
+          %input#milestone_where_txt{:name => "person[milestones][0][where_txt]", :type => "text"}/
+        .field-label Source
+        .field-input
+          %input#milestone_source{:name => "person[milestones][0][source]", :type => "text"}/
+        %br/
+        %br/
+        %input{:type => "submit", :value => "Guardar"}/
+        %button#del_milestone Delete

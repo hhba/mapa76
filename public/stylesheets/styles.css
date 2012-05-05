@@ -1,0 +1,102 @@
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+.sidebar-nav {
+  padding: 9px 0;
+}
+.sidebar {
+  position: fixed;
+  right: 20px;
+}
+.hidden {
+  display: none;
+}
+.classified_good span {
+  color: green;
+}
+.classified_bad span {
+  color: red;
+}
+.paragraphs span.people, .paragraphs .dates, .paragraphs span.places {
+  cursor: pointer;
+}
+h2.fragment {
+  font-size: 17px;
+}
+h3.fragment {
+  font-size: 16px;
+}
+h4.fragment {
+  font-size: 15px;
+}
+
+.navbar-search .search-query {
+  color:#CCC;
+}
+
+/* Events */
+.people {
+  color: red;
+}
+.places {
+  color: blue;
+}
+.dates {
+  color: green;
+}
+
+/* Thumbnail */
+.thumbnail {
+  background-color: #fff;
+  width: 65px;
+  height: 80px;
+}
+
+/* Show document info */
+#loading {
+  text-align: center;
+  margin-top: 40px;
+}
+/* Drag and drop */
+.event {
+  display: block; width: 260px; min-height: 25px;
+  background-color: #ddd; margin-bottom: 6px; padding: 3px 4px;
+  border: 1px solid rgba(0, 0, 0, 0.05); border-radius: 6px;
+  -moz-border-radius: 6px; -webkit-border-radius: 6px;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+  -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+}
+.event .dragged.types { background-color: #333; }
+.event .dragged.people { background-color: #b94a48; }
+.event .dragged.organizations { background-color: #3a87ad; }
+.event .dragged.places { background-color: #f89406; }
+.event .dragged.dates { background-color: #468847; }
+.event:-moz-drag-over { background: #fff9d7; }
+.event .dragged { color: #fff; line-height: 25px; white-space: pre;
+  padding: 3px 4px; margin: .2em .1em;
+  border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px;
+}
+.event .dragged i:before {
+  content: 'x'; color: transparent; margin-left: 5px; padding-left: 9px; opacity: .5; cursor: pointer;
+  background-position: -168px -96px; background-image: url("../img/glyphicons-halflings-white.png");
+}
+.event .dragged i:hover:before { opacity: 1; }
+.event.empty { border-color: #ddd; opacity: .5; }
+
+.ne {
+  font-weight: bold;
+}
+.ne.people {
+  color: #B94A48;
+}
+.ne.organizations {
+  color: #3A87AD;
+}
+.ne.places {
+  color: #F89406;
+}
+.ne.dates {
+  color: #468847;
+}

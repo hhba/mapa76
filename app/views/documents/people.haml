@@ -1,0 +1,22 @@
+-# coding: utf-8
+.row
+  .span8
+    %h1= @doc.heading
+    %table#sorteable
+      %thead
+        %tr
+          %th
+            %a{:href => '#', "data-sort" => "number"}#
+          %th
+            %a{:href => '#', "data-sort" => "name"}Nombre
+          %th
+            %a{:href => '#', "data-sort" => "mentions"}Menciones
+      %tbody
+        - @people.each_with_index do |person, index|
+          %tr{"data-mentions" => person.mentions_in(@doc)}
+            %td
+              = index + 1
+            %td
+              = link_to(person.name.titleize, url_for(:documents, :person, :person_id => person.id, :id => @doc.id))
+            %td
+              (#{person.mentions_in(@doc)} menciones)

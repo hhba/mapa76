@@ -1,0 +1,80 @@
+-# coding: utf-8
+- content_for :javascripts do
+  = javascript_include_tag 'bootstrap-tooltip', 'bootstrap-popover', "documents"
+.row
+  .span5
+    %table.table.table-bordered.table-condensed
+      %thead
+        %th{:span => 2 }
+          Información
+      %tbody
+        %tr
+          %td{:rowspan => 4 }
+            = thumbnail_tag @doc
+          %td
+            = @doc.heading
+        %tr
+          %td
+            = @doc.category
+        %tr
+          %td
+            = @doc._id.generation_time.strftime("%d/%m/%y")
+        %tr
+          %td
+            = link_to "Download", "/uploads/#{@doc.original_file}"
+    %hr
+      = link_to "Localizar", url_for(:documents, :map, :id => @doc._id), :class => "btn btn-primary", :target => "_blank"
+      = link_to "Personas", url_for(:documents, :people, :id => @doc._id), :class => "btn btn-primary"
+      = link_to "Peinar", url_for(:documents, :comb, :id => @doc._id), :class => "btn btn-primary"
+    %hr
+    %table.table.table-condensed.table-striped
+      %thead
+        %tr
+          %th
+            = "#"
+          %th
+            Contenido
+          %th
+      %tbody
+        - @doc.indication.each_with_index do |p, index|
+          %tr
+            %td
+              = index + 1
+            %td.content
+              = p
+            %td.link
+              = link_to('Ver más', url_for(:documents, :paragraph, @doc.id, :paragraph_index => index),
+                        "data-content" => @doc.paragraphs[index].info,
+                        "title" => "Información")
+  .span1
+  .span3
+    %table.table.table-bordered.table-condensed
+      %thead
+        %tr
+          %th
+            = "#"
+          %th
+            Personas
+      %tbody
+        - @doc.people_found.each_with_index do |person, index|
+          %tr
+            %td
+              = index + 1
+            %td
+              = person.text
+  .span1
+  .span2
+    %table.table.table-bordered.table-condensed
+      %thead
+        %tr
+          %th
+            = "#"
+          %th
+            Organizaciones
+      %tbody
+        - @doc.organizations_found.each_with_index do |org, index|
+          %tr
+            %td
+              = index + 1
+            %td
+              = org.text

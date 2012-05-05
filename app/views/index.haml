@@ -1,0 +1,43 @@
+-# coding: utf-8
+- content_for :javascripts do
+  = javascript_include_tag 'jquery.mousewheel.min', 'jquery-ui.js'
+  = javascript_include_tag "timeglider/TG_Date", "timeglider/TG_Org2", "timeglider/TG_Timeline", "timeglider/TG_TimelineView", "timeglider/TG_Mediator", "timeglider/timeglider.timeline.widget"
+  :javascript
+    var tg1;
+    / $(document).ready(function(){
+    /   tg1 = $("#placement").timeline({
+    /     "data_source":"/idaho.json",
+    /     "min_zoom":15,
+    /     "max_zoom":60
+    /   });
+    });
+- content_for :styles do
+  = stylesheet_link_tag "flick/jquery-ui-1.8.18.custom", 'Timeglider'
+- content_for :hero do
+  #placement
+
+.row
+  .span8
+    %ul.listado_persona
+      - @persons.each do |person|
+        %li.listado_nombre
+          %h3
+            = link_to person.name,url_for(:index, :ids => person.id)
+          %span.hitos Hitos
+          %ul.hitos
+            - person.milestones.each do |milestone|
+              %li.hito
+                %span.from= milestone.date_from
+                |
+                %span.to= milestone.date_to
+                |
+                %span.what= milestone.what_txt
+                |
+                %span.where= milestone.where_txt
+              %br
+:css
+  #placement {
+    /*width:850px;*/
+    margin:32px auto 32px auto;
+    /*height:400px;*/
+  }
