@@ -84,3 +84,19 @@ h4.fragment {
 }
 .event .dragged i:hover:before { opacity: 1; }
 .event.empty { border-color: #ddd; opacity: .5; }
+
+.ne {
+  font-weight: bold;
+}
+.ne.people {
+  color: #B94A48;
+}
+.ne.organizations {
+  color: #3A87AD;
+}
+.ne.places {
+  color: #F89406;
+}
+.ne.dates {
+  color: #468847;
+}
