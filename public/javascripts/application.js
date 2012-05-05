@@ -41,7 +41,7 @@ $(document).ready(function(){
   });
   $('.paragraphs span.ne').draggable({
     helper: 'clone'
-  }).css('cursor', 'move');
+  });
   init_drops();
 });
 function init_drops(){

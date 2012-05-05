@@ -84,19 +84,10 @@ h4.fragment {
 }
 .event .dragged i:hover:before { opacity: 1; }
 .event.empty { border-color: #ddd; opacity: .5; }
+.ui-draggable { cursor: move; z-index: 1; }
 
-.ne {
-  font-weight: bold;
-}
-.ne.people {
-  color: #B94A48;
-}
-.ne.organizations {
-  color: #3A87AD;
-}
-.ne.places {
-  color: #F89406;
-}
-.ne.dates {
-  color: #468847;
-}
+.paragraphs .ne { font-weight: bold; }
+.paragraphs .ne.people { color: #B94A48; }
+.paragraphs .ne.organizations { color: #3A87AD; }
+.paragraphs .ne.places { color: #F89406; }
+.paragraphs .ne.dates { color: #468847; }

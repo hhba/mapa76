@@ -7,8 +7,8 @@
 
 %script#paragraphTemplate{:type => "text/template"}
   {{#paragraphs}}
-  %p{"data-paragraph" => "{{_id}}"}
-    {{content}}
+  %p{"data-paragraph" => "{{id}}"}
+    {{{content}}}
   {{/paragraphs}}
 %script#nextPageTemplate{:type => "text/template"}
   %a{:href => "{{url}}", :id => "next_page", "data-next" => "{{next_page}}", "data-document" => "{{id}}" }
