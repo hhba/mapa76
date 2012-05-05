@@ -10,14 +10,51 @@
   %p{"data-paragraph" => "{{_id}}"}
     {{content}}
   {{/paragraphs}}
-.row
-  .span8.paragraphs
+
+- content_for :sidebar do
+  %ul.nav.nav-list
+    %li.nav-header Eventos
+    %li
+      %ul.events
+        %li.event
+          %a.close ×
+          %ul
+            %li.person
+              %a.close ×
+              %span El Vasco
+            %li.organization
+              %a.close ×
+              %span ERP
+            %li.type
+              %a.close ×
+              %span visto en
+            %li.place
+              %a.close ×
+              %span Campo de Mayo
+            %li.date
+              %a.close ×
+              %span 13 Mayo 1978
+        %li.event
+          %a.close ×
+          %ul
+            %li.person
+              %a.close ×
+              %span Juan Gómez
+            %li.date
+              %a.close ×
+              %span Abril 1979
+    %li.nav-header Herramientas
+    %li.nav-header Contexto
+
+.row-fluid
+  .paragraphs
     - @paragraphs.each do |p|
       %p{"data-paragraph" => p.id}
         = p.content + "."
   .span4
-.row
-  .span12.pages
+
+.row-fluid
+  .pages
   - if @paragraphs.length > 1
     .next_page
       = link_to "Cargar más contenido", url_for(:documents, :comb, :id => @document.id, :page => params[:page].to_i + 2),
