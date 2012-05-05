@@ -96,7 +96,18 @@ Alegato.controllers :api do
     document.build_index.to_json
   end
 
-  get :paragraph, :map => "/api/document/:document_id/paragraph/:paragraph_id", :provides => :json do
+  get :paragraph, :map => "/api/documents/:document_id/paragraphs/:page", :provides => :json do
+    page = params[:page].to_i
+    from = (page - 1) * 20
+    to = from + 20
+    { :paragraphs => Document.find(params[:document_id]).paragraphs[from...to],
+      :document_id => params[:document_id],
+      :next_page => page + 1,
+      :more_pages => (to - from) < 20 ? false : true
+    }.to_json
+  end
+
+  get :paragraph, :map => "/api/documents/:document_id/paragraph/:paragraph_id", :provides => :json do
     Document.find(params[:document_id]).paragraphs.first.to_json
   end
 end

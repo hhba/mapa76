@@ -40,7 +40,13 @@ Alegato.controllers :documents do
   end
 
   get :comb, :map => '/documents/:id/comb' do
-    render "documents/comb"
+    page = params.key(:page) ? params[:page] : 1
+    @document = Document.find(params[:id])
+    from = (page - 1) * 20
+    to = from + 20
+    @paragraphs = @document.paragraphs[from...to]
+
+    render("documents/comb")
   end
 
   get :paragraph, :map => '/documents/:id/paragraph/:paragraph_index' do

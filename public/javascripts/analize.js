@@ -3,38 +3,50 @@ var analizer = {
     this.getTemplates();
   },
   getTemplates: function(){
-    this.indexTemplate = $('#indexTemplate').html();
+    this.paragraphTemplate = $('#paragraphTemplate').html();
   },
-  getDocumentId: function(){
-    return $.trim($("#document_id").text());
-  },
-  loadInformation: function(){
-    return 2;
-  },
-  getDocumentIndex: function(document_id){
-    var url = "/api/" + document_id + "/document_index";
-    $.get(url, null, this.printDocumentIndex, "json");
-  },
-  printDocumentIndex: function(data){
-    $(".content").append(Mustache.render(analizer.indexTemplate, data));
-    $(".loading").remove();
-  },
-  populateParagraph: function(document_id, data){
-    $("td#" + document_id).html(data.content);
+  addParagraph: function(data){
+    var url;
+    //analizer.new_html = Mustache.render(analizer.paragraphTemplate, data);
+    $(".paragraphs").append(Mustache.render(analizer.paragraphTemplate, data));
+    $("#loading").hide();
+    if(data.more_pages){
+      url = "/documents/" + data.document_id + "/comb?page=" + data.next_page;
+      $(".next_page").html("<a href='" + url + "' id='next_page'>Cargar más contenido</a>");
+      callNextPage();
+    }
   }
 };
-$(document).ready(function(){
-  var document_id = analizer.getDocumentId();
+function nearBottomOfPage() {
+  return scrollDistanceFromBottom() < 200;
+}
 
-  $("a.paragraph").live("click", function(){
-    var url = $(this).attr("href");
-    var document_id = $(this).attr("data-id");
-    $.getJSON(url, function(data) {
-      analizer.populateParagraph(document_id, data);
-    });
+function scrollDistanceFromBottom(argument) {
+  return pageHeight() - (window.pageYOffset + self.innerHeight);
+}
+
+function pageHeight() {
+  return Math.max(document.body.scrollHeight, document.body.offsetHeight);
+}
+function checkScroll() {
+  if (nearBottomOfPage()) {
+    callNextPage();
+  } else {
+    setTimeout("checkScroll()", 250);
+  }
+}
+function callNextPage(){
+  var url = "/api/documents/" + $("#next_page").attr("data-document") + "/paragraphs/" + $("#next_page").attr("data-next");
+  $("#loading").show();
+  $("#next_page").remove();
+  $.getJSON(url, analizer.addParagraph);
+}
+
+$(document).ready(function(){
+  analizer.getTemplates();
+  checkScroll();
+  $("#next_page").live("click", function(){
+    callNextPage();
     return false;
   });
-
-  analizer.init();
-  analizer.getDocumentIndex(document_id);
 });

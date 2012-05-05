@@ -5,30 +5,24 @@
   = javascript_include_tag 'jquery-ui-1.8.18.custom.min', 'bootstrap-alert', 'bootstrap-collapse', 'mustache'
   = javascript_include_tag 'analize'
 
-#document_id{:style => "display:none;"}
-  = params[:id]
-%script#indexTemplate{:type => "text/template"}
-  %table{:class => "table table-striped table-bordered table-condensed"}
-    %thead
-      %th
-      %th{:colspan => 2}
-        Índice
-    %tbody
-      {{#.}}
-      %tr
-        %td
-          {{number}}
-        %td.paragraph{:id => "paragraph_{{paragraph_id}}"}
-          {{first_words}}
-        %td
-          %a{:href => "/api/document/#{params[:id]}/paragraph/{{paragraph_id}}",
-             :class => 'paragraph', "data-id" => "paragraph_{{paragraph_id}}"}
-            %i{:class => "icon-plus"}
-      {{/.}}
+%script#paragraphTemplate{:type => "text/template"}
+  {{#paragraphs}}
+  %p{"data-paragraph" => "{{_id}}"}
+    {{content}}
+  {{/paragraphs}}
 .row
-  .span8.content
-    %p{:class => "loading"}
-      = image_tag 'loading.gif'
+  .span8.paragraphs
+    - @paragraphs.each do |p|
+      %p{"data-paragraph" => p.id}
+        = p.content + "."
   .span4
-
-
+.row
+  .span12.pages
+  - if @paragraphs.length > 1
+    .next_page
+      = link_to "Cargar más contenido", url_for(:documents, :comb, :id => @document.id, :page => params[:page].to_i + 2),
+        :id => "next_page",
+        "data-next" => params[:page].to_i + 2,
+        "data-document" => @document.id
+    #loading{:style => "display:none;"}
+      = image_tag 'ajax-loader.gif', :style => "margin:0 auto;"
