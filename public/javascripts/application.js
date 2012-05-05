@@ -49,11 +49,14 @@ function init_drops(){
         drop: function(ev, ui) {
           if ($(this).html() === '')
           {
-            $(this).removeClass('empty').after('<div ondragover="event.preventDefault()" class="event new empty"></div>');
+            $(this).removeClass('empty').html('<div class="control-group"><div class="input-append"><input type="text" class="event-name" placeholder="Nombre del evento"><button class="btn event-save" type="button">Guardar</button></div></div>').after('<div ondragover="event.preventDefault()" class="event new empty"></div>');
             init_drops();
           }
             var draggable = ui.draggable;
           $(this).append('<span class="dragged ' + draggable.attr('class') + '">' + draggable.text() + '<i></i></span><wbr>');
+          $('span.dragged i').unbind('click').click(function(){
+            $(this).parent('span.dragged').remove();
+          });
         }
      });
 }
