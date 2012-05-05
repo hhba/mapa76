@@ -22,7 +22,7 @@ class Paragraph
   def named_entities
     self.document.named_entities.where(
       :pos.gt => self.pos,
-      :pos.lt => self.content.size,
+      :pos.lt => self.pos + self.content.size,
     )
   end
 end
