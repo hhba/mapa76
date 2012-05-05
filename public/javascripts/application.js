@@ -1,9 +1,4 @@
 $(document).ready(function(){
-  // $("#published_at").datepicker({
-  //     changeMonth: true,
-  //     changeYear: true,
-  //     minDate: new Date(1976, 1 - 1, 1)
-  // });
   $("#sorteable").tablesorter();
   $("#showhide").click(function(event){
     event.preventDefault();
@@ -44,27 +39,21 @@ $(document).ready(function(){
         "json"
       );
   });
-	$('.paragraphs span.ne').draggable({
-		helper: 'clone'
-	}).css('cursor', 'move');
-	init_drops();
-       // $.post("<%=url_for :admin_classify_name %>",
-       //          {name: $(e.currentTarget).parents("li").children("span.name").text(), training: $(e.currentTarget).attr("value")},
-       //          function(b){$(e.currentTarget).parents("span.buttons").text("res")},
-       //          "json"
-       //        )
-       //  }
+  $('.paragraphs span.ne').draggable({
+    helper: 'clone'
+  }).css('cursor', 'move');
+  init_drops();
 });
 function init_drops(){
-	$('.event.new').removeClass('new').droppable({
+  $('.event.new').removeClass('new').droppable({
         drop: function(ev, ui) {
-        	if ($(this).html() == '')
-        	{
-        		$(this).removeClass('empty').after('<div ondragover="event.preventDefault()" class="event new empty"></div>');
-        		init_drops();
-        	}
-        	  var draggable = ui.draggable;
-        	$(this).append('<span class="dragged ' + draggable.attr('class') + '">' + draggable.text() + '<i></i></span><wbr>');
+          if ($(this).html() === '')
+          {
+            $(this).removeClass('empty').after('<div ondragover="event.preventDefault()" class="event new empty"></div>');
+            init_drops();
+          }
+            var draggable = ui.draggable;
+          $(this).append('<span class="dragged ' + draggable.attr('class') + '">' + draggable.text() + '<i></i></span><wbr>');
         }
      });
 }

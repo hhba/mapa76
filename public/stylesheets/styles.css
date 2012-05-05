@@ -75,12 +75,12 @@ h4.fragment {
 .event .dragged.dates { background-color: #468847; }
 .event:-moz-drag-over { background: #fff9d7; }
 .event .dragged { color: #fff; line-height: 25px; white-space: pre;
-	padding: 3px 4px; margin: .2em .1em;
-	border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px;
+  padding: 3px 4px; margin: .2em .1em;
+  border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px;
 }
 .event .dragged i:before {
-	content: 'x'; color: transparent; margin-left: 5px; padding-left: 9px; opacity: .5; cursor: pointer;
-	background-position: -168px -96px; background-image: url("../img/glyphicons-halflings-white.png");
+  content: 'x'; color: transparent; margin-left: 5px; padding-left: 9px; opacity: .5; cursor: pointer;
+  background-position: -168px -96px; background-image: url("../img/glyphicons-halflings-white.png");
 }
 .event .dragged i:hover:before { opacity: 1; }
 .event.empty { border-color: #ddd; opacity: .5; }
