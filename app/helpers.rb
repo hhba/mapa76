@@ -65,4 +65,23 @@ Alegato.helpers do
     img = image_tag(url, opts)
     content_tag :div, img, :class => :thumbnail
   end
+
+  def paragraph_with_tagged_named_entities(paragraph)
+    html = ''
+    #cur_pos = 0
+    cur_pos = paragraph.pos
+    document_content = paragraph.document.content
+
+    paragraph.named_entities.excludes(:ne_class => :addresses).each do |named_entity|
+      #ne_pos = named_entity.pos - paragraph.pos
+      #html << paragraph.content[cur_pos ... ne_pos]
+      ne_pos = named_entity.pos
+      html << document_content[cur_pos ... ne_pos]
+      html << "<span class=\"ne #{named_entity.ne_class}\">#{named_entity.text}</span>"
+      cur_pos = ne_pos + named_entity.text.size
+    end
+    #html << paragraph.content[cur_pos .. -1].to_s
+    html << document_content[cur_pos .. paragraph.pos + paragraph.content.size - 1].to_s
+    html << Document::PARAGRAPH_SEPARATOR
+  end
 end

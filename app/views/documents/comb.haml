@@ -53,7 +53,7 @@
   .paragraphs
     - @paragraphs.each do |p|
       %p{"data-paragraph" => p.id}
-        = p.content + "."
+        = paragraph_with_tagged_named_entities(p)
   .span4
 
 .row-fluid

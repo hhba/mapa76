@@ -50,11 +50,17 @@ class Document
     text = Splitter.extract_plain_text(self.original_file_path)
 
     logger.info "Split into paragraphs and save them"
-    text.split(PARAGRAPH_SEPARATOR).each do |paragraph|
+    last_pos = 0
+    while pos = text.index(PARAGRAPH_SEPARATOR, last_pos)
       # Because Analyzer is configured to flush buffer at every linefeed,
       # replace all possible '\n' inside paragraphs to avoid a bad sentence split.
-      paragraph = paragraph.strip.gsub("\n", ' ')
-      self.paragraphs << Paragraph.new(:content => paragraph) if not paragraph.empty?
+      paragraph = text[last_pos .. pos - PARAGRAPH_SEPARATOR.size + 1].strip.gsub("\n", ' ')
+      paragraph_pos = last_pos - 1
+      paragraph_pos = 0 if paragraph_pos == -1
+      if not paragraph.empty?
+        self.paragraphs << Paragraph.new(:content => paragraph, :pos => paragraph_pos)
+      end
+      last_pos = pos + 1
     end
 
     save
