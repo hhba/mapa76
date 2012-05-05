@@ -1,8 +1,9 @@
 class Paragraph
   include Mongoid::Document
 
-  field :content,          :type => String
-  field :information,      :type => Hash
+  field :content,     :type => String
+  field :information, :type => Hash
+  field :pos,         :type => Integer
 
   embedded_in :document
 
