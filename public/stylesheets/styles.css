@@ -84,6 +84,7 @@ h4.fragment {
 }
 .event .dragged i:hover:before { opacity: 1; }
 .event.empty { border-color: #ddd; opacity: .5; }
+.ui-draggable { cursor: move; z-index: 1; }
 
 .paragraphs .ne { font-weight: bold; }
 .paragraphs .ne.people { color: #B94A48; }
