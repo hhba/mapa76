@@ -99,7 +99,7 @@ Alegato.controllers :api do
   get :paragraph, :map => "/api/documents/:document_id/paragraphs/:page", :provides => :json do
     document = Document.find(params[:document_id])
     {
-      :paragraphs => document.page(params[:page]),
+      :paragraphs => document.page(params[:page]).map { |p| { :id => p._id, :content => paragraph_with_tagged_named_entities(p) } },
       :document_id => params[:document_id],
       :current_page => params[:page].to_i,
       :last_page => document.last_page?(params[:page].to_i)
