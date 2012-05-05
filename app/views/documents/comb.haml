@@ -10,6 +10,9 @@
   %p{"data-paragraph" => "{{_id}}"}
     {{content}}
   {{/paragraphs}}
+%script#nextPageTemplate{:type => "text/template"}
+  %a{:href => "{{url}}", :id => "next_page", "data-next" => "{{next_page}}", "data-document" => "{{id}}" }
+    Cargar más contenido
 
 - content_for :sidebar do
   %ul.nav.nav-list
@@ -61,5 +64,5 @@
         :id => "next_page",
         "data-next" => params[:page].to_i + 2,
         "data-document" => @document.id
-    #loading{:style => "display:none;"}
-      = image_tag 'ajax-loader.gif', :style => "margin:0 auto;"
+    #loading{:style => "display:none; text-align: center;"}
+      = image_tag 'ajax-bar-loader.gif', :style => "margin:0 auto;"

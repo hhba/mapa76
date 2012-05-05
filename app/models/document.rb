@@ -27,7 +27,7 @@ class Document
   attr_accessor :sample_mode
 
   PARAGRAPH_SEPARATOR = ".\n"
-
+  PER_PAGE = 20
 
   def content
     self.paragraphs.map(&:content).join(PARAGRAPH_SEPARATOR)
@@ -186,6 +186,25 @@ class Document
     save
   end
 
+  def total_paragraphs
+    self.paragraphs.count
+  end
+
+  def total_pages
+    (total_paragraphs / 20.0).ceil
+  end
+
+  def page(page = 1)
+    page = 1 if page.nil?
+    from = (page.to_i - 1) * 20
+    to = from + 20
+
+    self.paragraphs[from...to]
+  end
+
+  def last_page?(page=1)
+    page == total_pages
+  end
 
 protected
   def enqueue_process

@@ -113,7 +113,7 @@ h4.fragment {
 }
 
 /* Show document info */
-.loading {
+#loading {
   text-align: center;
-  margin-top: 150px;
+  margin-top: 40px;
 }

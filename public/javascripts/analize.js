@@ -4,27 +4,31 @@ var analizer = {
   },
   getTemplates: function(){
     this.paragraphTemplate = $('#paragraphTemplate').html();
+    this.nextPageTemplate = $("#nextPageTemplate").html();
   },
   addParagraph: function(data){
     var url;
-    //analizer.new_html = Mustache.render(analizer.paragraphTemplate, data);
+    var nextPageValues;
+    var nextPage;
     $(".paragraphs").append(Mustache.render(analizer.paragraphTemplate, data));
     $("#loading").hide();
-    if(data.more_pages){
-      url = "/documents/" + data.document_id + "/comb?page=" + data.next_page;
-      $(".next_page").html("<a href='" + url + "' id='next_page'>Cargar más contenido</a>");
-      callNextPage();
+    console.log(data.last_page);
+    if(!data.last_page){
+      console.log("entro");
+      nextPage = parseInt(data.current_page, 10) + 1;
+      url = "/documents/" + data.document_id + "/comb?page=" + nextPage;
+      nextPageValues = { url: url, id: data.document_id, 'next_page': data.current_page + 1 };
+      $(".next_page").html(Mustache.render(analizer.nextPageTemplate, nextPageValues));
+      checkScroll();
     }
   }
 };
 function nearBottomOfPage() {
   return scrollDistanceFromBottom() < 200;
 }
-
 function scrollDistanceFromBottom(argument) {
   return pageHeight() - (window.pageYOffset + self.innerHeight);
 }
-
 function pageHeight() {
   return Math.max(document.body.scrollHeight, document.body.offsetHeight);
 }
