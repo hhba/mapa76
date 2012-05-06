@@ -177,8 +177,9 @@ class Document
   #
   def analyze
     Analyzer.extract_named_entities(self.content).each do |ne_attrs|
-      ne_klass = case NamedEntity::CLASSES_PER_TAG[ne_attrs[:tag]]
+      ne_klass = case ne_attrs[:ne_class]
         when :addresses then AddressEntity
+        when :actions then ActionEntity
         else NamedEntity
       end
       self.named_entities << ne_klass.new(ne_attrs)

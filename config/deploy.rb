@@ -2,7 +2,7 @@ $:.unshift(File.expand_path('./lib', ENV['rvm_path'])) # Add RVM's lib directory
 require 'bundler/capistrano'
 require 'rvm/capistrano'
 
-set :application, "alegato"
+set :application, "mapa76"
 
 set :user, "mapa"
 set :domain, "hhba.info"
@@ -14,11 +14,11 @@ role :web, domain
 role :db, domain, :primary => true
 
 set :normalize_asset_timestamps, false
-set :rvm_ruby_string, '1.9.2@alegato'
+set :rvm_ruby_string, '1.9.2@mapa76'
 set :rvm_type, :user
 
 set :scm, :git
-set :repository, "git://github.com/mapa76/alegato.git"
+set :repository, "git://github.com/mapa76/mapa76.git"
 set :branch, "develop"
 set :scm_verbose, true
 set :use_sudo, false
@@ -30,8 +30,8 @@ namespace :deploy do
   desc "symlink to mongoid.yml"
   task :create_symlink_shared do
     run "ln -nfs #{deploy_to}/shared/config/mongoid.yml #{release_path}/config/mongoid.yml"
-    run "ln -nfs #{deploy_to}/shared/data #{release_path}/data"
     run "ln -nfs #{deploy_to}/shared/uploads #{release_path}/public/uploads"
+    run "ln -nfs #{deploy_to}/shared/thumbs #{release_path}/public/thumbs"
   end
 
   task :migrate do
