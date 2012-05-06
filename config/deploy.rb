@@ -30,8 +30,8 @@ namespace :deploy do
   desc "symlink to mongoid.yml"
   task :create_symlink_shared do
     run "ln -nfs #{deploy_to}/shared/config/mongoid.yml #{release_path}/config/mongoid.yml"
-    run "ln -nfs #{deploy_to}/shared/data #{release_path}/data"
     run "ln -nfs #{deploy_to}/shared/uploads #{release_path}/public/uploads"
+    run "ln -nfs #{deploy_to}/shared/thumbs #{release_path}/public/thumbs"
   end
 
   task :migrate do
