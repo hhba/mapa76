@@ -55,6 +55,7 @@ module Analyzer
         analyzer.sentences.each do |sentence|
           sentence.each do |token|
             # logger.debug "Token (#{cur_st[:pos]}/#{total_size}): #{token}"
+            new_token = nil
 
             # exact match
             if token[:form] == cur_st[:form]
@@ -62,7 +63,6 @@ module Analyzer
               if NamedEntity::CLASSES_PER_TAG[token[:tag]]
                 new_token[:tokens] = [{ :pos => cur_st[:pos], :form => cur_st[:form] }]
               end
-              yielder << new_token
               cur_st = st.next rescue nil
 
             # multiword
@@ -81,12 +81,21 @@ module Analyzer
               if NamedEntity::CLASSES_PER_TAG[token[:tag]]
                 new_token[:tokens] = tokens
               end
-              yielder << new_token
 
             else
               raise "Simple tokens and tagged tokens do not match " \
                     "(#{cur_st[:form]} != #{token[:form]}). Maybe a contraction?"
             end
+
+            # Classify!
+            # TODO Separate this in another class/module/method...
+            if ne_class = NamedEntity::CLASSES_PER_TAG[new_token[:tag]]
+              new_token[:ne_class] = ne_class
+            elsif ActionEntity.valid?(new_token)
+              new_token[:ne_class] = :actions
+            end
+
+            yielder << new_token
           end
           sentence_pos += 1
         end
@@ -98,8 +107,10 @@ module Analyzer
   #
   def self.extract_named_entities(content)
     Enumerator.new do |yielder|
-      self.extract_tagged_tokens(content).each do |token|
-        yielder << token if NamedEntity::CLASSES_PER_TAG[token[:tag]]
+      self.extract_tagged_tokens(content)
+          .select { |token| token[:ne_class] }
+          .each do |token|
+        yielder << token
       end
       self.extract_addresses(content).each do |address|
         yielder << address
@@ -117,7 +128,7 @@ module Analyzer
           yielder << {
             :form => match[0].strip,
             :pos => match.begin(0),
-            :tag => 'NP00GA0',
+            :ne_class => :addresses,
           }
           start_pos = match.end(0)
         end
