@@ -16,16 +16,17 @@
 
 - content_for :sidebar do
   %ul.nav.nav-list
-    %li.nav-header Eventos
-    .event.new.empty{:ondragover => "event.preventDefault()"}
     %li.nav-header
       Referencias
-      %ul#reference
-        %li.people Personas
-        %li.organizations Organizaciones
-        %li.places Lugares
-        %li.dates Fechas
-        %li.types Acciones
+    %ul#reference
+      %li.people Personas
+      %li.organizations Organizaciones
+      %li.places Lugares
+      %li.dates Fechas
+      %li.types Acciones
+    %li.nav-header
+      Eventos
+      .event.new.empty{:ondragover => "event.preventDefault()"}
     %li.nav-header Contexto
 
 .row-fluid
