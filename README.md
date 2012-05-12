@@ -10,11 +10,28 @@ Dependencies
   * Ruby 1.9+
   * Bundler (`bundler` gem)
   * MongoDB server
+  * Redis server
+  * [Docsplit dependencies](http://documentcloud.github.com/docsplit/#installation)
   * FreeLing 3.0
 
 
 Install
 -------
+
+### Ruby 1.9 ###
+
+We recommend [rvm](https://rvm.io/rvm/install/) for installing and managing the
+Ruby interpreter and environment. Refer to the [installation
+page](https://rvm.io/rvm/install/) for instructions on installing Ruby 1.9+.
+with `rvm`.
+
+### MongoDB and Redis servers ###
+
+On Debian / Ubuntu machines, install from the package manager:
+
+    # apt-get install mongodb mongodb-server redis-server
+
+### Gems ###
 
 First, run `bundle install` to install all gem dependencies.
 
@@ -25,6 +42,11 @@ connection options to suit your needs:
 
     $ cp config/mongoid.yml.sample config/mongoid.yml
 
+### Docsplit ###
+
+You should also install most of the
+[dependencies](http://documentcloud.github.com/docsplit/#installation) listed
+in Docsplit documentation.
 
 ### FreeLing ###
 
@@ -39,10 +61,12 @@ release, there are no binary packages available. You can download the source
 
 #### Compile and Install ####
 
-For compiling the source, you need the `libboost` and `libicu` libraries. On
-Debian / Ubuntu machines, you can run:
+For compiling the source, you need the `build-essential`, `libboost` and
+`libicu` libraries. On Debian / Ubuntu machines, you can run:
 
-    # apt-get install libboost-dev libboost-filesystem-dev libboost-program-options-dev libboost-regex-dev libicu-dev
+    # apt-get install build-essential libboost-dev libboost-filesystem-dev \
+                      libboost-program-options-dev libboost-regex-dev \
+                      libicu-dev
 
 Then, just execute `./configure`, `make` and `make install` as usual.
 
@@ -54,7 +78,8 @@ Start the Padrino server and visit [http://localhost:3000/](http://localhost:300
 
     $ bundle exec padrino start
 
-To start workers for document processing, you need to run at least one Resque worker:
+To start workers for document processing, you need to run at least one Resque
+worker:
 
     $ QUEUE=* VERBOSE=1 bundle exec rake resque:work
 
