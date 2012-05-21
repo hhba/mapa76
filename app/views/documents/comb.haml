@@ -3,6 +3,7 @@
   = stylesheet_link_tag "flick/jquery-ui-1.8.18.custom"
 - content_for :javascripts do
   = javascript_include_tag 'jquery-ui-1.8.18.custom.min', 'bootstrap-alert', 'bootstrap-collapse', 'mustache'
+  = javascript_include_tag 'underscore-min.js', 'backbone-min.js'
   = javascript_include_tag 'analize'
 
 %script#paragraphTemplate{:type => "text/template"}

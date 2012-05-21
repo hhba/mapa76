@@ -1,3 +1,20 @@
+Milestone = Backbone.Model.extend({
+  defaults: {
+    what: "",
+    where: "",
+    when: "",
+    date_from: new Date,
+    date_to: new Date
+  }
+});
+Person = Backbone.Model.extend({
+  defaults: {
+    name: "",
+    searchable_name: ""
+  },
+  urlRoot: '/api/people',
+  initialize: function(){}
+});
 var analizer = {
   init: function(){
     this.getTemplates();
