@@ -45,6 +45,10 @@ $(document).ready(function(){
   init_drops();
 });
 function init_drops(){
+  $("#reference li input").click(function(){
+    var klass = $(this).parent("li").attr("class");
+    $(".paragraphs .ne." + klass).toggleClass("nocolor");
+  });
   $('.event.new').removeClass('new').droppable({
         drop: function(ev, ui) {
           if ($(this).html() === '')

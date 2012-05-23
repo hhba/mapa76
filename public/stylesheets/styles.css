@@ -74,7 +74,7 @@ h4.fragment {
 .event .dragged.places, #reference .places:before { background-color: #f89406; }
 .event .dragged.dates, #reference .dates:before { background-color: #468847; }
 .event:-moz-drag-over { background: #fff9d7; }
-.event .dragged, #reference li { color: #fff; line-height: 25px; white-space: pre;
+.event .dragged, #reference li { color: #fff; line-height: 25px;
   padding: 3px 4px; margin: .2em .1em;
   border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px;
 }
@@ -98,6 +98,7 @@ h4.fragment {
 .paragraphs .ne.dates { color: #468847; }
 .paragraphs .ne.others { color: #555; }
 .paragraphs .ne.actions { color: #333; }
+.paragraphs .nocolor { color: #333 !important; font-weight: normal !important; }
 
 #reference { list-style: none; margin: 0; }
 #reference li { color: #000; line-height: 18px; }

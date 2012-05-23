@@ -20,12 +20,24 @@
     %li.nav-header
       Referencias
     %ul#reference
-      %li.people Personas
-      %li.organizations Organizaciones
-      %li.places Lugares
-      %li.dates Fechas
-      %li.actions Acciones
-      %li.others Otros
+      %li.people
+        %span Personas
+        %input{:type => "checkbox", :checked => true}
+      %li.organizations
+        %span Organizaciones
+        %input{:type => "checkbox", :checked => true}
+      %li.places 
+        %span Lugares
+        %input{:type => "checkbox", :checked => true}
+      %li.dates
+        %span Fechas
+        %input{:type => "checkbox", :checked => true}
+      %li.actions
+        %span Acciones
+        %input{:type => "checkbox", :checked => true}
+      %li.others
+        %span Otros
+        %input{:type => "checkbox", :checked => true}
     %li.nav-header
       Eventos
       .event.new.empty{:ondragover => "event.preventDefault()"}
