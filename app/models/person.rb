@@ -14,7 +14,7 @@ class Person
   has_and_belongs_to_many :documents
 
   def self.conadep
-    Person.all.collect { |person| person.tags.includes?("conadep")}
+    Person.all.select { |person| person.tags.include?("conadep")}
   end
 
   def mentions_in(doc)
