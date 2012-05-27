@@ -13,6 +13,7 @@ namespace :anm do
         end
         attrs[:nicknames].map! { |name| name.titleize } if attrs[:nicknames]
         attrs[:confidence] = 1.0
+        attrs[:tags] = ["conadep"]
 
         Person.create(attrs)
       end
