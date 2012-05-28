@@ -55,13 +55,17 @@
             = "#"
           %th
             Personas
+          %th
+            Menciones
       %tbody
-        - @doc.people_found.each_with_index do |person, index|
+        - @doc.people.each_with_index do |person, index|
           %tr
             %td
               = index + 1
             %td
-              = person.text
+              = person.name
+            %td
+              = person.mentions_in @doc
   .span1
   .span2
     %table.table.table-bordered.table-condensed
