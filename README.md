@@ -90,3 +90,13 @@ worker:
 you can run multiple workers with the `resque:workers` task:
 
     $ COUNT=2 QUEUE=* bundle exec rake resque:workers
+
+
+Restart to 0
+------------
+
+To remove everything from the database and restart all to 0 just run:
+
+    $ rake mi:drop && redis-cli FLUSHALL && rake anm:load
+
+
