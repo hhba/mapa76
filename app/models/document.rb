@@ -126,24 +126,8 @@ class Document
   end
 
   def process_names
-    groups = Coreference.resolve(self.people_found)
-    groups.each_with_index do |group, index|
-      Person.all.each do |known_person|
-        if Coreference.search_matching_groups(group, known_person)
-          known_person.named_entities << group
-        else
-          store_name(group)
-        end
-      end
-    end
+    Coreference.resolve(self, self.people_found)
     self
-  end
-
-  def store_name(group)
-    person = Person.new(:name => group.first.text)
-    person.documents << self
-    person.named_entities << group
-    person.save
   end
 
   def processed?

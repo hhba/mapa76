@@ -13,7 +13,6 @@ class NamedEntity
   belongs_to :document
   belongs_to :person
 
-
   CLASSES_PER_TAG = {
     'NP00O00' => :organizations,
     'NP00V00' => :others,
