@@ -26,4 +26,5 @@ class TestPerson < Test::Unit::TestCase
     cocos = Person.filter_by_name("coc", true).all
     assert_equal(2, cocos.length)
   end
+
 end
