@@ -9,12 +9,13 @@ module Coreference
     duplicates = []
     message = ""
     while !named_entities.empty?
-      named_entity = named_entities.first
-      logger.info "Finding second impressions for '#{named_entity.text}'"
+      named_entity = named_entities.pop
+
       jw = Amatch::JaroWinkler.new(named_entity.text)
       tmp = named_entities.select do |ne|
         jw.match(ne.text) >= MIN_SIMILARITY
       end
+
       named_entities.reject! { |ne| tmp.include?(ne)}
       duplicates << tmp
     end
