@@ -193,11 +193,7 @@ class Document
   end
 
   def page(page = 1)
-    page = 1 if page.nil?
-    from = (page.to_i - 1) * 20
-    to = from + 20
-
-    self.paragraphs[from...to]
+    self.paragraphs.paginate(:page => page)
   end
 
   def last_page?(page=1)
