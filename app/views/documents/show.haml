@@ -36,16 +36,6 @@
             Contenido
           %th
       %tbody
-        - @doc.indication.each_with_index do |p, index|
-          %tr
-            %td
-              = index + 1
-            %td.content
-              = p
-            %td.link
-              = link_to('Ver más', url_for(:documents, :paragraph, @doc.id, :paragraph_index => index),
-                        "data-content" => @doc.paragraphs[index].info,
-                        "title" => "Información")
   .span1
   .span3
     %table.table.table-bordered.table-condensed

@@ -1,7 +1,17 @@
 -# coding: utf-8
 - content_for :javascripts do
   = javascript_include_tag 'analize'
-%script#personContext{:type => "text/x-handlebars", "data-template-name" => "contextTemplate"}
+%script#combTemplate{:text => "text/template"}
+%script#documentContextTemplate{:type => "text/template"}
+  .breadcrumb
+    %a{:href => "/documents/{{document.id}}"}
+      {{document.heading}}
+  .information
+    .title
+      {{document.heading}}
+    .category
+      Categoría: {{document.category}}
+%script#personContext{:type => "text/template"}
   .breadcrumb
     %a{:href => "/documents/#{@document.id}"}
       = @document.heading
@@ -26,7 +36,7 @@
     Cargar más contenido
 
 - content_for :sidebar do
-  %ul.nav.nav-list
+  %ul.nav.nav-list#sidebar
     %li.nav-header
       Referencias
     %ul#reference
@@ -52,15 +62,7 @@
       Eventos
       .event.new.empty{:ondragover => "event.preventDefault()"}
     %li.nav-header Contexto
-    .context
-      .breadcrumb
-        Document.. > Samuel
-      .information
-        %ul
-          %li
-            Tags: Conadep, Desaparecido
-          %li
-            Documentos: Fundamentos ABO, Veredicto ABO, ...
+    .context#context
 
 .row-fluid
   %h2
@@ -68,6 +70,7 @@
   .paragraphs
     - @paragraphs.each do |p|
       %p{"data-paragraph" => p.id}
+        =# p.content
         = paragraph_with_tagged_named_entities(p)
   .span4
 
