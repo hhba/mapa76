@@ -1,19 +1,59 @@
-Milestone = Backbone.Model.extend({
-  defaults: {
-    what: "",
-    where: "",
-    when: "",
-    date_from: new Date,
-    date_to: new Date
+var AnalyzerView = Backbone.View.extend({
+  el: $("#sidebar"),
+  sidebarTemplate: $("#combTemplate").html(),
+  events: {
+  },
+  initialize: function(){
   }
 });
-Person = Backbone.Model.extend({
-  defaults: {
-    name: "",
-    searchable_name: ""
+var DocumentContext = Backbone.View.extend({
+  el: $("#context"),
+  documentTemplate: $("#documentContextTemplate").html(),
+  render: function(){
+    var html = Mustache.render(this.documentTemplate, this.model);
+    console.log(this.model);
+    this.$el.html(html);
+  }
+});
+var PersonContext = Backbone.View.extend({
+  el: "#contenxt",
+  render: function(event){
+    var compiledTemplate = _.template($("#contextTemplate").html());
+    this.$el.html(compiled_template(this.model.toJSON()));
+    return this;
   },
-  urlRoot: '/api/people',
-  initialize: function(){}
+  events: {
+    "submit#Update": "update",
+    "click .reset": "reset"
+  },
+  update: function(event){
+    alert("update button");
+  },
+  reset: function(event){
+    alert("reset button");
+  }
+});
+var Document = Backbone.Model.extend({
+  urlRoot: '/api/documents/',
+  initialize: function(){
+    this.on("sync", function(){
+      console.log("sincronizado!");
+    });
+  }
+});
+var Milestone = Backbone.Model.extend({
+});
+var Address = Backbone.Model.extend({
+});
+var Date = Backbone.Model.extend({
+});
+var Person = Backbone.Model.extend({
+  urlRoot: "/api/people/",
+  initialize: function(){
+    this.on("change:name", function(){
+        alert("the name has changed");
+    });
+  }
 });
 var analizer = {
   init: function(){
@@ -57,7 +97,7 @@ function checkScroll() {
   }
 }
 function callNextPage(){
-  var url = "/api/documents/" + $("#next_page").attr("data-document") + "/paragraphs/" + $("#next_page").attr("data-next");
+  var url = "/api/documents/" + $("#next_page").attr("data-document") + "?page=" + $("#next_page").attr("data-next");
   $("#loading").show();
   $("#next_page").remove();
   $.getJSON(url, analizer.addParagraph);
@@ -69,5 +109,9 @@ $(document).ready(function(){
   $("#next_page").live("click", function(){
     callNextPage();
     return false;
+  });
+  $(".people").live("click", function(){
+    var $this = $(this);
+    console.log($this.attr("data-id"));
   });
 });
