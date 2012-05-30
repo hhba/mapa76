@@ -39,10 +39,10 @@ $(document).ready(function(){
         "json"
       );
   });
-  $('.paragraphs span.ne').draggable({
-    helper: 'clone'
-  });
-  init_drops();
+  /*$('.paragraphs span.ne').draggable({*/
+  /*helper: 'clone'*/
+  /*});*/
+  /*init_drops();*/
 });
 function init_drops(){
   $("#reference li input").click(function(){
