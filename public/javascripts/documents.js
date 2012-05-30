@@ -4,7 +4,6 @@ $(document).ready(function(){
   var state;
 
   function checkDocumentsStatuses(){
-    console.log("vueltas");
     $.getJSON("/api/documents_states", function(data){
       var $bars = $(".bar");
       for(i=0;i<$bars.length;i++){
