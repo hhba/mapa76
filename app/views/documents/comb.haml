@@ -1,11 +1,21 @@
 -# coding: utf-8
-- content_for :styles do
-  = stylesheet_link_tag "flick/jquery-ui-1.8.18.custom"
 - content_for :javascripts do
-  = javascript_include_tag 'jquery-ui-1.8.18.custom.min', 'bootstrap-alert', 'bootstrap-collapse', 'mustache'
-  = javascript_include_tag 'ember-0.9.8.min.js'
   = javascript_include_tag 'analize'
-
+%script#personContext{:type => "text/x-handlebars", "data-template-name" => "contextTemplate"}
+  .breadcrumb
+    %a{:href => "/documents/#{@document.id}"}
+      = @document.heading
+    >
+    %a{:href => "/person/{{id}}"}
+      {{name}}
+    .information
+      %ul
+        %li
+          Tags: 
+          {{#tags}}
+          %a{:href => "{{tag_link}}"}
+            {{tag_name}}
+          {{/tags}}
 %script#paragraphTemplate{:type => "text/template"}
   {{#paragraphs}}
   %p{"data-paragraph" => "{{id}}"}
@@ -42,6 +52,15 @@
       Eventos
       .event.new.empty{:ondragover => "event.preventDefault()"}
     %li.nav-header Contexto
+    .context
+      .breadcrumb
+        Document.. > Samuel
+      .information
+        %ul
+          %li
+            Tags: Conadep, Desaparecido
+          %li
+            Documentos: Fundamentos ABO, Veredicto ABO, ...
 
 .row-fluid
   %h2
