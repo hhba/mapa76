@@ -16,6 +16,7 @@ gem 'haml'
 gem 'httpi'
 gem 'mongoid'
 gem 'bson_ext'
+gem 'mongoid-pagination'
 
 # NER/NEC analyzers, correference solvers, thumbnail generators, etc
 group :workers do

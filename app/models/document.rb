@@ -18,16 +18,22 @@ class Document
 
   has_many :milestones
   has_many :named_entities
+  has_many :paragraphs
   has_and_belongs_to_many :people
-  embeds_many :paragraphs
 
   validates_presence_of :original_file
 
   after_create :enqueue_process
-  attr_accessor :sample_mode
+  attr_accessor :sample_mode, :people_count
 
   PARAGRAPH_SEPARATOR = ".\n"
   PER_PAGE = 20
+
+  def context
+    self.paragraphs = []
+    self.person_ids = []
+    self.people_count = self.people.count 
+  end
 
   def content
     self.paragraphs.map(&:content).join(PARAGRAPH_SEPARATOR)
@@ -169,9 +175,10 @@ class Document
       self.named_entities << ne_klass.new(ne_attrs)
     end
     self.information = {
-      :people => people_found.size,
-      :dates => dates_found.size,
-      :organizations => organizations_found.size
+      :people => self.people.count,
+      :people_ne => people_found.size,
+      :dates_ne => dates_found.size,
+      :organizations_ne => organizations_found.size
     }
     self.last_analysis_at = Time.now
     save

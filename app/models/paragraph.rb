@@ -1,11 +1,12 @@
 class Paragraph
   include Mongoid::Document
+  include Mongoid::Pagination
 
   field :content,     :type => String
   field :information, :type => Hash
   field :pos,         :type => Integer
 
-  embedded_in :document
+  belongs_to :document
 
   def info
     output= ""
