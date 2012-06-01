@@ -15,7 +15,7 @@ var Date = Backbone.Model.extend({
 var Person = Backbone.Model.extend({
   urlRoot: "/api/people/",
   initialize: function(){
-    this.on("change:name", function(){
+    this.on("reset", function(){
         alert("the name has changed");
     });
   }
@@ -25,12 +25,7 @@ var ParagraphList = Backbone.Collection.extend({
   model: Paragraph,
   url: function(){
     return '/api/documents/' + this.get("document_id");
-  },
-  initialize: function(){
-    this.on("change", function(){
-      alert("fasfs");
-    });
-  },
+  }
 });
 var AnalyzerView = Backbone.View.extend({
   el: $("#sidebar"),
@@ -79,14 +74,27 @@ var ParagraphView = Backbone.View.extend({
 var ParagraphListView = Backbone.View.extend({
   el: ".paragraphs",
   className: "paragraphs",
+  events: {
+    "scroll": "scrolling"
+  },
+  scrolling: function(e){
+    console.log(e);
+  },
   render: function(){
-    this.collection.forEach(this.addOne, this);
+    this.addAll();
     return this;
   },
   addOne: function(paragraph){
     var paragraphView = new ParagraphView({model: paragraph});
     this.$el.append(paragraphView.render().el);
-  } 
+  },
+  addAll: function(){
+    this.collection.forEach(this.addOne, this);
+  },
+  initialize: function(){
+    this.collection.on("add", this.addOne, this);
+    this.collection.on("reset", this.addAll, this);
+  }
 });
 var analizer = {
   init: function(){
@@ -152,8 +160,8 @@ var AnalizeApp = new (Backbone.Router.extend({
     this.document.fetch();
     this.paragraphList = new ParagraphList();
     this.paragraphList.url = "/api/documents/" + document_id + "/";
-    this.paragraphList.fetch({data:{page:1}});
     this.paragraphListView = new ParagraphListView({collection: this.paragraphList});
+    this.paragraphList.fetch({data:{page:1}});
   }
 }));
 $(document).ready(function(){
