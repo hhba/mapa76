@@ -24,6 +24,8 @@ class Paragraph
     self.document.named_entities.where(
       :pos.gt => self.pos,
       :pos.lt => self.pos + self.content.size,
-    )
+    ).map do |ne|
+      {:text => ne.text, :tag => ne.tag}
+    end
   end
 end
