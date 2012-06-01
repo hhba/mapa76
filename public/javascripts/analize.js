@@ -143,15 +143,6 @@ function callNextPage(){
   $("#next_page").remove();
   $.getJSON(url, analizer.addParagraph);
 }
-namedEntitiesParser = {
-  findMatches: function(cad, nes){
-    for(var i=0; i < nes.length; i++){
-      regExp = new RegExp("(" + nes[i]+ ")");
-      cad = cad.replace(regExp, "<span class='ne'>" + "$1" + "</span>");
-    }  
-    return cad;
-  }
-}
 var AnalizeApp = new (Backbone.Router.extend({
   initialize: function(){
     var document_id = $("#document_heading").attr("data-document-id");
