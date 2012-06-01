@@ -4,13 +4,13 @@
 %script#combTemplate{:text => "text/template"}
 %script#documentContextTemplate{:type => "text/template"}
   .breadcrumb
-    %a{:href => "/documents/{{document.id}}"}
-      {{document.heading}}
+    %a{:href => "/documents/{{id}}"}
+      {{heading}}
   .information
     .title
-      {{document.heading}}
+      {{heading}}
     .category
-      Categoría: {{document.category}}
+      Categoría: {{category}}
 %script#personContext{:type => "text/template"}
   .breadcrumb
     %a{:href => "/documents/#{@document.id}"}
@@ -27,14 +27,11 @@
             {{tag_name}}
           {{/tags}}
 %script#paragraphTemplate{:type => "text/template"}
-  {{#paragraphs}}
-  %p{"data-paragraph" => "{{id}}"}
+  %p{"data-paragraph" => "{{_id}}"}
     {{{content}}}
-  {{/paragraphs}}
 %script#nextPageTemplate{:type => "text/template"}
   %a{:href => "{{url}}", :id => "next_page", "data-next" => "{{next_page}}", "data-document" => "{{id}}" }
     Cargar más contenido
-
 - content_for :sidebar do
   %ul.nav.nav-list#sidebar
     %li.nav-header
@@ -65,13 +62,9 @@
     .context#context
 
 .row-fluid
-  %h2
+  %h2{:id => "document_heading", "data-document-id" => @document.id}
     = @document.heading
   .paragraphs
-    - @paragraphs.each do |p|
-      %p{"data-paragraph" => p.id}
-        =# p.content
-        = paragraph_with_tagged_named_entities(p)
   .span4
 
 .row-fluid
