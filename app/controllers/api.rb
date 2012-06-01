@@ -1,13 +1,12 @@
 Alegato.controllers :api do
   get :documents, :with => :id, :provides => [:json] do
-    document = Document.find(params[:id])
-    document.to_json
-    #{:id => 90, :title => "sapo"}.to_json
-  end
-
-  get :documents, :map => '/api/documents/:id', :provides => :json do
-    @document = Document.find(params[:id])
-    @document.page(params[:page]).to_json
+    if params[:page].nil?
+      document = Document.find(params[:id])
+      document.to_json
+    else
+      document = Document.find(params[:id])
+      document.page(params[:page]).to_json(:methods => :named_entities)
+    end
   end
 
   post :classify_name, :map => '/api/classify_name' do
@@ -117,8 +116,8 @@ Alegato.controllers :api do
     }.to_json
   end
 
-  get :people, :map => "/api/:document_id/people", :provides => :json do
-    Document.find(params[:document_id]).to_json
+  get :people, :map => "/api/people/:id", :provides => :json do
+    Person.find(params[:id]).to_json
   end
 
   get :person, :map => "/api/:document_id/people/:id", :provides => :json do
