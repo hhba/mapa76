@@ -22,7 +22,6 @@ class NamedEntity
     'W'       => :dates,
   }
 
-
   def to_s
     text || human_form || super
   end
@@ -39,6 +38,9 @@ class NamedEntity
     content[context_start .. context_end]
   end
 
+  def tag_to_s
+    NamedEntity::CLASSES_PER_TAG[self.tag].to_s
+  end
 
 protected
   def human_form

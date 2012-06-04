@@ -25,7 +25,7 @@ class Paragraph
       :pos.gt => self.pos,
       :pos.lt => self.pos + self.content.size,
     ).map do |ne|
-      {:text => ne.text, :tag => ne.tag}
+      {:text => ne.text, :tag => ne.tag_to_s, :id => ne._id, :person_id => ne.person_id }
     end
   end
 end

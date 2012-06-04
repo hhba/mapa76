@@ -25,7 +25,7 @@
     %hr
       = link_to "Localizar", url_for(:documents, :map, :id => @doc._id), :class => "btn btn-primary", :target => "_blank"
       = link_to "Personas", url_for(:documents, :people, :id => @doc._id), :class => "btn btn-primary"
-      = link_to "Peinar", url_for(:documents, :comb, :id => @doc._id), :class => "btn btn-primary"
+      = link_to "Validar hechos", url_for(:documents, :comb, :id => @doc._id), :class => "btn btn-primary"
     %hr
     %table.table.table-condensed.table-striped
       %thead

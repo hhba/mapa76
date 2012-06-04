@@ -1,7 +1,8 @@
 -# coding: utf-8
 - content_for :javascripts do
   = javascript_include_tag 'analize'
-%script#combTemplate{:text => "text/template"}
+%script#namedEntityTemplate{:type => "text/template"}
+  %span.ne{:class => "{{tag}}", "data-ne-id" => "{{id}}", "data-type" => "{{tag}}"} {{content}}  
 %script#documentContextTemplate{:type => "text/template"}
   .breadcrumb
     %a{:href => "/documents/{{id}}"}
@@ -18,14 +19,24 @@
     >
     %a{:href => "/person/{{id}}"}
       {{name}}
-    .information
-      %ul
-        %li
-          Tags: 
-          {{#tags}}
-          %a{:href => "{{tag_link}}"}
-            {{tag_name}}
-          {{/tags}}
+  .information
+    %ul
+      %li
+        Nombre: {{name}}
+      %li
+        Apellido del padre: {{surname_father}}
+      %li
+        Tags: 
+        {{#tags}}
+        %a{:href => "{{tag_link}}"}
+          {{.}}
+        {{/tags}}
+      %li
+        Documentos:
+        {{#document_ids}}
+        %a{:href => "/documents/{{.}}"} 
+          {{.}}
+        {{/document_ids}}
 %script#paragraphTemplate{:type => "text/template"}
   %p{"data-paragraph" => "{{_id}}"}
     {{{content}}}

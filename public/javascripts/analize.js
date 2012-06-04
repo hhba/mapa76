@@ -1,24 +1,8 @@
 var Document = Backbone.Model.extend({
-  urlRoot: '/api/documents/',
-  initialize: function(){
-    this.on("change", function(){
-     
-    });
-  }
-});
-var Milestone = Backbone.Model.extend({
-});
-var Address = Backbone.Model.extend({
-});
-var Date = Backbone.Model.extend({
+  urlRoot: '/api/documents/'
 });
 var Person = Backbone.Model.extend({
-  urlRoot: "/api/people/",
-  initialize: function(){
-    this.on("reset", function(){
-        alert("the name has changed");
-    });
-  }
+  urlRoot: "/api/people/"
 });
 var Paragraph = Backbone.Model.extend({});
 var ParagraphList = Backbone.Collection.extend({
@@ -27,22 +11,43 @@ var ParagraphList = Backbone.Collection.extend({
     return '/api/documents/' + this.get("document_id");
   }
 });
-var AnalyzerView = Backbone.View.extend({
-  el: $("#sidebar"),
-  sidebarTemplate: $("#combTemplate").html(),
-  events: {
-  },
+var PersonView = Backbone.View.extend({
+  el: $("#context"),
+  className: "person",
   initialize: function(){
+    _.bindAll();
+    this.template = $("#personContext").html(); 
+    this.model.on("change", this.render, this);
+  },
+  render: function(){
+    this.html = Mustache.render(this.template, this.model.toJSON());
+    this.$el.html(this.html);
+    return this;
   }
 });
-var DocumentContext = Backbone.View.extend({
+var NamedEntityView = Backbone.View.extend({
   el: $("#context"),
-  documentTemplate: $("#documentContextTemplate").html(),
   initialize: function(){
+    this.template = $("#namedEntityTemplate").html()
+  },
+  render: function(){
+    this.html = Mustache.render(this.template, this.model.to.JSON());
+  }
+});
+var AnalyzerView = Backbone.View.extend({
+  el: $("#sidebar"),
+  initialize: function(){
+    this.template = $("#combTemplate").html();
+  }
+});
+var DocumentView = Backbone.View.extend({
+  el: $("#context"),
+  initialize: function(){
+    this.template = $("#documentContextTemplate").html(),
     this.model.on('change', this.render, this)
   },
   render: function(){
-    var html = Mustache.render(this.documentTemplate, this.model.toJSON());
+    var html = Mustache.render(this.template, this.model.toJSON());
     this.$el.html(html);
     return this;
   }
@@ -53,8 +58,12 @@ var ParagraphView = Backbone.View.extend({
   },
   className: "paragraph",
   paragraphTemplate: $("#paragraphTemplate").html(),
+  initialize: function(){
+    this.template = $("#paragraphTemplate").html();
+    this.namedEntityTemplate = $("#namedEntityTemplate").html();
+  },
   render: function(){
-    var html = Mustache.render(this.paragraphTemplate, this.namedEntitiesParse());
+    var html = Mustache.render(this.template, this.namedEntitiesParse());
     this.$el.html(html);
     return this;
   },
@@ -63,12 +72,27 @@ var ParagraphView = Backbone.View.extend({
     var nes = this.model.get("named_entities");
     for(var i=0; i < nes.length; i++){
       regExp = new RegExp("(" + nes[i].text + ")");
-      content = content.replace(regExp, "<span class='ne " + nes[i].tag + "'>" + "$1" + "</span>");
+      content = content.replace(regExp, "<span class='ne " + nes[i].tag + "' data-ne-id='" + nes[i].id + "' data-type='" + nes[i].tag + "' data-person-id='" + nes[i].person_id +"'>" + "$1" + "</span>");
     }  
     return {_id: this.model._id, content: content};
   },
   selectNamedEntity: function(e){
-    alert("named!");
+    var $ne = $(e.currentTarget);
+    var ne_id = $ne.attr("data-ne-id");
+    var ne_type = $ne.attr("data-type");
+    var person_id = $ne.attr("data-person-id");
+
+    switch(ne_type){
+      case "people":
+        if(person_id !== "null"){
+          var person = new Person({id: person_id})
+          var personView = new PersonView({model: person});
+          person.fetch();
+        }
+        break; 
+      default:
+        break;
+    }
   }
 });
 var ParagraphListView = Backbone.View.extend({
@@ -148,6 +172,7 @@ var AnalizeApp = new (Backbone.Router.extend({
     var document_id = $("#document_heading").attr("data-document-id");
 
     this.document = new Document({id: document_id});
+    this.documentView = new DocumentView({model: this.document});
     this.document.fetch();
     this.paragraphList = new ParagraphList();
     this.paragraphList.url = "/api/documents/" + document_id + "/";
@@ -162,9 +187,11 @@ $(document).ready(function(){
     callNextPage();
     return false;
   });
-  $(".people").live("click", function(){
-    var $this = $(this);
-  });
   /*documentContext = new DocumentContext({model: doc});*/
+  $("#reference input").click(function(){
+    var $this = $(this);
+    var klass = $this.parent().attr("class");
+    $(".paragraphs ." + klass).toggle("nocolor");
+  });
 });
 

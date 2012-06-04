@@ -124,4 +124,8 @@ Alegato.controllers :api do
     Person.find(params[:id]).to_json
   end
 
+  get :named_entity, :map => "/api/named_entities/:id", :provides => :json do
+    NamedEntity.find(params[:id]).with_context.to_json
+  end
+
 end
