@@ -7,5 +7,4 @@ user: admin
 pass: merluza
 port: 2813
 
-interval: 30
-alert_email: sysadmin@mapa76.info
+interval: 5
