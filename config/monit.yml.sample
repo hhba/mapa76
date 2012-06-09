@@ -1,0 +1,11 @@
+bin_path: /usr/bin/monit
+config_path: config/monit.conf
+pid_path: tmp/pids/monit.pid
+log_path: log/monit.log
+
+user: admin
+pass: merluza
+port: 2813
+
+interval: 30
+alert_email: sysadmin@mapa76.info

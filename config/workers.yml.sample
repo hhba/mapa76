@@ -1,0 +1,19 @@
+normalization:
+  queues:
+    - normalization
+  num: 3
+
+extraction:
+  queues:
+    - extraction
+  num: 2
+
+coreference_resolution:
+  queues:
+    - coreference_resolution
+  num: 1
+
+geocoding:
+  queues:
+    - geocoding
+  num: 1

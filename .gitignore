@@ -2,16 +2,19 @@
 *.*~
 bin/*
 .DS_Store
-log/**/*
 .rvmrc
 .sass-cache/*
 *.swp
-tmp/**/*
 vendor/gems/*
 !vendor/gems/cache/
+tmp
+log
+config/monit.conf
 
 config/mongoid.yml
 config/resque.yml
+config/monit.yml
+config/workers.yml
 
 public/thumbs/*
 public/uploads/*
