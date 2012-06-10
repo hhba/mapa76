@@ -64,6 +64,15 @@ h4.fragment {
   font-size: 1.1em;
   color: #555;
 }
+.who.box h3, .to_who.box h3{
+  color:#B94A48;
+}
+.where.box h3{
+  color:#F89406;
+}
+.when.box h3{
+  color:#468847;
+}
 .new_register .buttons{
   text-align: center;
   margin-top: 10px;

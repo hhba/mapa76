@@ -168,19 +168,6 @@ function callNextPage(){
   $("#next_page").remove();
   $.getJSON(url, analizer.addParagraph);
 }
-var AnalizeApp = new (Backbone.Router.extend({
-  initialize: function(){
-    var document_id = $("#document_heading").attr("data-document-id");
-
-    this.document = new Document({id: document_id});
-    this.documentView = new DocumentView({model: this.document});
-    this.document.fetch();
-    this.paragraphList = new ParagraphList();
-    this.paragraphList.url = "/api/documents/" + document_id + "/";
-    this.paragraphListView = new ParagraphListView({collection: this.paragraphList});
-    this.paragraphList.fetch({data:{page:1}});
-  }
-}));
 function Droppable(el){
   this.el = el;
   this.new_el = this.el.find(".new");  
@@ -194,14 +181,19 @@ function Droppable(el){
     accept: "." + this.el.attr("data-type")
   });
 }
-function PreRegister(draggable){
-  this.draggable = draggable;
-  this.span = this.draggable.html;
-  this.template = $("#preRegisterTemplate").html();
-  this.render = function(){
-    Mustache.render(this.template, span.html)
+var AnalizeApp = new (Backbone.Router.extend({
+  initialize: function(){
+    var document_id = $("#document_heading").attr("data-document-id");
+
+    this.document = new Document({id: document_id});
+    this.documentView = new DocumentView({model: this.document});
+    this.document.fetch();
+    this.paragraphList = new ParagraphList();
+    this.paragraphList.url = "/api/documents/" + document_id + "/";
+    this.paragraphListView = new ParagraphListView({collection: this.paragraphList});
+    this.paragraphList.fetch({data:{page:1}});
   }
-}
+}));
 $(document).ready(function(){
   analizer.getTemplates();
   /*checkScroll();*/
@@ -214,8 +206,11 @@ $(document).ready(function(){
     var klass = $this.parent().attr("class");
     $(".paragraphs ." + klass).toggle("nocolor");
   });
-  window.droppeables = _.map(['who', 'when', 'where', 'to_who'], function(klass){
+  droppeables = _.map(['who', 'when', 'where', 'to_who'], function(klass){
     return new Droppable($(".box." + klass)); 
+  });
+  $(".new_register button.close").live("click", function(){
+    $(this).parent().remove();
   });
 });
 
