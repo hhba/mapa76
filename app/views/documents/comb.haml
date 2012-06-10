@@ -27,23 +27,25 @@
     %a{:href => "/person/{{id}}"}
       {{name}}
   .information
-    %ul
-      %li
-        Nombre: {{name}}
-      %li
-        Apellido del padre: {{surname_father}}
-      %li
-        Tags: 
-        {{#tags}}
-        %a{:href => "{{tag_link}}"}
-          {{.}}
-        {{/tags}}
-      %li
-        Documentos:
-        {{#document_ids}}
-        %a{:href => "/documents/{{.}}"} 
-          {{.}}
-        {{/document_ids}}
+    .field
+      Nombre: {{name}}
+    .field
+      Apellido del padre: {{surname_father}}
+    .field
+      Tags: 
+      {{#tags}}
+      %a{:href => "{{tag_link}}"}
+        {{.}}
+      {{/tags}}
+    .field
+      Documentos:
+      {{#document_ids}}
+      %a{:href => "/documents/{{.}}"} 
+        {{.}}
+      {{/document_ids}}
+  .edit.buttons{:style => 'text-align:right;'}
+    %button.btn.btn-info
+      Edit
 %script#paragraphTemplate{:type => "text/template"}
   %p{"data-paragraph" => "{{_id}}"}
     {{{content}}}
@@ -101,7 +103,7 @@
         .buttons
           %button{:class => 'btn btn-primary'}
             Guardar
-          %button{:class => 'btn btn-danger'}
+          %button{:class => 'btn btn-danger clean'}
             Limpiar
 
     %li.nav-header Contexto

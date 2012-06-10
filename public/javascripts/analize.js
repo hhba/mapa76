@@ -195,6 +195,7 @@ var AnalizeApp = new (Backbone.Router.extend({
 }));
 $(document).ready(function(){
   analizer.getTemplates();
+  window.droppable_klasses = ['who', 'when', 'where', 'to_who'];
   /*checkScroll();*/
   $("#next_page").live("click", function(){
     callNextPage();
@@ -205,11 +206,14 @@ $(document).ready(function(){
     var klass = $this.parent().attr("class");
     $(".paragraphs ." + klass).toggle("nocolor");
   });
-  droppeables = _.map(['who', 'when', 'where', 'to_who'], function(klass){
+  droppeables = _.map(window.droppable_klasses, function(klass){
     return new Droppable($(".box." + klass)); 
   });
   $(".new_register button.close").live("click", function(){
     $(this).parent().remove();
+  });
+  $("button.clean").live("click", function(){
+    $(".new_register").find(".register").remove();
   });
 });
 
