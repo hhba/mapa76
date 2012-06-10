@@ -59,6 +59,44 @@ h4.fragment {
   margin-top: 40px;
 }
 /* Drag and drop */
+.new_register{}
+.new_register h3{
+  font-size: 1.1em;
+  color: #555;
+}
+.new_register .buttons{
+  text-align: center;
+  margin-top: 10px;
+}
+.box .register{
+  width: 96%;
+  height: 25px;
+  line-height: 25px;
+  color: #444;
+  padding: 0 2%;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+  margin-bottom: 2px;
+}
+.box .people{
+  background-color: #B94A48;
+}
+.box .dates{
+  background-color: #468847;
+}
+.box .organizations {
+  color: #3A87AD;
+}
+.box .places{
+  background-color:#F89406;
+}
+.box .places{
+  background-color:#F89406;
+}
+.box .new{
+  height: 20px;
+  border: 2px dashed #AAA;
+}
 .event {
   display: block; width: 260px; min-height: 25px;
   background-color: #ddd; margin-bottom: 6px; padding: 3px 4px;

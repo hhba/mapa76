@@ -114,6 +114,7 @@ var ParagraphListView = Backbone.View.extend({
   },
   addAll: function(){
     this.collection.forEach(this.addOne, this);
+    $(".paragraph .ne").draggable({ helper: "clone" });
   },
   initialize: function(){
     this.collection.on("add", this.addOne, this);
@@ -180,6 +181,27 @@ var AnalizeApp = new (Backbone.Router.extend({
     this.paragraphList.fetch({data:{page:1}});
   }
 }));
+function Droppable(el){
+  this.el = el;
+  this.new_el = this.el.find(".new");  
+  this.new_el.droppable({
+    drop: function(event, ui){
+      var draggable = ui.draggable;
+      var template = $("#preRegisterTemplate").html();
+      var params = {text: draggable.text(), type: draggable.attr("data-type"), id: draggable.attr("data-ne-id")}
+      $(this).before(Mustache.render(template, params));
+    },
+    accept: "." + this.el.attr("data-type")
+  });
+}
+function PreRegister(draggable){
+  this.draggable = draggable;
+  this.span = this.draggable.html;
+  this.template = $("#preRegisterTemplate").html();
+  this.render = function(){
+    Mustache.render(this.template, span.html)
+  }
+}
 $(document).ready(function(){
   analizer.getTemplates();
   /*checkScroll();*/
@@ -187,11 +209,13 @@ $(document).ready(function(){
     callNextPage();
     return false;
   });
-  /*documentContext = new DocumentContext({model: doc});*/
   $("#reference input").click(function(){
     var $this = $(this);
     var klass = $this.parent().attr("class");
     $(".paragraphs ." + klass).toggle("nocolor");
+  });
+  window.droppeables = _.map(['who', 'when', 'where', 'to_who'], function(klass){
+    return new Droppable($(".box." + klass)); 
   });
 });
 

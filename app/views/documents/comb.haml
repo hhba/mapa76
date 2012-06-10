@@ -1,6 +1,11 @@
 -# coding: utf-8
 - content_for :javascripts do
   = javascript_include_tag 'analize'
+%script#preRegisterTemplate{:type => "text/template"}
+  .register{:class => "{{type}}", "data-ne-id" => "{{id}}"}
+    {{text}} 
+    %button.close
+      ×
 %script#namedEntityTemplate{:type => "text/template"}
   %span.ne{:class => "{{tag}}", "data-ne-id" => "{{id}}", "data-type" => "{{tag}}"} {{content}}  
 %script#documentContextTemplate{:type => "text/template"}
@@ -63,12 +68,27 @@
       %li.actions
         %span Acciones
         %input{:type => "checkbox", :checked => true}
-      %li.others
-        %span Otros
-        %input{:type => "checkbox", :checked => true}
     %li.nav-header
       Eventos
-      .event.new.empty{:ondragover => "event.preventDefault()"}
+      .new_register
+        .who.box{"data-type" => "people"}
+          %h3 Quienes
+          .new
+        .when.box{"data-type" => "dates"}
+          %h3 Cuando
+          .new
+        .where.box{"data-type" => "places"}
+          %h3 Donde
+          .new
+        .to_who.box{"data-type" => "people"}
+          %h3 A quienes
+          .new
+        .buttons
+          %button{:class => 'btn btn-primary'}
+            Guardar
+          %button{:class => 'btn btn-danger'}
+            Limpiar
+
     %li.nav-header Contexto
     .context#context
 
