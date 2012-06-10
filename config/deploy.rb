@@ -95,3 +95,7 @@ end
 
 after "deploy:update_code", "deploy:create_symlink_shared"
 after "deploy", "workers:reload"
+
+def rake(task)
+  run "cd #{current_path} && PADRINO_ENV=production bundle exec rake #{task} --trace"
+end
