@@ -137,7 +137,6 @@ var analizer = {
     $("#loading").hide();
     console.log(data.last_page);
     if(!data.last_page){
-      console.log("entro");
       nextPage = parseInt(data.current_page, 10) + 1;
       url = "/documents/" + data.document_id + "/comb?page=" + nextPage;
       nextPageValues = { url: url, id: data.document_id, 'next_page': data.current_page + 1 };

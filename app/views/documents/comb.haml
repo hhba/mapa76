@@ -8,6 +8,8 @@
       ×
 %script#namedEntityTemplate{:type => "text/template"}
   %span.ne{:class => "{{tag}}", "data-ne-id" => "{{id}}", "data-type" => "{{tag}}"} {{content}}  
+  %span.info
+    (i)
 %script#documentContextTemplate{:type => "text/template"}
   .breadcrumb
     %a{:href => "/documents/{{id}}"}
