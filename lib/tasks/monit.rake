@@ -63,6 +63,7 @@ namespace :monit do
 
   MONIT_YML_PATH = File.join("config", "monit.yml")
   WORKERS_YML_PATH = File.join("config", "workers.yml")
+  HOME_PATH = File.expand_path('.', '~')
 
   CONFIG_TEMPLATE = <<-ERB
     set httpd port <%= monit_settings[:port] %> and
@@ -71,7 +72,7 @@ namespace :monit do
     <% workers.each do |worker| %>
       check process <%= worker[:id] %> with pidfile "<%= worker[:pidfile] %>"
       group workers
-      start program "/bin/bash -l -c 'source ~/.rvm/scripts/rvm; cd <%= PADRINO_ROOT %>; PADRINO_ENV=production VERBOSE=1 HOME=<%= File.expand_path('.', '~') %> QUEUE=<%= worker[:queues].join(',') %> BACKGROUND=yes PIDFILE=<%= worker[:pidfile] %> bundle exec rake resque:work  >> <%= worker[:log] %>  2>> <%= worker[:err_log] %>'"
+      start program "<%= HOME_PATH %>/.rvm/bin/rvm-shell '1.9.2@mapa76' -c 'cd <%= PADRINO_ROOT %>; HOME=<%= HOME_PATH %> PADRINO_ENV=production VERBOSE=1 QUEUE=<%= worker[:queues].join(',') %> BACKGROUND=yes PIDFILE=<%= worker[:pidfile] %> bundle exec rake resque:work  >> <%= worker[:log] %>  2>> <%= worker[:err_log] %>'"
       stop program  "/bin/kill `cat <%= worker[:pidfile] %>`"
     <% end %>
   ERB
