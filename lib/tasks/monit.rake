@@ -38,7 +38,7 @@ namespace :monit do
     Rake::Task['monit:stop'].execute
     Rake::Task['monit:config'].execute
 
-    wait_secs = ss[:interval] + 3
+    wait_secs = 10
     puts "=> Waiting #{wait_secs} seconds for Monit to terminate"
     sleep(wait_secs)
 
