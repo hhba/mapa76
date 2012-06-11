@@ -5,6 +5,18 @@ var Person = Backbone.Model.extend({
   urlRoot: "/api/people/"
 });
 var Paragraph = Backbone.Model.extend({});
+var Register = Backbone.Model.extend({
+  urlRoot: "/api/registers/",
+  loadValues: function(values){
+    var that = this;
+    _.each(values, function(value, key){
+      var tmp = {};
+      tmp[key] = value;
+      that.set(tmp);
+    });
+    return that;
+  }
+});
 var ParagraphList = Backbone.Collection.extend({
   model: Paragraph,
   url: function(){
@@ -57,7 +69,7 @@ var ParagraphView = Backbone.View.extend({
     "click span": "selectNamedEntity" 
   },
   className: "paragraph",
-  paragraphTemplate: $("#paragraphTemplate").html(),
+    /*paragraphTemplate: $("#paragraphTemplate").html(),*/
   initialize: function(){
     this.template = $("#paragraphTemplate").html();
     this.namedEntityTemplate = $("#namedEntityTemplate").html();
@@ -121,6 +133,37 @@ var ParagraphListView = Backbone.View.extend({
     this.collection.on("reset", this.addAll, this);
   }
 });
+var RegisterView = Backbone.View.extend({
+  el: "#register",
+  events:{},
+  render: function(){
+    return this;
+  },
+  initialize: function(){
+  },
+  getValues: function(){
+    var output = {};
+    _.each(this.$el.find(".register"), function(span_ne){
+      var $span = $(span_ne);
+      var group = $span.parent().attr("data-klass");
+      var value = $span.attr("data-ne-id");
+      if(_.isArray(output[group])){
+        var tmp = output[group];
+        tmp.push(value);
+        output[group] = tmp;
+      } else {
+        output[group] = [value];
+      }
+      output['document_id'] = AnalizeApp.document.get("id");
+      output['what'] = $("#whatSelector").val();
+    });
+    return output;
+  },
+  resetRegister: function(){
+    $(".new_register").find(".register").remove();
+    return this;
+  }
+});
 var analizer = {
   init: function(){
     this.getTemplates();
@@ -135,7 +178,6 @@ var analizer = {
     var nextPage;
     $(".paragraphs").append(Mustache.render(analizer.paragraphTemplate, data));
     $("#loading").hide();
-    console.log(data.last_page);
     if(!data.last_page){
       nextPage = parseInt(data.current_page, 10) + 1;
       url = "/documents/" + data.document_id + "/comb?page=" + nextPage;
@@ -191,6 +233,8 @@ var AnalizeApp = new (Backbone.Router.extend({
     this.paragraphList.url = "/api/documents/" + document_id + "/";
     this.paragraphListView = new ParagraphListView({collection: this.paragraphList});
     this.paragraphList.fetch({data:{page:1}});
+    this.register = new Register();
+    this.registerView = new RegisterView({model: this.register});
   }
 }));
 $(document).ready(function(){
@@ -213,7 +257,12 @@ $(document).ready(function(){
     $(this).parent().remove();
   });
   $("button.clean").live("click", function(){
-    $(".new_register").find(".register").remove();
+    AnalizeApp.registerView.resetRegister();
+  });
+  $("button.save").live("click", function(){
+    var values = AnalizeApp.registerView.getValues();
+    AnalizeApp.register.loadValues(values).save();
+    AnalizeApp.registerView.resetRegister();
   });
 });
 

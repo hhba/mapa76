@@ -72,17 +72,17 @@
       %li.actions
         %span Acciones
         %input{:type => "checkbox", :checked => true}
-    %li.nav-header
+    %li.nav-header#register
       Eventos
       .new_register
-        .who.box{"data-type" => "people"}
+        .who.box{"data-type" => "people", 'data-klass' => 'who'}
           %h3 Quienes
           .new
-        .what.box{"data-type" => "what"}
+        .what.box{"data-type" => "what", 'data-klass' => 'what'}
           %h3
             Que
             .controls
-              %select
+              %select#whatSelector
                 %option
                   Secuestro
                 %option
@@ -91,17 +91,17 @@
                   Mato
                 %option
                   Fallecio
-        .when.box{"data-type" => "dates"}
+        .when.box{"data-type" => "dates", 'data-klass' => 'when'}
           %h3 Cuando
           .new
-        .where.box{"data-type" => "places"}
+        .where.box{"data-type" => "places", 'data-klass' => 'where'}
           %h3 Donde
           .new
-        .to_who.box{"data-type" => "people"}
+        .to_who.box{"data-type" => "people", 'data-klass' => 'to_who'}
           %h3 A quienes
           .new
         .buttons
-          %button{:class => 'btn btn-primary'}
+          %button{:class => 'btn btn-primary save'}
             Guardar
           %button{:class => 'btn btn-danger clean'}
             Limpiar
