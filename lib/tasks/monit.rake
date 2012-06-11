@@ -72,8 +72,8 @@ namespace :monit do
     <% workers.each do |worker| %>
       check process <%= worker[:id] %> with pidfile "<%= worker[:pidfile] %>"
       group workers
-      start program "/bin/bash -c 'export HOME=<%= HOME_PATH %>; export rvm_path=$HOME/.rvm; . $rvm_path/scripts/rvm; cd <%= PADRINO_ROOT %>; $rvm_path/bin/rvm rvmrc load; PADRINO_ENV=production VERBOSE=1 QUEUE=<%= worker[:queues].join(',') %> BACKGROUND=yes PIDFILE=<%= worker[:pidfile] %> bundle exec rake resque:work  >> <%= worker[:log] %>  2>> <%= worker[:err_log] %>'"
-      stop program  "/bin/kill `cat <%= worker[:pidfile] %>`"
+      start program "/bin/bash -c 'export HOME=<%= HOME_PATH %>; export rvm_path=$HOME/.rvm; . $rvm_path/scripts/rvm; cd <%= PADRINO_ROOT %>; $rvm_path/bin/rvm rvmrc load; PADRINO_ENV=production VERBOSE=1 QUEUE=<%= worker[:queues].join(',') %> BACKGROUND=yes PIDFILE=<%= worker[:pidfile] %> bundle exec rake resque:work  >> <%= worker[:log] %>  2>> <%= worker[:err_log] %>'" with timeout 180 seconds
+      stop program  "/bin/kill `cat <%= worker[:pidfile] %>`" with timeout 60 seconds
     <% end %>
   ERB
 
