@@ -42,26 +42,8 @@ Alegato.controllers :api do
     end
   end
 
-  post :person, :with => [:id], :provides => [:html, :json] do
-    halt 400, "Missing set param" unless params[:set]
-    if params[:id].to_i == 0
-      person = Person.filter_by_name(params[:id])
-    else
-      person = Person.find(params[:id])
-    end
-    if person
-      new_milestone = params[:set].delete(:milestone)
-      person.update_attributes(params[:set])
-      if new_milestone
-        person.add_milestone(Milestone.new(new_milestone))
-      end
-      person.save.to_json
-    end
-  end
-
   post :registers, :provides => :json do
-    puts request.inspect
-    puts params.inspect
+    Register.create(JSON.parse(request.body.read.to_s))
   end
 
   get :documents_states do
