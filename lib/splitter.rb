@@ -15,6 +15,7 @@ module Splitter
 
   def self.clean_text(str)
     ret = str.dup
+    ret.strip!
     header = self.find_header(ret)
     ret = self.clean_line_numbers(ret)
     if header
