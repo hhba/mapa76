@@ -10,11 +10,26 @@ var Register = Backbone.Model.extend({
   loadValues: function(values){
     var that = this;
     _.each(values, function(value, key){
-      var tmp = {};
-      tmp[key] = value;
-      that.set(tmp);
+      console.log(key + " " + value);
+      that.set(key, value, {silent: true});
     });
     return that;
+  },
+  validate: function(attribs){
+    console.log(attribs);
+    if(attribs.who.length === 0) {
+      return "There must be a who";
+    } else if (attribs.when.length === 0) {
+      return "There must be a when";
+    } else if (attribs.where.length === 0) {
+      return "There must be a where";
+    }
+  },
+  defaults: {
+    who    : [],
+    where  : [],
+    when   : [],
+    to_who : []
   }
 });
 var ParagraphList = Backbone.Collection.extend({
@@ -218,6 +233,7 @@ function Droppable(el){
       var template = $("#preRegisterTemplate").html();
       var params = {text: draggable.text(), type: draggable.attr("data-type"), id: draggable.attr("data-ne-id")}
       $(this).before(Mustache.render(template, params));
+      AnalizeApp.register = new Register(AnalizeApp.registerView.getValues());
     },
     accept: "." + this.el.attr("data-type")
   });
@@ -235,6 +251,14 @@ var AnalizeApp = new (Backbone.Router.extend({
     this.paragraphList.fetch({data:{page:1}});
     this.register = new Register();
     this.registerView = new RegisterView({model: this.register});
+  },
+  saveRegister: function() {
+    if (AnalizeApp.register.isValid()) {
+      AnalizeApp.register.save();
+      AnalizeApp.registerView.resetRegister();
+    } else {
+      alert("The register is incomplete");
+    }
   }
 }));
 $(document).ready(function(){
@@ -260,9 +284,7 @@ $(document).ready(function(){
     AnalizeApp.registerView.resetRegister();
   });
   $("button.save").live("click", function(){
-    var values = AnalizeApp.registerView.getValues();
-    AnalizeApp.register.loadValues(values).save();
-    AnalizeApp.registerView.resetRegister();
+    AnalizeApp.saveRegister();
   });
 });
 
