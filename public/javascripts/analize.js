@@ -28,7 +28,7 @@ var PersonView = Backbone.View.extend({
   className: "person",
   initialize: function(){
     _.bindAll();
-    this.template = $("#personContext").html(); 
+    this.template = $("#personContext").html();
     this.model.on("change", this.render, this);
   },
   render: function(){
@@ -66,7 +66,7 @@ var DocumentView = Backbone.View.extend({
 });
 var ParagraphView = Backbone.View.extend({
   events: {
-    "click span": "selectNamedEntity" 
+    "click span": "selectNamedEntity"
   },
   className: "paragraph",
     /*paragraphTemplate: $("#paragraphTemplate").html(),*/
@@ -85,7 +85,7 @@ var ParagraphView = Backbone.View.extend({
     for(var i=0; i < nes.length; i++){
       regExp = new RegExp("(" + nes[i].text + ")");
       content = content.replace(regExp, "<span class='ne " + nes[i].tag + "' data-ne-id='" + nes[i].id + "' data-type='" + nes[i].tag + "' data-person-id='" + nes[i].person_id +"'>" + "$1" + "</span>");
-    }  
+    }
     return {_id: this.model._id, content: content};
   },
   selectNamedEntity: function(e){
@@ -101,7 +101,7 @@ var ParagraphView = Backbone.View.extend({
           var personView = new PersonView({model: person});
           person.fetch();
         }
-        break; 
+        break;
       default:
         break;
     }
@@ -211,7 +211,7 @@ function callNextPage(){
 }
 function Droppable(el){
   this.el = el;
-  this.new_el = this.el.find(".new");  
+  this.new_el = this.el.find(".new");
   this.new_el.droppable({
     drop: function(event, ui){
       var draggable = ui.draggable;
@@ -251,7 +251,7 @@ $(document).ready(function(){
     $(".paragraphs ." + klass).toggle("nocolor");
   });
   droppeables = _.map(window.droppable_klasses, function(klass){
-    return new Droppable($(".box." + klass)); 
+    return new Droppable($(".box." + klass));
   });
   $(".new_register button.close").live("click", function(){
     $(this).parent().remove();
