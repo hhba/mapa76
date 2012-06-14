@@ -14,11 +14,36 @@ class Person
   has_and_belongs_to_many :documents
 
   def self.conadep
-    Person.all.collect { |person| person.tags.includes?("conadep")}
+    Person.all.select { |person| person.tags.include?("conadep")}
+  end
+
+  def self.populate(document, duplicates, opt = {})
+    output = []
+    tags = opt[:tags] ? opt[:tags] : []
+    confidence = opt[:confidence] ? opt[:confidence] : 0.0
+    duplicates.each do |duplicate|
+      puts duplicate.inspect
+      already_added = duplicate.collect { |ne| self.where(:name => ne.text).first }.compact
+      puts "lo que ya estaba #{already_added.inspect}"
+      if already_added.empty?
+        person = Person.create :name => duplicate.first.text,
+                               :tags => tags,
+                               :confidence => confidence
+        person.documents << document
+        person.named_entities << duplicate
+      else
+        person = already_added.first
+        person.named_entities << duplicate
+        person.documents << document
+      end
+      person.save
+      output << person
+    end
+    output
   end
 
   def mentions_in(doc)
-    "TODO"
+    self.named_entities.select { |ne| ne.document_id == doc.id }.count
   end
 
   def self.normalize_name(name)

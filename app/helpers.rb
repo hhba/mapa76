@@ -70,14 +70,14 @@ Alegato.helpers do
     html = ''
     #cur_pos = 0
     cur_pos = paragraph.pos
-    document_content = paragraph.document.content
+    document_content = paragraph.content
 
     paragraph.named_entities.excludes(:ne_class => :addresses).each do |named_entity|
       #ne_pos = named_entity.pos - paragraph.pos
       #html << paragraph.content[cur_pos ... ne_pos]
       ne_pos = named_entity.pos
       html << document_content[cur_pos ... ne_pos]
-      html << "<span class=\"ne #{named_entity.ne_class}\">#{named_entity.text}</span>"
+      html << "<span class=\"ne #{named_entity.ne_class}\" data-id=\"#{named_entity.id}\">#{named_entity.text}</span>"
       cur_pos = ne_pos + named_entity.text.size
     end
     #html << paragraph.content[cur_pos .. -1].to_s

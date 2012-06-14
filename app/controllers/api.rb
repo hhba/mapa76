@@ -1,4 +1,14 @@
 Alegato.controllers :api do
+  get :documents, :with => :id, :provides => [:json] do
+    if params[:page].nil?
+      document = Document.find(params[:id])
+      document.to_json
+    else
+      document = Document.find(params[:id])
+      document.page(params[:page]).to_json(:methods => :named_entities)
+    end
+  end
+
   post :classify_name, :map => '/api/classify_name' do
     r = false
     if params[:name] and params[:training]
@@ -32,59 +42,8 @@ Alegato.controllers :api do
     end
   end
 
-  post :person, :with => [:id], :provides => [:html, :json] do
-    halt 400, "Missing set param" unless params[:set]
-    if params[:id].to_i == 0
-      person = Person.filter_by_name(params[:id])
-    else
-      person = Person.find(params[:id])
-    end
-    if person
-      new_milestone = params[:set].delete(:milestone)
-      person.update_attributes(params[:set])
-      if new_milestone
-        person.add_milestone(Milestone.new(new_milestone))
-      end
-      person.save.to_json
-    end
-  end
-
-  get :milestone, :with => [:id], :provides => [:html, :json] do
-    p = {}
-    data = Milestone.find(params[:id])
-    if params[:person] # poor man's data.to_json(:include => :milestones) which do not seems to work..
-      hash = data.attributes
-      hash[:milestones] = data.person.attributes
-      data = hash
-    end
-
-    case content_type
-      when :json then data.to_json(p)
-    end
-  end
-
-  post :milestone, :with => [:id], :provides => [:html, :json] do
-    halt 400, "Missing set param" unless params[:set]
-    milestone = Milestone.find(params[:id])
-    if milestone
-      milestone.update_attributes(params[:set])
-      milestone.save.to_json
-    end
-  end
-
-  delete :milestone, :with => [:id], :provides => [:html, :json] do
-    milestone = Milestone.find(params[:id])
-    if milestone
-      milestone.delete.to_json
-    end
-  end
-
-  get :milestones, :with => [:doc_id], :provides => [:html, :json] do
-    p = {}
-    data = Document.find(params[:doc_id]).milestones
-    case content_type
-      when :json then data.to_json(p)
-    end
+  post :registers, :provides => :json do
+    Register.create(JSON.parse(request.body.read.to_s))
   end
 
   get :documents_states do
@@ -104,6 +63,18 @@ Alegato.controllers :api do
       :current_page => params[:page].to_i,
       :last_page => document.last_page?(params[:page].to_i)
     }.to_json
+  end
+
+  get :people, :map => "/api/people/:id", :provides => :json do
+    Person.find(params[:id]).to_json
+  end
+
+  get :person, :map => "/api/:document_id/people/:id", :provides => :json do
+    Person.find(params[:id]).to_json
+  end
+
+  get :named_entity, :map => "/api/named_entities/:id", :provides => :json do
+    NamedEntity.find(params[:id]).with_context.to_json
   end
 
 end

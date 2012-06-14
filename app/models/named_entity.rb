@@ -13,7 +13,6 @@ class NamedEntity
   belongs_to :document
   belongs_to :person
 
-
   CLASSES_PER_TAG = {
     'NP00O00' => :organizations,
     'NP00V00' => :others,
@@ -22,7 +21,6 @@ class NamedEntity
     'NP00000' => :unknown,
     'W'       => :dates,
   }
-
 
   def to_s
     text || human_form || super
@@ -40,6 +38,9 @@ class NamedEntity
     content[context_start .. context_end]
   end
 
+  def tag_to_s
+    NamedEntity::CLASSES_PER_TAG[self.tag].to_s
+  end
 
 protected
   def human_form

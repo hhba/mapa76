@@ -18,16 +18,22 @@ class Document
 
   has_many :milestones
   has_many :named_entities
+  has_many :paragraphs
   has_and_belongs_to_many :people
-  embeds_many :paragraphs
 
   validates_presence_of :original_file
 
   after_create :enqueue_process
-  attr_accessor :sample_mode
+  attr_accessor :sample_mode, :people_count
 
   PARAGRAPH_SEPARATOR = ".\n"
   PER_PAGE = 20
+
+  def context
+    self.paragraphs = []
+    self.person_ids = []
+    self.people_count = self.people.count 
+  end
 
   def content
     self.paragraphs.map(&:content).join(PARAGRAPH_SEPARATOR)
@@ -126,24 +132,8 @@ class Document
   end
 
   def process_names
-    groups = Coreference.resolve(self.people_found)
-    groups.each_with_index do |group, index|
-      Person.all.each do |known_person|
-        if Coreference.search_matching_groups(group, known_person)
-          known_person.named_entities << group
-        else
-          store_name(group)
-        end
-      end
-    end
+    Coreference.resolve(self, self.people_found)
     self
-  end
-
-  def store_name(group)
-    person = Person.new(:name => group.first.text)
-    person.documents << self
-    person.named_entities << group
-    person.save
   end
 
   def processed?
@@ -185,9 +175,10 @@ class Document
       self.named_entities << ne_klass.new(ne_attrs)
     end
     self.information = {
-      :people => people_found.size,
-      :dates => dates_found.size,
-      :organizations => organizations_found.size
+      :people => self.people.count,
+      :people_ne => people_found.size,
+      :dates_ne => dates_found.size,
+      :organizations_ne => organizations_found.size
     }
     self.last_analysis_at = Time.now
     save
@@ -202,11 +193,7 @@ class Document
   end
 
   def page(page = 1)
-    page = 1 if page.nil?
-    from = (page.to_i - 1) * 20
-    to = from + 20
-
-    self.paragraphs[from...to]
+    self.paragraphs.paginate(:page => page)
   end
 
   def last_page?(page=1)

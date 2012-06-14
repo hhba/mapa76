@@ -7,7 +7,8 @@
     %meta{:content => '', :name => 'author'}/
     /[if lt IE 9]
       %script{:src => 'http://html5shim.googlecode.com/svn/trunk/html5.js'}
-    = stylesheet_link_tag 'bootstrap', 'bootstrap-responsive'
+    = stylesheet_link_tag 'bootstrap.min'
+    = stylesheet_link_tag "flick/jquery-ui-1.8.18.custom"
     = stylesheet_link_tag :styles
     = yield_content :styles
 
@@ -60,8 +61,10 @@
     / /.container-fuild
 
     / Javascript
-    = javascript_include_tag 'jquery-1.7.1.min'
-    = javascript_include_tag 'bootstrap.min', 'bootstrap-button'
+    = javascript_include_tag 'jquery-1.7.2.min'
+    = javascript_include_tag 'jquery-ui-1.8.18.custom.min'
+    = javascript_include_tag 'underscore-min.js', 'backbone-min.js', 'mustache.js'
+    = javascript_include_tag 'bootstrap.min', 'bootstrap-button', 'bootstrap-alert', 'bootstrap-collapse'
     = javascript_include_tag 'jquery.tablesorter.min'
     = javascript_include_tag :application
     = yield_content :javascripts

@@ -34,7 +34,6 @@ Alegato.controllers :documents do
 
   get :show, :map => '/documents/:id' do
     @doc = Document.find(params[:id])
-    @most_mentioned = []
 
     render "documents/show"
   end
@@ -44,11 +43,6 @@ Alegato.controllers :documents do
     @paragraphs = @document.page(params[:page])
 
     render("documents/comb")
-  end
-
-  get :paragraph, :map => '/documents/:id/paragraph/:paragraph_index' do
-    @doc = Document.find(params[:id])
-    {:p => @doc.text(:from => params[:paragraph_index], :to => params[:paragraph_index].to_i + 1)}.to_json
   end
 
   get :paragraphs, :map => '/documents/:id/paragraphs/:from/:to' do

@@ -25,7 +25,7 @@
     %hr
       = link_to "Localizar", url_for(:documents, :map, :id => @doc._id), :class => "btn btn-primary", :target => "_blank"
       = link_to "Personas", url_for(:documents, :people, :id => @doc._id), :class => "btn btn-primary"
-      = link_to "Peinar", url_for(:documents, :comb, :id => @doc._id), :class => "btn btn-primary"
+      = link_to "Validar hechos", url_for(:documents, :comb, :id => @doc._id), :class => "btn btn-primary"
     %hr
     %table.table.table-condensed.table-striped
       %thead
@@ -36,16 +36,6 @@
             Contenido
           %th
       %tbody
-        - @doc.indication.each_with_index do |p, index|
-          %tr
-            %td
-              = index + 1
-            %td.content
-              = p
-            %td.link
-              = link_to('Ver más', url_for(:documents, :paragraph, @doc.id, :paragraph_index => index),
-                        "data-content" => @doc.paragraphs[index].info,
-                        "title" => "Información")
   .span1
   .span3
     %table.table.table-bordered.table-condensed
@@ -55,13 +45,17 @@
             = "#"
           %th
             Personas
+          %th
+            Menciones
       %tbody
-        - @doc.people_found.each_with_index do |person, index|
+        - @doc.people.each_with_index do |person, index|
           %tr
             %td
               = index + 1
             %td
-              = person.text
+              = person.name
+            %td
+              = person.mentions_in @doc
   .span1
   .span2
     %table.table.table-bordered.table-condensed

@@ -1,40 +1,118 @@
 -# coding: utf-8
-- content_for :styles do
-  = stylesheet_link_tag "flick/jquery-ui-1.8.18.custom"
 - content_for :javascripts do
-  = javascript_include_tag 'jquery-ui-1.8.18.custom.min', 'bootstrap-alert', 'bootstrap-collapse', 'mustache'
   = javascript_include_tag 'analize'
-
+%script#preRegisterTemplate{:type => "text/template"}
+  .register{:class => "{{type}}", "data-ne-id" => "{{id}}"}
+    {{text}} 
+    %button.close
+      ×
+%script#namedEntityTemplate{:type => "text/template"}
+  %span.ne{:class => "{{tag}}", "data-ne-id" => "{{id}}", "data-type" => "{{tag}}"} {{content}}  
+  %span.info
+    (i)
+%script#documentContextTemplate{:type => "text/template"}
+  .breadcrumb
+    %a{:href => "/documents/{{id}}"}
+      {{heading}}
+  .information
+    .title
+      {{heading}}
+    .category
+      Categoría: {{category}}
+%script#personContext{:type => "text/template"}
+  .breadcrumb
+    %a{:href => "/documents/#{@document.id}"}
+      = @document.heading
+    >
+    %a{:href => "/person/{{id}}"}
+      {{name}}
+  .information
+    .field
+      Nombre: {{name}}
+    .field
+      Apellido del padre: {{surname_father}}
+    .field
+      Tags: 
+      {{#tags}}
+      %a{:href => "{{tag_link}}"}
+        {{.}}
+      {{/tags}}
+    .field
+      Documentos:
+      {{#document_ids}}
+      %a{:href => "/documents/{{.}}"} 
+        {{.}}
+      {{/document_ids}}
+  .edit.buttons{:style => 'text-align:right;'}
+    %button.btn.btn-info
+      Edit
 %script#paragraphTemplate{:type => "text/template"}
-  {{#paragraphs}}
-  %p{"data-paragraph" => "{{id}}"}
+  %p{"data-paragraph" => "{{_id}}"}
     {{{content}}}
-  {{/paragraphs}}
 %script#nextPageTemplate{:type => "text/template"}
   %a{:href => "{{url}}", :id => "next_page", "data-next" => "{{next_page}}", "data-document" => "{{id}}" }
     Cargar más contenido
-
 - content_for :sidebar do
-  %ul.nav.nav-list
+  %ul.nav.nav-list#sidebar
     %li.nav-header
       Referencias
     %ul#reference
-      %li.people Personas
-      %li.organizations Organizaciones
-      %li.places Lugares
-      %li.dates Fechas
-      %li.actions Acciones
-      %li.others Otros
-    %li.nav-header
+      %li.people
+        %span Personas
+        %input{:type => "checkbox", :checked => true}
+      %li.organizations
+        %span Organizaciones
+        %input{:type => "checkbox", :checked => true}
+      %li.places 
+        %span Lugares
+        %input{:type => "checkbox", :checked => true}
+      %li.dates
+        %span Fechas
+        %input{:type => "checkbox", :checked => true}
+      %li.actions
+        %span Acciones
+        %input{:type => "checkbox", :checked => true}
+    %li.nav-header#register
       Eventos
-      .event.new.empty{:ondragover => "event.preventDefault()"}
+      .new_register
+        .who.box{"data-type" => "people", 'data-klass' => 'who'}
+          %h3 Quienes
+          .new
+        .what.box{"data-type" => "what", 'data-klass' => 'what'}
+          %h3
+            Que
+            .controls
+              %select#whatSelector
+                %option
+                  Secuestro
+                %option
+                  Fue secuestrado
+                %option
+                  Mato
+                %option
+                  Fallecio
+        .when.box{"data-type" => "dates", 'data-klass' => 'when'}
+          %h3 Cuando
+          .new
+        .where.box{"data-type" => "places", 'data-klass' => 'where'}
+          %h3 Donde
+          .new
+        .to_who.box{"data-type" => "people", 'data-klass' => 'to_who'}
+          %h3 A quienes
+          .new
+        .buttons
+          %button{:class => 'btn btn-primary save'}
+            Guardar
+          %button{:class => 'btn btn-danger clean'}
+            Limpiar
+
     %li.nav-header Contexto
+    .context#context
 
 .row-fluid
+  %h2{:id => "document_heading", "data-document-id" => @document.id}
+    = @document.heading
   .paragraphs
-    - @paragraphs.each do |p|
-      %p{"data-paragraph" => p.id}
-        = paragraph_with_tagged_named_entities(p)
   .span4
 
 .row-fluid

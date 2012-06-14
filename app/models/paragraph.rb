@@ -1,11 +1,12 @@
 class Paragraph
   include Mongoid::Document
+  include Mongoid::Pagination
 
   field :content,     :type => String
   field :information, :type => Hash
   field :pos,         :type => Integer
 
-  embedded_in :document
+  belongs_to :document
 
   def info
     output= ""
@@ -23,6 +24,8 @@ class Paragraph
     self.document.named_entities.where(
       :pos.gt => self.pos,
       :pos.lt => self.pos + self.content.size,
-    )
+    ).map do |ne|
+      {:text => ne.text, :tag => ne.tag_to_s, :id => ne._id, :person_id => ne.person_id }
+    end
   end
 end
