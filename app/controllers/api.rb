@@ -9,24 +9,6 @@ Alegato.controllers :api do
     end
   end
 
-  post :classify_name, :map => '/api/classify_name' do
-    r = false
-    if params[:name] and params[:training]
-      Text::PersonName.train(params[:training], params[:name])
-      r = Text::PersonName.training_save
-    end
-    r.to_json
-  end
-
-  post :milestones, :map => '/api/milestones' do
-    @milestone = Milestone.new params[:event]
-    if @milestone.save
-      { :saved => true }.to_json
-    else
-      { :saved => false }.to_json
-    end
-  end
-
   get :person, :with => [:id], :provides => [:html, :json] do
     p = {}
     data = Person.find(params[:id])
@@ -43,7 +25,14 @@ Alegato.controllers :api do
   end
 
   post :registers, :provides => :json do
-    Register.create(JSON.parse(request.body.read.to_s))
+    register = Register.new JSON.parse(request.body.read.to_s)
+    if register.valid?
+      register.save
+      response.status = 201
+      register.to_json
+    else
+      response.status = 405
+    end
   end
 
   get :documents_states do
