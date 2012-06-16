@@ -79,8 +79,8 @@ h4.fragment {
 }
 .box .register{
   width: 96%;
-  height: 25px;
-  line-height: 25px;
+  height: 20px;
+  line-height: 22px;
   color: #444;
   padding: 0 2%;
   -webkit-border-radius: 4px;
@@ -103,7 +103,7 @@ h4.fragment {
   background-color:#F89406;
 }
 .box .new{
-  height: 20px;
+  height: 10px;
   border: 2px dashed #AAA;
 }
 .event {
@@ -115,6 +115,11 @@ h4.fragment {
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
   -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
 }
+.breadcrumb{
+  margin-bottom: 5px;
+  height: 10px;
+  line-height: 10px;
+}
 .event .dragged.actions, #reference .actions:before { background-color: #333; }
 .event .dragged.people, #reference .people:before { background-color: #b94a48; }
 .event .dragged.organizations, #reference .organizations:before { background-color: #3a87ad; }
@@ -122,7 +127,7 @@ h4.fragment {
 .event .dragged.dates, #reference .dates:before { background-color: #468847; }
 .event:-moz-drag-over { background: #fff9d7; }
 .event .dragged, #reference li { color: #fff; line-height: 25px;
-  padding: 3px 4px; margin: .2em .1em;
+  padding: 3px 4px; margin: .0em .1em;
   border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px;
 }
 .event .dragged i { cursor: pointer; }
@@ -151,3 +156,4 @@ h4.fragment {
 #reference li { color: #000; line-height: 18px; }
 #reference li:before { content: '.'; color: transparent; width: 16px; height: 16px; margin-right: 3px; }
 #reference li, #reference li:before { display: inline-block; }
+
