@@ -43,9 +43,6 @@
       %a{:href => "/documents/{{.}}"} 
         {{.}}
       {{/document_ids}}
-  .edit.buttons{:style => 'text-align:right;'}
-    %button.btn.btn-info
-      Edit
 %script#paragraphTemplate{:type => "text/template"}
   %p{"data-paragraph" => "{{_id}}"}
     {{{content}}}
@@ -54,6 +51,16 @@
     Cargar más contenido
 - content_for :sidebar do
   %ul.nav.nav-list#sidebar
+    .alert.alert-error#register-error{style: "display:none;"}
+      %a.close{href: '#', data: {dismiss: "alert"}}
+      %strong
+        Aviso
+      El registro no ha sido guardado
+    .alert.alert-success#register-save{style: "display:none;"}
+      %a.close{href: '#', data: {dismiss: "alert"}}
+      %strong
+        Aviso
+      El registro ha sido guardado
     %li.nav-header
       Referencias
     %ul#reference

@@ -7,9 +7,9 @@ var Person = Backbone.Model.extend({
 var Paragraph = Backbone.Model.extend({});
 var Register = Backbone.Model.extend({
   urlRoot: "/api/registers/",
-  loadValues: function(values){
+  loadValues: function(info) {
     var that = this;
-    _.each(values, function(value, key){
+    _.each(info, function(value, key){
       that.set(key, value, {silent: true});
     });
     return that;
@@ -30,7 +30,8 @@ var Register = Backbone.Model.extend({
     who    : [],
     where  : [],
     when   : [],
-    to_who : []
+    to_who : [],
+    what   : []
   }
 });
 var ParagraphList = Backbone.Collection.extend({
@@ -155,8 +156,6 @@ var RegisterView = Backbone.View.extend({
   render: function(){
     return this;
   },
-  initialize: function(){
-  },
   getValues: function(){
     var output = {};
     _.each(this.$el.find(".register"), function(span_ne){
@@ -257,8 +256,9 @@ var AnalizeApp = new (Backbone.Router.extend({
     if (AnalizeApp.register.isValid()) {
       AnalizeApp.register.save();
       AnalizeApp.registerView.resetRegister();
+      $("#register-save").alert().show().fadeOut(2000);
     } else {
-      alert("The register is incomplete");
+      $("#register-error").alert().show().fadeOut(2000);
     }
   }
 }));
