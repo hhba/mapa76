@@ -14,7 +14,7 @@ role :web, domain
 role :db, domain, :primary => true
 
 set :normalize_asset_timestamps, false
-set :rvm_ruby_string, '1.9.2@mapa76'
+set :rvm_ruby_string, '1.9.2-p320@mapa76'
 set :rvm_type, :user
 
 set :scm, :git
