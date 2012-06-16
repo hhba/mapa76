@@ -29,18 +29,8 @@ class Document
   PARAGRAPH_SEPARATOR = ".\n"
   PER_PAGE = 20
 
-  def context
-    self.paragraphs = []
-    self.person_ids = []
-    self.people_count = self.people.count 
-  end
-
-  def content
-    self.paragraphs.map(&:content).join(PARAGRAPH_SEPARATOR)
-  end
-
-  # Split original document data and extract metadata and content as clean,
-  # plain text for further analysis.
+  # Split original document data and extract metadata and content as
+  # clean, plain text for further analysis.
   #
   def split
     # Replace title with original title from document
@@ -70,6 +60,43 @@ class Document
     end
 
     save
+  end
+
+  # Perform a morphological analysis and extract named entities like persons,
+  # organizations, places, dates and addresses.
+  #
+  def analyze
+    Analyzer.extract_named_entities(self.content).each do |ne_attrs|
+      ne_klass = case ne_attrs[:ne_class]
+        when :addresses then AddressEntity
+        when :actions then ActionEntity
+        else NamedEntity
+      end
+      self.named_entities << ne_klass.new(ne_attrs)
+    end
+    self.information = {
+      :people => self.people.count,
+      :people_ne => people_found.size,
+      :dates_ne => dates_found.size,
+      :organizations_ne => organizations_found.size
+    }
+    self.last_analysis_at = Time.now
+    save
+  end
+
+  def resolve_coreference
+    Coreference.resolve(self, self.people_found)
+    self
+  end
+
+  def context
+    self.paragraphs = []
+    self.person_ids = []
+    self.people_count = self.people.count
+  end
+
+  def content
+    self.paragraphs.map(&:content).join(PARAGRAPH_SEPARATOR)
   end
 
   # Returns text extracted from paragraphs
@@ -131,11 +158,6 @@ class Document
     self.named_entities.where(:ne_class => :addresses)
   end
 
-  def process_names
-    Coreference.resolve(self, self.people_found)
-    self
-  end
-
   def processed?
     self.state == :finished
   end
@@ -160,28 +182,6 @@ class Document
       output << { :first_words => p.first_words, :paragraph_id => p.id, :number => index + 1 }
     end
     output
-  end
-
-  # Perform a morphological analysis and extract named entities like persons,
-  # organizations, places, dates and addresses.
-  #
-  def analyze
-    Analyzer.extract_named_entities(self.content).each do |ne_attrs|
-      ne_klass = case ne_attrs[:ne_class]
-        when :addresses then AddressEntity
-        when :actions then ActionEntity
-        else NamedEntity
-      end
-      self.named_entities << ne_klass.new(ne_attrs)
-    end
-    self.information = {
-      :people => self.people.count,
-      :people_ne => people_found.size,
-      :dates_ne => dates_found.size,
-      :organizations_ne => organizations_found.size
-    }
-    self.last_analysis_at = Time.now
-    save
   end
 
   def total_paragraphs

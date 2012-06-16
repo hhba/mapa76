@@ -2,7 +2,6 @@
 require 'amatch'
 
 module Coreference
-
   MIN_SIMILARITY = 0.8
 
   def self.find_duplicates(named_entities)
