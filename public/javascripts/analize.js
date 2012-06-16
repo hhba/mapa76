@@ -286,4 +286,7 @@ $(document).ready(function(){
   $("button.save").live("click", function(){
     AnalizeApp.saveRegister();
   });
+  $("#whatSelector").change(function(){
+    AnalizeApp.register = new Register(AnalizeApp.registerView.getValues());
+  });
 });
