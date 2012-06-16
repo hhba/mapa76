@@ -55,7 +55,7 @@ Alegato.controllers :api do
   end
 
   get :people, :map => "/api/people/:id", :provides => :json do
-    Person.find(params[:id]).to_json
+    Person.find(params[:id]).metainfo.to_json
   end
 
   get :person, :map => "/api/:document_id/people/:id", :provides => :json do

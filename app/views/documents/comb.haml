@@ -28,9 +28,7 @@
       {{name}}
   .information
     .field
-      Nombre: {{name}}
-    .field
-      Apellido del padre: {{surname_father}}
+      Nombre: {{full_name}}
     .field
       Tags: 
       {{#tags}}
@@ -39,10 +37,10 @@
       {{/tags}}
     .field
       Documentos:
-      {{#document_ids}}
-      %a{:href => "/documents/{{.}}"} 
-        {{.}}
-      {{/document_ids}}
+      {{#documents}}
+      %a{:href => "/documents/{{id}}"} 
+        {{name}}
+      {{/documents}}
 %script#paragraphTemplate{:type => "text/template"}
   %p{"data-paragraph" => "{{_id}}"}
     {{{content}}}

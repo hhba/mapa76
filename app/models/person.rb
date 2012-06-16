@@ -3,6 +3,7 @@ class Person
   include Mongoid::Timestamps
 
   field :name,            type: String
+  field :surname_father,  type: String
   field :searchable_name, type: String
   field :tags,            type: Array
   field :confidence,      type: Float, default: 0.0
@@ -69,6 +70,19 @@ class Person
     else
       [self.name.downcase]
     end
+  end
+  
+  def full_name
+    if self.surname_father.blank?
+      self.name
+    else
+      self.name + " " + self.surname_father
+    end
+  end
+
+  def metainfo
+    docs = self.documents.map { |doc| {id: doc._id, name: doc.heading }}
+    { "_id" => _id, "created_at" => created_at, :documents => docs, :full_name => full_name, :tags => tags}
   end
 
 protected
