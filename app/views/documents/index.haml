@@ -3,6 +3,12 @@
   = javascript_include_tag 'bootstrap-alert', 'documents'
 
 %header#overview.jumbotron.subhead
+.subnav.subnav-fixed
+  %ul.nav.nav-pills
+    %li.active
+      %a{:href => url_for(:documents, :index)} Documentos
+    %li
+      %a{:href => url_for(:documents, :new)} Nuevo
 .row
   .span10
     .alert.fade.in.alert-success#stillProcessing{:style => 'display:none;'}
