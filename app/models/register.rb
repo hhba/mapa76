@@ -15,4 +15,12 @@ class Register
     ACTION.sort
   end
 
+  def self.build_and_save(values)
+    whats = values.delete("what")
+    whats.map do |what|
+      values["what"] = what
+      self.create(values)
+    end
+  end
+
 end

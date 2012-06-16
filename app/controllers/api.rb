@@ -25,11 +25,10 @@ Alegato.controllers :api do
   end
 
   post :registers, :provides => :json do
-    register = Register.new JSON.parse(request.body.read.to_s)
-    if register.valid?
-      register.save
+    registers = Register.build_and_save(JSON.parse(request.body.read.to_s))
+    if registers.first
       response.status = 201
-      register.to_json
+      registers.to_json
     else
       response.status = 405
     end
