@@ -34,7 +34,10 @@ h4.fragment {
 .navbar-search .search-query {
   color:#CCC;
 }
-
+table.tablesorter th {
+  text-decoration: underline;
+  cursor: pointer;
+}
 /* Events */
 .people {
   color: red;

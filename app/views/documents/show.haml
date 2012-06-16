@@ -27,22 +27,11 @@
       = link_to "Personas", url_for(:documents, :people, :id => @doc._id), :class => "btn btn-primary"
       = link_to "Validar registros", url_for(:documents, :comb, :id => @doc._id), :class => "btn btn-primary"
     %hr
-    %table.table.table-condensed.table-striped
-      %thead
-        %tr
-          %th
-            = "#"
-          %th
-            Contenido
-          %th
-      %tbody
   .span1
-  .span3
-    %table.table.table-bordered.table-condensed
+  .span4
+    %table.table.table-bordered.table-condensed.tablesorter
       %thead
         %tr
-          %th
-            = "#"
           %th
             Personas
           %th
@@ -51,24 +40,6 @@
         - @doc.people.each_with_index do |person, index|
           %tr
             %td
-              = index + 1
-            %td
-              = person.name
+              = person.full_name
             %td
               = person.mentions_in @doc
-  .span1
-  .span2
-    %table.table.table-bordered.table-condensed
-      %thead
-        %tr
-          %th
-            = "#"
-          %th
-            Organizaciones
-      %tbody
-        - @doc.organizations_found.each_with_index do |org, index|
-          %tr
-            %td
-              = index + 1
-            %td
-              = org.text

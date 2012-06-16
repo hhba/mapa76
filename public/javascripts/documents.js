@@ -27,4 +27,7 @@ $(document).ready(function(){
 
   $("#stillProcessing").alert().css("display", "block");
   setTimeout(checkDocumentsStatuses, 15000 );
+  if($(".tablesorter").length !== 0) {
+    $(".tablesorter").tablesorter();
+  }
 });
