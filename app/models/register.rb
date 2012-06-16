@@ -9,6 +9,10 @@ class Register
 
   belongs_to :document
 
-  ACTION = %w(detener secuestrar torturar desaparecer ver violar abusar nacer morir encontrar)
+  ACTION = %w(detener secuestrar torturar desaparecer ver violar abusar nacer morir encontrar transladar asesinar)
+
+  def self.actions
+    ACTION.sort
+  end
 
 end

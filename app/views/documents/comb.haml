@@ -89,7 +89,7 @@
           %h3 Que
           .controls
             %select#whatSelector{multiple: true}
-              - Register::ACTION.each do |action|
+              - Register.actions.each do |action|
                 %option
                   = action.titleize
         .when.box{"data-type" => "dates", 'data-klass' => 'when'}
