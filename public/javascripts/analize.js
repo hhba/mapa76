@@ -10,7 +10,6 @@ var Register = Backbone.Model.extend({
   loadValues: function(values){
     var that = this;
     _.each(values, function(value, key){
-      console.log(key + " " + value);
       that.set(key, value, {silent: true});
     });
     return that;
@@ -23,6 +22,8 @@ var Register = Backbone.Model.extend({
       return "There must be a when";
     } else if (attribs.where.length === 0) {
       return "There must be a where";
+    } else if (attribs.what === null) {
+      return "There must be a what";
     }
   },
   defaults: {
@@ -169,9 +170,9 @@ var RegisterView = Backbone.View.extend({
       } else {
         output[group] = [value];
       }
-      output['document_id'] = AnalizeApp.document.get("id");
-      output['what'] = $("#whatSelector").val();
     });
+    output['document_id'] = AnalizeApp.document.get("id");
+    output['what'] = $("#whatSelector").val();
     return output;
   },
   resetRegister: function(){
@@ -264,7 +265,6 @@ var AnalizeApp = new (Backbone.Router.extend({
 $(document).ready(function(){
   analizer.getTemplates();
   window.droppable_klasses = ['who', 'when', 'where', 'to_who'];
-  /*checkScroll();*/
   $("#next_page").live("click", function(){
     callNextPage();
     return false;
@@ -287,4 +287,3 @@ $(document).ready(function(){
     AnalizeApp.saveRegister();
   });
 });
-

@@ -73,24 +73,18 @@
         %span Acciones
         %input{:type => "checkbox", :checked => true}
     %li.nav-header#register
-      Eventos
+      Hechos
       .new_register
         .who.box{"data-type" => "people", 'data-klass' => 'who'}
           %h3 Quienes
           .new
         .what.box{"data-type" => "what", 'data-klass' => 'what'}
-          %h3
-            Que
-            .controls
-              %select#whatSelector
+          %h3 Que
+          .controls
+            %select#whatSelector{multiple: true}
+              - Register::ACTION.each do |action|
                 %option
-                  Secuestro
-                %option
-                  Fue secuestrado
-                %option
-                  Mato
-                %option
-                  Fallecio
+                  = action.titleize
         .when.box{"data-type" => "dates", 'data-klass' => 'when'}
           %h3 Cuando
           .new

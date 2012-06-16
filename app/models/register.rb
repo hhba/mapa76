@@ -8,4 +8,7 @@ class Register
   field :to_who, type: Array
 
   belongs_to :document
+
+  ACTION = %w(detener secuestrar torturar desaparecer ver violar abusar nacer morir encontrar)
+
 end
