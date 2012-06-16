@@ -5,6 +5,7 @@ bin/*
 .rvmrc
 .sass-cache/*
 *.swp
+*.swo
 vendor/gems/*
 !vendor/gems/cache/
 tmp
