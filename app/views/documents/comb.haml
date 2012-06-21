@@ -1,6 +1,6 @@
 -# coding: utf-8
 - content_for :javascripts do
-  = javascript_include_tag 'analize'
+  = javascript_include_tag 'analize-models', 'analize-views', 'analize'
 %script#preRegisterTemplate{:type => "text/template"}
   .register{:class => "{{type}}", "data-ne-id" => "{{id}}"}
     {{text}} 
