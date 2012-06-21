@@ -38,6 +38,12 @@ Alegato.controllers :documents do
     render "documents/show"
   end
 
+  get :view, :map => '/documents/:id/view' do
+    @doc = Document.find(params[:id])
+
+    render "documents/view", :layout => false
+  end
+
   get :comb, :map => '/documents/:id/comb' do
     @document = Document.find(params[:id])
     @paragraphs = @document.page(params[:page])
