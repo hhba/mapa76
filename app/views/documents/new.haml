@@ -3,7 +3,8 @@
   = javascript_include_tag 'jquery-ui-1.8.18.custom.min'
 - content_for :styles do
   = stylesheet_link_tag "flick/jquery-ui-1.8.18.custom"
-.row
+
+.row-fluid
   .span4
     %h1 Importar documento
     - form_tag url_for(:documents, :create),:method => "PUT", :multipart => true, :class => 'well' do

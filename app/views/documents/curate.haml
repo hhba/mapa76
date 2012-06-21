@@ -4,7 +4,8 @@
 - content_for :javascripts do
   = javascript_include_tag 'jquery-ui-1.8.18.custom.min', 'bootstrap-alert'
   = javascript_include_tag 'milestones'
-.row
+
+.row-fluid
   .span8.offset2
     .alert.fade.in.alert-success#successMessage{:style => 'display:none;'}
       %a.close{:href => '#', 'data-dismiss' => 'alert'}×

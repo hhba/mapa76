@@ -2,59 +2,54 @@
 - content_for :javascripts do
   = javascript_include_tag 'bootstrap-alert', 'documents'
 
-%header#overview.jumbotron.subhead
 .subnav.subnav-fixed
   %ul.nav.nav-pills
     %li.active
       %a{:href => url_for(:documents, :index)} Documentos
     %li
       %a{:href => url_for(:documents, :new)} Nuevo
-.row
-  .span10
-    .alert.fade.in.alert-success#stillProcessing{:style => 'display:none;'}
-      %a.close{:href => '#', 'data-dismiss' => 'alert'}×
-      %strong
-        Recuerde que el procesamiento de tareas puede tomar algunos minutos
-.row
-  .span8
-    %table{:class => 'table table-striped', :id => 'sorteable'}
-      %thead
+.row-fluid
+  .alert.fade.in.alert-success#stillProcessing{:style => 'display:none;'}
+    %a.close{:href => '#', 'data-dismiss' => 'alert'}×
+    %strong
+      Recuerde que el procesamiento de tareas puede tomar algunos minutos
+.row-fluid
+  %table{:class => 'table table-striped', :id => 'sorteable'}
+    %thead
+      %tr
+        %th
+        %th
+          %a{:href => '#', "data-sort" => "name"}Título
+        %th
+          %a{:href => '#', "data-sort" => "name"}Tipo
+        %th
+          %a{:href => '#', "data-sort" => "date"}Fecha
+        %th
+          Bajar archivo
+        %th
+          Estado
+    %tbody
+      - @docs.each do |doc|
         %tr
-          %th
-          %th
-            %a{:href => '#', "data-sort" => "name"}Título
-          %th
-            %a{:href => '#', "data-sort" => "name"}Tipo
-          %th
-            %a{:href => '#', "data-sort" => "date"}Fecha
-          %th
-            Bajar archivo
-          %th
-            Estado
-      %tbody
-        - @docs.each do |doc|
-          %tr
-            %td
-              = thumbnail_tag doc
-            %td
-              - if doc.readable?
-                = link_to doc.heading, url_for(:documents, :show, :id => doc._id)
-              - else
-                = doc.heading
-            %td
-              = doc.category
-            %td
-              = doc._id.generation_time.strftime("%d/%m/%y")
-            %td
-              = link_to doc.original_file, "/uploads/#{doc.original_file}"
-            %td.state
-              - if doc.processed?
-                Finalizado
-                .hidden{:style => "display: none;"}
-                  .progress.progress-striped.active
-                    .bar{:style => "width: 100%;"}
-              - else
+          %td
+            = thumbnail_tag doc
+          %td
+            - if doc.readable?
+              = link_to doc.heading, url_for(:documents, :show, :id => doc._id)
+            - else
+              = doc.heading
+          %td
+            = doc.category
+          %td
+            = doc._id.generation_time.strftime("%d/%m/%y")
+          %td
+            = link_to doc.original_file, "/uploads/#{doc.original_file}"
+          %td.state
+            - if doc.processed?
+              Finalizado
+              .hidden{:style => "display: none;"}
                 .progress.progress-striped.active
-                  .bar{:style => "width: #{doc.state_to_percentage}%;"}
-  .span4
-
+                  .bar{:style => "width: 100%;"}
+            - else
+              .progress.progress-striped.active
+                .bar{:style => "width: #{doc.state_to_percentage}%;"}
