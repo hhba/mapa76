@@ -18,50 +18,17 @@ class Document
 
   has_many :milestones
   has_many :named_entities
-  has_many :paragraphs
   has_many :registers
   has_and_belongs_to_many :people
+
+  has_many :pages
 
   validates_presence_of :original_file
 
   after_create :enqueue_process
   attr_accessor :sample_mode, :people_count
 
-  PARAGRAPH_SEPARATOR = ".\n"
-  PER_PAGE = 20
 
-  # Split original document data and extract metadata and content as
-  # clean, plain text for further analysis.
-  #
-  def split
-    # Replace title with original title from document
-    logger.info "Extract title from '#{self.original_file_path}'"
-    self.title = Splitter.extract_title(self.original_file_path)
-
-    logger.info "Generate a thumbnail from the first page of the document"
-    self.thumbnail_file = Splitter.create_thumbnail(self.original_file_path,
-      :output => File.join(Padrino.root, 'public', THUMBNAILS_DIR)
-    )
-
-    logger.info "Extract plain text"
-    text = Splitter.extract_plain_text(self.original_file_path)
-
-    logger.info "Split into paragraphs and save them"
-    last_pos = 0
-    while pos = text.index(PARAGRAPH_SEPARATOR, last_pos)
-      # Because Analyzer is configured to flush buffer at every linefeed,
-      # replace all possible '\n' inside paragraphs to avoid a bad sentence split.
-      paragraph = text[last_pos .. pos - PARAGRAPH_SEPARATOR.size + 1].strip.gsub("\n", ' ')
-      paragraph_pos = last_pos - 1
-      paragraph_pos = 0 if paragraph_pos == -1
-      if not paragraph.empty?
-        self.paragraphs << Paragraph.new(:content => paragraph, :pos => paragraph_pos)
-      end
-      last_pos = pos + 1
-    end
-
-    save
-  end
 
   # Perform a morphological analysis and extract named entities like persons,
   # organizations, places, dates and addresses.
