@@ -18,7 +18,7 @@ set :rvm_ruby_string, '1.9.3-p194@mapa76'
 set :rvm_type, :user
 
 set :scm, :git
-set :repository, "git://github.com/mapa76/mapa76.git"
+set :repository, "git://github.com/hhba/mapa76.git"
 set :branch, "develop"
 set :scm_verbose, true
 set :use_sudo, false
