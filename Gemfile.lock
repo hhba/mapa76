@@ -64,6 +64,7 @@ GEM
     net-ssh (2.5.2)
     net-ssh-gateway (1.1.0)
       net-ssh (>= 1.99.1)
+    nokogiri (1.5.2)
     oj (1.2.9)
     padrino (0.10.6)
       padrino-admin (= 0.10.6)
@@ -145,6 +146,7 @@ DEPENDENCIES
   mongoid
   mongoid-pagination
   multi_json
+  nokogiri
   oj
   padrino
   rack-test
