@@ -1,16 +1,19 @@
 class Page
   include Mongoid::Document
 
-  field :num,       type: Integer
-  field :width,     type: Integer
-  field :height,    type: Integer
+  field :num,      type: Integer
+  field :from_pos, type: Integer
+  field :to_pos,   type: Integer
+  field :width,    type: Integer
+  field :height,   type: Integer
 
   has_many    :named_entities
   belongs_to  :document
   embeds_many :text_lines
 
+  SEPARATOR = "\n"
 
   def text
-    self.text_lines.map(&:text).join("\n")
+    self.text_lines.sort_by(&:num).map(&:text).join(TextLine::SEPARATOR)
   end
 end

@@ -30,29 +30,6 @@ class Document
   attr_accessor :sample_mode, :people_count
 
 
-
-  # Perform a morphological analysis and extract named entities like persons,
-  # organizations, places, dates and addresses.
-  #
-  def analyze
-    Analyzer.extract_named_entities(self.content).each do |ne_attrs|
-      ne_klass = case ne_attrs[:ne_class]
-        when :addresses then AddressEntity
-        when :actions then ActionEntity
-        else NamedEntity
-      end
-      self.named_entities << ne_klass.new(ne_attrs)
-    end
-    self.information = {
-      :people => self.people.count,
-      :people_ne => people_found.size,
-      :dates_ne => dates_found.size,
-      :organizations_ne => organizations_found.size
-    }
-    self.last_analysis_at = Time.now
-    save
-  end
-
   def resolve_coreference
     Coreference.resolve(self, self.people_found)
     self
@@ -60,7 +37,7 @@ class Document
 
   # TODO option for a range of pages
   def text(options={})
-    self.pages.map(&:text).join("\n")
+    self.pages.sort_by(&:num).map(&:text).join(Page::SEPARATOR)
   end
 
   def context
@@ -155,6 +132,10 @@ class Document
 
   def last_page?(page=1)
     page == total_pages
+  end
+
+  def new_iterator
+    DocumentIterator.new(self)
   end
 
 protected

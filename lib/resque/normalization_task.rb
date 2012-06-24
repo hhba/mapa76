@@ -29,17 +29,25 @@ class NormalizationTask
     logger.info "Extract PDF as an XML document"
     xml = self.pdf_to_xml(doc.original_file_path)
 
+    logger.info "Clean old pages (if any)"
+    doc.pages.delete_all
     doc.fontspecs = {}
+
+    text_line_pos = 0
 
     xml.css("page").each_with_index do |xml_page, page_index|
       text_lines = xml_page.css("text").map.with_index do |tl, tl_index|
-        TextLine.new({
+        text_line = TextLine.new({
           :num  => tl_index + 1,
+          :from_pos  => text_line_pos,
+          :to_pos  => text_line_pos + tl.text.size - 1,
           :text => tl.text,
           :left => tl.attributes["left"].value.to_i,
           :top  => tl.attributes["top"].value.to_i,
           :fontspec_id => tl.attributes["font"].value,
         })
+        text_line_pos += tl.text.size + TextLine::SEPARATOR.size
+        text_line
       end
 
       xml_page.css("fontspec").each do |fs|
@@ -53,6 +61,8 @@ class NormalizationTask
 
       doc.pages << Page.new({
         :num => page_index + 1,
+        :from_pos => text_lines.first.from_pos,
+        :to_pos => text_lines.last.to_pos,
         :width => xml_page.attributes["width"].value.to_i,
         :height => xml_page.attributes["height"].value.to_i,
         :text_lines => text_lines,
