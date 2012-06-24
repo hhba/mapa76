@@ -58,27 +58,15 @@ class Document
     self
   end
 
+  # TODO option for a range of pages
+  def text(options={})
+    self.pages.map(&:text).join("\n")
+  end
+
   def context
     self.paragraphs = []
     self.person_ids = []
     self.people_count = self.people.count
-  end
-
-  def content
-    self.paragraphs.map(&:content).join(PARAGRAPH_SEPARATOR)
-  end
-
-  # Returns text extracted from paragraphs
-  # It allow :from and :to params (should be integers)
-  def text(option = {})
-    max = self.paragraphs.length
-    from = option.has_key?(:from) ? option[:from].to_i : 0
-    to = option.has_key?(:to) ? option[:to].to_i : max
-    output = ""
-    self.paragraphs[from..to].each do |p|
-      output << p.content + PARAGRAPH_SEPARATOR
-    end
-    output
   end
 
   def indication

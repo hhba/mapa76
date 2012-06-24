@@ -8,4 +8,9 @@ class Page
   has_many    :named_entities
   belongs_to  :document
   embeds_many :text_lines
+
+
+  def text
+    self.text_lines.map(&:text).join("\n")
+  end
 end
