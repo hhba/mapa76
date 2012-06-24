@@ -13,6 +13,7 @@ class Document
   field :original_file,    type: String
   field :thumbnail_file,   type: String
   field :information,      type: Hash
+  field :fontspecs,        type: Hash
   field :last_analysis_at, type: Time
   field :state,            type: Symbol, default: :waiting
 

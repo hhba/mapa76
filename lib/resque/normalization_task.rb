@@ -10,6 +10,9 @@ class NormalizationTask
   # Split original document data and extract metadata and content as
   # clean, plain text for further analysis.
   #
+  # When finished, enqueue the extraction task to detect and classify named
+  # entities.
+  #
   def self.perform(document_id)
     doc = Document.find(document_id)
     doc.update_attribute :state, :normalizing
@@ -26,34 +29,33 @@ class NormalizationTask
     logger.info "Extract PDF as an XML document"
     xml = self.pdf_to_xml(doc.original_file_path)
 
+    doc.fontspecs = {}
+
     xml.css("page").each_with_index do |xml_page, page_index|
       text_lines = xml_page.css("text").map.with_index do |tl, tl_index|
         TextLine.new({
           :num  => tl_index + 1,
-          :text => tl.text.strip,
+          :text => tl.text,
           :left => tl.attributes["left"].value.to_i,
           :top  => tl.attributes["top"].value.to_i,
           :fontspec_id => tl.attributes["font"].value,
         })
       end
 
-      fontspecs = {}
       xml_page.css("fontspec").each do |fs|
         id = fs.attributes["id"].value
-        fontspecs[id] = {
+        doc.fontspecs[id] = {
           :family => fs.attributes["family"].value,
           :size   => fs.attributes["size"].value.to_i,
           :color  => fs.attributes["color"].value,
         }
       end
-      logger.info fontspecs.inspect
 
       doc.pages << Page.new({
         :num => page_index + 1,
         :width => xml_page.attributes["width"].value.to_i,
         :height => xml_page.attributes["height"].value.to_i,
         :text_lines => text_lines,
-        :fontspecs => fontspecs,
       })
     end
 
@@ -65,8 +67,10 @@ class NormalizationTask
   end
 
 private
+  ##
   # Export the first page of a document as a PNG file as a thumbnail of a
   # document.
+  #
   def self.create_thumbnail(path, opts={})
     opts = {
       :size => '65x80'
