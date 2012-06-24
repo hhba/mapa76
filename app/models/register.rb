@@ -9,10 +9,9 @@ class Register
 
   belongs_to :document
 
-  ACTION = %w(detener secuestrar torturar desaparecer ver violar abusar nacer morir encontrar transladar asesinar)
 
   def self.actions
-    ACTION.sort
+    ActionEntity::VERBS
   end
 
   def self.build_and_save(values)
@@ -22,5 +21,4 @@ class Register
       self.create(values)
     end
   end
-
 end

@@ -1,9 +1,20 @@
 class ActionEntity < NamedEntity
+  VERBS = %w(
+    detener
+    secuestrar
+    torturar
+    desaparecer
+    ver
+    violar
+    abusar
+    nacer
+    morir
+    encontrar
+    transladar
+    asesinar
+  ).sort
+
   def self.valid?(attrs)
-    [ 'ver',
-      'secuestrar',
-      'violar',
-      'torturar'
-    ].include?(attrs[:lemma])
+    VERBS.include?(attrs[:lemma])
   end
 end
