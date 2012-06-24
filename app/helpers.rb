@@ -84,4 +84,17 @@ Alegato.helpers do
     html << document_content[cur_pos .. paragraph.pos + paragraph.content.size - 1].to_s
     html << Document::PARAGRAPH_SEPARATOR
   end
+
+  def page_html(page)
+    text_lines = page.text_lines.map do |text_line|
+      content_tag(:p, text_line.text.gsub(" ", "&nbsp;"), {
+        :class => "fs#{text_line.fontspec_id}",
+        :style => "top: #{text_line.top}px; left: #{text_line.left}px;"
+      })
+    end
+    content_tag(:div, text_lines.join("\n"), {
+      :class => "page",
+      :style => "width: #{page.width}px; height: #{page.height}px"
+    })
+  end
 end
