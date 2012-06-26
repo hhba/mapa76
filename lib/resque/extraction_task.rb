@@ -19,18 +19,18 @@ class ExtractionTask
       pos = {}
 
       doc_iter.seek(ne_attrs[:pos])
-      pos[:from] = {
-        :page_id => doc_iter.page.id,
-        :text_line_id => doc_iter.text_line.id,
-        :pos => doc_iter.inner_pos,
+      pos["from"] = {
+        "page_id" => doc_iter.page.id,
+        "text_line_id" => doc_iter.text_line.id,
+        "pos" => doc_iter.inner_pos,
       }
 
-      last_token = ne_attrs[:tokens].last
+      last_token = (ne_attrs[:tokens] && ne_attrs[:tokens].last) || ne_attrs
       doc_iter.seek(last_token[:pos] + last_token[:form].size)
-      pos[:to] = {
-        :page_id => doc_iter.page.id,
-        :text_line_id => doc_iter.text_line.id,
-        :pos => doc_iter.inner_pos,
+      pos["to"] = {
+        "page_id" => doc_iter.page.id,
+        "text_line_id" => doc_iter.text_line.id,
+        "pos" => doc_iter.inner_pos,
       }
 
       ne_attrs[:pos] = pos
