@@ -5,6 +5,7 @@ class TextLine
   field :num,         type: Integer
   field :left,        type: Integer
   field :top,         type: Integer
+  field :width,       type: Integer
   field :fontspec_id, type: String
 
   # Text and location attributes of the processed text

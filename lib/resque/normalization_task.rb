@@ -40,6 +40,7 @@ class NormalizationTask
           :text => tl.text,
           :left => tl.attributes["left"].value.to_i,
           :top  => tl.attributes["top"].value.to_i,
+          :width  => tl.attributes["width"].value.to_i,
           :fontspec_id => tl.attributes["font"].value,
         })
       end

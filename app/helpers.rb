@@ -89,7 +89,7 @@ Alegato.helpers do
     text_lines = page.text_lines.map do |text_line|
       content_tag(:p, text_line.text.gsub(" ", "&nbsp;"), {
         :class => "fs#{text_line.fontspec_id}",
-        :style => "top: #{text_line.top}px; left: #{text_line.left}px;"
+        :style => "top: #{text_line.top}px; left: #{text_line.left}px; width: #{text_line.width}px;"
       })
     end
     content_tag(:div, text_lines.join("\n"), {
