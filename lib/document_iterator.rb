@@ -8,16 +8,15 @@ class DocumentIterator
   end
 
   def seek(pos)
-    @page = @document.pages.where({
-      :from_pos.lte => pos,
-      :to_pos.gte => pos
-    }).first
-    @text_line = @page.text_lines.where({
-      :from_pos.lte => pos,
-      :to_pos.gte => pos
-    }).first
-    @inner_pos = pos - @text_line.from_pos
-    return true
+    @document.pages.where(:from_pos.lte => pos, :to_pos.gte => pos).each do |p|
+      if tl = p.text_lines.where(:from_pos.lte => pos, :to_pos.gte => pos).first
+        @page = p
+        @text_line = tl
+        @inner_pos = pos - @text_line.from_pos
+        return true
+      end
+    end
+    return false
   end
 
   def pos=(new_pos)

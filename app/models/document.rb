@@ -15,6 +15,7 @@ class Document
   field :information,      type: Hash
   field :fontspecs,        type: Hash
   field :last_analysis_at, type: Time
+  field :processed_text,   type: String
   field :state,            type: Symbol, default: :waiting
 
   has_many :milestones
@@ -28,6 +29,8 @@ class Document
 
   after_create :enqueue_process
   attr_accessor :sample_mode, :people_count
+
+  BLOCK_SEPARATOR = ".\n"
 
 
   def resolve_coreference

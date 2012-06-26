@@ -15,14 +15,16 @@ class ExtractionTask
     logger.info "Extract named entities from content"
     doc.named_entities.delete_all
     doc_iter = doc.new_iterator
-    Analyzer.extract_named_entities(doc.text).each do |ne_attrs|
+    Analyzer.extract_named_entities(doc.processed_text).each do |ne_attrs|
       pos = {}
+
       doc_iter.seek(ne_attrs[:pos])
       pos[:from] = {
         :page_id => doc_iter.page.id,
         :text_line_id => doc_iter.text_line.id,
         :pos => doc_iter.inner_pos,
       }
+
       last_token = ne_attrs[:tokens].last
       doc_iter.seek(last_token[:pos] + last_token[:form].size)
       pos[:to] = {
@@ -30,6 +32,7 @@ class ExtractionTask
         :text_line_id => doc_iter.text_line.id,
         :pos => doc_iter.inner_pos,
       }
+
       ne_attrs[:pos] = pos
 
       ne_klass = case ne_attrs[:ne_class]
