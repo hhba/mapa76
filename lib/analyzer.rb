@@ -110,10 +110,8 @@ module Analyzer
   #
   def self.extract_named_entities(content)
     Enumerator.new do |yielder|
-      self.extract_tagged_tokens(content)
-          .select { |token| token[:ne_class] }
-          .each do |token|
-        yielder << token
+      self.extract_tagged_tokens(content).each do |token|
+        yielder << token if token[:ne_class]
       end
       self.extract_addresses(content).each do |address|
         yielder << address
