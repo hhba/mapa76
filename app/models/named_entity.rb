@@ -13,6 +13,7 @@ class NamedEntity
   field :tokens,   :type => Array
 
   belongs_to :document
+  belongs_to :page
   belongs_to :person
 
   validate :must_have_valid_position

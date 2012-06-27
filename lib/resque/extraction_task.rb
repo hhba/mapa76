@@ -43,7 +43,11 @@ class ExtractionTask
 
       ne = ne_klass.new(ne_attrs)
       ne.save!
+
       doc.named_entities << ne
+      doc.pages.in(:_id => ["from", "to"].map{ |k| ne.pos[k]["page_id"] }.uniq).each do |page|
+        page.named_entities << ne
+      end
     end
 
     logger.info "Count classes of named entities found"
