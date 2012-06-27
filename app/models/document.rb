@@ -107,6 +107,7 @@ class Document
     {
       :waiting => 0,
       :normalizing => 10,
+      :analyzing_layout => 20,
       :extracting => 40,
       :solving_coreference => 70,
       :finished => 100
