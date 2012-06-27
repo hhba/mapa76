@@ -91,7 +91,7 @@ private
   # Extracts XML from a PDF using Poppler's `pdftohtml`
   #
   def self.pdf_to_xml(path, opts={})
-    params = ["-stdout", "-xml", "-enc UTF-8"]
+    params = ["-stdout", "-xml", "-enc UTF-8", "-wbt 20"]
     params << "-f #{opts[:from]}" if opts[:from]
     params << "-l #{opts[:to]}" if opts[:to]
     logger.debug "pdf2html options: #{params}"
