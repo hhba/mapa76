@@ -37,7 +37,7 @@ class NormalizationTask
       text_lines = xml_page.css("text").map.with_index do |tl, tl_index|
         TextLine.new({
           :num  => tl_index + 1,
-          :text => tl.text,
+          :text => tl.inner_html,
           :left => tl.attributes["left"].value.to_i,
           :top  => tl.attributes["top"].value.to_i,
           :width  => tl.attributes["width"].value.to_i,
