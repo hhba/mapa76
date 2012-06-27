@@ -18,11 +18,11 @@ class LayoutAnalysisTask
 
     # FIXME normalize text lines in NormalizationTask, not here!
 
-    logger.info "Normalize (squeeze and strip) text lines and store position ranges"
+    logger.info "Normalize text lines and store position ranges"
     pos = 0
     doc.processed_text = blocks.map do |block|
       block.map do |tl|
-        tl.processed_text = self.squeeze_and_strip(tl.text)
+        tl.processed_text = self.normalize(tl.text)
         tl.from_pos = pos
         tl.to_pos = pos + tl.processed_text.size - 1
         tl.save
@@ -58,20 +58,14 @@ class LayoutAnalysisTask
 
 private
   ##
-  # Remove spaces in between characters and
-  # strip whitespace from left and right
+  # Normalize string for analyzer
+  #   * Strip whitespace
+  #   * Remove HTML tags (like <b></b>)
   #
-  def self.squeeze_and_strip(string)
-    new_string = string.strip
-    it = 0
-    while splitted = new_string.split and
-         (splitted.select { |w| w.size == 1 }.count > 0.8 * splitted.size) and
-          new_string.size > 1
-      new_string.gsub!(/([\w\W])\s/, "\\1")
-      it += 1
-      raise "infinite loop?" if it > 100
-    end
-    new_string.strip
+  def self.normalize(string)
+    string
+      .strip
+      .gsub(/<\/?[^>]*>/, '')
   end
 
   ##
