@@ -3,8 +3,8 @@ class LayoutAnalysisTask
 
   ##
   # Analyze document layout to determine optimized order of text lines for the
-  # NERC analyzer.  Secondly, store processed text and position ranges for
-  # locating a NamedEntity easily in a TextLine.
+  # NERC analyzer.  Secondly, store processed text in the document and
+  # calculate position ranges for locating a NamedEntity easily in a TextLine.
   #
   # When finished, enqueue the extraction task to detect and classify named
   # entities.
@@ -16,13 +16,10 @@ class LayoutAnalysisTask
     logger.info "Perform geometric and logic layout analysis on document"
     blocks = self.analyze(doc)
 
-    # FIXME normalize text lines in NormalizationTask, not here!
-
-    logger.info "Normalize text lines and store position ranges"
+    logger.info "Calculate position ranges and store processed text in the document"
     pos = 0
     doc.processed_text = blocks.map do |block|
       block.map do |tl|
-        tl.processed_text = self.normalize(tl.text)
         tl.from_pos = pos
         tl.to_pos = pos + tl.processed_text.size - 1
         tl.save
@@ -31,10 +28,10 @@ class LayoutAnalysisTask
       end.join(TextLine::SEPARATOR)
     end.join(Document::BLOCK_SEPARATOR)
 
-    logger.info "Save processed text"
+    logger.info "Save document"
     doc.save
 
-    logger.info "Store pages position range"
+    logger.info "Store position range of pages"
     pages = {}
     blocks.each do |block|
       block.each do |tl|
@@ -57,17 +54,6 @@ class LayoutAnalysisTask
   end
 
 private
-  ##
-  # Normalize string for analyzer
-  #   * Strip whitespace
-  #   * Remove HTML tags (like <b></b>)
-  #
-  def self.normalize(string)
-    string
-      .strip
-      .gsub(/<\/?[^>]*>/, '')
-  end
-
   ##
   # Analyze document layout, determine optimized order of text lines
   # for the NERC analyzer, and return a list of blocks (grouped text lines).

@@ -33,18 +33,25 @@ class NormalizationTask
     doc.pages.delete_all
     doc.fontspecs = {}
 
+    logger.info "Iterate through every page and text line, normalize and store them"
     xml.css("page").each_with_index do |xml_page, page_index|
+      logger.info "Page #{page_index + 1}"
+
+      logger.debug "Create and normalize text lines for page #{page_index + 1}"
       text_lines = xml_page.css("text").map.with_index do |tl, tl_index|
         TextLine.new({
           :num  => tl_index + 1,
           :text => tl.inner_html,
+          :processed_text => self.normalize(tl.inner_html),
           :left => tl.attributes["left"].value.to_i,
           :top  => tl.attributes["top"].value.to_i,
           :width  => tl.attributes["width"].value.to_i,
           :fontspec_id => tl.attributes["font"].value,
         })
       end
+      logger.debug "#{text_lines.size} text lines were processed"
 
+      logger.debug "Get fontspecs for page #{page_index + 1}"
       xml_page.css("fontspec").each do |fs|
         id = fs.attributes["id"].value
         doc.fontspecs[id] = {
@@ -54,6 +61,7 @@ class NormalizationTask
         }
       end
 
+      logger.debug "Create page #{page_index + 1} and store text lines and attributes"
       doc.pages << Page.new({
         :num => page_index + 1,
         :width => xml_page.attributes["width"].value.to_i,
@@ -61,6 +69,7 @@ class NormalizationTask
         :text_lines => text_lines,
       })
     end
+    logger.info "#{doc.pages.count} pages were processed"
 
     logger.info "Save document"
     doc.save
@@ -85,6 +94,17 @@ private
     Docsplit.extract_images(path, opts.merge(:pages => 1))
 
     return "#{basename}_1.png"
+  end
+
+  ##
+  # Normalize string for analyzer
+  #   * Strip whitespace
+  #   * Remove HTML tags (like <b></b>)
+  #
+  def self.normalize(string)
+    string
+      .strip
+      .gsub(/<\/?[^>]*>/, '')
   end
 
   ##
