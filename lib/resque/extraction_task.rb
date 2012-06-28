@@ -53,9 +53,9 @@ class ExtractionTask
     logger.info "Count classes of named entities found"
     doc.information = {
       :people => doc.people.count,
-      :people_ne => people_found.size,
-      :dates_ne => dates_found.size,
-      :organizations_ne => organizations_found.size
+      :people_ne => doc.people_found.size,
+      :dates_ne => doc.dates_found.size,
+      :organizations_ne => doc.organizations_found.size
     }
 
     logger.info "Save document"
@@ -66,7 +66,7 @@ class ExtractionTask
     Resque.enqueue(CoreferenceResolutionTask, document_id)
 
     if doc.addresses_found.count > 0
-      logger.info "Enqueue Geocoding task (#{doc.address_found.count} addresses found)"
+      logger.info "Enqueue Geocoding task (#{doc.addresses_found.count} addresses found)"
       Resque.enqueue(GeocodingTask, document_id)
     end
   end
