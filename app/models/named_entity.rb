@@ -35,15 +35,17 @@ class NamedEntity
   end
 
   def context(length=50)
-    content = self.document.content
+    text = self.document.processed_text
 
+    # Calculate "start" and "end"
     context_start = self.pos - length
-    context_end = self.pos + self.form.size + length
+    context_end = self.pos + self.text.size + length
 
+    # Clamp values to document size
     context_start = 0 if context_start < 0
-    context_end = content.size if context_end > content.size
+    context_end = text.size if context_end > text.size
 
-    content[context_start .. context_end]
+    text[context_start .. context_end]
   end
 
   def tag_to_s
