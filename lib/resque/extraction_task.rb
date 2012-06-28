@@ -16,10 +16,10 @@ class ExtractionTask
     doc.named_entities.delete_all
     doc_iter = doc.new_iterator
     Analyzer.extract_named_entities(doc.processed_text).each do |ne_attrs|
-      pos = {}
+      inner_pos = {}
 
       doc_iter.seek(ne_attrs[:pos])
-      pos["from"] = {
+      inner_pos["from"] = {
         "page_id" => doc_iter.page.id,
         "text_line_id" => doc_iter.text_line.id,
         "pos" => doc_iter.inner_pos,
@@ -27,13 +27,13 @@ class ExtractionTask
 
       last_token = (ne_attrs[:tokens] && ne_attrs[:tokens].last) || ne_attrs
       doc_iter.seek(last_token[:pos] + last_token[:form].size)
-      pos["to"] = {
+      inner_pos["to"] = {
         "page_id" => doc_iter.page.id,
         "text_line_id" => doc_iter.text_line.id,
         "pos" => doc_iter.inner_pos,
       }
 
-      ne_attrs[:pos] = pos
+      ne_attrs[:inner_pos] = inner_pos
 
       ne_klass = case ne_attrs[:ne_class]
         when :addresses then AddressEntity
@@ -45,7 +45,7 @@ class ExtractionTask
       ne.save!
 
       doc.named_entities << ne
-      doc.pages.in(:_id => ["from", "to"].map{ |k| ne.pos[k]["page_id"] }.uniq).each do |page|
+      doc.pages.in(:_id => ["from", "to"].map{ |k| ne.inner_pos[k]["page_id"] }.uniq).each do |page|
         page.named_entities << ne
       end
     end

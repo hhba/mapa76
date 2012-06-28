@@ -1,8 +1,9 @@
 class NamedEntity
   include Mongoid::Document
 
-  field :text,     :type => String, :default => lambda { human_form }
-  field :pos,      :type => Hash
+  field :text,      :type => String, :default => lambda { human_form }
+  field :pos,       :type => Integer
+  field :inner_pos, :type => Hash
 
   field :ne_class, :type => Symbol, :default => lambda { tag ? CLASSES_PER_TAG[tag] : nil }
 
@@ -56,55 +57,55 @@ protected
   end
 
   def must_have_valid_position
-    return if pos.nil?
+    return if inner_pos.nil?
 
     pages = {}
     text_lines = {}
 
-    ["from", "to"].each do |pos_key|
+    ["from", "to"].each do |key|
       # Existential and type validation
-      if not pos[pos_key].is_a?(Hash)
-        errors.add(:pos, "#{pos_key} is not a Hash")
+      if not inner_pos[key].is_a?(Hash)
+        errors.add(:inner_pos, "#{key} is not a Hash")
         next
       end
-      if not pos[pos_key]["page_id"].is_a?(BSON::ObjectId)
-        errors.add(:pos, "#{pos_key}[page_id] is not a BSON::ObjectId")
+      if not inner_pos[key]["page_id"].is_a?(BSON::ObjectId)
+        errors.add(:inner_pos, "#{key}[page_id] is not a BSON::ObjectId")
       end
-      if not pos[pos_key]["text_line_id"].is_a?(BSON::ObjectId)
-        errors.add(:pos, "#{pos_key}[text_line_id] is not a BSON::ObjectId")
+      if not inner_pos[key]["text_line_id"].is_a?(BSON::ObjectId)
+        errors.add(:inner_pos, "#{key}[text_line_id] is not a BSON::ObjectId")
       end
-      if not pos[pos_key]["pos"].is_a?(Fixnum)
-        errors.add(:pos, "#{pos_key}[pos] is not a Fixnum")
+      if not inner_pos[key]["pos"].is_a?(Fixnum)
+        errors.add(:inner_pos, "#{key}[pos] is not a Fixnum")
       end
 
       # ObjectIds validation
-      if not pages[pos_key] = Page.find(pos[pos_key]["page_id"])
-        errors.add(:pos, "#{pos_key}[page_id] references to a non-existent Page")
+      if not pages[key] = Page.find(inner_pos[key]["page_id"])
+        errors.add(:inner_pos, "#{key}[page_id] references to a non-existent Page")
         next
       end
-      if not text_lines[pos_key] = pages[pos_key].text_lines.find(pos[pos_key]["text_line_id"])
-        errors.add(:pos, "#{pos_key}[text_line_id] references to a non-existent TextLine")
+      if not text_lines[key] = pages[key].text_lines.find(inner_pos[key]["text_line_id"])
+        errors.add(:inner_pos, "#{key}[text_line_id] references to a non-existent TextLine")
       end
 
       # Position out-of-range validation
-      if pos[pos_key]["pos"] < 0 or pos[pos_key]["pos"] >= text_lines[pos_key].text.size
-        errors.add(:pos, "#{pos_key}[pos] is out of range")
+      if inner_pos[key]["pos"] < 0 or inner_pos[key]["pos"] >= text_lines[key].text.size
+        errors.add(:inner_pos, "#{key}[pos] is out of range")
         next
       end
     end
 
-    return if not errors[:pos].empty?
+    return if not errors[:inner_pos].empty?
 
     # Different documents
     if pages["from"].document_id != pages["to"].document_id
-      errors.add(:pos, "from[page_id] and to[page_id] reference to Pages of different Documents")
+      errors.add(:inner_pos, "from[page_id] and to[page_id] reference to Pages of different Documents")
     end
 
     # Range validation (from..to)
     if pages["from"].num > pages["to"].num or \
       (pages["from"].num == pages["to"].num and (text_lines["from"].num > text_lines["to"].num or \
-        (text_lines["from"].num == text_lines["to"].num and pos["from"]["pos"] > pos["to"]["pos"])))
-      errors.add(:pos, "invalid range")
+        (text_lines["from"].num == text_lines["to"].num and inner_pos["from"]["pos"] > inner_pos["to"]["pos"])))
+      errors.add(:inner_pos, "invalid range")
     end
   end
 end
