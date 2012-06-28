@@ -17,17 +17,22 @@ class NormalizationTask
     doc = Document.find(document_id)
     doc.update_attribute :state, :normalizing
 
+    logger.info "Ensure document is a PDF (convert if necessary)"
+    pdf_path = Docsplit.ensure_pdfs(doc.original_file_path).first
+
+    raise "Something failed when converting document to a PDF file" if pdf_path.nil?
+
     # Replace title with original title from document
-    logger.info "Extract title from '#{doc.original_file_path}'"
-    doc.title = Docsplit.extract_title(doc.original_file_path)
+    logger.info "Extract title from '#{pdf_path}'"
+    doc.title = Docsplit.extract_title(pdf_path)
 
     logger.info "Generate a thumbnail from the first page of the document"
-    doc.thumbnail_file = self.create_thumbnail(doc.original_file_path, {
+    doc.thumbnail_file = self.create_thumbnail(pdf_path, {
       :output => File.join(Padrino.root, 'public', THUMBNAILS_DIR)
     })
 
     logger.info "Extract PDF as an XML document"
-    xml = self.pdf_to_xml(doc.original_file_path)
+    xml = self.pdf_to_xml(pdf_path)
 
     logger.info "Clean old pages (if any)"
     doc.pages.delete_all
