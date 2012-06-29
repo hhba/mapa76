@@ -7,9 +7,9 @@ class Page
   field :width,    type: Integer
   field :height,   type: Integer
 
-  has_many    :named_entities
   belongs_to  :document
   embeds_many :text_lines
+  has_and_belongs_to_many :named_entities
 
   SEPARATOR = "\n"
 

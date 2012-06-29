@@ -14,8 +14,8 @@ class NamedEntity
   field :tokens,   :type => Array
 
   belongs_to :document
-  belongs_to :page
   belongs_to :person
+  has_and_belongs_to_many :pages
 
   validate :must_have_valid_position
 
