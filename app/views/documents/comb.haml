@@ -1,52 +1,12 @@
 -# coding: utf-8
 - content_for :javascripts do
   = javascript_include_tag 'analize'
-%script#preRegisterTemplate{:type => "text/template"}
-  .register{:class => "{{type}}", "data-ne-id" => "{{id}}"}
-    {{text}} 
-    %button.close
-      ×
-%script#namedEntityTemplate{:type => "text/template"}
-  %span.ne{:class => "{{tag}}", "data-ne-id" => "{{id}}", "data-type" => "{{tag}}"} {{content}}  
-  %span.info
-    (i)
-%script#documentContextTemplate{:type => "text/template"}
-  .breadcrumb
-    %a{:href => "/documents/{{id}}"}
-      {{heading}}
-  .information
-    .title
-      {{heading}}
-    .category
-      Categoría: {{category}}
-%script#personContext{:type => "text/template"}
-  .breadcrumb
-    %a{:href => "/documents/#{@document.id}"}
-      = @document.heading
-    >
-    %a{:href => "/person/{{id}}"}
-      {{name}}
-  .information
-    .field
-      Nombre: {{full_name}}
-    .field
-      Tags: 
-      {{#tags}}
-      %a{:href => "{{tag_link}}"}
-        {{.}}
-      {{/tags}}
-    .field
-      Documentos:
-      {{#documents}}
-      %a{:href => "/documents/{{id}}"} 
-        {{name}}
-      {{/documents}}
-%script#paragraphTemplate{:type => "text/template"}
-  %p{"data-paragraph" => "{{_id}}"}
-    {{{content}}}
-%script#nextPageTemplate{:type => "text/template"}
-  %a{:href => "{{url}}", :id => "next_page", "data-next" => "{{next_page}}", "data-document" => "{{id}}" }
-    Cargar más contenido
+  :javascript
+    var PageList = Backbone.Collection.extend({
+      model: Page,
+    });
+    AnalyzeApp.pageList.reset(#{@pages.to_json});
+
 - content_for :sidebar do
   %ul.nav.nav-list#sidebar
     .alert.alert-error#register-error{style: "display:none;"}
@@ -68,7 +28,7 @@
       %li.organizations
         %span Organizaciones
         %input{:type => "checkbox", :checked => true}
-      %li.places 
+      %li.places
         %span Lugares
         %input{:type => "checkbox", :checked => true}
       %li.dates
@@ -108,19 +68,105 @@
     %li.nav-header Contexto
     .context#context
 
-.row-fluid
-  %h2{:id => "document_heading", "data-document-id" => @document.id}
-    = @document.heading
-  .paragraphs
-  .span4
+:css
+  .page {
+    position: relative;
+    border: 1px solid #aaa;
+    margin-bottom: 1.5em;
+    box-shadow:         5px 5px 5px #888;
+    -moz-box-shadow:    5px 5px 5px #888;
+    -webkit-box-shadow: 5px 5px 5px #888;
+  }
+  .page p {
+    position: absolute;
+    margin: 0;
+    padding: 0;
+    white-space: nowrap;
+    text-align: justify;
+    /*border: 1px dotted green;*/
+    overflow: hidden;
+  }
+- @doc.fontspecs.each do |id, fs|
+  :css
+    .page p.fs#{id} {
+      font-family: #{fs["family"]};
+      font-size: #{fs["size"]}px;
+      color: #{fs["color"]};
+    }
+
+%script#preRegisterTemplate{:type => "text/template"}
+  .register{:class => "{{type}}", "data-ne-id" => "{{id}}"}
+    {{text}}
+    %button.close
+      ×
+
+%script#namedEntityTemplate{:type => "text/template"}
+  %span.ne{:class => "{{tag}}", "data-ne-id" => "{{id}}", "data-type" => "{{tag}}"} {{content}}
+  %span.info
+    (i)
+
+%script#documentContextTemplate{:type => "text/template"}
+  .breadcrumb
+    %a{:href => "/documents/{{id}}"}
+      {{heading}}
+  .information
+    .title
+      {{heading}}
+    .category
+      Categoría: {{category}}
+
+%script#personContext{:type => "text/template"}
+  .breadcrumb
+    %a{:href => "/documents/#{@doc.id}"}
+      = @doc.heading
+    >
+    %a{:href => "/person/{{id}}"}
+      {{name}}
+  .information
+    .field
+      Nombre: {{full_name}}
+    .field
+      Tags:
+      {{#tags}}
+      %a{:href => "{{tag_link}}"}
+        {{.}}
+      {{/tags}}
+    .field
+      Documentos:
+      {{#documents}}
+      %a{:href => "/documents/{{id}}"}
+        {{name}}
+      {{/documents}}
+
+%script#pageTemplate{:type => "text/template"}
+  %div.page{:"data-id" => "{{_id}}", :style => "width: {{width}}px; height: {{height}}px"}
+    {{#textLines}}
+    %p{:"data-id" => "{{_id}}", :class => "fs{{fontspec_id}}", :style => "top: {{top}}px; left: {{left}}px; width: {{width}}px"}
+      {{text}}
+    {{/textLines}}
+
+%script#textLineTemplate{:type => "text/template"}
+  %p{:"data-id" => "{{_id}}"}
+    {{{text}}}
+
+%script#nextPageTemplate{:type => "text/template"}
+  %a{:href => "{{url}}", :id => "next_page", "data-next" => "{{next_page}}", "data-document" => "{{id}}" }
+    Cargar más contenido
+
 
 .row-fluid
+  %h2{:id => "document-heading", "data-document-id" => @doc.id}
+    = @doc.heading
   .pages
-  - if @paragraphs.length > 1
-    .next_page
-      = link_to "Cargar más contenido", url_for(:documents, :comb, :id => @document.id, :page => params[:page].to_i + 2),
-        :id => "next_page",
-        "data-next" => params[:page].to_i + 2,
-        "data-document" => @document.id
-    #loading{:style => "display:none; text-align: center;"}
-      = image_tag 'ajax-bar-loader.gif', :style => "margin:0 auto;"
+
+-#
+  .row-fluid
+    .pages
+    - if @paragraphs.length > 1
+      .next_page
+        = link_to "Cargar más contenido", url_for(:documents, :comb,
+          :id => "next_page",
+          :"data-next" => params[:page].to_i + 2,
+          :"data-document" => @doc.id
+      #loading{:style => "display:none; text-align: center;"}
+        = image_tag 'ajax-bar-loader.gif', :style => "margin:0 auto;"

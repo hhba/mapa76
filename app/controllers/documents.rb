@@ -39,8 +39,8 @@ Alegato.controllers :documents do
   end
 
   get :comb, :map => '/documents/:id/comb' do
-    @document = Document.find(params[:id])
-    @paragraphs = @document.page(params[:page])
+    @doc = Document.find(params[:id])
+    @pages = @doc.pages.asc(:_id).limit(2)
 
     render("documents/comb")
   end

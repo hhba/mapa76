@@ -1,3 +1,6 @@
+/**
+ * Models
+ **/
 var Document = Backbone.Model.extend({
   urlRoot: '/api/documents/'
 });
@@ -6,7 +9,7 @@ var Person = Backbone.Model.extend({
   urlRoot: "/api/people/"
 });
 
-var Paragraph = Backbone.Model.extend({});
+var Page = Backbone.Model.extend({});
 
 var Register = Backbone.Model.extend({
   urlRoot: "/api/registers/",
@@ -41,14 +44,16 @@ var Register = Backbone.Model.extend({
   }
 });
 
-var ParagraphList = Backbone.Collection.extend({
-  model: Paragraph,
-
-  url: function() {
-    return '/api/documents/' + this.get("document_id");
-  }
+/**
+ * Collections
+ **/
+var PageList = Backbone.Collection.extend({
+  model: Page,
 });
 
+/**
+ * Views
+ **/
 var PersonView = Backbone.View.extend({
   el: $("#context"),
 
@@ -102,19 +107,14 @@ var DocumentView = Backbone.View.extend({
   }
 });
 
-var ParagraphView = Backbone.View.extend({
+var PageView = Backbone.View.extend({
   events: {
     "click span": "selectNamedEntity"
   },
 
-  className: "paragraph",
+  template: $("#pageTemplate").html(),
 
-  /*paragraphTemplate: $("#paragraphTemplate").html(),*/
-
-  initialize: function() {
-    this.template = $("#paragraphTemplate").html();
-    this.namedEntityTemplate = $("#namedEntityTemplate").html();
-  },
+  namedEntityTemplate: $("#namedEntityTemplate").html(),
 
   render: function() {
     var html = Mustache.render(this.template, this.namedEntitiesParse());
@@ -123,13 +123,20 @@ var ParagraphView = Backbone.View.extend({
   },
 
   namedEntitiesParse: function() {
-    var content = this.model.get("content");
+    var textLines = this.model.get("text_lines");
     var nes = this.model.get("named_entities");
+    /*
     for(var i=0; i < nes.length; i++) {
       regExp = new RegExp("(" + nes[i].text + ")");
       content = content.replace(regExp, "<span class='ne " + nes[i].tag + "' data-ne-id='" + nes[i].id + "' data-type='" + nes[i].tag + "' data-person-id='" + nes[i].person_id +"'>" + "$1" + "</span>");
     }
-    return { _id: this.model._id, content: content };
+    */
+    return {
+      _id: this.model.get("_id"),
+      width: this.model.get("width"),
+      height: this.model.get("height"),
+      textLines: textLines
+    };
   },
 
   selectNamedEntity: function(e) {
@@ -152,10 +159,10 @@ var ParagraphView = Backbone.View.extend({
   }
 });
 
-var ParagraphListView = Backbone.View.extend({
-  el: ".paragraphs",
+var PageListView = Backbone.View.extend({
+  el: $(".pages"),
 
-  className: "paragraphs",
+  className: "pages",
 
   events: {
     "scroll": "scrolling"
@@ -170,14 +177,14 @@ var ParagraphListView = Backbone.View.extend({
     return this;
   },
 
-  addOne: function(paragraph) {
-    var paragraphView = new ParagraphView({ model: paragraph });
-    this.$el.append(paragraphView.render().el);
+  addOne: function(page) {
+    var pageView = new PageView({ model: page });
+    this.$el.append(pageView.render().el);
   },
 
   addAll: function() {
     this.collection.forEach(this.addOne, this);
-    $(".paragraph .ne").draggable({ helper: "clone" });
+    $(".page .ne").draggable({ helper: "clone" });
   },
 
   initialize: function() {
@@ -209,7 +216,7 @@ var RegisterView = Backbone.View.extend({
         output[group] = [value];
       }
     });
-    output['document_id'] = AnalizeApp.document.get("id");
+    output['document_id'] = AnalyzeApp.document.get("id");
     output['what'] = $("#whatSelector").val();
     return output;
   },
@@ -220,21 +227,21 @@ var RegisterView = Backbone.View.extend({
   }
 });
 
-var analizer = {
+var analyzer = {
   init: function() {
     this.getTemplates();
   },
 
   getTemplates: function() {
-    this.paragraphTemplate = $('#paragraphTemplate').html();
+    this.pageTemplate = $('#pageTemplate').html();
     this.nextPageTemplate = $("#nextPageTemplate").html();
   },
 
-  addParagraph: function(data) {
+  addPage: function(data) {
     var url;
     var nextPageValues;
     var nextPage;
-    $(".paragraphs").append(Mustache.render(analizer.paragraphTemplate, data));
+    $(".pages").append(Mustache.render(analyzer.pageTemplate, data));
     $("#loading").hide();
     if(!data.last_page) {
       nextPage = parseInt(data.current_page, 10) + 1;
@@ -244,7 +251,7 @@ var analizer = {
         id: data.document_id,
         'next_page': data.current_page + 1
       };
-      $(".next_page").html(Mustache.render(analizer.nextPageTemplate, nextPageValues));
+      $(".next_page").html(Mustache.render(analyzer.nextPageTemplate, nextPageValues));
       checkScroll();
     }
   }
@@ -274,7 +281,7 @@ function callNextPage(){
   var url = "/api/documents/" + $("#next_page").attr("data-document") + "?page=" + $("#next_page").attr("data-next");
   $("#loading").show();
   $("#next_page").remove();
-  $.getJSON(url, analizer.addParagraph);
+  $.getJSON(url, analyzer.addPage);
 }
 
 function Droppable(el){
@@ -290,31 +297,36 @@ function Droppable(el){
         id: draggable.attr("data-ne-id")
       };
       $(this).before(Mustache.render(template, params));
-      AnalizeApp.register = new Register(AnalizeApp.registerView.getValues());
+      AnalyzeApp.register = new Register(AnalyzeApp.registerView.getValues());
     },
     accept: "." + this.el.attr("data-type")
   });
 }
 
-var AnalizeApp = new (Backbone.Router.extend({
+var AnalyzeApp = new (Backbone.Router.extend({
   initialize: function() {
-    var document_id = $("#document_heading").attr("data-document-id");
+    var document_id = $("#document-heading").attr("data-document-id");
 
+    /*
     this.document = new Document({ id: document_id });
     this.documentView = new DocumentView({ model: this.document });
     this.document.fetch();
-    this.paragraphList = new ParagraphList();
-    this.paragraphList.url = "/api/documents/" + document_id + "/";
-    this.paragraphListView = new ParagraphListView({ collection: this.paragraphList });
-    this.paragraphList.fetch({data: { page: 1 } });
+    */
+
+    this.pageList = new PageList();
+    this.pageList.url = "/api/documents/" + document_id;
+    this.pageListView = new PageListView({ collection: this.pageList });
+
+    /*
     this.register = new Register();
     this.registerView = new RegisterView({ model: this.register });
+    */
   },
 
   saveRegister: function() {
-    if (AnalizeApp.register.isValid()) {
-      AnalizeApp.register.save();
-      AnalizeApp.registerView.resetRegister();
+    if (AnalyzeApp.register.isValid()) {
+      AnalyzeApp.register.save();
+      AnalyzeApp.registerView.resetRegister();
       $("#register-save").alert().show().fadeOut(2000);
     } else {
       $("#register-error").alert().show().fadeOut(2000);
@@ -324,7 +336,7 @@ var AnalizeApp = new (Backbone.Router.extend({
 
 
 $(document).ready(function() {
-  analizer.getTemplates();
+  analyzer.getTemplates();
 
   window.droppable_klasses = ['who', 'when', 'where', 'to_who'];
 
@@ -336,7 +348,7 @@ $(document).ready(function() {
   $("#reference input").click(function() {
     var $this = $(this);
     var klass = $this.parent().attr("class");
-    $(".paragraphs ." + klass).toggle("nocolor");
+    $(".pages ." + klass).toggle("nocolor");
   });
 
   droppeables = _.map(window.droppable_klasses, function(klass) {
@@ -348,14 +360,14 @@ $(document).ready(function() {
   });
 
   $("button.clean").live("click", function() {
-    AnalizeApp.registerView.resetRegister();
+    AnalyzeApp.registerView.resetRegister();
   });
 
   $("button.save").live("click", function() {
-    AnalizeApp.saveRegister();
+    AnalyzeApp.saveRegister();
   });
 
   $("#whatSelector").change(function() {
-    AnalizeApp.register = new Register(AnalizeApp.registerView.getValues());
+    AnalyzeApp.register = new Register(AnalyzeApp.registerView.getValues());
   });
 });
