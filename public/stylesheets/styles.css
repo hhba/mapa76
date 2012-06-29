@@ -160,3 +160,20 @@ table.tablesorter th {
 #reference li:before { content: '.'; color: transparent; width: 16px; height: 16px; margin-right: 3px; }
 #reference li, #reference li:before { display: inline-block; }
 
+.page {
+  position: relative;
+  border: 1px solid #aaa;
+  margin-bottom: 1.5em;
+  box-shadow:         5px 5px 5px #888;
+  -moz-box-shadow:    5px 5px 5px #888;
+  -webkit-box-shadow: 5px 5px 5px #888;
+}
+.page p {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  white-space: nowrap;
+  text-align: justify;
+  /*border: 1px dotted green;*/
+  overflow: hidden;
+}

@@ -9,7 +9,17 @@ var Person = Backbone.Model.extend({
   urlRoot: "/api/people/"
 });
 
-var Page = Backbone.Model.extend({});
+var Page = Backbone.Model.extend({
+  initialize: function() {
+    // TODO there should be a NamedEntityList Collection, with a comparator by
+    // their "pos" attribute.
+    this.namedEntities = new NamedEntityList(this.get("named_entities"));
+    this.textLineList = new TextLineList(this.get("text_lines"));
+  }
+});
+
+var TextLine = Backbone.Model.extend({});
+var NamedEntity = Backbone.Model.extend({});
 
 var Register = Backbone.Model.extend({
   urlRoot: "/api/registers/",
@@ -49,6 +59,26 @@ var Register = Backbone.Model.extend({
  **/
 var PageList = Backbone.Collection.extend({
   model: Page,
+
+  comparator: function(page) {
+    return page.get("num");
+  }
+});
+
+var TextLineList = Backbone.Collection.extend({
+  model: TextLine,
+
+  comparator: function(textLine) {
+    return textLine.get("num");
+  }
+});
+
+var NamedEntityList = Backbone.Collection.extend({
+  model: NamedEntity,
+
+  comparator: function(namedEntity) {
+    return namedEntity.get("pos");
+  }
 });
 
 /**
