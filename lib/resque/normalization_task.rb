@@ -44,8 +44,7 @@ class NormalizationTask
 
       logger.debug "Create and normalize text lines for page #{page_index + 1}"
       text_lines = xml_page.css("text").map.with_index do |tl, tl_index|
-        TextLine.new({
-          :num  => tl_index + 1,
+        text_line = TextLine.new({
           :text => tl.inner_html,
           :processed_text => self.normalize(tl.inner_html),
           :left => tl.attributes["left"].value.to_i,
@@ -53,6 +52,8 @@ class NormalizationTask
           :width  => tl.attributes["width"].value.to_i,
           :fontspec_id => tl.attributes["font"].value,
         })
+        text_line.id = tl_index + 1
+        text_line
       end
       logger.debug "#{text_lines.size} text lines were processed"
 

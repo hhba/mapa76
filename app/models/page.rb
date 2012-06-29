@@ -14,6 +14,6 @@ class Page
   SEPARATOR = "\n"
 
   def text
-    self.text_lines.sort_by(&:num).map(&:text).join(TextLine::SEPARATOR)
+    self.text_lines.asc.map(&:text).join(TextLine::SEPARATOR)
   end
 end

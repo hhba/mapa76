@@ -1,8 +1,8 @@
 class TextLine
   include Mongoid::Document
 
+  field :_id,         type: Integer
   field :text,        type: String
-  field :num,         type: Integer
   field :left,        type: Integer
   field :top,         type: Integer
   field :width,       type: Integer

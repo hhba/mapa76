@@ -38,7 +38,7 @@ class LayoutAnalysisTask
         p_id = tl.page._id
         pages[p_id] ||= tl.page
 
-        # Initialize page page
+        # Initialize page range
         pages[p_id].from_pos ||= doc.processed_text.size    # Max value
         pages[p_id].to_pos   ||= 0                          # Min value
 
@@ -65,6 +65,6 @@ private
   def self.analyze(document)
     # NOTE For now, return only one cluster with all text lines
     # in the original "raw" reading order.
-    [document.pages.all.sort_by(&:num).map { |p| p.text_lines.all.sort_by(&:num) }.flatten]
+    [document.pages.all.sort_by(&:num).map { |p| p.text_lines.asc.all }.flatten]
   end
 end

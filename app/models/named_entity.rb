@@ -70,23 +70,23 @@ protected
         errors.add(:inner_pos, "#{key} is not a Hash")
         next
       end
-      if not inner_pos[key]["page_id"].is_a?(BSON::ObjectId)
-        errors.add(:inner_pos, "#{key}[page_id] is not a BSON::ObjectId")
+      if not inner_pos[key]["pid"].is_a?(BSON::ObjectId)
+        errors.add(:inner_pos, "#{key}[pid] is not a BSON::ObjectId")
       end
-      if not inner_pos[key]["text_line_id"].is_a?(BSON::ObjectId)
-        errors.add(:inner_pos, "#{key}[text_line_id] is not a BSON::ObjectId")
+      if not inner_pos[key]["tlid"].is_a?(Fixnum)
+        errors.add(:inner_pos, "#{key}[tlid] is not a Fixnum")
       end
       if not inner_pos[key]["pos"].is_a?(Fixnum)
         errors.add(:inner_pos, "#{key}[pos] is not a Fixnum")
       end
 
       # ObjectIds validation
-      if not pages[key] = Page.find(inner_pos[key]["page_id"])
-        errors.add(:inner_pos, "#{key}[page_id] references to a non-existent Page")
+      if not pages[key] = Page.find(inner_pos[key]["pid"])
+        errors.add(:inner_pos, "#{key}[pid] references to a non-existent Page")
         next
       end
-      if not text_lines[key] = pages[key].text_lines.find(inner_pos[key]["text_line_id"])
-        errors.add(:inner_pos, "#{key}[text_line_id] references to a non-existent TextLine")
+      if not text_lines[key] = pages[key].text_lines.find(inner_pos[key]["tlid"])
+        errors.add(:inner_pos, "#{key}[tlid] references to a non-existent TextLine")
       end
 
       # Position out-of-range validation
@@ -100,13 +100,13 @@ protected
 
     # Different documents
     if pages["from"].document_id != pages["to"].document_id
-      errors.add(:inner_pos, "from[page_id] and to[page_id] reference to Pages of different Documents")
+      errors.add(:inner_pos, "from[pid] and to[pid] reference to Pages of different Documents")
     end
 
     # Range validation (from..to)
     if pages["from"].num > pages["to"].num or \
-      (pages["from"].num == pages["to"].num and (text_lines["from"].num > text_lines["to"].num or \
-        (text_lines["from"].num == text_lines["to"].num and inner_pos["from"]["pos"] > inner_pos["to"]["pos"])))
+      (pages["from"].num == pages["to"].num and (text_lines["from"].id > text_lines["to"].id or \
+        (text_lines["from"].id == text_lines["to"].id and inner_pos["from"]["pos"] > inner_pos["to"]["pos"])))
       errors.add(:inner_pos, "invalid range")
     end
   end
