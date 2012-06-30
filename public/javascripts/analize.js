@@ -11,14 +11,12 @@ var Person = Backbone.Model.extend({
 
 var Page = Backbone.Model.extend({
   initialize: function() {
-    // TODO there should be a NamedEntityList Collection, with a comparator by
-    // their "pos" attribute.
     this.namedEntities = new NamedEntityList(this.get("named_entities"));
-    this.textLineList = new TextLineList(this.get("text_lines"));
   }
 });
 
 var TextLine = Backbone.Model.extend({});
+
 var NamedEntity = Backbone.Model.extend({});
 
 var Register = Backbone.Model.extend({
@@ -65,14 +63,6 @@ var PageList = Backbone.Collection.extend({
   }
 });
 
-var TextLineList = Backbone.Collection.extend({
-  model: TextLine,
-
-  comparator: function(textLine) {
-    return textLine.get("num");
-  }
-});
-
 var NamedEntityList = Backbone.Collection.extend({
   model: NamedEntity,
 
@@ -85,7 +75,7 @@ var NamedEntityList = Backbone.Collection.extend({
  * Views
  **/
 var PersonView = Backbone.View.extend({
-  el: $("#context"),
+  el: "#context",
 
   className: "person",
 
@@ -102,8 +92,9 @@ var PersonView = Backbone.View.extend({
   }
 });
 
+/*
 var NamedEntityView = Backbone.View.extend({
-  el: $("#context"),
+  el: "#context",
 
   initialize: function() {
     this.template = $("#namedEntityTemplate").html()
@@ -113,9 +104,10 @@ var NamedEntityView = Backbone.View.extend({
     this.html = Mustache.render(this.template, this.model.to.JSON());
   }
 });
+*/
 
 var AnalyzerView = Backbone.View.extend({
-  el: $("#sidebar"),
+  el: "#sidebar",
 
   initialize: function() {
     this.template = $("#combTemplate").html();
@@ -123,7 +115,7 @@ var AnalyzerView = Backbone.View.extend({
 });
 
 var DocumentView = Backbone.View.extend({
-  el: $("#context"),
+  el: "#context",
 
   initialize: function() {
     this.template = $("#documentContextTemplate").html(),
@@ -142,9 +134,10 @@ var PageView = Backbone.View.extend({
     "click span": "selectNamedEntity"
   },
 
-  template: $("#pageTemplate").html(),
-
-  namedEntityTemplate: $("#namedEntityTemplate").html(),
+  initialize: function() {
+    this.template = $("#pageTemplate").html();
+    this.namedEntityTemplate = $("#namedEntityTemplate").html();
+  },
 
   render: function() {
     var html = Mustache.render(this.template, this.namedEntitiesParse());
@@ -153,14 +146,83 @@ var PageView = Backbone.View.extend({
   },
 
   namedEntitiesParse: function() {
-    var textLines = this.model.get("text_lines");
-    var nes = this.model.get("named_entities");
-    /*
-    for(var i=0; i < nes.length; i++) {
-      regExp = new RegExp("(" + nes[i].text + ")");
-      content = content.replace(regExp, "<span class='ne " + nes[i].tag + "' data-ne-id='" + nes[i].id + "' data-type='" + nes[i].tag + "' data-person-id='" + nes[i].person_id +"'>" + "$1" + "</span>");
+    var textLines = _.sortBy(this.model.get("text_lines"), "_id").map(function(textLine) {
+      textLine.htmlText = textLine.text.replace(/\s/g, "&nbsp;");
+      return textLine;
+    });
+
+    // Warning, this is ugly, shitty, kindergarten-level code. Needs a revamp ASAP
+    if (this.model.namedEntities.size() > 0) {
+      console.log("there are NEs on this page...");
+
+      var neIdx = 0;
+      var ne = this.model.namedEntities.at(neIdx);
+      var nePos = ne.get("inner_pos");
+
+      var pageView = this;
+      _.each(textLines, function(textLine) {
+        var curPos = 0;
+        textLine.htmlText = "";
+        while (curPos < textLine.text.length) {
+          if (ne && nePos.from.pid === pageView.model.get("_id") && nePos.to.pid === pageView.model.get("_id") &&
+              nePos.from.tlid === textLine._id && nePos.to.tlid == textLine._id)
+          {
+            console.log("complete entity on textline " + textLine._id);
+
+            textLine.htmlText += textLine.text.substring(curPos, nePos.from.pos).replace(/\s/g, "&nbsp;");
+            ne.set("originalText", textLine.text.substring(nePos.from.pos, nePos.to.pos).replace(/\s/g, "&nbsp;"));
+            var neHtml = Mustache.render(pageView.namedEntityTemplate, ne.toJSON());
+            textLine.htmlText += neHtml;
+            curPos = nePos.to.pos;
+
+            // update ne index and related variables
+            neIdx += 1;
+            ne = pageView.model.namedEntities.at(neIdx);
+            if (ne) nePos = ne.get("inner_pos");
+
+          } else if (ne && 
+                     (!(nePos.from.pid === pageView.model.get("_id") && nePos.from.tlid === textLine._id) &&
+                       (nePos.to.pid === pageView.model.get("_id") && nePos.to.tlid == textLine._id)) ||
+                     ( (nePos.from.pid === pageView.model.get("_id") && nePos.from.tlid === textLine._id) &&
+                      !(nePos.to.pid === pageView.model.get("_id") && nePos.to.tlid == textLine._id)) ) {
+
+            console.log("partial entity on textline " + textLine._id);
+
+            if (nePos.from.pid === pageView.model.get("_id") && nePos.from.tlid === textLine._id) {
+              var fromPos = nePos.from.pos;
+            } else {
+              var fromPos = 0;
+            }
+
+            if (nePos.to.pid === pageView.model.get("_id") && nePos.to.tlid == textLine._id) {
+              var toPos = nePos.to.pos;
+            } else {
+              var toPos = textLine.text.length;
+            }
+
+            ne.set("originalText", textLine.text.substring(fromPos, toPos).replace(/\s/g, "&nbsp;"));
+            var neHtml = Mustache.render(pageView.namedEntityTemplate, ne.toJSON());
+            textLine.htmlText += neHtml;
+
+            curPos = toPos;
+
+            // update ne index and related variables
+            neIdx += 1;
+            ne = pageView.model.namedEntities.at(neIdx);
+            if (!ne) break;
+            nePos = ne.get("inner_pos");
+
+          } else {
+            console.log("no more entities on textline " + textLine._id);
+
+            textLine.htmlText += textLine.text.substring(curPos, textLine.text.length).replace(/\s/g, "&nbsp;");
+            curPos = textLine.text.length;
+          }
+        }
+
+      });
     }
-    */
+
     return {
       _id: this.model.get("_id"),
       width: this.model.get("width"),
@@ -190,7 +252,7 @@ var PageView = Backbone.View.extend({
 });
 
 var PageListView = Backbone.View.extend({
-  el: $(".pages"),
+  el: ".pages",
 
   className: "pages",
 
@@ -337,20 +399,16 @@ var AnalyzeApp = new (Backbone.Router.extend({
   initialize: function() {
     var document_id = $("#document-heading").attr("data-document-id");
 
-    /*
     this.document = new Document({ id: document_id });
     this.documentView = new DocumentView({ model: this.document });
     this.document.fetch();
-    */
 
     this.pageList = new PageList();
     this.pageList.url = "/api/documents/" + document_id;
     this.pageListView = new PageListView({ collection: this.pageList });
 
-    /*
     this.register = new Register();
     this.registerView = new RegisterView({ model: this.register });
-    */
   },
 
   saveRegister: function() {

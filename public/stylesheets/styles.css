@@ -144,16 +144,16 @@ table.tablesorter th {
 .event input.event-name { width: 225px; background: #eee; }
 .event input.event-name:focus { background: #fff; }
 .event button.event-save { text-indent: -999999px; background-position: -69px -91px; background-image: url("../img/glyphicons-halflings.png") }
-.paragraphs span.ne.ui-draggable { cursor: move; z-index: 1; }
+.pages span.ne.ui-draggable { cursor: move; z-index: 1; }
 
-.paragraphs .ne { font-weight: bold; }
-.paragraphs .ne.people { color: #B94A48; }
-.paragraphs .ne.organizations { color: #3A87AD; }
-.paragraphs .ne.places { color: #F89406; }
-.paragraphs .ne.dates { color: #468847; }
-.paragraphs .ne.others { color: #555; }
-.paragraphs .ne.actions { color: #333; }
-.paragraphs .nocolor { color: #333 !important; font-weight: normal !important; }
+.pages .ne { font-weight: bold; }
+.pages .ne.people { color: #B94A48; }
+.pages .ne.organizations { color: #3A87AD; }
+.pages .ne.places { color: #F89406; }
+.pages .ne.dates { color: #468847; }
+.pages .ne.others { color: #555; }
+.pages .ne.actions { color: #333; }
+.pages .nocolor { color: #333 !important; font-weight: normal !important; }
 
 #reference { list-style: none; margin: 0; }
 #reference li { color: #000; line-height: 18px; }

@@ -98,11 +98,6 @@
     %button.close
       ×
 
-%script#namedEntityTemplate{:type => "text/template"}
-  %span.ne{:class => "ne {{tag}}", "data-ne-id" => "{{id}}", "data-type" => "{{tag}}", "data-person-id" => "{{person_id}}"} {{content}}
-  %span.info
-    (i)
-
 %script#documentContextTemplate{:type => "text/template"}
   .breadcrumb
     %a{:href => "/documents/{{id}}"}
@@ -136,6 +131,10 @@
         {{name}}
       {{/documents}}
 
+%script#nextPageTemplate{:type => "text/template"}
+  %a{:href => "{{url}}", :id => "next_page", "data-next" => "{{next_page}}", "data-document" => "{{id}}" }
+    Cargar más contenido
+
 %script#pageTemplate{:type => "text/template"}
   %div.page{:"data-id" => "{{_id}}", :style => "width: {{width}}px; height: {{height}}px"}
     {{#textLines}}
@@ -147,6 +146,6 @@
   %p{:"data-id" => "{{_id}}", :class => "fs{{fontspec_id}}", :style => "top: {{top}}px; left: {{left}}px; width: {{width}}px"}
     {{{text}}}
 
-%script#nextPageTemplate{:type => "text/template"}
-  %a{:href => "{{url}}", :id => "next_page", "data-next" => "{{next_page}}", "data-document" => "{{id}}" }
-    Cargar más contenido
+%script#namedEntityTemplate{:type => "text/template"}
+  %span.ne{:class => "ne {{ne_class}}", "data-ne-id" => "{{_id}}", "data-type" => "{{tag}}", "data-person-id" => "{{person_id}}"}
+    {{{originalText}}}
