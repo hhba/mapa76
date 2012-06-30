@@ -422,6 +422,7 @@ function Droppable(el){
       var params = {
         text: draggable.text(),
         type: draggable.attr("data-type"),
+        ne_class: draggable.attr("data-class"),
         id: draggable.attr("data-ne-id")
       };
       $(this).before(Mustache.render(template, params));

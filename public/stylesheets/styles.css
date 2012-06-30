@@ -144,8 +144,8 @@ table.tablesorter th {
 .event input.event-name { width: 225px; background: #eee; }
 .event input.event-name:focus { background: #fff; }
 .event button.event-save { text-indent: -999999px; background-position: -69px -91px; background-image: url("../img/glyphicons-halflings.png") }
-.pages span.ne.ui-draggable { cursor: move; z-index: 1; }
 
+.pages .ne.ui-draggable { cursor: move; z-index: 1; }
 .pages .ne { font-weight: bold; }
 .pages .ne.people { color: #B94A48; }
 .pages .ne.organizations { color: #3A87AD; }
@@ -175,5 +175,5 @@ table.tablesorter th {
   white-space: nowrap;
   text-align: justify;
   /*border: 1px dotted green;*/
-  overflow: hidden;
+  /*overflow: hidden;*/
 }

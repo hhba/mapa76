@@ -96,7 +96,7 @@
 
 / Templates
 %script#preRegisterTemplate{:type => "text/template"}
-  .register{:class => "{{type}}", "data-ne-id" => "{{id}}"}
+  .register{:class => "{{type}} {{ne_class}}", "data-ne-id" => "{{id}}"}
     {{text}}
     %button.close
       ×
@@ -149,5 +149,5 @@
     {{{text}}}
 
 %script#namedEntityTemplate{:type => "text/template"}
-  %span.ne{:class => "ne {{ne_class}}", "data-ne-id" => "{{_id}}", "data-type" => "{{tag}}", "data-person-id" => "{{person_id}}"}
+  %span.ne{:class => "ne {{ne_class}}", "data-ne-id" => "{{_id}}", "data-class" => "{{ne_class}}", "data-type" => "{{tag}}", "data-person-id" => "{{person_id}}"}
     {{{originalText}}}
