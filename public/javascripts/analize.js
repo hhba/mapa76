@@ -160,6 +160,7 @@ var PageView = Backbone.View.extend({
   render: function() {
     var html = Mustache.render(this.template, this.namedEntitiesParse());
     this.$el.html(html);
+    this.$el.removeClass("empty");
     this.$el.find(".ne").draggable({ helper: "clone" });
     return this;
   },
@@ -172,8 +173,6 @@ var PageView = Backbone.View.extend({
 
     // Warning, this is ugly, shitty, kindergarten-level code. Needs a revamp ASAP
     if (this.model.namedEntities.size() > 0) {
-      console.log("there are NEs on this page...");
-
       var neIdx = 0;
       var ne = this.model.namedEntities.at(neIdx);
       var nePos = ne.get("inner_pos");
@@ -186,7 +185,7 @@ var PageView = Backbone.View.extend({
           if (ne && nePos.from.pid === pageView.model.get("_id") && nePos.to.pid === pageView.model.get("_id") &&
               nePos.from.tlid === textLine._id && nePos.to.tlid == textLine._id)
           {
-            console.log("complete entity on textline " + textLine._id);
+            //console.log("complete entity on textline " + textLine._id);
 
             textLine.htmlText += textLine.text.substring(curPos, nePos.from.pos).replace(/\s/g, "&nbsp;");
             ne.set("originalText", textLine.text.substring(nePos.from.pos, nePos.to.pos).replace(/\s/g, "&nbsp;"));
@@ -205,7 +204,7 @@ var PageView = Backbone.View.extend({
                      ( (nePos.from.pid === pageView.model.get("_id") && nePos.from.tlid === textLine._id) &&
                       !(nePos.to.pid === pageView.model.get("_id") && nePos.to.tlid == textLine._id)) ) {
 
-            console.log("partial entity on textline " + textLine._id);
+            //console.log("partial entity on textline " + textLine._id);
 
             if (nePos.from.pid === pageView.model.get("_id") && nePos.from.tlid === textLine._id) {
               var fromPos = nePos.from.pos;
@@ -232,7 +231,7 @@ var PageView = Backbone.View.extend({
             nePos = ne.get("inner_pos");
 
           } else {
-            console.log("no more entities on textline " + textLine._id);
+            //console.log("no more entities on textline " + textLine._id);
 
             textLine.htmlText += textLine.text.substring(curPos, textLine.text.length).replace(/\s/g, "&nbsp;");
             curPos = textLine.text.length;
@@ -275,12 +274,14 @@ var PageListView = Backbone.View.extend({
 
   className: "pages",
 
-  events: {
-    "scroll": "scrolling"
-  },
+  initialize: function() {
+    this.collection.on("add", this.addOne, this);
+    this.collection.on("reset", this.addAll, this);
 
-  scrolling: function(e) {
-    console.log(e);
+    var self = this;
+    $(window).scroll(function() {
+      self.renderVisiblePages();
+    });
   },
 
   render: function() {
@@ -294,12 +295,29 @@ var PageListView = Backbone.View.extend({
   },
 
   addAll: function() {
-    this.collection.forEach(this.addOne, this);
+    this.collection.each(this.addOne, this);
   },
 
-  initialize: function() {
-    this.collection.on("add", this.addOne, this);
-    this.collection.on("reset", this.addAll, this);
+  renderVisiblePages: function() {
+    var self = this;
+    this.$el.find(".page.empty")
+            .filter(this.onViewport)
+            .each(function() { return self.fetchPage($(this)) });
+  },
+
+  onViewport: function() {
+    var rect = this.getBoundingClientRect();
+    return (rect.top < window.innerHeight && rect.bottom > 0);
+  },
+
+  fetchPage: function($el) {
+    var num = $el.data("num");
+    console.log("fetch page " + num);
+    $el.removeClass("empty");
+    this.collection.fetch({
+      add: true,
+      data: { page: num },
+    });
   }
 });
 
