@@ -160,6 +160,7 @@ var PageView = Backbone.View.extend({
   render: function() {
     var html = Mustache.render(this.template, this.namedEntitiesParse());
     this.$el.html(html);
+    this.$el.find(".ne").draggable({ helper: "clone" });
     return this;
   },
 
@@ -294,7 +295,6 @@ var PageListView = Backbone.View.extend({
 
   addAll: function() {
     this.collection.forEach(this.addOne, this);
-    $(".page .ne").draggable({ helper: "clone" });
   },
 
   initialize: function() {
