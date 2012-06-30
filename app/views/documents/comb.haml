@@ -18,6 +18,8 @@
   %h2{:id => "document-heading", "data-document-id" => @doc.id}
     = @doc.heading
   .pages
+    - @empty_pages.each do |page|
+      .page{:"data-id" => page.id, :"data-empty" => true, :style => "width: #{page.width}px; height: #{page.height}px"}
 
 -#
   .row-fluid

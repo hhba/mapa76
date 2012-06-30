@@ -152,6 +152,7 @@ var PageView = Backbone.View.extend({
   },
 
   initialize: function() {
+    this.$el = $("." + this.className + "[data-id=" + this.model.get("_id") + "]");
     this.template = $("#pageTemplate").html();
     this.namedEntityTemplate = $("#namedEntityTemplate").html();
   },
@@ -288,7 +289,7 @@ var PageListView = Backbone.View.extend({
 
   addOne: function(page) {
     var pageView = new PageView({ model: page });
-    this.$el.append(pageView.render().el);
+    pageView.render();
   },
 
   addAll: function() {
