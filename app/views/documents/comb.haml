@@ -13,6 +13,7 @@
       color: #{fs["color"]};
     }
 
+/ Document content
 .row-fluid
   %h2{:id => "document-heading", "data-document-id" => @doc.id}
     = @doc.heading
@@ -136,11 +137,10 @@
     Cargar más contenido
 
 %script#pageTemplate{:type => "text/template"}
-  %div.page{:"data-id" => "{{_id}}", :style => "width: {{width}}px; height: {{height}}px"}
-    {{#textLines}}
-    %p{:"data-id" => "{{_id}}", :class => "fs{{fontspec_id}}", :style => "top: {{top}}px; left: {{left}}px; width: {{width}}px"}
-      {{{htmlText}}}
-    {{/textLines}}
+  {{#textLines}}
+  %p{:"data-id" => "{{_id}}", :class => "fs{{fontspec_id}}", :style => "top: {{top}}px; left: {{left}}px; width: {{width}}px"}
+    {{{htmlText}}}
+  {{/textLines}}
 
 %script#textLineTemplate{:type => "text/template"}
   %p{:"data-id" => "{{_id}}", :class => "fs{{fontspec_id}}", :style => "top: {{top}}px; left: {{left}}px; width: {{width}}px"}

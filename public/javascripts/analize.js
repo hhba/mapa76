@@ -20,8 +20,6 @@ var Page = Backbone.Model.extend({
   }
 });
 
-var TextLine = Backbone.Model.extend({});
-
 var NamedEntity = Backbone.Model.extend({});
 
 var Register = Backbone.Model.extend({
@@ -135,8 +133,22 @@ var DocumentView = Backbone.View.extend({
 });
 
 var PageView = Backbone.View.extend({
+  className: "page",
+
+  attributes: function() {
+    return {
+      "data-id": this.model.get("_id"),
+      "style": this.style()
+    };
+  },
+
+  style: function() {
+    return "width: " + this.model.get("width") + "px; " +
+           "height: " + this.model.get("height") + "px";
+  },
+
   events: {
-    "click span": "selectNamedEntity"
+    "click .ne": "selectNamedEntity"
   },
 
   initialize: function() {
