@@ -177,5 +177,5 @@ table.tablesorter th {
   /*border: 1px dotted green;*/
   /*overflow: hidden;*/
 }
-.page.empty { background-color: gray; }
+.page.empty { background-color: #eee; }
 .page.fetching { background: url(../images/page-spinner.gif) center no-repeat; }

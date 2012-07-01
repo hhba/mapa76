@@ -137,6 +137,7 @@ var PageView = Backbone.View.extend({
 
   attributes: function() {
     return {
+      "id": this.model.get("num"),
       "data-id": this.model.get("_id"),
       "style": this.style()
     };
@@ -161,6 +162,7 @@ var PageView = Backbone.View.extend({
     var html = Mustache.render(this.template, this.namedEntitiesParse());
     this.$el.html(html);
     this.$el.removeClass("empty").removeClass("fetching");
+    this.$el.find(".page-content").fadeIn("fast");
     this.$el.find(".ne").draggable({ helper: "clone" });
     return this;
   },
@@ -311,7 +313,7 @@ var PageListView = Backbone.View.extend({
   },
 
   fetchPage: function($el) {
-    var num = $el.data("num");
+    var num = $el.attr("id");
     console.log("fetch page " + num);
     $el.removeClass("empty");
     $el.addClass("fetching");

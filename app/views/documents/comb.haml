@@ -19,7 +19,7 @@
     = @doc.heading
   .pages
     - @empty_pages.each do |page|
-      .page.empty{:"data-id" => page.id, :"data-num" => page.num, :style => "width: #{page.width}px; height: #{page.height}px"}
+      .page.empty{:id => page.num, :"data-id" => page.id, :style => "width: #{page.width}px; height: #{page.height}px"}
 
 -#
   .row-fluid
@@ -139,10 +139,11 @@
     Cargar más contenido
 
 %script#pageTemplate{:type => "text/template"}
-  {{#textLines}}
-  %p{:"data-id" => "{{_id}}", :class => "fs{{fontspec_id}}", :style => "top: {{top}}px; left: {{left}}px; width: {{width}}px"}
-    {{{htmlText}}}
-  {{/textLines}}
+  .page-content{:style => "display: none"}
+    {{#textLines}}
+    %p{:"data-id" => "{{_id}}", :class => "fs{{fontspec_id}}", :style => "top: {{top}}px; left: {{left}}px; width: {{width}}px"}
+      {{{htmlText}}}
+    {{/textLines}}
 
 %script#textLineTemplate{:type => "text/template"}
   %p{:"data-id" => "{{_id}}", :class => "fs{{fontspec_id}}", :style => "top: {{top}}px; left: {{left}}px; width: {{width}}px"}
