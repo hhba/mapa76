@@ -183,14 +183,14 @@ var PageView = Backbone.View.extend({
       _.each(textLines, function(textLine) {
         var curPos = 0;
         textLine.htmlText = "";
-        while (curPos < textLine.text.length) {
+        while (curPos < textLine.processed_text.length) {
           if (ne && nePos.from.pid === pageView.model.get("_id") && nePos.to.pid === pageView.model.get("_id") &&
               nePos.from.tlid === textLine._id && nePos.to.tlid == textLine._id)
           {
             //console.log("complete entity on textline " + textLine._id);
 
-            textLine.htmlText += textLine.text.substring(curPos, nePos.from.pos).replace(/\s/g, "&nbsp;");
-            ne.set("originalText", textLine.text.substring(nePos.from.pos, nePos.to.pos + 1).replace(/\s/g, "&nbsp;"));
+            textLine.htmlText += textLine.processed_text.substring(curPos, nePos.from.pos).replace(/\s/g, "&nbsp;");
+            ne.set("originalText", textLine.processed_text.substring(nePos.from.pos, nePos.to.pos + 1).replace(/\s/g, "&nbsp;"));
             var neHtml = Mustache.render(pageView.namedEntityTemplate, ne.toJSON());
             textLine.htmlText += neHtml;
             curPos = nePos.to.pos + 1;
@@ -217,10 +217,10 @@ var PageView = Backbone.View.extend({
             if (nePos.to.pid === pageView.model.get("_id") && nePos.to.tlid == textLine._id) {
               var toPos = nePos.to.pos + 1;
             } else {
-              var toPos = textLine.text.length;
+              var toPos = textLine.processed_text.length;
             }
 
-            ne.set("originalText", textLine.text.substring(fromPos, toPos).replace(/\s/g, "&nbsp;"));
+            ne.set("originalText", textLine.processed_text.substring(fromPos, toPos).replace(/\s/g, "&nbsp;"));
             var neHtml = Mustache.render(pageView.namedEntityTemplate, ne.toJSON());
             textLine.htmlText += neHtml;
 
@@ -235,8 +235,8 @@ var PageView = Backbone.View.extend({
           } else {
             //console.log("no more entities on textline " + textLine._id);
 
-            textLine.htmlText += textLine.text.substring(curPos, textLine.text.length).replace(/\s/g, "&nbsp;");
-            curPos = textLine.text.length;
+            textLine.htmlText += textLine.processed_text.substring(curPos, textLine.processed_text.length).replace(/\s/g, "&nbsp;");
+            curPos = textLine.processed_text.length;
           }
         }
 
