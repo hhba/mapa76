@@ -190,10 +190,10 @@ var PageView = Backbone.View.extend({
             //console.log("complete entity on textline " + textLine._id);
 
             textLine.htmlText += textLine.text.substring(curPos, nePos.from.pos).replace(/\s/g, "&nbsp;");
-            ne.set("originalText", textLine.text.substring(nePos.from.pos, nePos.to.pos).replace(/\s/g, "&nbsp;"));
+            ne.set("originalText", textLine.text.substring(nePos.from.pos, nePos.to.pos + 1).replace(/\s/g, "&nbsp;"));
             var neHtml = Mustache.render(pageView.namedEntityTemplate, ne.toJSON());
             textLine.htmlText += neHtml;
-            curPos = nePos.to.pos;
+            curPos = nePos.to.pos + 1;
 
             // update ne index and related variables
             neIdx += 1;
@@ -215,7 +215,7 @@ var PageView = Backbone.View.extend({
             }
 
             if (nePos.to.pid === pageView.model.get("_id") && nePos.to.tlid == textLine._id) {
-              var toPos = nePos.to.pos;
+              var toPos = nePos.to.pos + 1;
             } else {
               var toPos = textLine.text.length;
             }

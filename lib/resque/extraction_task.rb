@@ -26,7 +26,7 @@ class ExtractionTask
       }
 
       last_token = (ne_attrs[:tokens] && ne_attrs[:tokens].last) || ne_attrs
-      doc_iter.seek(last_token[:pos] + last_token[:form].size)
+      doc_iter.seek(last_token[:pos] + last_token[:form].size - 1)
       inner_pos["to"] = {
         "pid" => doc_iter.page.id,
         "tlid" => doc_iter.text_line.id,
