@@ -476,7 +476,7 @@ $(document).ready(function() {
   $("#reference input").click(function() {
     var $this = $(this);
     var klass = $this.parent().attr("class");
-    $(".pages ." + klass).toggle("nocolor");
+    $(".pages").toggleClass("hide-" + klass);
   });
 
   droppeables = _.map(window.droppable_klasses, function(klass) {

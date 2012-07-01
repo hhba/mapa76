@@ -153,7 +153,11 @@ table.tablesorter th {
 .pages .ne.dates { color: #468847; }
 .pages .ne.others { color: #555; }
 .pages .ne.actions { color: #333; }
-.pages .nocolor { color: #333 !important; font-weight: normal !important; }
+.pages.hide-people .ne.people { color: #000 !important; font-weight: normal !important; }
+.pages.hide-organizations .ne.organizations { color: #000 !important; font-weight: normal !important; }
+.pages.hide-places .ne.places { color: #000 !important; font-weight: normal !important; }
+.pages.hide-dates .ne.dates { color: #000 !important; font-weight: normal !important; }
+.pages.hide-actions .ne.actions { color: #000 !important; font-weight: normal !important; }
 
 #reference { list-style: none; margin: 0; }
 #reference li { color: #000; line-height: 18px; }
