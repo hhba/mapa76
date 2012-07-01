@@ -49,20 +49,23 @@
       Referencias
     %ul#reference
       %li.people
-        %span Personas
-        %input{:type => "checkbox", :checked => true}
+        %label{:for => :people_ref} Personas
+        %input{:type => "checkbox", :id => :people_ref, :checked => true}
       %li.organizations
-        %span Organizaciones
-        %input{:type => "checkbox", :checked => true}
+        %label{:for => :organizations_ref} Organizaciones
+        %input{:type => "checkbox", :id => :organizations_ref, :checked => true}
       %li.places
-        %span Lugares
-        %input{:type => "checkbox", :checked => true}
+        %label{:for => :places_ref} Lugares
+        %input{:type => "checkbox", :id => :places_ref, :checked => true}
       %li.dates
-        %span Fechas
-        %input{:type => "checkbox", :checked => true}
+        %label{:for => :dates_ref} Fechas
+        %input{:type => "checkbox", :id => :dates_ref, :checked => true}
       %li.actions
-        %span Acciones
-        %input{:type => "checkbox", :checked => true}
+        %label{:for => :actions_ref} Acciones
+        %input{:type => "checkbox", :id => :actions_ref, :checked => true}
+      %li.others
+        %label{:for => :others_ref} Otros
+        %input{:type => "checkbox", :id => :others_ref, :checked => true}
     %li.nav-header#register
       Hechos
       .new_register
