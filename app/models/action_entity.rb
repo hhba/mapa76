@@ -1,17 +1,20 @@
 class ActionEntity < NamedEntity
   VERBS = %w(
-    detener
-    secuestrar
-    torturar
+    abusar
+    asesinar
+    conducir
     desaparecer
+    detener
+    encontrar
+    liberar
+    morir
+    nacer
+    secuestrar
+    someter
+    torturar
+    trasladar
     ver
     violar
-    abusar
-    nacer
-    morir
-    encontrar
-    transladar
-    asesinar
   ).sort
 
   def self.valid?(attrs)
