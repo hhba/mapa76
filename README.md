@@ -63,8 +63,6 @@ Run `apt-get build-dep poppler-utils` to make sure you have all of its
 dependencies.  Then, just execute `./configure`, `make` and `make install` as
 usual.
 
-If yukk
-
 ### FreeLing ###
 
 The NER module currently uses FreeLing, an open source suite of language
