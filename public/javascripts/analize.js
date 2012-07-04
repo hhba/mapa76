@@ -226,11 +226,13 @@ var PageView = Backbone.View.extend({
 
             curPos = toPos;
 
-            // update ne index and related variables
-            neIdx += 1;
-            ne = pageView.model.namedEntities.at(neIdx);
-            if (!ne) break;
-            nePos = ne.get("inner_pos");
+            // update ne index and related variables *only* if we are at the end of the NE (the latter half)
+            if (nePos.to.pid === pageView.model.get("_id") && nePos.to.tlid == textLine._id) {
+              neIdx += 1;
+              ne = pageView.model.namedEntities.at(neIdx);
+              if (!ne) break;
+              nePos = ne.get("inner_pos");
+            }
 
           } else {
             //console.log("no more entities on textline " + textLine._id);
