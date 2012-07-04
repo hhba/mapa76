@@ -367,53 +367,7 @@ var analyzer = {
     this.pageTemplate = $('#pageTemplate').html();
     this.nextPageTemplate = $("#nextPageTemplate").html();
   },
-
-  addPage: function(data) {
-    var url;
-    var nextPageValues;
-    var nextPage;
-    $(".pages").append(Mustache.render(analyzer.pageTemplate, data));
-    $("#loading").hide();
-    if(!data.last_page) {
-      nextPage = parseInt(data.current_page, 10) + 1;
-      url = "/documents/" + data.document_id + "/comb?page=" + nextPage;
-      nextPageValues = {
-        url: url,
-        id: data.document_id,
-        'next_page': data.current_page + 1
-      };
-      $(".next_page").html(Mustache.render(analyzer.nextPageTemplate, nextPageValues));
-      checkScroll();
-    }
-  }
 };
-
-function nearBottomOfPage() {
-  return scrollDistanceFromBottom() < 200;
-}
-
-function scrollDistanceFromBottom(argument) {
-  return pageHeight() - (window.pageYOffset + self.innerHeight);
-}
-
-function pageHeight() {
-  return Math.max(document.body.scrollHeight, document.body.offsetHeight);
-}
-
-function checkScroll() {
-  if (nearBottomOfPage()) {
-    callNextPage();
-  } else {
-    window.setTimeout("checkScroll", 250);
-  }
-}
-
-function callNextPage(){
-  var url = "/api/documents/" + $("#next_page").attr("data-document") + "?page=" + $("#next_page").attr("data-next");
-  $("#loading").show();
-  $("#next_page").remove();
-  $.getJSON(url, analyzer.addPage);
-}
 
 function Droppable(el){
   this.el = el;
@@ -467,11 +421,6 @@ $(document).ready(function() {
   analyzer.getTemplates();
 
   window.droppable_klasses = ['who', 'when', 'where', 'to_who'];
-
-  $("#next_page").live("click", function() {
-    callNextPage();
-    return false;
-  });
 
   $("#reference input").click(function() {
     var $this = $(this);
