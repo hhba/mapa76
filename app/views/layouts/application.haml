@@ -8,7 +8,7 @@
     /[if lt IE 9]
       %script{:src => 'http://html5shim.googlecode.com/svn/trunk/html5.js'}
     = stylesheet_link_tag 'bootstrap.min'
-    = stylesheet_link_tag "flick/jquery-ui-1.8.18.custom"
+    = stylesheet_link_tag "redmond/jquery-ui-1.8.21.custom"
     = stylesheet_link_tag :styles
     = yield_content :styles
 
@@ -24,7 +24,11 @@
               %li
                 %a{:href => '/documents'} Documentos
               %li
-                %a{:href => '/people'} Personas
+                %a{:href => '/entities'} Entidades
+              %li
+                %a{:href => '/facts'} Hechos
+              %li
+                %a{:href => '/proyects'} Proyectos
             %ul.nav.pull-right
               %li
                 %form{:class => 'navbar-search pull-left'}
@@ -46,25 +50,24 @@
           - if content_for?(:row)
             .row-fluid
               = yield_content :row
-          = yield
+        = yield
+    .sidebar.span3
+      - if content_for?(:sidebar)
+        .well.sidebar-nav
+          = yield_content :sidebar
+    %hr/
+    %footer.footer
+      %p{:class => 'pull-right'}
+        %a{:href => '#'} Arriba
 
-          %hr/
-          %footer.footer
-            %p{:class => 'pull-right'}
-              %a{:href => '#'} Arriba
-
-        .sidebar.span3
-          - if content_for?(:sidebar)
-            .well.sidebar-nav
-              = yield_content :sidebar
       / /.row-fuild
     / /.container-fuild
 
     / Javascript
     = javascript_include_tag 'jquery-1.7.2.min'
-    = javascript_include_tag 'jquery-ui-1.8.18.custom.min'
+    = javascript_include_tag 'jquery-ui-1.8.21.custom.min'
     = javascript_include_tag 'underscore-min.js', 'backbone-min.js', 'mustache.js'
-    = javascript_include_tag 'bootstrap.min', 'bootstrap-button', 'bootstrap-alert', 'bootstrap-collapse'
+    = javascript_include_tag 'bootstrap.min', 'bootstrap-button', 'bootstrap-alert', 'bootstrap-collapse', 'bootstrap-tab'
     = javascript_include_tag 'jquery.tablesorter.min'
     = javascript_include_tag :application
     = yield_content :javascripts

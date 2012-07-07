@@ -18,11 +18,6 @@
         %label{:for => 'file_input'}Archivo
         .controls
           = file_field_tag :file, :id => 'file_input', :class => 'input-file', :required => true
-      .control-group
-        %label.control-label{:for => 'published_at'} Fecha de publicación
-        .controls
-          = text_field_tag :published_at, :class => 'input-xlarge', :id => 'published_at'
-      .control-group
         %label.control-label{:for => 'textarea'} Descripción
         .controls
           %textarea{:id => 'textarea', :rows => 3, :class => 'input-xlarge', :name => "description"}
