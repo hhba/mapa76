@@ -84,7 +84,7 @@ table.tablesorter th {
   width: 96%;
   height: 20px;
   line-height: 22px;
-  color: #444;
+  color: #fff;
   padding: 0 2%;
   -webkit-border-radius: 4px;
   border-radius: 4px;
@@ -146,21 +146,31 @@ table.tablesorter th {
 .event input.event-name:focus { background: #fff; }
 .event button.event-save { text-indent: -999999px; background-position: -69px -91px; background-image: url("../img/glyphicons-halflings.png") }
 
-.pages .ne.ui-draggable { cursor: move; z-index: 1; }
-.pages .ne { font-weight: bold; }
+.pages .ne.ui-draggable { cursor: pointer; z-index: 1; }
+.pages .ne {
+  font-weight: bold;
+  /*padding: 1px 3px;*/
+}
 .pages .ne.people { color: #B94A48; }
 .pages .ne.organizations { color: #3A87AD; }
 .pages .ne.places { color: #F89406; }
 .pages .ne.dates { color: #468847; }
 .pages .ne.others { color: #555; }
-.pages .ne.actions {
-  background-color: #333;
+.pages .ne.actions { color: #333; font-style: italic; }
+
+.pages .ne.selected {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
   color: #fff;
-  padding: 1px 2px 1px 5px;
-  -webkit-border-radius: 4px;
-  border-radius: 4px;
-  margin-bottom: 2px;
 }
+.pages .ne.selected.people { background-color: #B94A48; }
+.pages .ne.selected.organizations { background-color: #3A87AD; }
+.pages .ne.selected.places { background-color: #F89406; }
+.pages .ne.selected.dates { background-color: #468847; }
+.pages .ne.selected.others { background-color: #555; }
+.pages .ne.selected.actions { background-color: #333; }
+
 .pages.hide-people .ne.people { color: #000; font-weight: normal; }
 .pages.hide-organizations .ne.organizations { color: #000; font-weight: normal; }
 .pages.hide-places .ne.places { color: #000; font-weight: normal; }

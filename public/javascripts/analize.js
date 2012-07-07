@@ -259,6 +259,8 @@ var PageView = Backbone.View.extend({
     var ne_type = $ne.attr("data-type");
     var person_id = $ne.attr("data-person-id");
 
+    this.$el.find(".ne[data-ne-id='" + ne_id + "']").toggleClass("selected");
+
     switch(ne_type) {
       case "people":
         if(person_id !== "null") {
