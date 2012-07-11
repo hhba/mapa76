@@ -84,7 +84,7 @@ table.tablesorter th {
   width: 96%;
   height: 20px;
   line-height: 22px;
-  color: #444;
+  color: #fff;
   padding: 0 2%;
   -webkit-border-radius: 4px;
   border-radius: 4px;
@@ -128,6 +128,7 @@ table.tablesorter th {
 .event .dragged.organizations, #reference .organizations:before { background-color: #3a87ad; }
 .event .dragged.places, #reference .places:before { background-color: #f89406; }
 .event .dragged.dates, #reference .dates:before { background-color: #468847; }
+.event .dragged.others, #reference .others:before { background-color: #555; }
 .event:-moz-drag-over { background: #fff9d7; }
 .event .dragged, #reference li { color: #fff; line-height: 25px;
   padding: 3px 4px; margin: .0em .1em;
@@ -144,19 +145,69 @@ table.tablesorter th {
 .event input.event-name { width: 225px; background: #eee; }
 .event input.event-name:focus { background: #fff; }
 .event button.event-save { text-indent: -999999px; background-position: -69px -91px; background-image: url("../img/glyphicons-halflings.png") }
-.paragraphs span.ne.ui-draggable { cursor: move; z-index: 1; }
 
-.paragraphs .ne { font-weight: bold; }
-.paragraphs .ne.people { color: #B94A48; }
-.paragraphs .ne.organizations { color: #3A87AD; }
-.paragraphs .ne.places { color: #F89406; }
-.paragraphs .ne.dates { color: #468847; }
-.paragraphs .ne.others { color: #555; }
-.paragraphs .ne.actions { color: #333; }
-.paragraphs .nocolor { color: #333 !important; font-weight: normal !important; }
+.pages .ne.ui-draggable { cursor: pointer; z-index: 1; }
+.pages .ne {
+  font-weight: bold;
+  /*padding: 1px 3px;*/
+}
+.pages .ne.people { color: #B94A48; }
+.pages .ne.organizations { color: #3A87AD; }
+.pages .ne.places { color: #F89406; }
+.pages .ne.dates { color: #468847; }
+.pages .ne.others { color: #555; }
+.pages .ne.actions { color: #333; font-style: italic; }
+
+.pages .ne.selected {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  color: #fff;
+}
+.pages .ne.selected.people { background-color: #B94A48; }
+.pages .ne.selected.organizations { background-color: #3A87AD; }
+.pages .ne.selected.places { background-color: #F89406; }
+.pages .ne.selected.dates { background-color: #468847; }
+.pages .ne.selected.others { background-color: #555; }
+.pages .ne.selected.actions { background-color: #333; }
+
+.pages.hide-people .ne.people { color: #000; font-weight: normal; }
+.pages.hide-organizations .ne.organizations { color: #000; font-weight: normal; }
+.pages.hide-places .ne.places { color: #000; font-weight: normal; }
+.pages.hide-dates .ne.dates { color: #000; font-weight: normal; }
+.pages.hide-others .ne.others { color: #000; font-weight: normal; }
+.pages.hide-actions .ne.actions {
+  background-color: #fff;
+  color: #000;
+  font-weight: normal;
+  padding: 0;
+  -webkit-border-radius: 0;
+  border-radius: 0;
+  margin-bottom: 0;
+}
 
 #reference { list-style: none; margin: 0; }
 #reference li { color: #000; line-height: 18px; }
 #reference li:before { content: '.'; color: transparent; width: 16px; height: 16px; margin-right: 3px; }
 #reference li, #reference li:before { display: inline-block; }
+#reference li label { display: inline-block; width: 90px; cursor: pointer; }
 
+.page {
+  position: relative;
+  border: 1px solid #aaa;
+  margin-bottom: 1.5em;
+  box-shadow:         5px 5px 5px #888;
+  -moz-box-shadow:    5px 5px 5px #888;
+  -webkit-box-shadow: 5px 5px 5px #888;
+}
+.page p {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  white-space: nowrap;
+  text-align: justify;
+  /*border: 1px dotted green;*/
+  /*overflow: hidden;*/
+}
+.page.empty { background-color: #eee; }
+.page.fetching { background: url(../images/page-spinner.gif) center no-repeat; }

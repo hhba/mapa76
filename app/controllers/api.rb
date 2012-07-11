@@ -1,11 +1,10 @@
 Alegato.controllers :api do
   get :documents, :with => :id, :provides => [:json] do
+    document = Document.find(params[:id])
     if params[:page].nil?
-      document = Document.find(params[:id])
       document.to_json
     else
-      document = Document.find(params[:id])
-      document.page(params[:page]).to_json(:methods => :named_entities)
+      document.pages.where(:num => params[:page]).first.to_json(:methods => :named_entities)
     end
   end
 

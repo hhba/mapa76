@@ -8,6 +8,7 @@ module Analyzer
   NP_RE = "(?:[#{LETTERS_UPCASE}][#{LETTERS}]+(?:[ ,](?:[#{LETTERS_UPCASE}][#{LETTERS_UPCASE}#{LETTERS}]+|(?:(?:de|la|del)(?= ))))*)"
   ADDRESS_RE = Regexp.new("(?<!^)((?:Av.? )?#{NP_RE}+ [0-9]{1,5}(?![0-9\/])(,? )?#{NP_RE}*)")
 
+  ##
   # Return an enumerator of tokens
   #
   # All tokens have a reference to its position in the string
@@ -25,6 +26,7 @@ module Analyzer
     end
   end
 
+  ##
   # Return an enumerator of tokens with PoS tags
   #
   # NOTE This function works correctly *only if* the following FreeLing
@@ -103,14 +105,13 @@ module Analyzer
     end
   end
 
+  ##
   # Return an enumerator of named entities
   #
   def self.extract_named_entities(content)
     Enumerator.new do |yielder|
-      self.extract_tagged_tokens(content)
-          .select { |token| token[:ne_class] }
-          .each do |token|
-        yielder << token
+      self.extract_tagged_tokens(content).each do |token|
+        yielder << token if token[:ne_class]
       end
       self.extract_addresses(content).each do |address|
         yielder << address
@@ -118,6 +119,7 @@ module Analyzer
     end
   end
 
+  ##
   # Return an enumerator of addressese
   #
   def self.extract_addresses(content)
