@@ -5,12 +5,12 @@ set :application, "mapa76"
 
 set :user, "mapa"
 set :domain, "hhba.info"
-set :workers, "hhba.info"
 set :environment, "production"
 set :deploy_to, "/home/mapa/#{application}"
 
-role :app, domain, workers
+role :app, domain
 role :web, domain
+role :workers, domain
 role :db, domain, :primary => true
 
 set :normalize_asset_timestamps, false
