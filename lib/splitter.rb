@@ -1,10 +1,6 @@
 require 'docsplit'
 
 module Splitter
-  def self.extract_title(path)
-    Docsplit.extract_title(path)
-  end
-
   def self.extract_plain_text(path)
     basename = File.basename(path).split('.')[0..-2].join('.')
     tmp_dir = Dir.tmpdir
@@ -46,20 +42,5 @@ module Splitter
       end
     end
     nil
-  end
-
-  # Export the first page of a document as a PNG file as a thumbnail of a
-  # document.
-  def self.create_thumbnail(path, opts={})
-    opts = {
-      :size => '65x80'
-    }.merge(opts)
-
-    basename = File.basename(path).split('.')[0..-2].join('.')
-    filename = basename + '.png'
-
-    Docsplit.extract_images(path, opts.merge(:pages => 1))
-
-    return "#{basename}_1.png"
   end
 end

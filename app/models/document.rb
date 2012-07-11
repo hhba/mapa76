@@ -13,104 +13,40 @@ class Document
   field :original_file,    type: String
   field :thumbnail_file,   type: String
   field :information,      type: Hash
+  field :fontspecs,        type: Hash
   field :last_analysis_at, type: Time
+  field :processed_text,   type: String
   field :state,            type: Symbol, default: :waiting
 
   has_many :milestones
   has_many :named_entities
-  has_many :paragraphs
   has_many :registers
   has_and_belongs_to_many :people
+
+  has_many :pages
 
   validates_presence_of :original_file
 
   after_create :enqueue_process
   attr_accessor :sample_mode, :people_count
 
-  PARAGRAPH_SEPARATOR = ".\n"
-  PER_PAGE = 20
+  BLOCK_SEPARATOR = ".\n"
 
-  # Split original document data and extract metadata and content as
-  # clean, plain text for further analysis.
-  #
-  def split
-    # Replace title with original title from document
-    logger.info "Extract title from '#{self.original_file_path}'"
-    self.title = Splitter.extract_title(self.original_file_path)
-
-    logger.info "Generate a thumbnail from the first page of the document"
-    self.thumbnail_file = Splitter.create_thumbnail(self.original_file_path,
-      :output => File.join(Padrino.root, 'public', THUMBNAILS_DIR)
-    )
-
-    logger.info "Extract plain text"
-    text = Splitter.extract_plain_text(self.original_file_path)
-
-    logger.info "Split into paragraphs and save them"
-    last_pos = 0
-    while pos = text.index(PARAGRAPH_SEPARATOR, last_pos)
-      # Because Analyzer is configured to flush buffer at every linefeed,
-      # replace all possible '\n' inside paragraphs to avoid a bad sentence split.
-      paragraph = text[last_pos .. pos - PARAGRAPH_SEPARATOR.size + 1].strip.gsub("\n", ' ')
-      paragraph_pos = last_pos - 1
-      paragraph_pos = 0 if paragraph_pos == -1
-      if not paragraph.empty?
-        self.paragraphs << Paragraph.new(:content => paragraph, :pos => paragraph_pos)
-      end
-      last_pos = pos + 1
-    end
-
-    save
-  end
-
-  # Perform a morphological analysis and extract named entities like persons,
-  # organizations, places, dates and addresses.
-  #
-  def analyze
-    Analyzer.extract_named_entities(self.content).each do |ne_attrs|
-      ne_klass = case ne_attrs[:ne_class]
-        when :addresses then AddressEntity
-        when :actions then ActionEntity
-        else NamedEntity
-      end
-      self.named_entities << ne_klass.new(ne_attrs)
-    end
-    self.information = {
-      :people => self.people.count,
-      :people_ne => people_found.size,
-      :dates_ne => dates_found.size,
-      :organizations_ne => organizations_found.size
-    }
-    self.last_analysis_at = Time.now
-    save
-  end
 
   def resolve_coreference
     Coreference.resolve(self, self.people_found)
     self
   end
 
+  # TODO option for a range of pages
+  def text(options={})
+    self.pages.sort_by(&:num).map(&:text).join(Page::SEPARATOR)
+  end
+
   def context
     self.paragraphs = []
     self.person_ids = []
     self.people_count = self.people.count
-  end
-
-  def content
-    self.paragraphs.map(&:content).join(PARAGRAPH_SEPARATOR)
-  end
-
-  # Returns text extracted from paragraphs
-  # It allow :from and :to params (should be integers)
-  def text(option = {})
-    max = self.paragraphs.length
-    from = option.has_key?(:from) ? option[:from].to_i : 0
-    to = option.has_key?(:to) ? option[:to].to_i : max
-    output = ""
-    self.paragraphs[from..to].each do |p|
-      output << p.content + PARAGRAPH_SEPARATOR
-    end
-    output
   end
 
   def indication
@@ -171,6 +107,7 @@ class Document
     {
       :waiting => 0,
       :normalizing => 10,
+      :analyzing_layout => 20,
       :extracting => 40,
       :solving_coreference => 70,
       :finished => 100
@@ -199,6 +136,10 @@ class Document
 
   def last_page?(page=1)
     page == total_pages
+  end
+
+  def new_iterator
+    DocumentIterator.new(self)
   end
 
 protected

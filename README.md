@@ -13,6 +13,7 @@ Dependencies
   * Redis server
   * [Docsplit dependencies](http://documentcloud.github.com/docsplit/#installation)
   * FreeLing 3.0
+  * Poppler 0.20+
 
 
 Install
@@ -51,6 +52,16 @@ change anything.
 You should also install most of the
 [dependencies](http://documentcloud.github.com/docsplit/#installation) listed
 in Docsplit documentation.
+
+### Poppler ###
+
+Download the tarball of [Poppler
+0.20.1](http://poppler.freedesktop.org/poppler-0.20.1.tar.gz) and extract it
+somewhere, like `/usr/local/src`.
+
+Run `apt-get build-dep poppler-utils` to make sure you have all of its
+dependencies.  Then, just execute `./configure`, `make` and `make install` as
+usual.
 
 ### FreeLing ###
 

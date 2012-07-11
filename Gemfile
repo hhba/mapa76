@@ -22,6 +22,7 @@ gem 'mongoid-pagination'
 group :workers do
   # Splitter
   gem 'docsplit'
+  gem "nokogiri"
 
   # queue
   gem 'resque'

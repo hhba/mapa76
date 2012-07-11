@@ -1,6 +1,7 @@
 require 'open3'
 
 ENV['FREELINGSHARE'] ||= '/usr/local/share/freeling'
+ENV['PROJECT_PATH'] ||= File.expand_path(File.join(File.dirname(__FILE__), "../../config/freeling"))
 
 
 module FreeLing
@@ -8,7 +9,7 @@ module FreeLing
     attr_reader :document, :last_error
 
     DEFAULT_ANALYZE_PATH = '/usr/local/bin/analyzer'
-    DEFAULT_CONFIG_PATH  = File.join(Padrino.root, 'config', 'freeling_es.cfg')
+    DEFAULT_CONFIG_PATH  = File.join(Padrino.root, 'config', 'freeling', 'es.cfg')
 
     NotRunningError     = Class.new(StandardError)
     AnalyzerError       = Class.new(StandardError)
@@ -97,7 +98,7 @@ module FreeLing
         "--inpf #{@options[:input_format]} " \
         "--outf #{@options[:output_format]} " \
         "--nec " \
-        "--flush"
+        "--noflush"
     end
 
     def run_process
