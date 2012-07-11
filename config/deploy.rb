@@ -5,7 +5,7 @@ set :application, "mapa76"
 
 set :user, "mapa"
 set :domain, "hhba.info"
-set :workers, "ec2-23-22-65-238.compute-1.amazonaws.com"
+set :workers, "hhba.info"
 set :environment, "production"
 set :deploy_to, "/home/mapa/#{application}"
 
