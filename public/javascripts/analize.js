@@ -329,8 +329,6 @@ var PageListView = Backbone.View.extend({
 var RegisterView = Backbone.View.extend({
   el: "#register",
 
-  events: {},
-
   render: function() {
     return this;
   },
@@ -349,8 +347,8 @@ var RegisterView = Backbone.View.extend({
         output[group] = [value];
       }
     });
-    output['document_id'] = AnalyzeApp.document.get("id");
-    output['what'] = $("#whatSelector").val();
+    output.document_id = AnalyzeApp.document.get("id");
+    output.what = $("#whatSelector").val();
     return output;
   },
 
