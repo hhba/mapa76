@@ -256,21 +256,23 @@ var PageView = Backbone.View.extend({
   selectNamedEntity: function(e) {
     var $ne = $(e.currentTarget);
     var ne_id = $ne.attr("data-ne-id");
-    var ne_type = $ne.attr("data-type");
+    var ne_class = $ne.attr("data-class");
     var person_id = $ne.attr("data-person-id");
 
-    this.$el.find(".ne[data-ne-id='" + ne_id + "']").toggleClass("selected");
+    this.$el.find(".ne.selected").removeClass("selected");
+    this.$el.find(".ne[data-ne-id='" + ne_id + "']").addClass("selected");
 
-    switch(ne_type) {
-      case "people":
-        if(person_id !== "null") {
-          var person = new Person({ id: person_id })
-          var personView = new PersonView({ model: person });
-          person.fetch();
-        }
-        break;
-      default:
-        break;
+    switch (ne_class) {
+    case "people":
+      if (person_id !== "") {
+        console.log("fetch person");
+        var person = new Person({ id: person_id })
+        var personView = new PersonView({ model: person });
+        person.fetch();
+      }
+      break;
+    default:
+      break;
     }
   }
 });
