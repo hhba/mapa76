@@ -8,6 +8,11 @@ Alegato.controllers :api do
     end
   end
 
+  get :context, :map => '/api/:id/context', :provides => [:json] do
+    document = Document.find(params[:id])
+    document.context.to_json
+  end
+
   get :person, :with => [:id], :provides => [:html, :json] do
     p = {}
     data = Person.find(params[:id])

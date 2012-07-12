@@ -8,7 +8,12 @@ require 'resque'
 Alegato.controllers :documents do
   get :index do
     @docs = Document.all
+    render "documents/index"
+  end
 
+  get :mine, map: '/documents/mine' do
+    # Shows only my documents or the ones I marked as mine
+    @docs = Document.all
     render "documents/index"
   end
 

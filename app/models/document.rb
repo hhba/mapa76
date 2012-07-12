@@ -44,9 +44,13 @@ class Document
   end
 
   def context
-    self.paragraphs = []
-    self.person_ids = []
-    self.people_count = self.people.count
+    {
+      id: self.id,
+      registers: self.registers.map { |register| register.to_hash },
+      people: self.people.map { |person| {name: person.full_name, mentions: person.mentions_in(self)} },
+      organizations: [],
+      places: []
+    }
   end
 
   def indication
@@ -109,8 +113,7 @@ class Document
       :normalizing => 10,
       :analyzing_layout => 20,
       :extracting => 40,
-      :solving_coreference => 70,
-      :finished => 100
+      :solving_coreference => 100
     }[self.state]
   end
 

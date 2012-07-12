@@ -30,4 +30,15 @@ $(document).ready(function(){
   if($(".tablesorter").length !== 0) {
     $(".tablesorter").tablesorter();
   }
+  $("table.documents td a").click(function(){
+    var $this = $(this);
+    var url = "/api/" + $this.data("id") + "/context";
+    var template = $("#documentContext").html();
+    $("#document").html("").spin();
+    $.getJSON(url, null, function(data){
+      $("#document").html(Mustache.render(template, data));
+    });
+    return false;
+  });
 });
+

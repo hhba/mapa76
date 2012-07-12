@@ -1,55 +1,156 @@
 -# coding: utf-8
 - content_for :javascripts do
   = javascript_include_tag 'bootstrap-alert', 'documents'
-
-.subnav.subnav-fixed
-  %ul.nav.nav-pills
-    %li.active
-      %a{:href => url_for(:documents, :index)} Documentos
-    %li
-      %a{:href => url_for(:documents, :new)} Nuevo
+%script#documentContext{:type => "text/template"}
+  .document{data: {id: "{{id}}"}}
+    %h4
+      Nombre: Fundamentos Orletti
+    %ul.nav.nav-tabs  
+      %li
+        %a{href: '#facts', data:{toggle: 'tab'}} Hechos
+      %li
+        %a{href: '#names', data:{toggle: 'tab'}} Nombres
+      %li
+        %a{href: '#organizations', data:{toggle: 'tab'}} Organizaciones
+      %li
+        %a{href: '#dates', data:{toggle: 'tab'}} Fechas
+      %li
+        %a{href: '#places', data:{toggle: 'tab'}} Lugares
+    .tab-content
+      .tab-pane.active#facts
+        %ul
+          {{#registers}}
+          %li
+            %span.people
+              {{who}}
+            %span.organizations
+              {{organizations}}
+            %span.dates
+              {{when}}
+            %span.others
+              {{what}}
+            %span.places
+              {{where}}
+            %span.people
+              {{to_who}}
+          {{/registers}}
+      .tab-pane#names
+        %table.table.table-bordered.table-condensed.tablesorter
+          %thead
+            %tr
+              %th
+                Personas
+              %th
+                Menciones
+          %tbody
+            {{#people}}
+            %tr
+              %td
+                {{name}}
+              %td
+                {{mentions}}
+            {{/people}}
+        %a{href: '#'} Lista completa
+      .tab-pane#organizations
+        %table.table.table-bordered.table-condensed.tablesorter
+          %thead
+            %tr
+              %th
+                Organizaciones
+              %th
+                Menciones
+          %tbody
+            {{#organizations}}
+            %tr
+              %td
+                {{name}}
+              %td
+                {{mentions}}
+            {{/organizations}}
+        %a{href: '#'} Lista completa
+      .tab-pane#dates
+        %table.table.table-bordered.table-condensed.tablesorter
+          %thead
+            %tr
+              %th
+                Fechas
+          %tbody
+            %tr
+              %td
+                24/03/1977
+      .tab-pane#places
+        %table.table.table-bordered.table-condensed.tablesorter
+          %thead
+            %tr
+              %th
+                Lugares
+              %th
+                Menciones
+          %tbody
+            {{#places}}
+            %tr
+              %td
+                {{name}}
+              %td
+                {{mentions}}
+            {{/places}}
+.content.span9
+  .subnav.subnav-fixed
+    %ul.nav.nav-pills
+      %li.active
+        %a{:href => url_for(:documents, :index)} Documentos
+      %li
+        %a{:href => url_for(:documents, :new)} Nuevo
+      %li
+        %a{:href => url_for(:documents, :mine)} Mis documentos
 .row-fluid
-  .alert.fade.in.alert-success#stillProcessing{:style => 'display:none;'}
-    %a.close{:href => '#', 'data-dismiss' => 'alert'}×
-    %strong
-      Recuerde que el procesamiento de tareas puede tomar algunos minutos
-.row-fluid
-  %table{:class => 'table table-striped', :id => 'sorteable'}
-    %thead
-      %tr
-        %th
-        %th
-          %a{:href => '#', "data-sort" => "name"}Título
-        %th
-          %a{:href => '#', "data-sort" => "name"}Tipo
-        %th
-          %a{:href => '#', "data-sort" => "date"}Fecha
-        %th
-          Bajar archivo
-        %th
-          Estado
-    %tbody
-      - @docs.each do |doc|
-        %tr
-          %td
-            = thumbnail_tag doc
-          %td
-            - if doc.readable?
-              = link_to doc.heading, url_for(:documents, :show, :id => doc._id)
-            - else
-              = doc.heading
-          %td
-            = doc.category
-          %td
-            = doc._id.generation_time.strftime("%d/%m/%y")
-          %td
-            = link_to doc.original_file, "/uploads/#{doc.original_file}"
-          %td.state
-            - if doc.processed?
-              Finalizado
-              .hidden{:style => "display: none;"}
-                .progress.progress-striped.active
-                  .bar{:style => "width: 100%;"}
-            - else
-              .progress.progress-striped.active
-                .bar{:style => "width: #{doc.state_to_percentage}%;"}
+  .content.span7
+    .row-fluid
+      .alert.fade.in.alert-success#stillProcessing{:style => 'display:none;'}
+        %a.close{:href => '#', 'data-dismiss' => 'alert'}×
+        %strong
+          Recuerde que el procesamiento de tareas puede tomar algunos minutos
+    .row-fluid
+      %table{:class => 'table table-striped documents', :id => 'sorteable'}
+        %thead
+          %tr
+            %th
+            %th
+              %a{:href => '#', "data-sort" => "name"}Título
+            %th
+              %a{:href => '#', "data-sort" => "name"}Tipo
+            %th
+              %a{:href => '#', "data-sort" => "date"}Fecha
+            %th
+            %th
+              Estado
+        %tbody
+          - @docs.each do |doc|
+            %tr
+              %td
+                = thumbnail_tag doc
+              %td
+                - if doc.readable?
+                  = link_to doc.heading, "#", "data-id" => doc.id
+                - else
+                  = doc.heading
+              %td
+                = doc.category
+              %td
+                = doc._id.generation_time.strftime("%d/%m/%y")
+              %td
+                = link_to "Editar", url_for(:documents, :comb, :id => doc._id)
+                %br
+                = link_to doc.original_file, "/uploads/#{doc.original_file}"
+              %td.state
+                - if doc.processed?
+                  Finalizado
+                  .hidden{:style => "display: none;"}
+                    .progress.progress-striped.active
+                      .bar{:style => "width: 100%;"}
+                - else
+                  .progress.progress-striped.active
+                    .bar{:style => "width: #{doc.state_to_percentage}%;"}
+  .content.span5#document
+    %h4
+      Haga click en un documento para ver mas informacion!
