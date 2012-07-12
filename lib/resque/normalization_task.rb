@@ -4,7 +4,7 @@ require "nokogiri"
 class NormalizationTask
   @queue = :normalization
 
-  PDF2HTML_BIN = ENV['PDF2HTML_BIN'] || "pdftohtml"
+  PDF2HTML_BIN = ENV['PDF2HTML_BIN'] || "/usr/local/bin/pdftohtml"
 
   ##
   # Split original document data and extract metadata and content as
