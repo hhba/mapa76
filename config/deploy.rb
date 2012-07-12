@@ -28,7 +28,6 @@ set :keep_releases, 5
 
 set :config_files, %w{ mongoid resque monit workers }
 
-
 namespace :deploy do
   desc "symlink to mongoid.yml"
   task :create_symlink_shared do
@@ -93,8 +92,16 @@ namespace :workers do
   end
 end
 
+namespace :mi do
+  desc "Create the indexes defined on your mongoid models"
+  task :create_indexes do
+    rake "mi:create_indexes"
+  end
+end
+
 after "deploy:update_code", "deploy:create_symlink_shared"
 after "deploy", "workers:reload"
+after "deploy", "mi:create_indexes"
 
 def rake(task)
   run "cd #{current_path} && PADRINO_ENV=production bundle exec rake #{task} --trace"
