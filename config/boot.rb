@@ -19,15 +19,17 @@ require 'config/resque'
 # Padrino::Logger::Config[:production] = { :log_level => :devel }
 # Padrino::Logger.log_static = true
 #
+LOG_FILE = ENV["LOG"] && open(ENV["LOG"], "a")
 Padrino::Logger::Config[:development].merge!({
   :log_level => :debug,
-  :stream => :stdout,
+  :stream => LOG_FILE || :stdout,
   :format_datetime => '',
   :format_message => '%s%s - %s',
 })
 
 Padrino::Logger::Config[:production].merge!({
   :log_level => :debug,
+  :stream => LOG_FILE || :to_file,
   :format_datetime => '%d/%b/%Y %H:%M:%S',
   :format_message => '%s - [%s] %s',
 })
