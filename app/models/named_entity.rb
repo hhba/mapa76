@@ -13,9 +13,9 @@ class NamedEntity
   field :prob,     :type => Float
   field :tokens,   :type => Array
 
-  belongs_to :document
-  belongs_to :person
-  has_and_belongs_to_many :pages
+  belongs_to :document, index: true
+  belongs_to :person, index: true
+  has_and_belongs_to_many :pages, index: true
 
   validate :must_have_valid_position
 

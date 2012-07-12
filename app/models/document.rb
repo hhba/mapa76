@@ -21,7 +21,7 @@ class Document
   has_many :milestones
   has_many :named_entities
   has_many :registers
-  has_and_belongs_to_many :people
+  has_and_belongs_to_many :people, index: true
 
   has_many :pages
 

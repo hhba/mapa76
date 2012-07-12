@@ -7,8 +7,7 @@ class Register
   field :where,  type: Array
   field :to_who, type: Array
 
-  belongs_to :document
-
+  belongs_to :document, index: true
 
   def self.actions
     ActionEntity::VERBS

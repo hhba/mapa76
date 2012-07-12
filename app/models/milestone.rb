@@ -21,8 +21,8 @@ class Milestone
   field :what_txt,         type: String
   field :where_txt,        type: String
 
-  belongs_to :person
-  belongs_to :document
+  belongs_to :person, index: true
+  belongs_to :document, index: true
 
   def date_range(d)
     IncompleteDate.parse(d)
