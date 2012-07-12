@@ -19,19 +19,19 @@ require 'config/resque'
 # Padrino::Logger::Config[:production] = { :log_level => :devel }
 # Padrino::Logger.log_static = true
 #
-Padrino::Logger::Config[:development] = {
+Padrino::Logger::Config[:development].merge!({
   :log_level => :debug,
   :stream => :stdout,
   :format_datetime => '',
   :format_message => '%s%s - %s',
-}
+})
 
-Padrino::Logger::Config[:production] = {
+Padrino::Logger::Config[:production].merge!({
   :log_level => :debug,
-  :stream => :stdout,
   :format_datetime => '%d/%b/%Y %H:%M:%S',
   :format_message => '%s - [%s] %s',
-}
+})
+
 Mongoid.logger = Padrino.logger
 
 ##
