@@ -50,11 +50,12 @@
           - if content_for?(:row)
             .row-fluid
               = yield_content :row
-        = yield
-    .sidebar.span3
-      - if content_for?(:sidebar)
-        .well.sidebar-nav
-          = yield_content :sidebar
+          = yield
+        .sidebar.span3
+          - if content_for?(:sidebar)
+            .well.sidebar-nav
+              = yield_content :sidebar
+    = yield_content :free
     %hr/
     %footer.footer
       %p{:class => 'pull-right'}
