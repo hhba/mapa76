@@ -1,6 +1,7 @@
 -# coding: utf-8
 - content_for :javascripts do
   = javascript_include_tag 'bootstrap-alert', 'documents'
+
 %script#documentContext{:type => "text/template"}
   .document{data: {id: "{{id}}"}}
     %h4
@@ -94,6 +95,7 @@
               %td
                 {{mentions}}
             {{/places}}
+
 .content.span9
   .subnav.subnav-fixed
     %ul.nav.nav-pills
@@ -103,6 +105,7 @@
         %a{:href => url_for(:documents, :new)} Nuevo
       %li
         %a{:href => url_for(:documents, :mine)} Mis documentos
+
 - content_for :free do
   .row-fluid
     .content.span7
