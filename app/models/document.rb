@@ -113,7 +113,8 @@ class Document
       :normalizing => 10,
       :analyzing_layout => 20,
       :extracting => 40,
-      :solving_coreference => 100
+      :solving_coreference => 90,
+      :finished => 100
     }[self.state]
   end
 
