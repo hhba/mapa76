@@ -153,8 +153,10 @@
                       .bar{:style => "width: #{doc.state_to_percentage}%;"}
                 %td
                   .btn-group
-                    = link_to(content_tag(:i, "", :title => "Editar", :class => "icon-edit"), url_for(:documents, :comb, :id => doc._id), :class => "btn")
-                    = link_to(content_tag(:i, "", :title => "Descargar", :class => "icon-download-alt"), "/uploads/#{doc.original_file}", :class => "btn")
+                    %a.btn{:href => url_for(:documents, :comb, :id => doc._id)}
+                      %i.icon-edit{:title => "Editar"}
+                    %a.btn{:href => original_file_url(doc)}
+                      %i.icon-download-alt{:title => "Descargar"}
     .content.span5#document
       %h4
         Haga click en un documento para ver mas informacion!
