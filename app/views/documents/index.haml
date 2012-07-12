@@ -123,8 +123,8 @@
               %th
                 %a{:href => '#', "data-sort" => "date"}Fecha
               %th
-              %th
                 Estado
+              %th
           %tbody
             - @docs.each do |doc|
               %tr
@@ -139,10 +139,6 @@
                   = doc.category
                 %td
                   = doc._id.generation_time.strftime("%d/%m/%y")
-                %td
-                  = link_to "Editar", url_for(:documents, :comb, :id => doc._id)
-                  %br
-                  = link_to doc.original_file, "/uploads/#{doc.original_file}"
                 %td.state
                   - if doc.processed?
                     Finalizado
@@ -152,6 +148,10 @@
                   - else
                     .progress.progress-striped.active
                       .bar{:style => "width: #{doc.state_to_percentage}%;"}
+                %td
+                  .btn-group
+                    = link_to(content_tag(:i, "", :title => "Editar", :class => "icon-edit"), url_for(:documents, :comb, :id => doc._id), :class => "btn")
+                    = link_to(content_tag(:i, "", :title => "Descargar", :class => "icon-download-alt"), "/uploads/#{doc.original_file}", :class => "btn")
     .content.span5#document
       %h4
         Haga click en un documento para ver mas informacion!
