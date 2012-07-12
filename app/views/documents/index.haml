@@ -131,7 +131,7 @@
                 = thumbnail_tag doc
               %td
                 - if doc.readable?
-                  = link_to doc.heading, "#", "data-id" => doc.id
+                  = link_to doc.heading, "#", "data-id" => doc.id, class: "context"
                 - else
                   = doc.heading
               %td

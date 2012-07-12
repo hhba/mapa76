@@ -30,7 +30,7 @@ $(document).ready(function(){
   if($(".tablesorter").length !== 0) {
     $(".tablesorter").tablesorter();
   }
-  $("table.documents td a").click(function(){
+  $("table.documents td a.context").click(function(){
     var $this = $(this);
     var url = "/api/" + $this.data("id") + "/context";
     var template = $("#documentContext").html();
