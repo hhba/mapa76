@@ -156,7 +156,15 @@ table.tablesorter th {
 .pages .ne.places { color: #F89406; }
 .pages .ne.dates { color: #468847; }
 .pages .ne.others { color: #555; }
-.pages .ne.actions { color: #333; font-style: italic; }
+.pages .ne.actions {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  padding: 0px 2px;
+  color: #fff;
+  background-color: #333;
+  border: 1px solid #333;
+}
 
 .pages .ne.selected {
   -webkit-border-radius: 3px;
@@ -169,7 +177,10 @@ table.tablesorter th {
 .pages .ne.selected.places { background-color: #F89406; }
 .pages .ne.selected.dates { background-color: #468847; }
 .pages .ne.selected.others { background-color: #555; }
-.pages .ne.selected.actions { background-color: #333; }
+.pages .ne.selected.actions {
+  color: #333;
+  background-color: #efefef;
+}
 
 .pages.hide-people .ne.people { color: #000; font-weight: normal; }
 .pages.hide-organizations .ne.organizations { color: #000; font-weight: normal; }
@@ -181,6 +192,7 @@ table.tablesorter th {
   color: #000;
   font-weight: normal;
   padding: 0;
+  border: 0;
   -webkit-border-radius: 0;
   border-radius: 0;
   margin-bottom: 0;
