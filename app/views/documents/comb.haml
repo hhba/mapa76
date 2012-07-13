@@ -39,12 +39,12 @@
       %a.close{href: '#', data: {dismiss: "alert"}}
       %strong
         Aviso
-      El registro no ha sido guardado
+      El registro no ha sido guardado.
     .alert.alert-success#register-save{style: "display:none;"}
       %a.close{href: '#', data: {dismiss: "alert"}}
       %strong
         Aviso
-      El registro ha sido guardado
+      El registro ha sido guardado.
     %li.nav-header
       Referencias
     %ul#reference
@@ -70,23 +70,23 @@
       Hechos
       .new_register
         .who.box{"data-type" => "people", 'data-klass' => 'who'}
-          %h3 Quienes
+          %h3 Quiénes
           .new
         .what.box{"data-type" => "what", 'data-klass' => 'what'}
-          %h3 Que
+          %h3 Qué
           .controls
             %select#whatSelector{multiple: true}
               - Register.actions.each do |action|
                 %option
                   = action.titleize
         .when.box{"data-type" => "dates", 'data-klass' => 'when'}
-          %h3 Cuando
+          %h3 Cuándo
           .new
         .where.box{"data-type" => "places", 'data-klass' => 'where'}
-          %h3 Donde
+          %h3 Dónde
           .new
         .to_who.box{"data-type" => "people", 'data-klass' => 'to_who'}
-          %h3 A quienes
+          %h3 A quiénes
           .new
         .buttons
           %button{:class => 'btn btn-primary save'}
