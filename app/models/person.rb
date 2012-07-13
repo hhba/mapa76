@@ -18,26 +18,23 @@ class Person
     Person.all.select { |person| person.tags.include?("conadep")}
   end
 
-  def self.populate(document, duplicates, opt = {})
+  def self.populate(document, duplicates, opts={})
+    tags = opts[:tags] ? opts[:tags] : []
+    confidence = opts[:confidence] ? opts[:confidence] : 0.0
+
     output = []
-    tags = opt[:tags] ? opt[:tags] : []
-    confidence = opt[:confidence] ? opt[:confidence] : 0.0
-    duplicates.each do |duplicate|
-      puts duplicate.inspect
-      already_added = duplicate.collect { |ne| self.where(:name => ne.text).first }.compact
-      puts "lo que ya estaba #{already_added.inspect}"
+    duplicates.each do |group|
+      already_added = group.collect { |ne| self.where(:name => ne.text).first }.compact
       if already_added.empty?
-        person = Person.create :name => duplicate.first.text,
+        person = Person.create(:name => group.first.text,
                                :tags => tags,
-                               :confidence => confidence
-        person.documents << document
-        person.named_entities << duplicate
+                               :confidence => confidence)
       else
         person = already_added.first
-        person.named_entities << duplicate
-        person.documents << document
       end
-      person.save
+      person.named_entities.concat(group)
+      person.documents << document
+      person.save!
       output << person
     end
     output

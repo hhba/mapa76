@@ -6,24 +6,24 @@ module Coreference
 
   def self.find_duplicates(named_entities)
     duplicates = []
-    message = ""
     while !named_entities.empty?
-      named_entity = named_entities.pop
+      named_entity = named_entities.first
 
       jw = Amatch::JaroWinkler.new(named_entity.text)
-      tmp = named_entities.select do |ne|
+      group = named_entities.select do |ne|
         jw.match(ne.text) >= MIN_SIMILARITY
       end
+      logger.debug "Duplicates of '#{named_entity.text}': #{group.map(&:text)}"
 
-      named_entities.reject! { |ne| tmp.include?(ne)}
-      duplicates << tmp
+      named_entities.reject! { |ne| group.include?(ne) }
+      duplicates << group
     end
     duplicates
   end
 
   def self.resolve(document, named_entities)
-    named_entities = named_entities.to_a
-    Person.populate(document, find_duplicates(named_entities))
+    duplicates = find_duplicates(named_entities.to_a)
+    Person.populate(document, duplicates)
   end
 end
 
