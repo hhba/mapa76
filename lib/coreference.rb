@@ -7,7 +7,7 @@ module Coreference
   def self.find_duplicates(named_entities)
     duplicates = []
     while !named_entities.empty?
-      named_entity = named_entities.first
+      named_entity = named_entities.shift
 
       jw = Amatch::JaroWinkler.new(named_entity.text)
       group = named_entities.select do |ne|
