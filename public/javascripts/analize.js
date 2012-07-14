@@ -389,13 +389,12 @@ function Droppable(el){
   this.new_el = this.el.find(".new");
   this.new_el.droppable({
     drop: function(event, ui) {
-      var draggable = ui.draggable;
       var template = $("#preRegisterTemplate").html();
       var params = {
-        text: draggable.text(),
-        type: draggable.attr("data-type"),
-        ne_class: draggable.attr("data-class"),
-        id: draggable.attr("data-ne-id")
+        text: ui.helper.text(),
+        type: ui.draggable.attr("data-type"),
+        ne_class: ui.draggable.attr("data-class"),
+        id: ui.draggable.attr("data-ne-id")
       };
       $(this).before(Mustache.render(template, params));
       AnalyzeApp.register = new Register(AnalyzeApp.registerView.getValues());
