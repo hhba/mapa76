@@ -16,7 +16,7 @@ module Coreference
       logger.debug "Duplicates of '#{named_entity.text}': #{group.map(&:text)}"
 
       named_entities.reject! { |ne| group.include?(ne) }
-      duplicates << group
+      duplicates << group.append(named_entity)
     end
     duplicates
   end
