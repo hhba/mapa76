@@ -149,7 +149,7 @@ table.tablesorter th {
 .pages .ne.ui-draggable { cursor: pointer; z-index: 1; }
 .pages .ne {
   font-weight: bold;
-  /*padding: 1px 3px;*/
+  padding: 1px 3px;
 }
 .pages .ne.people { color: #B94A48; }
 .pages .ne.organizations { color: #3A87AD; }
@@ -160,10 +160,8 @@ table.tablesorter th {
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
-  padding: 0px 2px;
-  color: #fff;
-  background-color: #333;
-  border: 1px solid #333;
+  color: #333;
+  background-color: #efefef;
 }
 
 .pages .ne.selected {
@@ -178,8 +176,8 @@ table.tablesorter th {
 .pages .ne.selected.dates { background-color: #468847; }
 .pages .ne.selected.others { background-color: #555; }
 .pages .ne.selected.actions {
-  color: #333;
-  background-color: #efefef;
+  color: #fff;
+  background-color: #333;
 }
 
 .pages.hide-people .ne.people { color: #000; font-weight: normal; }
@@ -192,7 +190,6 @@ table.tablesorter th {
   color: #000;
   font-weight: normal;
   padding: 0;
-  border: 0;
   -webkit-border-radius: 0;
   border-radius: 0;
   margin-bottom: 0;
