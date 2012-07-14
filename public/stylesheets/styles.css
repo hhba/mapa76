@@ -205,9 +205,9 @@ table.tablesorter th {
   position: relative;
   border: 1px solid #aaa;
   margin-bottom: 1.5em;
-  box-shadow:         5px 5px 5px #888;
-  -moz-box-shadow:    5px 5px 5px #888;
-  -webkit-box-shadow: 5px 5px 5px #888;
+  box-shadow:         4px 4px 4px #ddd;
+  -moz-box-shadow:    4px 4px 4px #ddd;
+  -webkit-box-shadow: 4px 4px 4px #ddd;
 }
 .page p {
   position: absolute;
