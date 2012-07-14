@@ -28,7 +28,7 @@ Padrino::Logger::Config[:development].merge!({
 })
 
 Padrino::Logger::Config[:production].merge!({
-  :log_level => :debug,
+  :log_level => :info,
   :stream => LOG_FILE || :to_file,
   :format_datetime => '%d/%b/%Y %H:%M:%S',
   :format_message => '%s - [%s] %s',
