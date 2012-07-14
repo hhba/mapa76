@@ -149,7 +149,7 @@ var PageView = Backbone.View.extend({
   },
 
   events: {
-    "click .ne": "selectNamedEntity"
+    "mousedown .ne": "selectNamedEntity",
   },
 
   initialize: function() {
@@ -163,7 +163,18 @@ var PageView = Backbone.View.extend({
     this.$el.html(html);
     this.$el.removeClass("empty").removeClass("fetching");
     this.$el.find(".page-content").fadeIn("fast");
-    this.$el.find(".ne").draggable({ helper: "clone" });
+    var pageViewEl = this.$el;
+    this.$el.find(".ne").draggable({
+      helper: function() {
+        var neId = $(this).data("ne-id");
+        var parts = pageViewEl.find(".ne[data-ne-id='" + neId + "']");
+        var neInnerText = _.map(parts, function(e) { return e.innerText; }).join(" ")
+        var helper = $(this).clone();
+        helper.text(neInnerText);
+        helper.css("opacity", "0.5");
+        return helper;
+      }
+    });
     return this;
   },
 
