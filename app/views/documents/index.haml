@@ -133,12 +133,11 @@
                 %a{:href => '#', "data-sort" => "status"}Estado
           %tbody
             - @docs.each do |doc|
-              %tr
+              %tr{:"data-id" => doc.id}
                 %td{:style => "width: 70px"}
                   = thumbnail_tag doc
                 %td
-                  .title
-                    = link_to doc.heading, "#", "data-id" => doc.id, class: "context"
+                  .title= doc.heading
                   .tools
                     .btn-group
                       %a.btn{:href => url_for(:documents, :comb, :id => doc._id), :class => (doc.readable? ? nil : "disabled")}
