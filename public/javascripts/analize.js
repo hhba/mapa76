@@ -318,8 +318,10 @@ var PageView = Backbone.View.extend({
       this.addToCurrentRegister(neData, "where");
       break;
     case "actions":
-      // TODO
-      //break;
+      var verb = $ne.data("lemma");
+      $("#whatSelector option").first(function() { return this.text === verb; })
+                               .attr("selected", true);
+      break;
     }
   },
 
