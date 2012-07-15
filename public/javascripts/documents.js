@@ -35,8 +35,10 @@ $(document).ready(function(){
     var url = "/api/" + $this.data("id") + "/context";
     var template = $("#documentContext").html();
     $("#document").html("").spin();
-    $.getJSON(url, null, function(data){
+    $.getJSON(url, null, function(data) {
       $("#document").html(Mustache.render(template, data));
+    }).error(function() {
+      $("#document").html(Mustache.render($("#documentContextError").html()));
     });
     return false;
   });

@@ -2,12 +2,16 @@
 - content_for :javascripts do
   = javascript_include_tag 'bootstrap-alert', 'documents'
 
+%script#documentContextError{:type => "text/template"}
+  .alert.alert-error
+    Ocurrió un error al obtener información de contexto del documento.
+
 %script#documentContext{:type => "text/template"}
   .document{data: {id: "{{id}}"}}
     %h4
       Nombre: Fundamentos Orletti
     %ul.nav.nav-tabs  
-      %li
+      %li.active
         %a{href: '#facts', data:{toggle: 'tab'}} Hechos
       %li
         %a{href: '#names', data:{toggle: 'tab'}} Nombres
@@ -157,6 +161,6 @@
                       %i.icon-edit{:title => "Editar"}
                     %a.btn{:href => original_file_url(doc)}
                       %i.icon-download-alt{:title => "Descargar"}
-    .content.span5#document
+    .sidebar.span5#document
       %h4
         Haga clic en un documento para ver más información
