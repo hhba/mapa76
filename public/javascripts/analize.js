@@ -319,8 +319,9 @@ var PageView = Backbone.View.extend({
       break;
     case "actions":
       var verb = $ne.data("lemma");
-      $("#whatSelector option").first(function() { return this.text === verb; })
-                               .attr("selected", true);
+      $(_.find($("#whatSelector option"), function(e) {
+        return $(e).text().trim().toLowerCase() === verb;
+      })).attr("selected", true);
       break;
     }
   },
