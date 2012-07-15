@@ -150,6 +150,7 @@ var PageView = Backbone.View.extend({
 
   events: {
     "mousedown .ne": "selectNamedEntity",
+    "dblclick  .ne": "addNamedEntityToCurrentFact"
   },
 
   initialize: function() {
@@ -285,6 +286,53 @@ var PageView = Backbone.View.extend({
     default:
       break;
     }
+  },
+
+  addNamedEntityToCurrentFact: function(e) {
+    var $ne = $(e.currentTarget);
+    var neId = $ne.attr("data-ne-id");
+    var neClass = $ne.attr("data-class");
+    var parts = this.$el.find(".ne[data-ne-id='" + neId + "']");
+
+    neData = {
+      id: neId,
+      neClass: neClass,
+      type: $ne.attr("data-type"),
+      text: _.map(parts, function(e) { return e.innerText; }).join(" ")
+    };
+
+    switch (neClass) {
+    case "people":
+      if ($(".box.who .register").length === 0) {
+        this.addToCurrentRegister(neData, "who");
+      } else {
+        this.addToCurrentRegister(neData, "to_who");
+      }
+      break;
+    case "dates":
+      $(".box.when .register").remove();
+      this.addToCurrentRegister(neData, "when");
+      break;
+    case "places":
+      $(".box.where .register").remove();
+      this.addToCurrentRegister(neData, "where");
+      break;
+    case "actions":
+      // TODO
+      //break;
+    }
+  },
+
+  addToCurrentRegister: function(neData, boxClass) {
+    var params = {
+      text: neData.text,
+      type: neData.type,
+      ne_class: neData.neClass,
+      id: neData.id
+    };
+    var template = $("#preRegisterTemplate").html();
+    $(".box." + boxClass + " .new").before(Mustache.render(template, params));
+    AnalyzeApp.register = new Register(AnalyzeApp.registerView.getValues());
   }
 });
 
