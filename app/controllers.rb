@@ -36,4 +36,16 @@ Alegato.controllers  do
 
     render t, :layout => false
   end
+
+  get :entities do
+    not_found
+  end
+
+  get :facts do
+    not_found
+  end
+
+  get :projects do
+    not_found
+  end
 end

@@ -19,16 +19,16 @@
           %a.brand{:href => '/'} Mapa76
           .nav-collapse
             %ul.nav
-              %li.active
-                %a{:href => '/'} Inicio
-              %li
-                %a{:href => '/documents'} Documentos
-              %li
-                %a{:href => '/entities'} Entidades
-              %li
-                %a{:href => '/facts'} Hechos
-              %li
-                %a{:href => '/proyects'} Proyectos
+              %li{:class => request.path_info == url(:index) ? "active" : nil}
+                %a{:href => url(:index)} Inicio
+              %li{:class => request.path_info.start_with?(url(:documents, :index)) ? "active" : nil}
+                %a{:href => url(:documents, :index)} Documentos
+              %li{:class => request.path_info.start_with?(url(:entities)) ? "active" : nil}
+                %a{:href => url(:entities)} Entidades
+              %li{:class => request.path_info.start_with?(url(:facts)) ? "active" : nil}
+                %a{:href => url(:facts)} Hechos
+              %li{:class => request.path_info.start_with?(url(:projects)) ? "active" : nil}
+                %a{:href => url(:projects)} Proyectos
             %ul.nav.pull-right
               %li
                 %form{:class => 'navbar-search pull-left'}
