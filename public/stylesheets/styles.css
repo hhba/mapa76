@@ -56,6 +56,11 @@ table.tablesorter th {
   height: 80px;
 }
 
+/* Documents */
+.documents .title {
+  height: 65px;
+}
+
 /* Show document info */
 #loading {
   text-align: center;

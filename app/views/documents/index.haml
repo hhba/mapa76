@@ -119,10 +119,10 @@
           %strong
             Recuerde que el procesamiento de tareas puede tomar algunos minutos.
       .row-fluid
-        %table{:class => 'table table-striped documents', :id => 'sorteable'}
+        %table{:class => 'table documents', :id => 'sorteable'}
           %thead
             %tr
-              %th
+              %th{:style => "width: 70px"}
               %th
                 %a{:href => '#', "data-sort" => "name"}Título
               %th
@@ -130,18 +130,21 @@
               %th
                 %a{:href => '#', "data-sort" => "date"}Fecha
               %th
-                Estado
-              %th
+                %a{:href => '#', "data-sort" => "status"}Estado
           %tbody
             - @docs.each do |doc|
               %tr
-                %td
+                %td{:style => "width: 70px"}
                   = thumbnail_tag doc
                 %td
-                  - if doc.readable?
+                  .title
                     = link_to doc.heading, "#", "data-id" => doc.id, class: "context"
-                  - else
-                    = doc.heading
+                  .tools
+                    .btn-group
+                      %a.btn{:href => url_for(:documents, :comb, :id => doc._id), :class => (doc.readable? ? nil : "disabled")}
+                        %i.icon-edit{:title => "Editar"}
+                      %a.btn{:href => original_file_url(doc)}
+                        %i.icon-download-alt{:title => "Descargar"}
                 %td
                   = doc.category
                 %td
@@ -155,12 +158,6 @@
                   - else
                     .progress.progress-striped.active
                       .bar{:style => "width: #{doc.state_to_percentage}%;"}
-                %td
-                  .btn-group
-                    %a.btn{:href => url_for(:documents, :comb, :id => doc._id)}
-                      %i.icon-edit{:title => "Editar"}
-                    %a.btn{:href => original_file_url(doc)}
-                      %i.icon-download-alt{:title => "Descargar"}
     .content.span5#document
       %h4
         Haga clic en un documento para ver más información
