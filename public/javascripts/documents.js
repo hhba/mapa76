@@ -30,9 +30,10 @@ $(document).ready(function(){
   if($(".tablesorter").length !== 0) {
     $(".tablesorter").tablesorter();
   }
-  $("table.documents td a.context").click(function(){
-    var $this = $(this);
-    var url = "/api/" + $this.data("id") + "/context";
+  $(".documents tbody tr").click(function() {
+    $(this).siblings().removeClass("selected");
+    $(this).addClass("selected");
+    var url = "/api/" + $(this).data("id") + "/context";
     var template = $("#documentContext").html();
     $("#document").html("").spin();
     $.getJSON(url, null, function(data) {
