@@ -45,4 +45,7 @@ $(document).ready(function(){
   $(".documents .tools a").click(function(e) {
     e.stopPropagation();
   });
+  $(".documents .tools a.disabled").click(function(e) {
+    e.preventDefault();
+  });
 });
