@@ -142,6 +142,8 @@
                     .btn-group
                       %a.btn{:href => url_for(:documents, :comb, :id => doc._id), :class => (doc.readable? ? nil : "disabled")}
                         %i.icon-edit{:title => "Editar"}
+                      %a.btn{:href => url_for(:documents, :map, :id => doc._id), :class => (doc.has_geocoded_addresses? ? nil : "disabled")}
+                        %i.icon-globe{:title => "Mapa"}
                       %a.btn{:href => original_file_url(doc)}
                         %i.icon-download-alt{:title => "Descargar"}
                 %td

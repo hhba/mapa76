@@ -107,6 +107,10 @@ class Document
     state_to_percentage > 10
   end
 
+  def has_geocoded_addresses?
+    self.addresses_found.where(:lat.ne => nil, :lng.ne => nil).count > 0
+  end
+
   def state_to_percentage
     {
       :waiting => 0,
