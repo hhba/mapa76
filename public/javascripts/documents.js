@@ -30,7 +30,7 @@ $(document).ready(function(){
   if($(".tablesorter").length !== 0) {
     $(".tablesorter").tablesorter();
   }
-  $(".documents tbody tr").click(function() {
+  $(".documents tbody tr").click(function(e) {
     $(this).siblings().removeClass("selected");
     $(this).addClass("selected");
     var url = "/api/" + $(this).data("id") + "/context";
@@ -41,7 +41,8 @@ $(document).ready(function(){
     }).error(function() {
       $("#document").html(Mustache.render($("#documentContextError").html()));
     });
-    return false;
+  });
+  $(".documents .tools a").click(function(e) {
+    e.stopPropagation();
   });
 });
-
