@@ -35,12 +35,10 @@ var Register = Backbone.Model.extend({
 
   validate: function(attribs) {
     console.log(attribs);
-    if(attribs.who.length === 0) {
+    if (attribs.who.length === 0) {
       return "There must be a who";
     } else if (attribs.when.length === 0) {
       return "There must be a when";
-    } else if (attribs.where.length === 0) {
-      return "There must be a where";
     } else if (attribs.what === null) {
       return "There must be a what";
     }
