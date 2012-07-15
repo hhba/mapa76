@@ -1,3 +1,5 @@
+require "docsplit"
+
 module Docsplit
   class InfoExtractor
     # Pull out a single datum from a pdf.
