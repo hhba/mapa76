@@ -10,7 +10,7 @@ Alegato.controllers :api do
 
   get :context, :map => '/api/:id/context', :provides => [:json] do
     document = Document.find(params[:id])
-    document.context.to_json
+    document.context.merge(:heading => document.heading).to_json
   end
 
   get :person, :with => [:id], :provides => [:html, :json] do
