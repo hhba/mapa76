@@ -38,6 +38,9 @@ $(document).ready(function(){
     $("#document").html("").spin();
     $.getJSON(url, null, function(data) {
       $("#document").html(Mustache.render(template, data));
+      $("#document .tablesorter").tablesorter({
+        sortList: [[1,1]]
+      });
     }).error(function() {
       $("#document").html(Mustache.render($("#documentContextError").html()));
     });

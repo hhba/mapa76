@@ -47,9 +47,10 @@ class Document
     {
       id: self.id,
       registers: self.registers.map { |register| register.to_hash },
-      people: self.people.map { |person| {name: person.full_name, mentions: person.mentions_in(self)} },
-      organizations: [],
-      places: []
+      people: self.people.map { |person| { name: person.full_name, mentions: person.mentions_in(self) } },
+      dates: self.dates_found.group_by(&:text).map { |k, v| { text: k, mentions: v.size} },
+      organizations: self.organizations_found.group_by(&:text).map { |k, v| { text: k, mentions: v.size} },
+      places: (self.places_found + self.addresses_found).group_by(&:text).map { |k, v| { text: k, mentions: v.size} },
     }
   end
 
@@ -93,6 +94,10 @@ class Document
 
   def organizations_found
     self.named_entities.where(:ne_class => :organizations)
+  end
+
+  def places_found
+    self.named_entities.where(:ne_class => :places)
   end
 
   def addresses_found

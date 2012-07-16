@@ -68,7 +68,7 @@
             {{#organizations}}
             %tr
               %td
-                {{name}}
+                {{text}}
               %td
                 {{mentions}}
             {{/organizations}}
@@ -79,10 +79,16 @@
             %tr
               %th
                 Fechas
+              %th
+                Menciones
           %tbody
+            {{#dates}}
             %tr
               %td
-                24/03/1977
+                {{text}}
+              %td
+                {{mentions}}
+            {{/dates}}
       .tab-pane#places
         %table.table.table-bordered.table-condensed.tablesorter
           %thead
@@ -95,7 +101,7 @@
             {{#places}}
             %tr
               %td
-                {{name}}
+                {{text}}
               %td
                 {{mentions}}
             {{/places}}
