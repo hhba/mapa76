@@ -146,11 +146,6 @@ var PageView = Backbone.View.extend({
            "height: " + this.model.get("height") + "px";
   },
 
-  events: {
-    "mousedown .ne": "selectNamedEntity",
-    "dblclick  .ne": "addNamedEntityToCurrentFact"
-  },
-
   initialize: function() {
     this.$el = $("." + this.className + "[data-id=" + this.model.get("_id") + "]");
     this.template = $("#pageTemplate").html();
@@ -261,6 +256,64 @@ var PageView = Backbone.View.extend({
       height: this.model.get("height"),
       textLines: textLines
     };
+  }
+});
+
+var PageListView = Backbone.View.extend({
+  el: ".pages",
+
+  className: "pages",
+
+  events: {
+    "mousedown .ne": "selectNamedEntity",
+    "dblclick  .ne": "addNamedEntityToCurrentFact"
+  },
+
+  initialize: function() {
+    this.collection.on("add", this.addOne, this);
+    this.collection.on("reset", this.addAll, this);
+
+    var self = this;
+    $(window).scroll(function() {
+      self.renderVisiblePages();
+    });
+  },
+
+  render: function() {
+    this.addAll();
+    return this;
+  },
+
+  addOne: function(page) {
+    var pageView = new PageView({ model: page });
+    pageView.render();
+  },
+
+  addAll: function() {
+    this.collection.each(this.addOne, this);
+  },
+
+  renderVisiblePages: function() {
+    var self = this;
+    this.$el.find(".page.empty")
+            .filter(this.onViewport)
+            .each(function() { return self.fetchPage($(this)) });
+  },
+
+  onViewport: function() {
+    var rect = this.getBoundingClientRect();
+    return (rect.top < window.innerHeight && rect.bottom > 0);
+  },
+
+  fetchPage: function($el) {
+    var num = $el.attr("id");
+    console.log("fetch page " + num);
+    $el.removeClass("empty");
+    $el.addClass("fetching");
+    this.collection.fetch({
+      add: true,
+      data: { page: num },
+    });
   },
 
   selectNamedEntity: function(e) {
@@ -334,59 +387,6 @@ var PageView = Backbone.View.extend({
     var template = $("#preRegisterTemplate").html();
     $(".box." + boxClass + " .new").before(Mustache.render(template, params));
     AnalyzeApp.register = new Register(AnalyzeApp.registerView.getValues());
-  }
-});
-
-var PageListView = Backbone.View.extend({
-  el: ".pages",
-
-  className: "pages",
-
-  initialize: function() {
-    this.collection.on("add", this.addOne, this);
-    this.collection.on("reset", this.addAll, this);
-
-    var self = this;
-    $(window).scroll(function() {
-      self.renderVisiblePages();
-    });
-  },
-
-  render: function() {
-    this.addAll();
-    return this;
-  },
-
-  addOne: function(page) {
-    var pageView = new PageView({ model: page });
-    pageView.render();
-  },
-
-  addAll: function() {
-    this.collection.each(this.addOne, this);
-  },
-
-  renderVisiblePages: function() {
-    var self = this;
-    this.$el.find(".page.empty")
-            .filter(this.onViewport)
-            .each(function() { return self.fetchPage($(this)) });
-  },
-
-  onViewport: function() {
-    var rect = this.getBoundingClientRect();
-    return (rect.top < window.innerHeight && rect.bottom > 0);
-  },
-
-  fetchPage: function($el) {
-    var num = $el.attr("id");
-    console.log("fetch page " + num);
-    $el.removeClass("empty");
-    $el.addClass("fetching");
-    this.collection.fetch({
-      add: true,
-      data: { page: num },
-    });
   }
 });
 
