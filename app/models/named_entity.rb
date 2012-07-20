@@ -1,6 +1,5 @@
 class NamedEntity
   include Mongoid::Document
-  include Mongoid::Fields::Serializable
 
   field :text,      :type => String, :default => lambda { human_form }
   field :pos,       :type => Integer
