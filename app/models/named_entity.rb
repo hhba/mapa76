@@ -1,5 +1,6 @@
 class NamedEntity
   include Mongoid::Document
+  include Mongoid::Fields::Serializable
   include TimeSetter
 
   field :text,      :type => String, :default => lambda { human_form }
