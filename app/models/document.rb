@@ -20,10 +20,10 @@ class Document
 
   has_many :milestones
   has_many :named_entities
-  has_many :registers
-  has_and_belongs_to_many :people, index: true
-
   has_many :pages
+  has_many :fact_registers
+  has_many :relation_registers
+  has_and_belongs_to_many :people, index: true
 
   validates_presence_of :original_file
 
