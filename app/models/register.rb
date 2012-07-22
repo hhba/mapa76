@@ -51,8 +51,14 @@ protected
     klass = opts[:type]
 
     fields.each do |field|
-      define_method(field) do
-        self.send("#{field}_id") and klass.find(self.send("#{field}_id"))
+      if field_singular = field.to_s.singularize.to_sym and field == field_singular
+        define_method(field) do
+          self.send("#{field}_id") and klass.find(self.send("#{field}_id"))
+        end
+      else
+        define_method(field) do
+          klass.in(id: (self.send("#{field_singular}_ids") || [])).to_a
+        end
       end
     end
   end

@@ -8,4 +8,7 @@ class RelationRegister < Register
   belongs_to :document
 
   references [:subject_register, :complement_register], type: Register
+
+  validates :subject_register_id,    presence: true
+  validates :complement_register_id, presence: true
 end
