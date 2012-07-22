@@ -1,12 +1,17 @@
+require_relative "register"
+
 class FactRegister < Register
-  field :person_id, type: Moped::BSON::ObjectId
-  field :place_id,  type: Moped::BSON::ObjectId
-  field :date_id,   type: Moped::BSON::ObjectId
-  field :action_id, type: Moped::BSON::ObjectId
-  field :passive,   type: Boolean
+  field :person_ids, type: Array
+  field :place_id,   type: Moped::BSON::ObjectId
+  field :date_id,    type: Moped::BSON::ObjectId
+  field :action_ids, type: Array
+  field :passive,    type: Boolean
 
   belongs_to :fact
   belongs_to :document
 
-  references [:person, :place, :date, :action], type: NamedEntity
+  references [:people, :place, :date, :actions], type: NamedEntity
+
+  validates :person_ids, presence: true
+  validates :action_ids,  presence: true
 end
