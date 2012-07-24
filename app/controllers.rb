@@ -1,10 +1,6 @@
 # encoding: utf-8
 
 Alegato.controllers  do
-  get :test do
-    render :test
-  end
-
   get :index do
     @persons = if params[:ids]
       Person.find(params[:ids].split(','))
@@ -15,6 +11,22 @@ Alegato.controllers  do
     render :index
   end
 
+  # TODO
+  get :projects do
+    not_found
+  end
+
+  # TODO
+  get :profiles do
+    not_found
+  end
+
+  # TODO
+  get :facts do
+    not_found
+  end
+
+=begin
   get :timeline_json do
     persons = Person.find(params[:ids].split(","))
     t = {}
@@ -36,16 +48,5 @@ Alegato.controllers  do
 
     render t, :layout => false
   end
-
-  get :entities do
-    not_found
-  end
-
-  get :facts do
-    not_found
-  end
-
-  get :projects do
-    not_found
-  end
+=end
 end
