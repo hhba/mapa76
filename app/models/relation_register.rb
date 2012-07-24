@@ -1,8 +1,8 @@
 require_relative "register"
 
 class RelationRegister < Register
-  field :subject_register_id,    type: Moped::BSON::ObjectId
-  field :complement_register_id, type: Moped::BSON::ObjectId
+  field :subject_register_id,    type: BSON::ObjectId
+  field :complement_register_id, type: BSON::ObjectId
 
   belongs_to :relation
   belongs_to :document
