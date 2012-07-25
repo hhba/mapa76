@@ -43,7 +43,7 @@
 
     .container-fluid
       .row-fluid
-        .content.span9
+        .content.span8
           - if content_for?(:hero)
             .hero-unit
               = yield_content :hero
@@ -51,9 +51,9 @@
             .row-fluid
               = yield_content :row
           = yield
-        .sidebar.span3
-          - if content_for?(:sidebar)
-            .well.sidebar-nav
+        - if content_for?(:sidebar)
+          .sidebar.span4
+            .sidebar-nav
               = yield_content :sidebar
 
     .container-fluid

@@ -15,11 +15,12 @@
 
 / Document content
 .row-fluid
-  %h2{:id => "document-heading", "data-document-id" => @doc.id}
-    = @doc.heading
-  .pages
-    - @empty_pages.each do |page|
-      .page.empty{:id => page.num, :"data-id" => page.id, :style => "width: #{page.width}px; height: #{page.height}px"}
+  .document
+    %h2{:id => "document-heading", "data-document-id" => @doc.id}
+      = @doc.heading
+    .pages
+      - @empty_pages.each do |page|
+        .page.empty{:id => page.num, :"data-id" => page.id, :style => "width: 100%; height: #{page.height}px"}
 
 -#
   .row-fluid
