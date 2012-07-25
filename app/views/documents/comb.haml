@@ -39,16 +39,18 @@
 
 - content_for :sidebar do
   %ul.nav.nav-list#sidebar
-    .alert.alert-error#register-error{style: "display:none;"}
-      %a.close{href: '#', data: {dismiss: "alert"}}
+    .alert.alert-error#registers-error{style: "display: none;"}
+      %a.close{href: '#', data: { dismiss: "alert" }}
       %strong
         Aviso
-      El registro no ha sido guardado.
-    .alert.alert-success#register-save{style: "display:none;"}
-      %a.close{href: '#', data: {dismiss: "alert"}}
+      Los registros no han sido guardados.
+
+    .alert.alert-success#registers-save{style: "display: none;"}
+      %a.close{href: '#', data: { dismiss: "alert" }}
       %strong
         Aviso
-      El registro ha sido guardado.
+      Los registros han sido guardados.
+
     %li.nav-header
       Referencias
     %ul#reference
@@ -67,33 +69,12 @@
       %li.actions
         %input{:type => "checkbox", :id => :actions_ref, :checked => true}
         %label{:for => :actions_ref} Acciones
-    %li.nav-header#register
-      Hechos
-      .new_register
-        .who.box{"data-type" => "people", 'data-klass' => 'who'}
-          %h3 Quiénes
-          .new
-        .what.box{"data-type" => "what", 'data-klass' => 'what'}
-          %h3 Qué
-          .controls
-            %select#whatSelector{multiple: true}
-              - ActionEntity::VERBS.each do |action|
-                %option
-                  = action.titleize
-        .when.box{"data-type" => "dates", 'data-klass' => 'when'}
-          %h3 Cuándo
-          .new
-        .where.box{"data-type" => "places", 'data-klass' => 'where'}
-          %h3 Dónde
-          .new
-        .to_who.box{"data-type" => "people", 'data-klass' => 'to_who'}
-          %h3 A quiénes
-          .new
-        .buttons
-          %button{:class => 'btn btn-primary save'}
-            Guardar
-          %button{:class => 'btn btn-danger clean'}
-            Limpiar
+
+    %li.nav-header#registers Hechos
+    #current-registers
+      Arrastre un
+      %strong nombre de persona
+      aquí para crear un nuevo hecho.
 
     %li.nav-header Contexto
     .context#context

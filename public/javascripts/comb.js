@@ -262,11 +262,21 @@ var PageListView = Backbone.View.extend({
   },
 
   selectNamedEntity: function(e) {
-    console.log("selectNamedEntity");
+    var $ne = $(e.currentTarget);
+    var ne_id = $ne.attr("data-ne-id");
+    var ne_class = $ne.attr("data-class");
+    var person_id = $ne.attr("data-person-id");
+
+    this.$el.find(".ne.selected").removeClass("selected");
+    this.$el.find(".ne[data-ne-id='" + ne_id + "']").addClass("selected");
+
+    // Fetch NE profile info into Context view (people NE -> person profile)
+    // TODO ...
   },
 
   addNamedEntityToCurrentFact: function(e) {
     console.log("addNamedEntityToCurrentFact");
+    // TODO ...
   },
 });
 
