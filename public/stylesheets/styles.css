@@ -128,12 +128,13 @@ table.tablesorter th {
   height: 10px;
   line-height: 10px;
 }
-.event .dragged.actions, #reference .actions:before { background-color: #333; }
-.event .dragged.people, #reference .people:before { background-color: #b94a48; }
-.event .dragged.organizations, #reference .organizations:before { background-color: #3a87ad; }
-.event .dragged.places, #reference .places:before { background-color: #f89406; }
-.event .dragged.dates, #reference .dates:before { background-color: #468847; }
-.event .dragged.others, #reference .others:before { background-color: #555; }
+.event .dragged.actions { background-color: #333; }
+.event .dragged.people { background-color: #b94a48; }
+.event .dragged.organizations { background-color: #3a87ad; }
+.event .dragged.places { background-color: #f89406; }
+.event .dragged.dates { background-color: #468847; }
+.event .dragged.others { background-color: #555; }
+
 .event:-moz-drag-over { background: #fff9d7; }
 .event .dragged, #reference li { color: #fff; line-height: 25px;
   padding: 3px 4px; margin: .0em .1em;
@@ -185,11 +186,26 @@ table.tablesorter th {
   background-color: #333;
 }
 
-.pages.hide-people .ne.people { color: #000; font-weight: normal; }
-.pages.hide-organizations .ne.organizations { color: #000; font-weight: normal; }
-.pages.hide-places .ne.places { color: #000; font-weight: normal; }
-.pages.hide-dates .ne.dates { color: #000; font-weight: normal; }
-.pages.hide-others .ne.others { color: #000; font-weight: normal; }
+.pages.hide-people .ne.people {
+  color: #000;
+  font-weight: normal;
+}
+.pages.hide-organizations .ne.organizations {
+  color: #000;
+  font-weight: normal;
+}
+.pages.hide-places .ne.places {
+  color: #000;
+  font-weight: normal;
+}
+.pages.hide-dates .ne.dates {
+  color: #000;
+  font-weight: normal;
+}
+.pages.hide-others .ne.others {
+  color: #000;
+  font-weight: normal;
+}
 .pages.hide-actions .ne.actions {
   background-color: #fff;
   color: #000;
@@ -200,11 +216,30 @@ table.tablesorter th {
   margin-bottom: 0;
 }
 
-#reference { list-style: none; margin: 0; }
-#reference li { color: #000; line-height: 18px; }
-#reference li:before { content: '.'; color: transparent; width: 16px; height: 16px; margin-right: 3px; }
-#reference li, #reference li:before { display: inline-block; }
-#reference li label { display: inline-block; width: 90px; cursor: pointer; }
+#reference {
+  list-style: none;
+  margin: 0;
+}
+#reference li {
+  color: #000;
+  line-height: 8px;
+}
+#reference li,
+#reference li:before {
+  display: inline-block;
+}
+#reference li label {
+  display: inline-block;
+  cursor: pointer;
+  font-size: 10px;
+  margin: 0;
+  font-weight: bold;
+}
+#reference .actions label { color: #333; }
+#reference .people label { color: #b94a48; }
+#reference .organizations label { color: #3a87ad; }
+#reference .places label { color: #f89406; }
+#reference .dates label { color: #468847; }
 
 .page {
   position: relative;
