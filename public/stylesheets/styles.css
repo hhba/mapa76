@@ -1,13 +1,21 @@
 body {
-  padding-top: 60px;
+  padding-top: 40px;
   padding-bottom: 40px;
+  background-color: #eee;
 }
-.sidebar-nav {
-  padding: 9px 0;
+.document h2 {
+  margin-top: 0.3em;
 }
 .sidebar {
   position: fixed;
+  background-color: #f8f8f8;
   right: 20px;
+  border: 1px solid #ddd;
+  border-top: 0;
+  height: 100%;
+}
+.sidebar-nav {
+  padding: 9px 0;
 }
 .hidden {
   display: none;
@@ -112,7 +120,7 @@ table.tablesorter th {
 }
 .box .new{
   height: 10px;
-  border: 2px dashed #AAA;
+  border: 1px dashed #AAA;
 }
 .event {
   display: block; width: 260px; min-height: 25px;
@@ -242,12 +250,15 @@ table.tablesorter th {
 #reference .dates label { color: #468847; }
 
 .page {
+  background-color: #fff;
   position: relative;
   border: 1px solid #aaa;
-  margin-bottom: 1.5em;
+  margin-bottom: .75em;
+  /*
   box-shadow:         4px 4px 4px #ddd;
   -moz-box-shadow:    4px 4px 4px #ddd;
   -webkit-box-shadow: 4px 4px 4px #ddd;
+  */
 }
 .page p {
   position: absolute;
@@ -258,8 +269,14 @@ table.tablesorter th {
   /*border: 1px dotted green;*/
   /*overflow: hidden;*/
 }
-.page.empty { background-color: #eee; }
-.page.fetching { background: url(../images/page-spinner.gif) center no-repeat; }
+.page.empty {
+  border: 1px solid #bbb;
+  background: url("../images/stripe.png") white;
+}
+.page.fetching {
+  border: 1px solid #bbb;
+  background: url("../images/stripe.png") white;
+}
 
 #intro h1, #intro h2, #intro h3, #intro p { color: #fff; font-family: 'Dosis', sans-serif; }
 #intro .span8, #intro .span4, #intro .intro-graph { -webkit-border-radius: 10px; -moz-border-radius: 10px; border-radius: 10px; }
