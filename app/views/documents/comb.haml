@@ -1,8 +1,11 @@
 -# coding: utf-8
 - content_for :javascripts do
-  = javascript_include_tag 'analize'
+  = javascript_include_tag "comb"
   :javascript
-    AnalyzeApp.pageList.reset(#{@pages.to_json(:methods => :named_entities)});
+    $(function() {
+      var app = new AppView;
+      app.pageList.reset(#{@pages.to_json(:methods => :named_entities)});
+    });
 
 / Document fontspec CSS classes
 - @doc.fontspecs.each do |id, fs|
