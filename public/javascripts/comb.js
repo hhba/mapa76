@@ -222,6 +222,9 @@ var PageListView = Backbone.View.extend({
     $(window).scroll(function() {
       self.renderVisiblePages();
     });
+    $(window).mousedown(function() {
+      self.deselectNamedEntity();
+    });
   },
 
   render: function() {
@@ -262,6 +265,8 @@ var PageListView = Backbone.View.extend({
   },
 
   selectNamedEntity: function(e) {
+    e.stopPropagation();
+
     var $ne = $(e.currentTarget);
     var ne_id = $ne.attr("data-ne-id");
     var ne_class = $ne.attr("data-class");
@@ -272,6 +277,10 @@ var PageListView = Backbone.View.extend({
 
     // Fetch NE profile info into Context view (people NE -> person profile)
     // TODO ...
+  },
+
+  deselectNamedEntity: function() {
+    this.$el.find(".ne.selected").removeClass("selected");
   },
 
   addNamedEntityToCurrentFact: function(e) {
