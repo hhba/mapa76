@@ -2,9 +2,15 @@
 - content_for :javascripts do
   = javascript_include_tag "comb"
   :javascript
+    var app = null;
     $(function() {
-      var app = new AppView;
-      app.pageList.reset(#{@pages.to_json(:methods => :named_entities)});
+      app = new AppView({
+        document: #{@doc.attributes.slice(*%w{
+          _id category created_at description fontspecs heading information
+          last_analysis_at original_file state title
+        }).to_json}
+      });
+      app.document.pageList.reset(#{@pages.to_json(:methods => :named_entities)});
     });
 
 / Document fontspec CSS classes

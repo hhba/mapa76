@@ -2,7 +2,12 @@
  * Models
  **/
 var Document = Backbone.Model.extend({
-  urlRoot: '/api/documents/'
+  urlRoot: '/api/documents/',
+
+  initialize: function() {
+    this.pageList = new PageList();
+    this.pageList.url = this.urlRoot + this.get("_id");
+  }
 });
 
 var Page = Backbone.Model.extend({
@@ -17,6 +22,8 @@ var Page = Backbone.Model.extend({
 });
 
 var NamedEntity = Backbone.Model.extend({});
+var FactRegister = Backbone.Model.extend({});
+var RelationRegister = Backbone.Model.extend({});
 
 /**
  * Collections
@@ -40,6 +47,106 @@ var NamedEntityList = Backbone.Collection.extend({
 /**
  * Views
  **/
+var AppView = Backbone.View.extend({
+  initialize: function() {
+    this.document = new Document(this.options.document);
+    this.documentView = new DocumentView({ model: this.document });
+  }
+});
+
+var DocumentView = Backbone.View.extend({
+  className: "document",
+
+  initialize: function() {
+    this.pageListView = new PageListView({ collection: this.model.pageList });
+  }
+});
+
+var PageListView = Backbone.View.extend({
+  el: ".pages",
+
+  className: "pages",
+
+  events: {
+    "mousedown .ne": "selectNamedEntity",
+    "dblclick  .ne": "addNamedEntityToCurrentFact"
+  },
+
+  initialize: function() {
+    this.collection.on("add", this.addOne, this);
+    this.collection.on("reset", this.addAll, this);
+
+    var self = this;
+    $(window).scroll(function() {
+      self.renderVisiblePages();
+    });
+    $(window).mousedown(function() {
+      self.deselectNamedEntity();
+    });
+  },
+
+  render: function() {
+    this.addAll();
+    return this;
+  },
+
+  addOne: function(page) {
+    var pageView = new PageView({ model: page });
+    pageView.render();
+  },
+
+  addAll: function() {
+    this.collection.each(this.addOne, this);
+  },
+
+  renderVisiblePages: function() {
+    var self = this;
+    this.$el.find(".page.empty")
+            .filter(this.onViewport)
+            .each(function() { return self.fetchPage($(this)) });
+  },
+
+  onViewport: function() {
+    var rect = this.getBoundingClientRect();
+    return (rect.top < window.innerHeight && rect.bottom > 0);
+  },
+
+  fetchPage: function($el) {
+    var num = $el.attr("id");
+    console.log("fetch page " + num);
+    $el.removeClass("empty");
+    $el.addClass("fetching");
+    this.collection.fetch({
+      add: true,
+      data: { page: num },
+    });
+  },
+
+  selectNamedEntity: function(e) {
+    e.stopPropagation();
+
+    var $ne = $(e.currentTarget);
+    var ne_id = $ne.attr("data-ne-id");
+    var ne_class = $ne.attr("data-class");
+    var person_id = $ne.attr("data-person-id");
+
+    this.$el.find(".ne.selected").removeClass("selected");
+    this.$el.find(".ne[data-ne-id='" + ne_id + "']").addClass("selected");
+
+    // Fetch NE profile info into Context view (people NE -> person profile)
+    // TODO ...
+  },
+
+  deselectNamedEntity: function() {
+    this.$el.find(".ne.selected").removeClass("selected");
+  },
+
+  addNamedEntityToCurrentFact: function(e) {
+    console.log("addNamedEntityToCurrentFact");
+    // TODO ...
+  },
+});
+
 var PageView = Backbone.View.extend({
   className: "page",
 
@@ -204,103 +311,5 @@ var PageView = Backbone.View.extend({
   }
 });
 
-var PageListView = Backbone.View.extend({
-  el: ".pages",
 
-  className: "pages",
-
-  events: {
-    "mousedown .ne": "selectNamedEntity",
-    "dblclick  .ne": "addNamedEntityToCurrentFact"
-  },
-
-  initialize: function() {
-    this.collection.on("add", this.addOne, this);
-    this.collection.on("reset", this.addAll, this);
-
-    var self = this;
-    $(window).scroll(function() {
-      self.renderVisiblePages();
-    });
-    $(window).mousedown(function() {
-      self.deselectNamedEntity();
-    });
-  },
-
-  render: function() {
-    this.addAll();
-    return this;
-  },
-
-  addOne: function(page) {
-    var pageView = new PageView({ model: page });
-    pageView.render();
-  },
-
-  addAll: function() {
-    this.collection.each(this.addOne, this);
-  },
-
-  renderVisiblePages: function() {
-    var self = this;
-    this.$el.find(".page.empty")
-            .filter(this.onViewport)
-            .each(function() { return self.fetchPage($(this)) });
-  },
-
-  onViewport: function() {
-    var rect = this.getBoundingClientRect();
-    return (rect.top < window.innerHeight && rect.bottom > 0);
-  },
-
-  fetchPage: function($el) {
-    var num = $el.attr("id");
-    console.log("fetch page " + num);
-    $el.removeClass("empty");
-    $el.addClass("fetching");
-    this.collection.fetch({
-      add: true,
-      data: { page: num },
-    });
-  },
-
-  selectNamedEntity: function(e) {
-    e.stopPropagation();
-
-    var $ne = $(e.currentTarget);
-    var ne_id = $ne.attr("data-ne-id");
-    var ne_class = $ne.attr("data-class");
-    var person_id = $ne.attr("data-person-id");
-
-    this.$el.find(".ne.selected").removeClass("selected");
-    this.$el.find(".ne[data-ne-id='" + ne_id + "']").addClass("selected");
-
-    // Fetch NE profile info into Context view (people NE -> person profile)
-    // TODO ...
-  },
-
-  deselectNamedEntity: function() {
-    this.$el.find(".ne.selected").removeClass("selected");
-  },
-
-  addNamedEntityToCurrentFact: function(e) {
-    console.log("addNamedEntityToCurrentFact");
-    // TODO ...
-  },
-});
-
-
-var AppView = Backbone.View.extend({
-  initialize: function() {
-    var document_id = $("#document-heading").attr("data-document-id");
-
-    this.pageList = new PageList();
-    this.pageList.url = "/api/documents/" + document_id;
-    this.pageListView = new PageListView({ collection: this.pageList });
-  }
-});
-
-
-$(function() {
-
-});
+//$(function() { });
