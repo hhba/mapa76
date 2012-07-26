@@ -76,13 +76,13 @@ var PageListView = Backbone.View.extend({
     this.collection.on("add", this.addOne, this);
     this.collection.on("reset", this.addAll, this);
 
-    var self = this;
-    $(window).scroll(function() {
-      self.renderVisiblePages();
-    });
-    $(window).mousedown(function() {
-      self.deselectNamedEntity();
-    });
+    $(window).bind("scroll.pagelist", _.bind(this.renderVisiblePages, this));
+    $(window).bind("mousedown.pagelist", _.bind(this.deselectNamedEntity, this));
+  },
+
+  remove: function() {
+    $(window).unbind("scroll.pagelist");
+    $(window).unbind("mousedown.pagelist");
   },
 
   render: function() {
@@ -156,10 +156,6 @@ var PageView = Backbone.View.extend({
       "data-id": this.model.get("_id"),
       "style": this.style()
     };
-  },
-
-  events: {
-    "resize window": "resize"
   },
 
   style: function() {
