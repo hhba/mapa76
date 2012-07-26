@@ -181,13 +181,25 @@ var PageView = Backbone.View.extend({
     this.$el.removeClass("empty").removeClass("fetching");
     this.$el.find(".page-content").fadeIn("fast");
     var pageViewEl = this.$el;
+
     this.$el.find(".ne").draggable({
+      start: function(event, ui) {
+        console.log("start");
+      },
+      stop: function(event, ui) {
+        console.log("stop");
+      },
       helper: function() {
+        var helper = $(this).clone().detach().appendTo(pageViewEl.parent());
+
         var neId = $(this).data("ne-id");
         var parts = pageViewEl.find(".ne[data-ne-id='" + neId + "']");
         var neInnerText = _.map(parts, function(e) { return e.innerText; }).join(" ")
-        var helper = $(this).clone();
         helper.text(neInnerText);
+
+        var mainPart = $(_.max(parts, function(p) { return parseInt($(p).css("font-size")); }));
+        helper.css("font", mainPart.css("font"));
+        helper.css("margin", mainPart.css("margin"));
         helper.css("opacity", "0.5");
         return helper;
       }

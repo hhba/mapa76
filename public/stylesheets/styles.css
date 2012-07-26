@@ -248,11 +248,7 @@ table.tablesorter th {
   position: relative;
   border: 1px solid #aaa;
   margin-bottom: .75em;
-  /*
-  box-shadow:         4px 4px 4px #ddd;
-  -moz-box-shadow:    4px 4px 4px #ddd;
-  -webkit-box-shadow: 4px 4px 4px #ddd;
-  */
+  overflow: hidden;
 }
 .page p {
   position: absolute;
