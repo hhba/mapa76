@@ -68,7 +68,6 @@ var PageListView = Backbone.View.extend({
   className: "pages",
 
   events: {
-    "mousedown .ne": "selectNamedEntity",
     "dblclick  .ne": "addNamedEntityToCurrentFact"
   },
 
@@ -122,21 +121,6 @@ var PageListView = Backbone.View.extend({
     });
   },
 
-  selectNamedEntity: function(e) {
-    e.stopPropagation();
-
-    var $ne = $(e.currentTarget);
-    var ne_id = $ne.attr("data-ne-id");
-    var ne_class = $ne.attr("data-class");
-    var person_id = $ne.attr("data-person-id");
-
-    this.$el.find(".ne.selected").removeClass("selected");
-    this.$el.find(".ne[data-ne-id='" + ne_id + "']").addClass("selected");
-
-    // Fetch NE profile info into Context view (people NE -> person profile)
-    // TODO ...
-  },
-
   deselectNamedEntity: function() {
     this.$el.find(".ne.selected").removeClass("selected");
   },
@@ -164,9 +148,10 @@ var PageView = Backbone.View.extend({
   },
 
   initialize: function() {
+    this.namedEntitiesView = new NamedEntityListView({ collection: this.model.namedEntities });
+
     this.$el = $("." + this.className + "[data-id=" + this.model.get("_id") + "]");
     this.template = $("#pageTemplate").html();
-    this.namedEntityTemplate = $("#namedEntityTemplate").html();
 
     $(window).bind("resize.page." + this.model.get("num"), _.bind(this.resize, this));
   },
@@ -319,5 +304,41 @@ var PageView = Backbone.View.extend({
   }
 });
 
+var NamedEntityListView = Backbone.View.extend({
+  collection: NamedEntityList
+});
+
+var NamedEntityView = Backbone.View.extend({
+  model: NamedEntity,
+
+  events: {
+    "mousedown": "select"
+  },
+
+  initialize: function() {
+    this.template = $("#personContext").html();
+  },
+
+  render: function() {
+    this.html = Mustache.render(this.template, this.model.toJSON());
+    this.$el.html(this.html);
+    return this;
+  },
+
+  select: function(e) {
+    e.stopPropagation();
+
+    deselectAll();
+    this.$el.addClass("selected");
+
+    // Fetch NE profile info into Context view (people NE -> person profile)
+    // TODO ...
+  },
+
+  deselectAll: function() {
+    // FIXME This action should be in the page view, or something.
+    this.$el.parents(".page").removeClass("selected");
+  }
+});
 
 //$(function() { });
