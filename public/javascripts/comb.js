@@ -236,6 +236,7 @@ var PageView = Backbone.View.extend({
   resize: function() {
     var currentWidth = this.$el.parents(".document").parents().width();
     var ratio = currentWidth / this.model.get("width");
+    this.$el.css("height", this.model.get("height") * ratio);
     this.$el.find("p").each(function(i, e) {
       var $e = $(e);
       $e.css("font-size", parseInt($e.data("font-size")) * ratio);
