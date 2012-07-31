@@ -5,8 +5,8 @@ var Document = Backbone.Model.extend({
   urlRoot: '/api/documents/',
 
   initialize: function() {
-    this.pageList = new PageList();
-    this.pageList.url = this.urlRoot + this.get("_id");
+    this.pages = new Pages();
+    this.pages.url = this.urlRoot + this.get("_id");
   }
 });
 
@@ -14,21 +14,30 @@ var Page = Backbone.Model.extend({
   initialize: function() {
     // FIXME filter "addresses", they are currently overlapping with other NEs
     // because of a bug. Remove this once solved.
-    var nes = _.filter(this.get("named_entities"), function(ne) {
+    var nes = this.get("named_entities").filter(function(ne) {
       return ne.ne_class != "addresses";
     });
-    this.namedEntities = new NamedEntityList(nes);
+    this.namedEntities = new NamedEntities(nes);
+    this.textLines = new TextLines(this.get("text_lines"));
   }
 });
 
-var NamedEntity = Backbone.Model.extend({});
+var TextLine = Backbone.Model.extend({});
+var NamedEntity = Backbone.Model.extend({
+  initialize: function() {
+    this.on("changed:selected", function() {
+      console.log("selected! " + this.get("text"))
+    }, this);
+  }
+});
+
 var FactRegister = Backbone.Model.extend({});
 var RelationRegister = Backbone.Model.extend({});
 
 /**
  * Collections
  **/
-var PageList = Backbone.Collection.extend({
+var Pages = Backbone.Collection.extend({
   model: Page,
 
   comparator: function(page) {
@@ -36,12 +45,34 @@ var PageList = Backbone.Collection.extend({
   }
 });
 
-var NamedEntityList = Backbone.Collection.extend({
+var TextLines = Backbone.Collection.extend({
+  model: TextLine,
+
+  comparator: function(textLine) {
+    return textLine.get("_id");
+  }
+});
+
+var NamedEntities = Backbone.Collection.extend({
   model: NamedEntity,
 
   comparator: function(namedEntity) {
     return namedEntity.get("pos");
-  }
+  },
+
+  initialize: function() {
+    this.on("change:selected", this.deselectAll, this);
+  },
+
+  deselectAll: function(changedNe) {
+    if (changedNe.get("selected")) {
+      this.each(function(ne) {
+        if (ne.get("_id") !== changedNe.get("_id")) {
+          ne.set("selected", false);
+        }
+      });
+    }
+  },
 });
 
 /**
@@ -58,11 +89,11 @@ var DocumentView = Backbone.View.extend({
   className: "document",
 
   initialize: function() {
-    this.pageListView = new PageListView({ collection: this.model.pageList });
+    this.pagesView = new PagesView({ collection: this.model.pages });
   }
 });
 
-var PageListView = Backbone.View.extend({
+var PagesView = Backbone.View.extend({
   el: ".pages",
 
   className: "pages",
@@ -75,13 +106,13 @@ var PageListView = Backbone.View.extend({
     this.collection.on("add", this.addOne, this);
     this.collection.on("reset", this.addAll, this);
 
-    $(window).bind("scroll.pagelist", _.bind(this.renderVisiblePages, this));
-    $(window).bind("mousedown.pagelist", _.bind(this.deselectNamedEntity, this));
+    $(window).on("scroll.pages", _.bind(this.renderVisiblePages, this));
+    $(window).on("mousedown.pages", _.bind(this.deselectNamedEntity, this));
   },
 
   remove: function() {
-    $(window).unbind("scroll.pagelist");
-    $(window).unbind("mousedown.pagelist");
+    $(window).off("scroll.pages");
+    $(window).off("mousedown.pages");
   },
 
   render: function() {
@@ -148,47 +179,43 @@ var PageView = Backbone.View.extend({
   },
 
   initialize: function() {
-    this.namedEntitiesView = new NamedEntityListView({ collection: this.model.namedEntities });
-
     this.$el = $("." + this.className + "[data-id=" + this.model.get("_id") + "]");
-    this.template = $("#pageTemplate").html();
+    this.template = $("#page-template").html();
 
-    $(window).bind("resize.page." + this.model.get("num"), _.bind(this.resize, this));
+    $(window).on("resize.page." + this.model.get("num"), _.bind(this.resize, this));
   },
 
   remove: function() {
-    $(window).unbind("resize.page." + this.model.get("num"));
+    $(window).off("resize.page." + this.model.get("num"));
   },
 
   render: function() {
-    var html = Mustache.render(this.template, this.namedEntitiesParse());
-    this.$el.html(html);
+    // Render empty page content
+    this.$el.html(Mustache.render(this.template, this.model.toJSON()));
+
+    // Append each rendered text line
+    this.model.textLines.each(function(textLine) {
+      // Build array of named entities for each text line
+      var namedEntities = this.model.namedEntities.filter(function(ne) {
+        var nePos = ne.get("inner_pos");
+        return (nePos.from.pid  !== this.model.get("_id") ||
+                nePos.to.pid    !== this.model.get("_id") ||
+                (nePos.from.tlid <= textLine.get("_id") &&
+                 nePos.to.tlid >= textLine.get("_id")));
+      }, this);
+
+      var textLineView = new TextLineView({
+        model: textLine,
+        pageId: this.model.get("_id"),
+        namedEntities: namedEntities
+      });
+
+      this.$el.find(".page-content").append(textLineView.render().$el);
+    }, this);
+
+    // Show page content
     this.$el.removeClass("empty").removeClass("fetching");
     this.$el.find(".page-content").fadeIn("fast");
-    var pageViewEl = this.$el;
-
-    this.$el.find(".ne").draggable({
-      start: function(event, ui) {
-        console.log("start");
-      },
-      stop: function(event, ui) {
-        console.log("stop");
-      },
-      helper: function() {
-        var helper = $(this).clone().detach().appendTo(pageViewEl.parent());
-
-        var neId = $(this).data("ne-id");
-        var parts = pageViewEl.find(".ne[data-ne-id='" + neId + "']");
-        var neInnerText = _.map(parts, function(e) { return e.innerText; }).join(" ")
-        helper.text(neInnerText);
-
-        var mainPart = $(_.max(parts, function(p) { return parseInt($(p).css("font-size")); }));
-        helper.css("font", mainPart.css("font"));
-        helper.css("margin", mainPart.css("margin"));
-        helper.css("opacity", "0.5");
-        return helper;
-      }
-    });
 
     // Store original font-sze of each text line in a data attribute for later
     // dynamic resizing.
@@ -206,92 +233,6 @@ var PageView = Backbone.View.extend({
     return this;
   },
 
-  namedEntitiesParse: function() {
-    var textLines = _.sortBy(this.model.get("text_lines"), "_id").map(function(textLine) {
-      textLine.htmlText = textLine.text.replace(/\s/g, "&nbsp;");
-      return textLine;
-    });
-
-    // Warning, this is ugly, shitty, kindergarten-level code. Needs a revamp ASAP
-    if (this.model.namedEntities.size() > 0) {
-      var neIdx = 0;
-      var ne = this.model.namedEntities.at(neIdx);
-      var nePos = ne.get("inner_pos");
-
-      var pageView = this;
-      _.each(textLines, function(textLine) {
-        var curPos = 0;
-        textLine.htmlText = "";
-        while (curPos < textLine.processed_text.length) {
-          if (ne && nePos.from.pid === pageView.model.get("_id") && nePos.to.pid === pageView.model.get("_id") &&
-              nePos.from.tlid === textLine._id && nePos.to.tlid == textLine._id)
-          {
-            //console.log("complete entity on textline " + textLine._id);
-
-            textLine.htmlText += textLine.processed_text.substring(curPos, nePos.from.pos).replace(/\s/g, "&nbsp;");
-            ne.set("originalText", textLine.processed_text.substring(nePos.from.pos, nePos.to.pos + 1).replace(/\s/g, "&nbsp;"));
-            var neHtml = Mustache.render(pageView.namedEntityTemplate, ne.toJSON());
-            textLine.htmlText += neHtml;
-            curPos = nePos.to.pos + 1;
-
-            // update ne index and related variables
-            neIdx += 1;
-            ne = pageView.model.namedEntities.at(neIdx);
-            if (ne) nePos = ne.get("inner_pos");
-
-          } else if (ne &&
-                     (!(nePos.from.pid === pageView.model.get("_id") && nePos.from.tlid === textLine._id) &&
-                       (nePos.to.pid === pageView.model.get("_id") && nePos.to.tlid == textLine._id)) ||
-                     ( (nePos.from.pid === pageView.model.get("_id") && nePos.from.tlid === textLine._id) &&
-                      !(nePos.to.pid === pageView.model.get("_id") && nePos.to.tlid == textLine._id)) ) {
-
-            //console.log("partial entity on textline " + textLine._id);
-
-            if (nePos.from.pid === pageView.model.get("_id") && nePos.from.tlid === textLine._id) {
-              var fromPos = nePos.from.pos;
-            } else {
-              var fromPos = 0;
-            }
-
-            if (nePos.to.pid === pageView.model.get("_id") && nePos.to.tlid == textLine._id) {
-              var toPos = nePos.to.pos + 1;
-            } else {
-              var toPos = textLine.processed_text.length;
-            }
-
-            ne.set("originalText", textLine.processed_text.substring(fromPos, toPos).replace(/\s/g, "&nbsp;"));
-            var neHtml = Mustache.render(pageView.namedEntityTemplate, ne.toJSON());
-            textLine.htmlText += neHtml;
-
-            curPos = toPos;
-
-            // update ne index and related variables *only* if we are at the end of the NE (the latter half)
-            if (nePos.to.pid === pageView.model.get("_id") && nePos.to.tlid == textLine._id) {
-              neIdx += 1;
-              ne = pageView.model.namedEntities.at(neIdx);
-              if (!ne) break;
-              nePos = ne.get("inner_pos");
-            }
-
-          } else {
-            //console.log("no more entities on textline " + textLine._id);
-
-            textLine.htmlText += textLine.processed_text.substring(curPos, textLine.processed_text.length).replace(/\s/g, "&nbsp;");
-            curPos = textLine.processed_text.length;
-          }
-        }
-
-      });
-    }
-
-    return {
-      _id: this.model.get("_id"),
-      width: this.model.get("width"),
-      height: this.model.get("height"),
-      textLines: textLines
-    };
-  },
-
   resize: function() {
     var currentWidth = this.$el.parents(".document").parents().width();
     var ratio = currentWidth / this.model.get("width");
@@ -304,41 +245,180 @@ var PageView = Backbone.View.extend({
   }
 });
 
-var NamedEntityListView = Backbone.View.extend({
-  collection: NamedEntityList
+var TextLineView = Backbone.View.extend({
+  model: TextLine,
+
+  tagName: "p",
+
+  attributes: function() {
+    return {
+      "data-id": this.model.get("_id"),
+      "class": "fs" + this.model.get("fontspec_id"),
+      "style": this.style()
+    };
+  },
+
+  style: function() {
+    return "top: " + this.model.get("top") + "px; " +
+           "left: " + this.model.get("left") + "px; " +
+           "width: " + this.model.get("width") + "px;";
+  },
+
+  initialize: function() {
+    this.namedEntities = _(this.options.namedEntities || []);
+    this.pageId = this.options.pageId;
+  },
+
+  render: function() {
+    if (this.namedEntities.isEmpty()) {
+      var content = this.model.get("processed_text");
+      this.$el.append(content);
+
+    } else {
+      var curPos = 0;
+      var neIdx = 0;
+      var ne = this.namedEntities.value()[neIdx];
+      var nePos = ne.get("inner_pos");
+
+      while (curPos < this.model.get("processed_text").length) {
+        if (ne && nePos.from.pid === this.pageId && nePos.to.pid === this.pageId &&
+            nePos.from.tlid === this.model.get("_id") && nePos.to.tlid == this.model.get("_id"))
+        {
+          //console.log("complete entity on textline " + this.model.get("_id"));
+
+          this.$el.append(this.model.get("processed_text").substring(curPos, nePos.from.pos).replace(/\s/g, "&nbsp;"));
+
+          ne.set("originalText", this.model.get("processed_text").substring(nePos.from.pos, nePos.to.pos + 1).replace(/\s/g, "&nbsp;"));
+          var neView = new NamedEntityView({ model: ne });
+          this.$el.append(neView.render().$el);
+
+          curPos = nePos.to.pos + 1;
+
+          // update ne index and related variables
+          neIdx += 1;
+          ne = this.namedEntities.value()[neIdx]
+          if (ne) nePos = ne.get("inner_pos");
+
+        } else if (ne &&
+                   (!(nePos.from.pid === this.pageId && nePos.from.tlid === this.model.get("_id")) &&
+                     (nePos.to.pid === this.pageId && nePos.to.tlid == this.model.get("_id"))) ||
+                   ( (nePos.from.pid === this.pageId && nePos.from.tlid === this.model.get("_id")) &&
+                    !(nePos.to.pid === this.pageId && nePos.to.tlid == this.model.get("_id"))) ) {
+
+          //console.log("partial entity on textline " + this.model.get("_id"));
+
+          if (nePos.from.pid === this.pageId && nePos.from.tlid === this.model.get("_id")) {
+            var fromPos = nePos.from.pos;
+          } else {
+            var fromPos = 0;
+          }
+
+          if (nePos.to.pid === this.pageId && nePos.to.tlid === this.model.get("_id")) {
+            var toPos = nePos.to.pos + 1;
+          } else {
+            var toPos = this.model.get("processed_text").length;
+          }
+
+          ne.set("originalText", this.model.get("processed_text").substring(fromPos, toPos).replace(/\s/g, "&nbsp;"));
+          var neView = new NamedEntityView({ model: ne });
+          this.$el.append(neView.render().$el);
+
+          curPos = toPos;
+
+          // update ne index and related variables *only* if we are at the end of the NE (the latter half)
+          if (nePos.to.pid === this.pageId && nePos.to.tlid === this.model.get("_id")) {
+            neIdx += 1;
+            ne = this.namedEntities.value()[neIdx];
+            if (ne) nePos = ne.get("inner_pos");
+          }
+
+        } else {
+          //console.log("no more entities on textline " + this.model.get("_id"));
+
+          this.$el.append(this.model.get("processed_text").substring(curPos, this.model.get("processed_text").length).replace(/\s/g, "&nbsp;"));
+          curPos = this.model.get("processed_text").length;
+        }
+      }
+    }
+
+    return this;
+  }
 });
 
 var NamedEntityView = Backbone.View.extend({
   model: NamedEntity,
+
+  tagName: "span",
+
+  attributes: function() {
+    return {
+      "class": "ne " + this.model.get("ne_class"),
+      "data-id": this.model.get("_id"),
+      "data-class": this.model.get("ne_class"),
+      "data-lemma": this.model.get("lemma"),
+      "data-person-id": null
+    };
+  },
 
   events: {
     "mousedown": "select"
   },
 
   initialize: function() {
-    this.template = $("#personContext").html();
+    this.model.on("change:selected", this.toggleSelect, this);
   },
 
   render: function() {
-    this.html = Mustache.render(this.template, this.model.toJSON());
-    this.$el.html(this.html);
+    this.$el.html(this.model.get("originalText"));
+    this.$el.draggable(this.draggableOptions());
     return this;
+  },
+
+  allPartElements: function() {
+    return $(this.tagName + "[data-id='" + this.attributes()["data-id"] + "']");
+  },
+
+  toggleSelect: function() {
+    var $el = this.allPartElements();
+    if (this.model.get("selected")) {
+      $el.addClass("selected");
+    } else {
+      $el.removeClass("selected");
+    }
   },
 
   select: function(e) {
     e.stopPropagation();
-
-    deselectAll();
-    this.$el.addClass("selected");
+    this.model.set("selected", true);
 
     // Fetch NE profile info into Context view (people NE -> person profile)
     // TODO ...
   },
 
-  deselectAll: function() {
-    // FIXME This action should be in the page view, or something.
-    this.$el.parents(".page").removeClass("selected");
+  draggableOptions: function() {
+    var self = this;
+
+    return {
+      start: function(event, ui) {
+        console.log("start");
+      },
+
+      stop: function(event, ui) {
+        console.log("stop");
+      },
+
+      helper: function() {
+        var parts = self.allPartElements();
+        var helper = self.$el.clone().detach().appendTo(self.$el.parents(".pages"));
+        var neInnerText = _.map(parts, function(e) { return e.innerText; }).join(" ")
+        helper.text(neInnerText);
+
+        var mainPart = $(_.max(parts, function(p) { return parseInt($(p).css("font-size")); }));
+        helper.css("font", mainPart.css("font"));
+        helper.css("margin", mainPart.css("margin"));
+        helper.css("opacity", "0.5");
+        return helper;
+      }
+    }
   }
 });
-
-//$(function() { });

@@ -10,7 +10,7 @@
           last_analysis_at original_file state title
         }).to_json}
       });
-      app.document.pageList.reset(#{@pages.to_json(:methods => :named_entities)});
+      app.document.pages.reset(#{@pages.to_json(:methods => :named_entities)});
     });
 
 / Document fontspec CSS classes
@@ -86,13 +86,13 @@
     .context#context
 
 / Templates
-%script#preRegisterTemplate{:type => "text/template"}
+%script#pre-register-template{:type => "text/template"}
   .register{:class => "{{type}} {{ne_class}}", "data-ne-id" => "{{id}}"}
     {{text}}
     %button.close
       ×
 
-%script#documentContextTemplate{:type => "text/template"}
+%script#document-context-template{:type => "text/template"}
   .breadcrumb
     %a{:href => "/documents/{{id}}"}
       {{heading}}
@@ -102,7 +102,7 @@
     .category
       Categoría: {{category}}
 
-%script#personContext{:type => "text/template"}
+%script#person-context{:type => "text/template"}
   .breadcrumb
     %a{:href => "/documents/#{@doc.id}"}
       = @doc.heading
@@ -125,11 +125,5 @@
         {{name}}
       {{/documents}}
 
-%script#pageTemplate{:type => "text/template"}
+%script#page-template{:type => "text/template"}
   .page-content{:style => "display: none"}
-    {{#textLines}}
-    %p{:"data-id" => "{{_id}}", :class => "fs{{fontspec_id}}", :style => "top: {{top}}px; left: {{left}}px; width: {{width}}px"} {{{htmlText}}}
-    {{/textLines}}
-
-%script#namedEntityTemplate{:type => "text/template"}
-  %span.ne{:class => "ne {{ne_class}}", "data-ne-id" => "{{_id}}", "data-class" => "{{ne_class}}", "data-type" => "{{tag}}", "data-person-id" => "{{person_id}}", "data-lemma" => "{{lemma}}"} {{{originalText}}}
