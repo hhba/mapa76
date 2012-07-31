@@ -270,8 +270,9 @@ var TextLineView = Backbone.View.extend({
   },
 
   render: function() {
+    var content = this.model.get("processed_text");
+
     if (this.namedEntities.isEmpty()) {
-      var content = this.model.get("processed_text");
       this.$el.append(content);
 
     } else {
@@ -280,15 +281,15 @@ var TextLineView = Backbone.View.extend({
       var ne = this.namedEntities.value()[neIdx];
       var nePos = ne.get("inner_pos");
 
-      while (curPos < this.model.get("processed_text").length) {
-        if (ne && nePos.from.pid === this.pageId && nePos.to.pid === this.pageId &&
-            nePos.from.tlid === this.model.get("_id") && nePos.to.tlid == this.model.get("_id"))
+      while (curPos < content.length) {
+        if (ne && nePos.from.pid  === this.pageId && nePos.from.tlid === this.model.get("_id") &&
+                  nePos.to.pid    === this.pageId && nePos.to.tlid   === this.model.get("_id"))
         {
           //console.log("complete entity on textline " + this.model.get("_id"));
 
-          this.$el.append(this.model.get("processed_text").substring(curPos, nePos.from.pos).replace(/\s/g, "&nbsp;"));
+          this.$el.append(content.substring(curPos, nePos.from.pos).replace(/\s/g, "&nbsp;"));
 
-          ne.set("originalText", this.model.get("processed_text").substring(nePos.from.pos, nePos.to.pos + 1).replace(/\s/g, "&nbsp;"));
+          ne.set("originalText", content.substring(nePos.from.pos, nePos.to.pos + 1).replace(/\s/g, "&nbsp;"));
           var neView = new NamedEntityView({ model: ne });
           this.$el.append(neView.render().$el);
 
@@ -301,25 +302,23 @@ var TextLineView = Backbone.View.extend({
 
         } else if (ne &&
                    (!(nePos.from.pid === this.pageId && nePos.from.tlid === this.model.get("_id")) &&
-                     (nePos.to.pid === this.pageId && nePos.to.tlid == this.model.get("_id"))) ||
+                     (nePos.to.pid   === this.pageId && nePos.to.tlid   === this.model.get("_id"))) ||
                    ( (nePos.from.pid === this.pageId && nePos.from.tlid === this.model.get("_id")) &&
-                    !(nePos.to.pid === this.pageId && nePos.to.tlid == this.model.get("_id"))) ) {
+                    !(nePos.to.pid   === this.pageId && nePos.to.tlid   === this.model.get("_id"))) ) {
 
           //console.log("partial entity on textline " + this.model.get("_id"));
 
           if (nePos.from.pid === this.pageId && nePos.from.tlid === this.model.get("_id")) {
             var fromPos = nePos.from.pos;
+            var toPos = content.length;
           } else {
             var fromPos = 0;
-          }
-
-          if (nePos.to.pid === this.pageId && nePos.to.tlid === this.model.get("_id")) {
             var toPos = nePos.to.pos + 1;
-          } else {
-            var toPos = this.model.get("processed_text").length;
           }
 
-          ne.set("originalText", this.model.get("processed_text").substring(fromPos, toPos).replace(/\s/g, "&nbsp;"));
+          this.$el.append(content.substring(curPos, fromPos).replace(/\s/g, "&nbsp;"));
+
+          ne.set("originalText", content.substring(fromPos, toPos).replace(/\s/g, "&nbsp;"));
           var neView = new NamedEntityView({ model: ne });
           this.$el.append(neView.render().$el);
 
@@ -334,9 +333,10 @@ var TextLineView = Backbone.View.extend({
 
         } else {
           //console.log("no more entities on textline " + this.model.get("_id"));
+          var fromPos = content.length;
 
-          this.$el.append(this.model.get("processed_text").substring(curPos, this.model.get("processed_text").length).replace(/\s/g, "&nbsp;"));
-          curPos = this.model.get("processed_text").length;
+          this.$el.append(content.substring(curPos, fromPos).replace(/\s/g, "&nbsp;"));
+          curPos = fromPos;
         }
       }
     }
