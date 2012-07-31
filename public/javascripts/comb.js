@@ -198,10 +198,9 @@ var PageView = Backbone.View.extend({
       // Build array of named entities for each text line
       var namedEntities = this.model.namedEntities.filter(function(ne) {
         var nePos = ne.get("inner_pos");
-        return (nePos.from.pid  !== this.model.get("_id") ||
-                nePos.to.pid    !== this.model.get("_id") ||
-                (nePos.from.tlid <= textLine.get("_id") &&
-                 nePos.to.tlid >= textLine.get("_id")));
+        return ((nePos.from.pid !== this.model.get("_id") && nePos.to.tlid   >= textLine.get("_id")) ||
+                (nePos.to.pid   !== this.model.get("_id") && nePos.from.tlid <= textLine.get("_id")) ||
+                (nePos.from.tlid <= textLine.get("_id") && nePos.to.tlid >= textLine.get("_id")));
       }, this);
 
       var textLineView = new TextLineView({
