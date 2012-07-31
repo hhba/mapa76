@@ -43,7 +43,9 @@ class NormalizationTask
       logger.info "Page #{page_index + 1}"
 
       logger.debug "Create and normalize text lines for page #{page_index + 1}"
-      text_lines = xml_page.css("text").map.with_index do |tl, tl_index|
+      text_lines = xml_page.css("text")
+                           .sort_by { |tl| [tl.attributes["top"].value.to_i, tl.attributes["left"].value.to_i] }
+                           .map.with_index do |tl, tl_index|
         text_line = TextLine.new({
           :text => tl.inner_html,
           :processed_text => self.normalize(tl.inner_html),
