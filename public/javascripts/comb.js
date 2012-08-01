@@ -65,9 +65,9 @@ var NamedEntities = Backbone.Collection.extend({
   },
 
   deselectAll: function(changedNe) {
-    if (changedNe.get("selected")) {
+    if (!changedNe || (changedNe && changedNe.get("selected"))) {
       this.each(function(ne) {
-        if (ne.get("_id") !== changedNe.get("_id")) {
+        if (!changedNe || (changedNe && ne.get("_id") !== changedNe.get("_id"))) {
           ne.set("selected", false);
         }
       });
@@ -153,7 +153,9 @@ var PagesView = Backbone.View.extend({
   },
 
   deselectNamedEntity: function() {
-    this.$el.find(".ne.selected").removeClass("selected");
+    this.collection.each(function(page) {
+      page.namedEntities.deselectAll();
+    });
   },
 
   addNamedEntityToCurrentFact: function(e) {
