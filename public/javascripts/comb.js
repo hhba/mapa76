@@ -331,6 +331,17 @@ var TextLineView = Backbone.View.extend({
             if (ne) nePos = ne.get("inner_pos");
           }
 
+        } else if (ne &&
+                   ( (nePos.from.pid === this.pageId && nePos.from.tlid <= this.model.get("_id")) &&
+                     (nePos.to.pid   === this.pageId && nePos.to.tlid   >= this.model.get("_id")) )) {
+
+          //console.log("entity contains the whole textline " + this.model.get("_id"));
+
+          ne.set("originalText", content.replace(/\s/g, "&nbsp;"));
+          var neView = new NamedEntityView({ model: ne });
+          this.$el.append(neView.render().$el);
+          break;
+
         } else {
           //console.log("no more entities on textline " + this.model.get("_id"));
           var fromPos = content.length;
