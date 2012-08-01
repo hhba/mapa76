@@ -10,7 +10,7 @@ class FactRegister < Register
   belongs_to :fact
   belongs_to :document
 
-  references [:people, :place, :date, :actions], type: NamedEntity
+  references [:people, :place, :date, :actions], type: Citation
 
   validates :person_ids, presence: true
   validates :action_ids,  presence: true
