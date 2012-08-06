@@ -31,12 +31,12 @@ class TestCoreference < Test::Unit::TestCase
     @pomulo1 = NameEntity.new(5, "Peperino Pomulo")
     @patty4 = NameEntity.new(6, "Luis Ableardo Patty")
     
-    @named_entities = [@patty1, @patty2, @patty3, @videla1, @pomulo1, @patty4]
+    @named_entities = [@patty2, @patty3, @videla1, @pomulo1, @patty4]
   end
   
   def test_find_duplicates
     processed = [
-      [@patty1, @patty2, @patty4], [@patty3], [@videla1], [@pomulo1]
+      [@patty3, @patty4, @patty2], [@videla1], [@pomulo1]
     ]
     result = Coreference.find_duplicates(@named_entities)
     assert_equal processed, result, "Duplication"
