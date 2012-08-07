@@ -1,4 +1,7 @@
+# encoding: utf-8
+
 class Person
+
   include Mongoid::Document
   include Mongoid::Timestamps
   include Mongoid::Paranoia
@@ -41,10 +44,6 @@ class Person
     output
   end
 
-  def self.blacklisted
-    self.deleted.collect { |person| person.name }
-  end
-
   def mentions_in(doc)
     self.named_entities.select { |ne| ne.document_id == doc.id }.count
   end
@@ -84,12 +83,13 @@ class Person
 
   def metainfo
     docs = self.documents.map { |doc| {id: doc._id, name: doc.heading }}
-    { "_id" => _id, "created_at" => created_at, :documents => docs, :full_name => full_name, :tags => tags}
+    {"_id" => _id, "created_at" => created_at, :documents => docs, :full_name => full_name, :tags => tags}
   end
 
   def blacklist
     # TODO: here we will store who mark this person as blacklisted
     self.delete
+    Blacklist.find_or_create_by text: self.full_name
   end
 
 protected
@@ -97,4 +97,5 @@ protected
   def store_normalize_name
     self.searchable_name = self.class.normalize_name(name)
   end
+
 end

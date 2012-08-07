@@ -40,7 +40,7 @@ class TestPerson < Test::Unit::TestCase
   def test_blacklisted
     [@p1, @p2, @p3].each(&:blacklist)
 
-    assert_equal "Cocó Fuente", Person.blacklisted.first
-    assert_equal 3, Person.blacklisted.count
+    assert_equal "Policia Federal", Blacklist.first.text
+    assert_equal 4, Blacklist.count
   end
 end
