@@ -25,7 +25,8 @@ module Coreference
   end
 
   def resolve(document, named_entities)
-    duplicates = find_duplicates(named_entities.to_a)
+    named_entities = remove_blacklisted(named_entities)
+    duplicates = find_duplicates(named_entities)
     Person.populate(document, duplicates)
   end
 
@@ -43,5 +44,12 @@ module Coreference
       scores.max
     end
     scores.sum / shortest.size
+  end
+
+  def remove_blacklisted(named_entities)
+    blacklisted = Person.blacklisted
+    named_entities.reject do |ne|
+      blacklisted.include?(ne.text)
+    end
   end
 end
