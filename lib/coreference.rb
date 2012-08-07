@@ -25,7 +25,8 @@ module Coreference
   end
 
   def resolve(document, named_entities)
-    duplicates = find_duplicates(named_entities.to_a)
+    named_entities = remove_blacklisted(named_entities)
+    duplicates = find_duplicates(named_entities)
     Person.populate(document, duplicates)
   end
 
@@ -37,14 +38,18 @@ module Coreference
   def branting_distance(a, b)
     as, bs = [a, b].map { |w| w.split(" ") }
     shortest, longest = [as, bs].sort_by(&:size)
-    #puts "shortest: #{shortest}"
     scores = shortest.map do |a|
       jw = Amatch::JaroWinkler.new(a)
       scores = longest.map { |b| jw.match(b) }
-      #puts "scores #{longest} with #{a}: #{scores}"
       scores.max
     end
-    #puts "final scores: #{scores}"
     scores.sum / shortest.size
+  end
+
+  def remove_blacklisted(named_entities)
+    blacklisted = Person.blacklisted
+    named_entities.reject do |ne|
+      blacklisted.include?(ne.text)
+    end
   end
 end
