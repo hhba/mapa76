@@ -15,8 +15,8 @@ $(document).ready(function(){
 
   $(".link a").popover();
   $(".link a").click(function(event){
-    event.preventDefault();
     var $this = $(this);
+    event.preventDefault();
     $.get($this.attr("href"),
       null,
       function(data){
@@ -24,10 +24,11 @@ $(document).ready(function(){
       },
       'json');
   });
-  $(".documents .blacklist a").live("click", function(){
+  $(".blacklist a").live("click", function(event){
     var $this = $(this);
+    event.preventDefault();
     $.post($this.attr("href"), null, function(){
-      $this.parent("tr").remove();
+      $this.parents("tr").remove();
     }, null);
   });
   $("#stillProcessing").alert().css("display", "block");
