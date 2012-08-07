@@ -24,7 +24,12 @@ $(document).ready(function(){
       },
       'json');
   });
-
+  $(".documents .blacklist a").live("click", function(){
+    var $this = $(this);
+    $.post($this.attr("href"), null, function(){
+      $this.parent("tr").remove();
+    }, null);
+  });
   $("#stillProcessing").alert().css("display", "block");
   setTimeout(checkDocumentsStatuses, 15000 );
   if($(".tablesorter").length !== 0) {

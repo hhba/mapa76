@@ -69,4 +69,8 @@ Alegato.controllers :api do
     NamedEntity.find(params[:id]).with_context.to_json
   end
 
+  post :blacklist, map: "/api/blacklist/:id", :provides => :json do
+    Person.find(params[:id]).blacklist.to_json
+  end
+
 end

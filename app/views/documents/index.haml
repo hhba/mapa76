@@ -42,12 +42,16 @@
           %thead
             %tr
               %th
+              %th
                 Personas
               %th
                 Menciones
           %tbody
             {{#people}}
             %tr
+              %td.blacklist
+                %a{href: "/api/blacklist/{{id}}"}
+                  %i.icon-remove
               %td
                 {{name}}
               %td
