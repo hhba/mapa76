@@ -15,8 +15,8 @@ $(document).ready(function(){
 
   $(".link a").popover();
   $(".link a").click(function(event){
-    event.preventDefault();
     var $this = $(this);
+    event.preventDefault();
     $.get($this.attr("href"),
       null,
       function(data){
@@ -24,7 +24,13 @@ $(document).ready(function(){
       },
       'json');
   });
-
+  $(".blacklist a").live("click", function(event){
+    var $this = $(this);
+    event.preventDefault();
+    $.post($this.attr("href"), null, function(){
+      $this.parents("tr").remove();
+    }, null);
+  });
   $("#stillProcessing").alert().css("display", "block");
   setTimeout(checkDocumentsStatuses, 15000 );
   if($(".tablesorter").length !== 0) {
