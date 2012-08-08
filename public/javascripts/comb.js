@@ -23,13 +23,7 @@ var Page = Backbone.Model.extend({
 });
 
 var TextLine = Backbone.Model.extend({});
-var NamedEntity = Backbone.Model.extend({
-  initialize: function() {
-    this.on("changed:selected", function() {
-      console.log("selected! " + this.get("text"))
-    }, this);
-  }
-});
+var NamedEntity = Backbone.Model.extend({});
 
 var FactRegister = Backbone.Model.extend({});
 var RelationRegister = Backbone.Model.extend({});
@@ -75,6 +69,10 @@ var NamedEntities = Backbone.Collection.extend({
   },
 });
 
+var FactRegisters = Backbone.Collection.extend({
+  model: FactRegister
+});
+
 /**
  * Views
  **/
@@ -82,6 +80,14 @@ var AppView = Backbone.View.extend({
   initialize: function() {
     this.document = new Document(this.options.document);
     this.documentView = new DocumentView({ model: this.document });
+
+    this.sidebarView = new SidebarView();
+  },
+
+  render: function() {
+    this.documentView.render();
+    this.sidebarView.render();
+    return this;
   }
 });
 
@@ -181,7 +187,7 @@ var PageView = Backbone.View.extend({
   },
 
   initialize: function() {
-    this.$el = $("." + this.className + "[data-id=" + this.model.get("_id") + "]");
+    this.setElement($("." + this.className + "[data-id=" + this.model.get("_id") + "]"));
     this.template = $("#page-template").html();
 
     $(window).on("resize.page." + this.model.get("num"), _.bind(this.resize, this));
@@ -433,5 +439,63 @@ var NamedEntityView = Backbone.View.extend({
         return helper;
       }
     }
+  }
+});
+
+var SidebarView = Backbone.View.extend({
+  el: $("#sidebar"),
+
+  initialize: function() {
+    this.factRegisters = new FactRegisters()
+    this.factRegistersView = new FactRegistersView({ collection: this.factRegisters });
+  },
+
+  render: function() {
+    this.$("#registers").after(this.factRegistersView.render().$el);
+    return this;
+  }
+});
+
+var FactRegistersView = Backbone.View.extend({
+  tagName: "ol",
+
+  className: "fact-registers",
+
+  initialize: function() {
+    this.collection.on("add", this.addOne, this);
+    this.collection.on("reset", this.addAll, this);
+
+    var emptyRegister = new FactRegister();
+    this.collection.reset([emptyRegister]);
+  },
+
+  render: function() {
+    this.addAll();
+    return this;
+  },
+
+  addOne: function(register) {
+    var registerView = new FactRegisterView({ model: register });
+    registerView.render();
+    this.$el.append(registerView.$el);
+  },
+
+  addAll: function() {
+    this.$el.empty();
+    this.collection.each(this.addOne, this);
+  },
+});
+
+var FactRegisterView = Backbone.View.extend({
+  tagName: "li",
+
+  className: "fact-register",
+
+  initialize: function() {
+    this.template = $("#empty-fact-register-template").html();
+  },
+
+  render: function() {
+    //this.$el.html(Mustache.render(this.template, this.model.toJSON()));
   }
 });

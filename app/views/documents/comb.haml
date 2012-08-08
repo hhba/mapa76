@@ -11,6 +11,7 @@
         }).to_json}
       });
       app.document.pages.reset(#{@pages.to_json(:methods => :named_entities)});
+      app.render();
     });
 
 / Document fontspec CSS classes
@@ -77,10 +78,6 @@
         %label{:for => :actions_ref} Acciones
 
     %li.nav-header#registers Hechos
-    #current-registers
-      Arrastre un
-      %strong nombre de persona
-      aquí para crear un nuevo hecho.
 
     %li.nav-header Contexto
     .context#context
@@ -127,3 +124,8 @@
 
 %script#page-template{:type => "text/template"}
   .page-content{:style => "display: none"}
+
+%script#empty-fact-register{:type => "text/template"}
+  Arrastre un
+  %strong nombre de persona
+  aquí para crear un nuevo hecho.
