@@ -47,7 +47,7 @@ module Coreference
   end
 
   def remove_blacklisted(named_entities)
-    blacklisted = Person.blacklisted
+    blacklisted = Blacklist.all.map(&:text)
     named_entities.reject do |ne|
       blacklisted.include?(ne.text)
     end
