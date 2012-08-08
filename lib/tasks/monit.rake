@@ -102,7 +102,7 @@ namespace :monit do
       (1..options['num']).each do |i|
         id = "resque_worker-#{name}-#{i}"
 
-        log_filename = "workers__#{options['queues'].uniq.sort.join('-')}"
+        log_filename = "workers__#{name}"
         log = File.join(PADRINO_ROOT, 'log', "#{log_filename}.log")
         err_log = File.join(PADRINO_ROOT, 'log', "#{log_filename}.err.log")
         queues = options['queues']
