@@ -22,6 +22,7 @@ GEM
     classifier (1.3.3)
       fast-stemmer (>= 1.0.0)
     columnize (0.3.6)
+    database_cleaner (0.8.0)
     debugger (1.1.4)
       columnize (>= 0.3.1)
       debugger-linecache (~> 1.1.1)
@@ -30,6 +31,8 @@ GEM
       debugger-ruby_core_source (>= 1.1.1)
     debugger-ruby_core_source (1.1.3)
     docsplit (0.6.3)
+    factory_girl (4.0.0)
+      activesupport (>= 3.0.0)
     fast-stemmer (1.0.1)
     geokit (1.6.5)
       multi_json
@@ -112,6 +115,7 @@ GEM
     ruby-stemmer (0.9.3)
     rvm-capistrano (1.2.2)
       capistrano (>= 2.0.0)
+    shoulda-context (1.0.0)
     sinatra (1.3.2)
       rack (~> 1.3, >= 1.3.6)
       rack-protection (~> 1.2)
@@ -137,8 +141,10 @@ DEPENDENCIES
   bson_ext
   capistrano
   classifier
+  database_cleaner
   debugger
   docsplit
+  factory_girl
   geokit
   haml
   httpi
@@ -155,3 +161,4 @@ DEPENDENCIES
   resque
   ruby-stemmer
   rvm-capistrano
+  shoulda-context

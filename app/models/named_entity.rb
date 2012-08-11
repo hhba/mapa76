@@ -15,6 +15,7 @@ class NamedEntity
 
   belongs_to :document, index: true
   belongs_to :person, index: true
+  belongs_to :blacklist, index: true
   has_and_belongs_to_many :pages, index: true
 
   validate :must_have_valid_position

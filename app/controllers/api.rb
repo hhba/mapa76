@@ -1,4 +1,8 @@
 Alegato.controllers :api do
+  get :blacklist, :provides => [:json] do
+    Blacklist.all.to_json
+  end
+
   get :documents, :with => :id, :provides => [:json] do
     document = Document.find(params[:id])
     if params[:page].nil?

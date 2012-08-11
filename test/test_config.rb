@@ -1,14 +1,17 @@
 PADRINO_ENV = 'test' unless defined?(PADRINO_ENV)
 require File.expand_path('../../config/boot', __FILE__)
 require 'test/unit'
+require 'database_cleaner'
 
 class Test::Unit::TestCase
   include Rack::Test::Methods
+  include FactoryGirl::Syntax::Methods
+
+  FactoryGirl.find_definitions
+  DatabaseCleaner.strategy = :truncation
+  DatabaseCleaner.clean
 
   def app
-    ##
-    # You can handle all padrino applications using instead:
-    #   Padrino.application
     Alegato.tap { |app|  }
   end
 end

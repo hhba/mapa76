@@ -1,8 +1,6 @@
 # encoding: utf-8
-require 'splitter'
 
 class Blacklist
-
   include Mongoid::Document
 
   field :text, type: String
@@ -10,4 +8,9 @@ class Blacklist
 
   validates_presence_of :text
 
+  def self.add(person)
+    blacklist = find_or_initialize_by text: person.full_name
+    person.named_entities.each { |ne| blacklist.named_entities << ne }
+    blacklist
+  end
 end
