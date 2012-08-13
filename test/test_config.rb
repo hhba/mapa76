@@ -8,8 +8,11 @@ class Test::Unit::TestCase
   include FactoryGirl::Syntax::Methods
 
   FactoryGirl.find_definitions
-  DatabaseCleaner.strategy = :truncation
-  DatabaseCleaner.clean
+
+  def setup
+    DatabaseCleaner.strategy = :truncation
+    DatabaseCleaner.clean
+  end
 
   def app
     Alegato.tap { |app|  }

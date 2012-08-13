@@ -9,13 +9,11 @@ class TestPerson < Test::Unit::TestCase
       @p3 = create :person, name: "Capital Federal"
     end
 
-    should "" do
+    should "do something that makes silvanis happy" do
       name = "Juan Péréz"
       name_t = "juan perez"
       p = create :person, name: name
-      p.save
 
-      #person = Person.find(name: name)
       person = Person.first(conditions: { name: name })
       assert_equal(p.id, person.id, "This should be the same person")
 
@@ -27,23 +25,16 @@ class TestPerson < Test::Unit::TestCase
     end
   end
 
-  # def test_finders
+  context 'Blacklist' do
+    setup do
+      @person = create :person, name: "Policia Federal"
+      @person.blacklist
+    end
 
-  # end
-
-  # def test_blacklist
-  #   person = Person.create name: "Policia Federal"
-  #   person.blacklist
-
-  #   assert_raise Mongoid::Errors::DocumentNotFound do
-  #     Person.find(person.id)
-  #   end
-  # end
-
-  # def test_blacklisted
-  #   [@p1, @p2, @p3].each(&:blacklist)
-
-  #   assert_equal "name_1", Blacklist.first.text
-  #   assert_equal 5, Blacklist.count
-  # end
+    should "not find the user once it was marked as blacklist" do
+      assert_raise Mongoid::Errors::DocumentNotFound do
+        Person.find(@person.id)
+      end
+    end
+  end
 end
