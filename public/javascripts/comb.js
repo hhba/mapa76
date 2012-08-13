@@ -419,11 +419,13 @@ var NamedEntityView = Backbone.View.extend({
 
     return {
       start: function(event, ui) {
-        console.log("start");
+        console.log("ne:drag:start");
+        self.trigger("ne:drag:start", self.model);
       },
 
       stop: function(event, ui) {
-        console.log("stop");
+        console.log("ne:drag:stop");
+        self.trigger("ne:drag:stop", self.model);
       },
 
       helper: function() {
@@ -465,12 +467,15 @@ var FactRegistersView = Backbone.View.extend({
     this.collection.on("add", this.addOne, this);
     this.collection.on("reset", this.addAll, this);
 
-    var emptyRegister = new FactRegister();
-    this.collection.reset([emptyRegister]);
+    this.emptyTemplate = $("#current-registers-empty-template").html();
   },
 
   render: function() {
-    this.addAll();
+    if (this.collection.isEmpty()) {
+      this.$el.html(Mustache.render(this.emptyTemplate));
+    } else {
+      this.addAll();
+    }
     return this;
   },
 
@@ -491,11 +496,7 @@ var FactRegisterView = Backbone.View.extend({
 
   className: "fact-register",
 
-  initialize: function() {
-    this.template = $("#empty-fact-register-template").html();
-  },
+  initialize: function() { },
 
-  render: function() {
-    //this.$el.html(Mustache.render(this.template, this.model.toJSON()));
-  }
+  render: function() { }
 });
