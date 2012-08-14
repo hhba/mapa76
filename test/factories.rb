@@ -8,4 +8,9 @@ FactoryGirl.define do
   factory :person do
     sequence(:name) { |n| "name_#{ n }" }
   end
+
+  factory :document do
+    sequence(:title) { |n| "text_#{ n }" }
+    sequence(:original_file) { |n| "text_#{ n }" }
+  end
 end
