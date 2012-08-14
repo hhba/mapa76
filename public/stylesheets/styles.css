@@ -225,3 +225,18 @@ table.tablesorter th {
 }
 .page.empty { background-color: #eee; }
 .page.fetching { background: url(../images/page-spinner.gif) center no-repeat; }
+
+#intro h1, #intro h2, #intro h3, #intro p { color: #fff; font-family: 'Dosis', sans-serif; }
+#intro .span8, #intro .span4, #intro .intro-graph { -webkit-border-radius: 10px; -moz-border-radius: 10px; border-radius: 10px; }
+#intro .span8, #intro .span4 { min-height: 170px; }
+#intro .span8 { background: #2F9CD5; padding: 25px; }
+#intro .span8 h1 { text-transform: uppercase; font-size: 40px; }
+#intro .span8 h2 { font-weight: normal; }
+#intro .span8 p, #intro .span3 p { font-size: 16px; }
+#intro .span4 { background: #A0D2ED; padding: 10px 20px; }
+#intro .span4 h3 { font-weight: normal; font-size: 22px; }
+#intro .intro-graph { border: 2px solid #D0EAF9; margin-top: 20px; padding-top: 400px; background: url(../images/intro.png) no-repeat center top; }
+#intro .intro-graph .span3 { background: none; }
+#intro .intro-graph .span3 h3, #intro .intro-graph .span3 p { color: #000; }
+#intro .intro-graph .span3 h3 { font-weight: normal; font-size: 25px; }
+footer { background: url(../images/hhba.png) no-repeat center; min-height: 50px; }
