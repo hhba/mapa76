@@ -9,6 +9,7 @@
       %script{:src => 'http://html5shim.googlecode.com/svn/trunk/html5.js'}
     = stylesheet_link_tag 'bootstrap.min'
     = stylesheet_link_tag "redmond/jquery-ui-1.8.21.custom"
+    = stylesheet_link_tag "jquery.mCustomScrollbar.css"
     = stylesheet_link_tag :styles
     = yield_content :styles
 
@@ -75,5 +76,7 @@
     = javascript_include_tag 'underscore-min.js', 'backbone-min.js', 'mustache.js', 'spin.min.js'
     = javascript_include_tag 'bootstrap.min', 'bootstrap-button', 'bootstrap-alert', 'bootstrap-collapse', 'bootstrap-tab'
     = javascript_include_tag 'jquery.tablesorter.min'
+    = javascript_include_tag 'jquery.mousewheel.min.js'
+    = javascript_include_tag 'jquery.mCustomScrollbar.js'
     = javascript_include_tag :application
     = yield_content :javascripts
