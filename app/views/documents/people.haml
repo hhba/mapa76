@@ -1,8 +1,10 @@
 -# coding: utf-8
+- content_for :javascripts do
+  = javascript_include_tag 'documents'
 .row-fluid
   .span8
     %h1= @doc.heading
-    %table#sorteable
+    %table.table.table-bordered.table-condensed.tablesorter
       %thead
         %tr
           %th
@@ -11,12 +13,16 @@
             %a{:href => '#', "data-sort" => "name"}Nombre
           %th
             %a{:href => '#', "data-sort" => "mentions"}Menciones
+          %th
       %tbody
         - @people.each_with_index do |person, index|
           %tr{"data-mentions" => person.mentions_in(@doc)}
             %td
               = index + 1
             %td
-              = link_to(person.name.titleize, url_for(:documents, :person, :person_id => person.id, :id => @doc.id))
+              = person.name.titleize
             %td
               (#{person.mentions_in(@doc)} menciones)
+            %td.blacklist
+              %a{href: "/api/blacklist/#{person.id}"}
+                %i.icon-remove
