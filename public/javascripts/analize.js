@@ -150,6 +150,8 @@ var PageView = Backbone.View.extend({
     this.$el = $("." + this.className + "[data-id=" + this.model.get("_id") + "]");
     this.template = $("#pageTemplate").html();
     this.namedEntityTemplate = $("#namedEntityTemplate").html();
+
+    $(window).on("resize.page." + this.model.get("num"), _.bind(this.resize, this));
   },
 
   render: function() {
@@ -157,6 +159,20 @@ var PageView = Backbone.View.extend({
     this.$el.html(html);
     this.$el.removeClass("empty").removeClass("fetching");
     this.$el.find(".page-content").fadeIn("fast");
+
+    // Store original font-sze of each text line in a data attribute for later
+    // dynamic resizing.
+    // FIXME remove this once Document model (with fontspecs) is created
+    this.$el.find("p").each(function(i, e) {
+      var $e = $(e);
+      $e.data("font-size", parseInt($e.css("font-size")));
+      $e.data("top", parseInt($e.css("top")));
+      $e.data("left", parseInt($e.css("left")));
+    });
+
+    // Trigger resize event
+    this.resize();
+
     var pageViewEl = this.$el;
     this.$el.find(".ne").draggable({
       helper: function() {
@@ -170,6 +186,18 @@ var PageView = Backbone.View.extend({
       }
     });
     return this;
+  },
+
+  resize: function() {
+    var currentWidth = this.$el.parents(".document").parents().width();
+    var ratio = currentWidth / this.model.get("width");
+    this.$el.css("height", this.model.get("height") * ratio);
+    this.$el.find("p").each(function(i, e) {
+      var $e = $(e);
+      $e.css("font-size", parseInt($e.data("font-size")) * ratio);
+      $e.css("top", parseInt($e.data("top")) * ratio);
+      $e.css("left", parseInt($e.data("left")) * ratio);
+    });
   },
 
   namedEntitiesParse: function() {
