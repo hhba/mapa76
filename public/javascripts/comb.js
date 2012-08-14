@@ -80,8 +80,12 @@ var AppView = Backbone.View.extend({
   initialize: function() {
     this.document = new Document(this.options.document);
     this.documentView = new DocumentView({ model: this.document });
-
     this.sidebarView = new SidebarView();
+
+    this.documentView.on("ne:drag:start", function(ne) {
+      console.log("ne:drag:start to sidebar!!!!");
+      return this.sidebarView.trigger("ne:drag:start", ne);
+    }, this);
   },
 
   render: function() {
@@ -96,6 +100,10 @@ var DocumentView = Backbone.View.extend({
 
   initialize: function() {
     this.pagesView = new PagesView({ collection: this.model.pages });
+
+    this.pagesView.on("ne:drag:start", function(ne) {
+      return this.trigger("ne:drag:start", ne);
+    }, this);
   }
 });
 
@@ -128,6 +136,9 @@ var PagesView = Backbone.View.extend({
 
   addOne: function(page) {
     var pageView = new PageView({ model: page });
+    pageView.on("ne:drag:start", function(ne) {
+      return this.trigger("ne:drag:start", ne);
+    }, this);
     pageView.render();
   },
 
@@ -216,6 +227,9 @@ var PageView = Backbone.View.extend({
         pageId: this.model.get("_id"),
         namedEntities: namedEntities
       });
+      textLineView.on("ne:drag:start", function(ne) {
+        return this.trigger("ne:drag:start", ne);
+      }, this);
 
       this.$el.find(".page-content").append(textLineView.render().$el);
     }, this);
@@ -299,6 +313,9 @@ var TextLineView = Backbone.View.extend({
 
           ne.set("originalText", content.substring(nePos.from.pos, nePos.to.pos + 1).replace(/\s/g, "&nbsp;"));
           var neView = new NamedEntityView({ model: ne });
+          neView.on("ne:drag:start", function(ne) {
+            return this.trigger("ne:drag:start", ne);
+          }, this);
           this.$el.append(neView.render().$el);
 
           curPos = nePos.to.pos + 1;
@@ -328,6 +345,9 @@ var TextLineView = Backbone.View.extend({
 
           ne.set("originalText", content.substring(fromPos, toPos).replace(/\s/g, "&nbsp;"));
           var neView = new NamedEntityView({ model: ne });
+          neView.on("ne:drag:start", function(ne) {
+            return this.trigger("ne:drag:start", ne);
+          }, this);
           this.$el.append(neView.render().$el);
 
           curPos = toPos;
@@ -347,6 +367,9 @@ var TextLineView = Backbone.View.extend({
 
           ne.set("originalText", content.replace(/\s/g, "&nbsp;"));
           var neView = new NamedEntityView({ model: ne });
+          neView.on("ne:drag:start", function(ne) {
+            return this.trigger("ne:drag:start", ne);
+          }, this);
           this.$el.append(neView.render().$el);
           break;
 
@@ -419,12 +442,10 @@ var NamedEntityView = Backbone.View.extend({
 
     return {
       start: function(event, ui) {
-        console.log("ne:drag:start");
         self.trigger("ne:drag:start", self.model);
       },
 
       stop: function(event, ui) {
-        console.log("ne:drag:stop");
         self.trigger("ne:drag:stop", self.model);
       },
 
@@ -450,6 +471,10 @@ var SidebarView = Backbone.View.extend({
   initialize: function() {
     this.factRegisters = new FactRegisters()
     this.factRegistersView = new FactRegistersView({ collection: this.factRegisters });
+
+    this.on("ne:drag:start", function(ne) {
+      return this.factRegistersView.trigger("ne:drag:start", ne);
+    }, this);
   },
 
   render: function() {
@@ -464,30 +489,56 @@ var FactRegistersView = Backbone.View.extend({
   className: "fact-registers",
 
   initialize: function() {
-    this.collection.on("add", this.addOne, this);
-    this.collection.on("reset", this.addAll, this);
+    this.collection.on("add", this.append, this);
+    this.collection.on("reset", this.appendAll, this);
 
     this.emptyTemplate = $("#current-registers-empty-template").html();
+
+    this.on("ne:drag:start", this.namedEntityDragStart);
+    this.on("ne:drag:stop", this.namedEntityDragStop);
   },
 
   render: function() {
     if (this.collection.isEmpty()) {
       this.$el.html(Mustache.render(this.emptyTemplate));
     } else {
-      this.addAll();
+      this.appendAll();
     }
     return this;
   },
 
-  addOne: function(register) {
+  append: function(register) {
     var registerView = new FactRegisterView({ model: register });
     registerView.render();
     this.$el.append(registerView.$el);
   },
 
-  addAll: function() {
+  prepend: function(register) {
+    var registerView = new FactRegisterView({ model: register });
+    registerView.render();
+    this.$el.prepend(registerView.$el);
+  },
+
+  appendAll: function() {
     this.$el.empty();
-    this.collection.each(this.addOne, this);
+    this.collection.each(this.append, this);
+  },
+
+  namedEntityDragStart: function(ne) {
+    console.log("named entity drag start: " + ne.get("_id"));
+    if (ne.get("ne_class") === "people") {
+      console.log("is people");
+      if (this.collection.isEmpty()) {
+        this.collection.reset([new FactRegister()]);
+      } else {
+        this.prepend(new FactRegister());
+        this.append(new FactRegister());
+      }
+    }
+  },
+
+  namedEntityDragStop: function(ne) {
+    console.log("named entity drag stop: " + ne.get("_id"));
   },
 });
 
