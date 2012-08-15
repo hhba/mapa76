@@ -43,6 +43,8 @@ $(document).ready(function(){
     var url = "/api/" + $(this).data("id") + "/context";
     var template = $("#documentContext").html();
     $("#document").html("").spin();
+    $(".with-scrollbar").mCustomScrollbar("update");
+
     $.getJSON(url, null, function(data) {
       $("#document").html(Mustache.render(template, data));
       $("#document .tablesorter").filter(function() {
