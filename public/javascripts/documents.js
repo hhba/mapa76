@@ -50,10 +50,8 @@ $(document).ready(function(){
       }).tablesorter({
         sortList: [[1,1]]
       });
-      $(".with-scrollbar").mCustomScrollbar("update");
     }).error(function() {
       $("#document").html(Mustache.render($("#documentContextError").html()));
-      $(".with-scrollbar").mCustomScrollbar("update");
     });
   });
   $(".documents .tools a").click(function(e) {
@@ -61,5 +59,10 @@ $(document).ready(function(){
   });
   $(".documents .tools a.disabled").click(function(e) {
     e.preventDefault();
+  });
+
+  // Update scrollbar when changing tabs
+  $(".document .nav-tabs a").live("click", function() {
+    $(".with-scrollbar").mCustomScrollbar("update");
   });
 });
