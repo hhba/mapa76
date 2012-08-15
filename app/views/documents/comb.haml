@@ -10,6 +10,15 @@
   = javascript_include_tag 'analize'
   :javascript
     AnalyzeApp.pageList.reset(#{@pages.to_json(:methods => :named_entities)});
+    $(function() {
+      $(".sidebar").mCustomScrollbar({
+        mouseWheel: 30,
+        autoDraggerLength: true,
+        advanced: {
+          updateOnBrowserResize: true
+        }
+      });
+    });
 
 / Document fontspec CSS classes
 - @doc.fontspecs.each do |id, fs|
