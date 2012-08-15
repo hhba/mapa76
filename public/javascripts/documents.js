@@ -29,6 +29,7 @@ $(document).ready(function(){
     event.preventDefault();
     $.post($this.attr("href"), null, function(){
       $this.parents("tr").remove();
+      $(".with-scrollbar").mCustomScrollbar("update");
     }, null);
   });
   $("#stillProcessing").alert().css("display", "block");
@@ -49,8 +50,10 @@ $(document).ready(function(){
       }).tablesorter({
         sortList: [[1,1]]
       });
+      $(".with-scrollbar").mCustomScrollbar("update");
     }).error(function() {
       $("#document").html(Mustache.render($("#documentContextError").html()));
+      $(".with-scrollbar").mCustomScrollbar("update");
     });
   });
   $(".documents .tools a").click(function(e) {

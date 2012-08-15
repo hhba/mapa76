@@ -1,6 +1,13 @@
 -# coding: utf-8
 - content_for :javascripts do
   = javascript_include_tag 'bootstrap-alert', 'documents'
+  :javascript
+    $(function() {
+      $(".with-scrollbar").mCustomScrollbar({
+        mouseWheel: 30,
+        advanced: { updateOnBrowserResize: false }
+      });
+    });
 
 %script#documentContextError{:type => "text/template"}
   .alert.alert-error
@@ -167,6 +174,8 @@
                   - else
                     .progress.progress-striped.active
                       .bar{:style => "width: #{doc.state_to_percentage}%;"}
-    .content.span5#document
-      %h4
-        Haga clic en un documento para ver más información
+
+    .sidebar.with-scrollbar.span5{:style => "background-color: #fff"}
+      .with-scrollbar-inner#document
+        %h4
+          Haga clic en un documento para ver más información

@@ -7,11 +7,11 @@ body {
 }
 .sidebar {
   position: fixed;
+  height: 100%;
   background-color: #f8f8f8;
   right: 20px;
   border: 1px solid #ddd;
   border-top: 0;
-  height: 100%;
 }
 .sidebar-nav {
   padding: 9px 0;
@@ -276,6 +276,18 @@ table.tablesorter th {
 .page.fetching {
   border: 1px solid #bbb;
   background: url("../images/stripe.png") white;
+}
+
+#document {
+  height: 100%;
+  background-color: #fff;
+}
+.with-scrollbar {
+  position: fixed;
+  height: 100%;
+}
+.with-scrollbar-inner {
+  padding-bottom: 120px;
 }
 
 #intro h1, #intro h2, #intro h3, #intro p { color: #fff; font-family: 'Dosis', sans-serif; }
