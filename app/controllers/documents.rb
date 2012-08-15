@@ -7,7 +7,7 @@ require 'resque'
 
 Alegato.controllers :documents do
   get :index do
-    @docs = Document.all
+    @docs = Document.only(:id, :heading, :state, :thumbnail_file).all
     render "documents/index"
   end
 
