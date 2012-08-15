@@ -15,6 +15,7 @@ body {
 }
 .sidebar-nav {
   padding: 9px 0;
+  padding-bottom: 60px;
 }
 .hidden {
   display: none;
