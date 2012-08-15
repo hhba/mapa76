@@ -117,11 +117,11 @@
 %header
   .subnav.subnav-fixed
     %ul.nav.nav-pills
-      %li.active
-        %a{:href => url_for(:documents, :index)} Documentos
-      %li
+      %li{:class => request.path_info == url(:documents, :index) ? "active" : nil}
+        %a{:href => url(:documents, :index)} Documentos
+      %li{:class => request.path_info.start_with?(url(:documents, :new)) ? "active" : nil}
         %a{:href => url_for(:documents, :new)} Nuevo
-      %li
+      %li{:class => request.path_info.start_with?(url(:documents, :mine)) ? "active" : nil}
         %a{:href => url_for(:documents, :mine)} Mis documentos
 
 - content_for :free do

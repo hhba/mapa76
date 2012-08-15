@@ -4,50 +4,60 @@
 - content_for :styles do
   = stylesheet_link_tag "flick/jquery-ui-1.8.18.custom"
 
-.row-fluid
-  .span5
-    %h1 Importar documento
-    - form_tag url_for(:documents, :create),:method => "PUT", :multipart => true, :class => 'well' do
-      .control-group
-        %label.control-label Título
-        .controls
-          = text_field_tag :heading, :class => 'input-xlarge', :required => true
-          %p.help-block
-            Nombre del documento a importar
-      .control-group
-        %label{:for => 'file_input'} Archivo
-        .controls
-          = file_field_tag :file, :id => 'file_input', :class => 'input-file', :required => true
-        %label.control-label{:for => 'textarea'} Descripción
-        .controls
-          %textarea{:id => 'textarea', :rows => 3, :class => 'input-xlarge', :name => "description"}
-          %p.help-block
-            Más información para ayudarlo a recordar el orígen del documento
-      .control-group
-        %label{:for => 'select_type', :class => "control-label"} Tipo
-        .controls
-          %select{:id => 'select_type', :name => 'category', :class => ""}
-            %option
-              Alegato
-            %option
-              Artículo periodístico
-            %option
-              Fundamentos
-            %option
-              Pericia
-            %option
-              Sentencia
-            %option
-              Testimonio
-            %option
-              Veredicto
-            %option
-              Otro
-      =# label_tag :URL
-      =# text_field_tag :url
-      =# label_tag :text
-      =# text_area_tag :text
-      .form-actions
-        %a.btn{:href => '/documents'} Cancelar
-        %button.btn.btn-primary{:type => "submit"} Importar
-  .span8
+%header
+  .subnav.subnav-fixed
+    %ul.nav.nav-pills
+      %li{:class => request.path_info == url(:documents, :index) ? "active" : nil}
+        %a{:href => url(:documents, :index)} Documentos
+      %li{:class => request.path_info.start_with?(url(:documents, :new)) ? "active" : nil}
+        %a{:href => url_for(:documents, :new)} Nuevo
+      %li{:class => request.path_info.start_with?(url(:documents, :mine)) ? "active" : nil}
+        %a{:href => url_for(:documents, :mine)} Mis documentos
+
+- content_for :free do
+  .row-fluid
+    .span4
+      %h1 Importar documento
+      - form_tag url_for(:documents, :create),:method => "PUT", :multipart => true, :class => 'well' do
+        .control-group
+          %label.control-label Título
+          .controls
+            = text_field_tag :heading, :class => 'input-xlarge', :required => true
+            %p.help-block
+              Nombre del documento a importar
+        .control-group
+          %label{:for => 'file_input'} Archivo
+          .controls
+            = file_field_tag :file, :id => 'file_input', :class => 'input-file', :required => true
+          %label.control-label{:for => 'textarea'} Descripción
+          .controls
+            %textarea{:id => 'textarea', :rows => 3, :class => 'input-xlarge', :name => "description"}
+            %p.help-block
+              Más información para ayudarlo a recordar el orígen del documento
+        .control-group
+          %label{:for => 'select_type', :class => "control-label"} Tipo
+          .controls
+            %select{:id => 'select_type', :name => 'category', :class => ""}
+              %option
+                Alegato
+              %option
+                Artículo periodístico
+              %option
+                Fundamentos
+              %option
+                Pericia
+              %option
+                Sentencia
+              %option
+                Testimonio
+              %option
+                Veredicto
+              %option
+                Otro
+        =# label_tag :URL
+        =# text_field_tag :url
+        =# label_tag :text
+        =# text_area_tag :text
+        .form-actions
+          %a.btn{:href => '/documents'} Cancelar
+          %button.btn.btn-primary{:type => "submit"} Importar
