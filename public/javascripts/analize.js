@@ -89,6 +89,7 @@ var PersonView = Backbone.View.extend({
   render: function() {
     this.html = Mustache.render(this.template, this.model.toJSON());
     this.$el.html(this.html);
+    $(".sidebar").mCustomScrollbar("update");
     return this;
   }
 });
@@ -415,6 +416,7 @@ var PageListView = Backbone.View.extend({
     var template = $("#preRegisterTemplate").html();
     $(".box." + boxClass + " .new").before(Mustache.render(template, params));
     AnalyzeApp.register = new Register(AnalyzeApp.registerView.getValues());
+    $(".sidebar").mCustomScrollbar("update");
   }
 });
 
@@ -446,6 +448,7 @@ var RegisterView = Backbone.View.extend({
 
   resetRegister: function() {
     $(".new_register").find(".register").remove();
+    $(".sidebar").mCustomScrollbar("update");
     return this;
   }
 });
@@ -475,6 +478,7 @@ function Droppable(el){
       };
       $(this).before(Mustache.render(template, params));
       AnalyzeApp.register = new Register(AnalyzeApp.registerView.getValues());
+      $(".sidebar").mCustomScrollbar("update");
     },
     accept: "." + this.el.attr("data-type")
   });
