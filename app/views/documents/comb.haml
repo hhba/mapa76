@@ -122,11 +122,10 @@
   .breadcrumb
     %a{:href => "/documents/{{id}}"}
       {{heading}}
-  .information
-    .title
-      {{heading}}
-    .category
-      Categoría: {{category}}
+  %dl.information
+    %dt Categoría
+    %dd {{category}}
+  = partial "documents/context_tabs", :locals => { :small => true }
 
 %script#personContext{:type => "text/template"}
   .breadcrumb

@@ -127,6 +127,7 @@ var DocumentView = Backbone.View.extend({
   render: function() {
     var html = Mustache.render(this.template, this.model.toJSON());
     this.$el.html(html);
+    $(".sidebar").mCustomScrollbar("update");
     return this;
   }
 });
@@ -541,5 +542,10 @@ $(document).ready(function() {
 
   $("#whatSelector").change(function() {
     AnalyzeApp.register = new Register(AnalyzeApp.registerView.getValues());
+  });
+
+  // Update scrollbar when changing tabs
+  $(".document .nav a").live("click", function() {
+    $(".sidebar").mCustomScrollbar("update");
   });
 });

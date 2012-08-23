@@ -1,7 +1,5 @@
 .document{data: { id: "{{id}}" }}
-  %h4
-    {{heading}}
-  %ul.nav.nav-tabs  
+  %ul.nav.nav-tabs{:class => locals[:small] ? "small" : nil}
     %li.active
       %a{href: '#facts', data: { toggle: 'tab'}} Hechos
     %li

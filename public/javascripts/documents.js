@@ -64,7 +64,7 @@ $(document).ready(function(){
   });
 
   // Update scrollbar when changing tabs
-  $(".document .nav-tabs a").live("click", function() {
+  $(".document .nav a").live("click", function() {
     $(".with-scrollbar").mCustomScrollbar("update");
   });
 });

@@ -305,3 +305,22 @@ table.tablesorter th {
 #intro .intro-graph .span3 h3, #intro .intro-graph .span3 p { color: #000; }
 #intro .intro-graph .span3 h3 { font-weight: normal; font-size: 25px; }
 footer { background: url(../images/hhba.png) no-repeat center; min-height: 50px; }
+
+.information {
+  margin-bottom: 6px;
+}
+.information dt {
+  float: left;
+  clear: left;
+  font-weight: bold;
+  margin-right: 6px;
+}
+.information dt:after {
+  content: ":";
+}
+.information dd {
+  padding: 0 0 0.5em 0;
+}
+.nav-tabs.small > li > a, .nav-pills.small > li > a {
+  padding: 4px 6px;
+}

@@ -13,7 +13,8 @@
     Ocurrió un error al obtener información de contexto del documento.
 
 %script#documentContext{:type => "text/template"}
-  = partial "documents/context"
+  %h4 {{ heading }}
+  = partial "documents/context_tabs"
 
 %header
   .subnav.subnav-fixed
