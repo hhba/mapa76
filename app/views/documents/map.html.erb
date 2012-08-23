@@ -31,35 +31,41 @@
       };
       var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
       var infoTemplate = $("#info-template");
+      var lastInfowindow = null;
+
       <% @addresses.each do |addr| %>
-        var myLatlng = new google.maps.LatLng(<%= addr.lat %>, <%= addr.lng %>);
-        var myOptions = {
-          zoom: 4,
-          center: myLatlng,
-          mapTypeId: google.maps.MapTypeId.ROADMAP
-        };
-        if (!centered) {
-          centered = true;
-          map.panTo(myLatlng);
-        }
-        var title = <%= addr.text.to_json %>;
-        var infowindow = new google.maps.InfoWindow({
-          content: Mustache.render(infoTemplate.html(), {
-            title: title,
-            context: <%= addr.context(150).gsub(addr.text, "<b>#{addr.text}</b>").to_json %>,
-            document_id: <%= addr.document_id.to_s.to_json %>,
-            document_title: <%= addr.document.heading.to_json %>,
-            page_num: <%= Page.where(:_id => addr.inner_pos["from"]["pid"]).only(:num).first.try(:num).to_json %>
-          })
-        });
-        var marker = new google.maps.Marker({
-          position: myLatlng,
-          map: map,
-          title: title
-        });
-        google.maps.event.addListener(marker, "click", function() {
-          infowindow.open(map, marker);
-        });
+        (function() {
+          var myLatlng = new google.maps.LatLng(<%= addr.lat %>, <%= addr.lng %>);
+          var myOptions = {
+            zoom: 4,
+            center: myLatlng,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+          };
+          if (!centered) {
+            centered = true;
+            map.panTo(myLatlng);
+          }
+          var title = <%= addr.text.to_json %>;
+          var infowindow = new google.maps.InfoWindow({
+            content: Mustache.render(infoTemplate.html(), {
+              title: title,
+              context: <%= addr.context(150).gsub(addr.text, "<b>#{addr.text}</b>").to_json %>,
+              document_id: <%= addr.document_id.to_s.to_json %>,
+              document_title: <%= addr.document.heading.to_json %>,
+              page_num: <%= Page.where(:_id => addr.inner_pos["from"]["pid"]).only(:num).first.try(:num).to_json %>
+            })
+          });
+          var marker = new google.maps.Marker({
+            position: myLatlng,
+            map: map,
+            title: title
+          });
+          google.maps.event.addListener(marker, "click", function() {
+            if (lastInfowindow) lastInfowindow.close();
+            infowindow.open(map, marker);
+            lastInfowindow = infowindow;
+          });
+        })();
       <% end %>
     }
     centered = false;
@@ -72,7 +78,7 @@
   <script id="info-template" type="text/template">
     <h3>{{ title }}</h3>
     <p><i>[...]</i>{{{ context }}}<i>[...]</i></p>
-    <p>Mencionado en: <a href="/documents/{{ document_id }}/comb#{{ page_num }}">{{ document_title }} (página {{ page_num }})</a></p>
+    <p>Mencionado en la <a href="/documents/{{ document_id }}/comb#{{ page_num }}">página {{ page_num }}</a></p>
   </script>
 </body>
 
