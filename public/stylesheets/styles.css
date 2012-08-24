@@ -324,3 +324,10 @@ footer { background: url(../images/hhba.png) no-repeat center; min-height: 50px;
 .nav-tabs.small > li > a, .nav-pills.small > li > a {
   padding: 4px 6px;
 }
+.navbar .nav > .disabled > a {
+  color: #bbb;
+  cursor: default;
+}
+.navbar .nav > .disabled > a:hover {
+  color: #bbb;
+}

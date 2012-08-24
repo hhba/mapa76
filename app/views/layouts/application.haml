@@ -26,22 +26,22 @@
                 %a{:href => url(:index)} Inicio
               %li{:class => request.path_info.start_with?(url(:documents, :index)) ? "active" : nil}
                 %a{:href => url(:documents, :index)} Documentos
-              %li{:class => request.path_info.start_with?(url(:entities)) ? "active" : nil}
-                %a{:href => url(:entities)} Entidades
-              %li{:class => request.path_info.start_with?(url(:facts)) ? "active" : nil}
-                %a{:href => url(:facts)} Hechos
-              %li{:class => request.path_info.start_with?(url(:projects)) ? "active" : nil}
-                %a{:href => url(:projects)} Proyectos
+              %li{:class => "disabled #{request.path_info.start_with?(url(:projects)) ? "active" : nil}"}
+                %a{:href => "#"} Proyectos
             %ul.nav.pull-right
+              -#
+                %li
+                  %form{:class => 'navbar-search pull-left'}
+                    %input{:type => 'text', :class => 'search-query', :placeholder => 'Buscar'}
+                %li.divider-vertical
+                  %li
+                    %a{:href => File.join(request.path_info, 'help')} Ayuda
               %li
-                %form{:class => 'navbar-search pull-left'}
-                  %input{:type => 'text', :class => 'search-query', :placeholder => 'Buscar'}
-              %li.divider-vertical
-              %li
-                %a{:href => File.join(request.path_info, 'help')} Ayuda
-              %li.divider-vertical
-              %li
-                %a{:href => '#'} usuario
+                %a{:href => "http://blog.mapa76.info/"} Blog
+              -#
+                %li.divider-vertical
+                %li
+                  %a{:href => '#'} usuario
           / /.nav-collapse
 
     .container-fluid
