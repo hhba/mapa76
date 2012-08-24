@@ -12,8 +12,8 @@
     AnalyzeApp.pageList.reset(#{@pages.to_json(:methods => :named_entities)});
     $(function() {
       $(".sidebar").mCustomScrollbar({
-        mouseWheel: 30,
-        autoDraggerLength: true,
+        mouseWheel: 5,
+        scrollInertia: 250,
         advanced: {
           updateOnBrowserResize: true
         }

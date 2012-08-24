@@ -6,7 +6,7 @@ Alegato.controllers :api do
   get :documents, :with => :id, :provides => [:json] do
     document = Document.find(params[:id])
     if params[:page].nil?
-      document.to_json
+      document.attributes.merge(document.context).to_json
     else
       document.pages.where(:num => params[:page]).first.to_json(:methods => :named_entities)
     end

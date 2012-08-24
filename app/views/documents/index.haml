@@ -4,6 +4,8 @@
   :javascript
     $(function() {
       $(".with-scrollbar").mCustomScrollbar({
+        mouseWheel: 5,
+        scrollInertia: 250,
         advanced: { updateOnBrowserResize: true }
       });
     });
