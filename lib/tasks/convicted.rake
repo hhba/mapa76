@@ -22,13 +22,13 @@ namespace :convicted do
       convicted = CSV.open(File.join(CSV_PATH, filename + '.csv'))
       convicted.shift
       convicted.each do |row|
-        if !row[6].nil? and Person.where(searchable_name: searchable_name(row[5])).first
+        unless row[6].nil?
           puts "Convicted: #{clean_name row[5]} from #{filename}"
-          Person.create name: clean_name(row[5]),
-                        confidence: 1,
-                        tags: [filename],
-                        force: row[6],
-                        jurisdiction: row[0]
+          Person.add clean_name(row[5]),
+                     confidence: 1,
+                     tag: filename,
+                     force: row[6],
+                     jurisdiction: row[0]
         end
       end
     end

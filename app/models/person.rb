@@ -15,6 +15,7 @@ class Person
   field :confidence,      type: Float, default: 0.0
 
   before_save :store_normalize_name
+  before_save :unify_tags
 
   has_many :milestones
   has_many :named_entities
@@ -22,6 +23,19 @@ class Person
 
   def self.conadep
     Person.all.select { |person| person.tags.include?("conadep")}
+  end
+
+  def self.add(name, opt={})
+    person = where(searchable_name: normalize_name(name)).first
+    if person
+      if opt.has_key? :tag
+        person.tags << opt[:tag]
+        person.save
+      end
+    else
+      opt[:tags] = [opt.delete(:tag)]
+      create opt.merge({name: name})
+    end
   end
 
   def self.populate(document, duplicates, opts={})
@@ -100,4 +114,8 @@ protected
     self.searchable_name = self.class.normalize_name(name)
   end
 
+  def unify_tags
+    tags.uniq! if tags.class == Array
+  end
 end
+

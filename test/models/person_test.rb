@@ -2,6 +2,23 @@
 require File.expand_path(File.dirname(__FILE__) + '/../test_config.rb')
 
 class TestPerson < Test::Unit::TestCase
+  context "Add new person" do
+    setup do
+      @p1 = create :person, name: "Luciano Benjamín MenÉndez", tags: ['procesados']
+      @p2 = create :person, name: "Eduardo Massera", tags: ['procesados', 'condenados', 'condenados']
+    end
+
+    should "Not add an existing person" do
+      Person.add "Luciano Benjamín MenÉndez", tag: 'condenados'
+
+      assert_equal 2, Person.first.tags.length
+    end
+
+    should "have unique tags" do
+      assert_equal 2, @p2.tags.length
+    end
+  end
+
   context "Person finders" do
     setup do
       @p1 = create :person, name: "Cocó Fuente"
