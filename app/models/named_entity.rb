@@ -20,7 +20,6 @@ class NamedEntity
 
   validate :must_have_valid_position
 
-
   CLASSES_PER_TAG = {
     'NP00O00' => :organizations,
     'NP00V00' => :others,
@@ -30,9 +29,16 @@ class NamedEntity
     'W'       => :dates,
   }
 
-
   def to_s
     text || human_form || super
+  end
+
+  def self.persons
+    where(:ne_class => :people)
+  end
+
+  def self.persons_text
+    self.persons.collect { |ne| ne.text }
   end
 
   def context(length=50)
@@ -53,8 +59,8 @@ class NamedEntity
     NamedEntity::CLASSES_PER_TAG[self.tag].to_s
   end
 
-
 protected
+
   def human_form
     form.gsub('_', ' ') if form
   end
