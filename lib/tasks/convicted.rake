@@ -22,7 +22,6 @@ namespace :convicted do
       convicted = CSV.open(File.join(CSV_PATH, filename + '.csv'))
       convicted.shift
       convicted.each do |row|
-        p row
         if !row[6].nil? and Person.where(searchable_name: searchable_name(row[5])).first
           puts "Convicted: #{clean_name row[5]} from #{filename}"
           Person.create name: clean_name(row[5]),
