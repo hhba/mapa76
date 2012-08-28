@@ -186,7 +186,7 @@ var PageView = Backbone.View.extend({
       helper: function() {
         var neId = $(this).data("ne-id");
         var parts = pageViewEl.find(".ne[data-ne-id='" + neId + "']");
-        var neInnerText = _.map(parts, function(e) { return e.innerText; }).join(" ")
+        var neInnerText = _.map(parts, function(e) { return (e.innerText || e.textContent); }).join(" ")
         var helper = $(this).clone();
         helper.text(neInnerText);
         helper.css("opacity", "0.5");
@@ -385,7 +385,7 @@ var PageListView = Backbone.View.extend({
       id: neId,
       neClass: neClass,
       type: $ne.attr("data-type"),
-      text: _.map(parts, function(e) { return e.innerText; }).join(" ")
+      text: _.map(parts, function(e) { return (e.innerText || e.textContent); }).join(" ")
     };
 
     switch (neClass) {
