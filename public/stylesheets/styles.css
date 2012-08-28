@@ -331,3 +331,7 @@ footer { background: url(../images/hhba.png) no-repeat center; min-height: 50px;
 .navbar .nav > .disabled > a:hover {
   color: #bbb;
 }
+
+.controls {
+  text-transform: none;
+}
