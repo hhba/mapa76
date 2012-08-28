@@ -9,6 +9,8 @@ class Person
   field :name,            type: String
   field :surname_father,  type: String
   field :searchable_name, type: String
+  field :jurisdiction,    type: String
+  field :force,           type: String
   field :tags,            type: Array
   field :confidence,      type: Float, default: 0.0
 

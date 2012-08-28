@@ -22,7 +22,7 @@
             %td
               = person.name.titleize
             %td
-              (#{person.mentions_in(@doc)} menciones)
+              = person.mentions_in(@doc)
             %td.blacklist
               %a{href: "/api/blacklist/#{person.id}"}
                 %i.icon-remove
