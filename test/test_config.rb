@@ -1,4 +1,6 @@
 PADRINO_ENV = 'test' unless defined?(PADRINO_ENV)
+ENV["RACK_ENV"] = PADRINO_ENV
+
 require File.expand_path('../../config/boot', __FILE__)
 require 'test/unit'
 require 'database_cleaner'
