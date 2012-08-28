@@ -2,7 +2,7 @@
 require File.expand_path(File.dirname(__FILE__) + '/../test_config.rb')
 
 class TestCoreference < Test::Unit::TestCase
-  context "This is ugly" do
+  context "Coreference!" do
     setup do
       @patty1  = create :named_entity, text: "Luis Abelardo Patty"
       @patty2  = create :named_entity, text: "Luis Ableardo Patty"
@@ -10,9 +10,9 @@ class TestCoreference < Test::Unit::TestCase
       @videla1 = create :named_entity, text: "Jorge Rafael Videla"
       @pomulo1 = create :named_entity, text: "Peperino Pomulo"
       @patty4  = create :named_entity, text: "Luis Ableardo Patty"
-      @wrong   = create :named_entity, text: "Policia Federal"
+      @wrong   = create :named_entity, text: "policia federal"
+      @one     = create :named_entity, text: "policia"
       
-      @named_entities = [@patty2, @patty3, @videla1, @pomulo1, @patty4]
       @named_entities = [@patty2, @patty3, @videla1, @pomulo1, @patty4]
     end
 
@@ -30,11 +30,21 @@ class TestCoreference < Test::Unit::TestCase
     end
 
     should "test_remove_blacklisted" do
-      @named_entities = [@patty2, @patty3, @videla1, @pomulo1, @patty4, @wrong]
+      named_entities = [@patty2, @patty3, @videla1, @pomulo1, @patty4, @wrong]
       result = [@patty2, @patty3, @videla1, @pomulo1, @patty4] 
-      Person.create(name: "Policia Federal").blacklist
+      Person.create(name: "policia federal").blacklist
 
-      assert_equal result, Coreference.remove_blacklisted(@named_entities)
+      assert_equal result, Coreference.remove_blacklisted(named_entities)
+    end
+
+    should "find named entities with one word" do
+      named_entities = [@patty1, @patty2, @one]
+      assert_equal [@patty1, @patty2], Coreference.remove_one_word(named_entities)
+    end
+
+    should "find one word named entities" do
+      named_entities = [@patty1, @patty2, @one]
+      assert_equal [@one], Coreference.find_one_words(named_entities)
     end
   end
 end
