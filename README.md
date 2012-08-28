@@ -108,6 +108,6 @@ Restart to 0
 
 To remove everything from the database and restart all to 0 just run:
 
-    $ rake mi:drop && redis-cli FLUSHALL && rake anm:load
+    $ rake mi:drop && redis-cli FLUSHALL && rake anm:load && rake convicted:load
 
 
