@@ -25,12 +25,15 @@ $(document).ready(function(){
       'json');
   });
   $(".blacklist a").live("click", function(event){
-    var $this = $(this);
     event.preventDefault();
-    $.post($this.attr("href"), null, function(){
-      $this.parents("tr").remove();
-      $(".with-scrollbar").mCustomScrollbar("update");
-    }, null);
+    var $this = $(this);
+    var answer = confirm("Enviar " + $this.data("name") + "a la blacklist?");
+    if(answer) {
+      $.post($this.attr("href"), null, function(){
+        $this.parents("tr").remove();
+        $(".with-scrollbar").mCustomScrollbar("update");
+      }, null);
+    }
   });
   $("#stillProcessing").alert().css("display", "block");
   setTimeout(checkDocumentsStatuses, 15000 );

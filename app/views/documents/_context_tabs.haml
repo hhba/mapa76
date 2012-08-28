@@ -39,7 +39,7 @@
           {{#people}}
           %tr
             %td.blacklist
-              %a{href: "/api/blacklist/{{id}}"}
+              %a{href: "/api/blacklist/{{id}}", data: {name: "{{name}}"}}
                 %i.icon-remove
             %td
               {{name}}
