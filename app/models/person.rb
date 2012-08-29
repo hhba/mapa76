@@ -21,12 +21,14 @@ class Person
   has_many :named_entities
   has_and_belongs_to_many :documents
 
+  scope :searchable_with, lambda { |name| where(searchable_name: normalize_name(name)) }
+
   def self.conadep
     Person.all.select { |person| person.tags.include?("conadep")}
   end
 
   def self.add(name, opt={})
-    person = where(searchable_name: normalize_name(name)).first
+    person = searchable_with(name).first
     if person
       if opt.has_key? :tag
         person.tags << opt[:tag]
@@ -39,12 +41,13 @@ class Person
   end
 
   def self.populate(document, duplicates, opts={})
-    tags = opts[:tags] ? opts[:tags] : []
+    # This is a really ugly code, but it works, I'm not gonna change it now!
+    tags = opts.fetch :tags, []
     confidence = opts[:confidence] ? opts[:confidence] : 0.0
 
     output = []
     duplicates.each do |group|
-      already_added = group.collect { |ne| self.where(:name => ne.text).first }.compact
+      already_added = group.collect { |ne| searchable_with(ne.text).first }.compact
       if already_added.empty?
         person = Person.create(:name => group.first.text,
                                :tags => tags,
