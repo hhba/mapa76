@@ -4,6 +4,7 @@ require 'splitter'
 class Document
   include Mongoid::Document
   include Mongoid::Timestamps
+  include Finder
 
   field :title,            type: String
   field :heading,          type: String
@@ -82,26 +83,6 @@ class Document
   def re_analyze
     self.named_entities.destroy_all
     analyze
-  end
-
-  def people_found
-    self.named_entities.where(:ne_class => :people)
-  end
-
-  def dates_found
-    self.named_entities.where(:ne_class => :dates)
-  end
-
-  def organizations_found
-    self.named_entities.where(:ne_class => :organizations)
-  end
-
-  def places_found
-    self.named_entities.where(:ne_class => :places)
-  end
-
-  def addresses_found
-    self.named_entities.where(:ne_class => :addresses)
   end
 
   def processed?
