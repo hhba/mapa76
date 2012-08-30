@@ -3,7 +3,7 @@
   = javascript_include_tag 'bootstrap-tooltip', 'bootstrap-popover', "documents"
 
 .row-fluid
-  .span5
+  .span6
     %table.table.table-bordered.table-condensed
       %thead
         %th{:span => 2 }
@@ -27,6 +27,7 @@
       = link_to "Localizar", url_for(:documents, :map, :id => @doc._id), :class => "btn btn-primary", :target => "_blank"
       = link_to "Personas", url_for(:documents, :people, :id => @doc._id), :class => "btn btn-primary"
       = link_to "Validar registros", url_for(:documents, :comb, :id => @doc._id), :class => "btn btn-primary"
+      = link_to "Exportar CSV", url_for(:documents, :people, :id => @doc, :format => :csv), :class => 'btn btn-primary'
   .span6
     %h2
       Registros
@@ -59,20 +60,4 @@
             %td
               - register.to_who.each do |w|
                 = NamedEntity.find(w).text
-%hr
-.row-fluid
-  .span4
-    %table.table.table-bordered.table-condensed.tablesorter
-      %thead
-        %tr
-          %th
-            Personas
-          %th
-            Menciones
-      %tbody
-        - @doc.people.each_with_index do |person, index|
-          %tr
-            %td
-              = person.full_name
-            %td
-              = person.mentions_in @doc
+
