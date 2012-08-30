@@ -1,5 +1,6 @@
 # encoding: utf-8
 require 'splitter'
+require 'csv'
 
 class Document
   include Mongoid::Document
@@ -33,6 +34,15 @@ class Document
 
   BLOCK_SEPARATOR = ".\n"
 
+  def to_csv
+    heading = %w(name, fuerza, etiqueta)
+    CSV.generate do |csv|
+      csv << heading
+      people.each do |person|
+        csv << [person.name, person.force, person.tags.inspect]
+      end
+    end
+  end
 
   def resolve_coreference
     Coreference.resolve(self, self.people_found)
