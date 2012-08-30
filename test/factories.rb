@@ -13,4 +13,27 @@ FactoryGirl.define do
     sequence(:title) { |n| "text_#{ n }" }
     sequence(:original_file) { |n| "text_#{ n }" }
   end
+
+  factory :name_entity, class: NamedEntity do
+    text     "Elias Seman"
+    ne_class :people
+    form     "Elias_Seman"
+    lemma    "elias_seman"
+    tag      "NP00SP0"
+    document
+  end
+
+  factory :date_entity, class: NamedEntity do
+    text "14 de julio de 2011"
+    ne_class :dates
+    form  "14_de_julio_de_2011"
+    lemma "[??:14/7/2011:??.??:??]"
+    tag   "W"
+    document
+  end
+
+  factory :register do
+    document
+  end
 end
+
