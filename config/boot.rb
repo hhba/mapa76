@@ -10,6 +10,7 @@ $LOAD_PATH << PADRINO_ROOT
 # Load our dependencies
 require 'rubygems' unless defined?(Gem)
 require 'bundler/setup'
+require 'csv'
 Bundler.require(:default, PADRINO_ENV)
 
 require 'config/resque'

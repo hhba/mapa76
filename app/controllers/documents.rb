@@ -60,11 +60,14 @@ Alegato.controllers :documents do
     end
   end
 
-  get :people, :map => '/documents/:id/people' do
+  get :people, :map => '/documents/:id/people', provides: [:html, :csv] do
     @doc = Document.find(params[:id])
     @people = @doc.people
 
-    render "documents/people"
+    case content_type
+    when :html then render("documents/people")
+    when :csv then content_type 'text/csv'; @doc.to_csv
+    end
   end
 
   get :hot_zones, :map => '/documents/:id/hot_zones' do

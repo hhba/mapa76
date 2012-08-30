@@ -64,6 +64,8 @@
                         %i.icon-globe{:title => "Mapa"}
                       %a.btn{:href => original_file_url(doc)}
                         %i.icon-download-alt{:title => "Descargar"}
+                      %a.btn{:href => url_for(:documents, :people, :id => doc, :format => :csv)}
+                        %i.icon-list-alt{:title => "Exportar a CSV"}
                 %td
                   = doc.category
                 %td
