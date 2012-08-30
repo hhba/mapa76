@@ -6,6 +6,7 @@ class Register
   field :when,   type: Array
   field :where,  type: Array
   field :to_who, type: Array
+  field :what,   type: String
 
   belongs_to :document, index: true
 
