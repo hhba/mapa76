@@ -335,3 +335,7 @@ footer { background: url(../images/hhba.png) no-repeat center; min-height: 50px;
 .controls {
   text-transform: none;
 }
+.mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar{
+  background-color: #666;
+  width: 7px;
+}
