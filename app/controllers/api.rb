@@ -15,14 +15,14 @@ Alegato.controllers :api do
   get :map, map: "/api/:id/map", :provides => [:json] do
     document = Document.find(params[:id])
     @addresses = document.addresses_found.select { |addr| addr.geocoded? }
-    @addresses.select { |address|
+    @addresses.collect { |address|
       {
         title: address.text,
         lat: address.lat,
         long: address.lng,
         document_id: document.id,
         document_title: document.title,
-        context: document.context
+        context: address.context
       }}.to_json
   end
 
