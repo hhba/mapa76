@@ -12,6 +12,20 @@ Alegato.controllers :api do
     end
   end
 
+  get :map, map: "/api/:id/map", :provides => [:json] do
+    document = Document.find(params[:id])
+    @addresses = document.addresses_found.select { |addr| addr.geocoded? }
+    @addresses.select { |address|
+      {
+        title: address.text,
+        lat: address.lat,
+        long: address.lng,
+        document_id: document.id,
+        document_title: document.title,
+        context: document.context
+      }}.to_json
+  end
+
   get :context, :map => '/api/:id/context', :provides => [:json] do
     document = Document.find(params[:id])
     document.context.merge(:heading => document.heading).to_json
