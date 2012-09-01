@@ -23,6 +23,15 @@ FactoryGirl.define do
     document
   end
 
+  factory :where_entity, class: NamedEntity do
+    text     "ESMA"
+    ne_class :places
+    form     "esma"
+    lemma    "esma"
+    tag      "NP00G00"
+    document
+  end
+
   factory :date_entity, class: NamedEntity do
     text "14 de julio de 2011"
     ne_class :dates
@@ -36,4 +45,3 @@ FactoryGirl.define do
     document
   end
 end
-

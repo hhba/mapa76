@@ -59,6 +59,10 @@ class NamedEntity
     NamedEntity::CLASSES_PER_TAG[self.tag].to_s
   end
 
+  def date_to_s
+    Time.parse(/(\d{1,2})\/(\d{1,2})\/(\d{4})/.match(lemma)[0]).to_i
+  end
+
 protected
 
   def human_form

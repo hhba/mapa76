@@ -14,6 +14,10 @@ class Register
     ActionEntity::VERBS
   end
 
+  def self.timeline_json
+    all.map { |register| register.timeline_json }.reject {|r| !r}.to_json
+  end
+
   def self.build_and_save(values)
     whats = values.delete("what")
     whats.map do |what|
@@ -30,5 +34,11 @@ class Register
       where:  self.where.map { |w| NamedEntity.find(w).text },
       to_who: self.to_who.map { |w| NamedEntity.find(w).text }
     }
+  end
+
+  def timeline_json
+    unless self.when.empty? or who.empty? or where.empty?
+      { order: NamedEntity.find(self.when.first).date_to_s, character: NamedEntity.find(who.first).text, group: NamedEntity.find(where.first).text }
+    end
   end
 end
