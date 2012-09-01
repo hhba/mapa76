@@ -1,0 +1,19 @@
+asset_root: public
+asset_path: "/assets"
+
+load_path:
+  - app/assets
+  - lib/assets
+  - vendor/assets
+  - public/assets
+
+source_files:
+  js:
+    - js/base.js
+  css:
+    - css/base.css
+
+js_compressor_options:
+  munge: true
+
+css_compressor_options:
