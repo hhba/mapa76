@@ -60,7 +60,11 @@ class NamedEntity
   end
 
   def date_to_s
-    Time.parse(/(\d{1,2})\/(\d{1,2})\/(\d{4})/.match(lemma)[0]).to_i
+    begin
+      Time.parse(/(\d{1,2})\/(\d{1,2})\/(\d{4})/.match(lemma)[0]).to_i
+    rescue
+      Time.now.to_i
+    end
   end
 
 protected
