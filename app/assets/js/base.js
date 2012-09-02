@@ -2,10 +2,11 @@
 
 //= require "bootstrap/js/bootstrap"
 
+//= require "js/underscore"
+//= require "js/backbone"
+//
 //= require "javascripts/jquery-ui-1.8.22.custom.min"
 //= require "javascripts/jq_spin_plugin"
-//= require "javascripts/underscore-min"
-//= require "javascripts/backbone-min"
 //= require "javascripts/mustache"
 //= require "javascripts/spin.min"
 //= require "javascripts/jquery.tablesorter.min"
