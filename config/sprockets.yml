@@ -5,7 +5,7 @@ load_path:
   - app/assets
   - lib/assets
   - vendor/assets
-  - public/assets
+  - public
 
 source_files:
   js:
