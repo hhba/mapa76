@@ -14,6 +14,7 @@ require 'csv'
 Bundler.require(:default, PADRINO_ENV)
 
 require 'config/resque'
+require "lib/asset_pipeline"
 
 ##
 # Enable devel logging
@@ -48,6 +49,7 @@ THUMBNAILS_DIR = 'thumbs'
 # Add your before load hooks here
 #
 Padrino.before_load do
+  AssetPipeline.setup!(File.join(PADRINO_ROOT, "config", "sprockets.yml"))
 end
 
 ##

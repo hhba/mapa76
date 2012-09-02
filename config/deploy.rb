@@ -99,9 +99,14 @@ namespace :mi do
   end
 end
 
+task :compile_assets do
+  rake "assets"
+end
+
 after "deploy:update_code", "deploy:create_symlink_shared"
 after "deploy", "workers:reload"
 after "deploy", "mi:create_indexes"
+after "deploy", "compile_assets"
 
 def rake(task)
   run "cd #{current_path} && PADRINO_ENV=production bundle exec rake #{task} --trace"

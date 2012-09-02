@@ -18,6 +18,9 @@ gem 'mongoid'
 gem 'bson_ext'
 gem 'mongoid-pagination'
 
+gem 'sprockets'
+gem 'yui-compressor', :require => false
+
 # NER/NEC analyzers, correference solvers, thumbnail generators, etc
 group :workers do
   # Splitter
