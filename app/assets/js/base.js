@@ -10,6 +10,8 @@
 //= require "javascripts/bootstrap-alert"
 //= require "javascripts/bootstrap-collapse"
 //= require "javascripts/bootstrap-tab"
+//= require "javascripts/bootstrap-tooltip"
+//= require "javascripts/bootstrap-popover"
 //= require "javascripts/jquery.tablesorter.min"
 //= require "javascripts/jquery.mousewheel.min"
 //= require "javascripts/jquery.mCustomScrollbar"

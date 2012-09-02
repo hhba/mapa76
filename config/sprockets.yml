@@ -10,6 +10,9 @@ load_path:
 source_files:
   js:
     - js/base.js
+    - js/analize.js
+    - js/documents.js
+    - js/person.js
   css:
     - css/base.css
 
