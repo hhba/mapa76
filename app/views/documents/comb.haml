@@ -7,7 +7,7 @@
     }
 
 - content_for :javascripts do
-  = javascript_include_tag 'analize'
+  = javascript_include_tag "js/analize"
   :javascript
     AnalyzeApp.pageList.reset(#{@pages.to_json(:methods => :named_entities)});
     $(function() {
@@ -48,7 +48,7 @@
           :"data-next" => params[:page].to_i + 2,
           :"data-document" => @doc.id
       #loading{:style => "display:none; text-align: center;"}
-        = image_tag 'ajax-bar-loader.gif', :style => "margin:0 auto;"
+        = image_tag 'images/ajax-bar-loader.gif', :style => "margin:0 auto;"
 
 - content_for :sidebar do
   %ul.nav.nav-list#sidebar
