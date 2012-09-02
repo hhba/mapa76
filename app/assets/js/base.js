@@ -13,4 +13,4 @@
 //= require "javascripts/jquery.tablesorter.min"
 //= require "javascripts/jquery.mousewheel.min"
 //= require "javascripts/jquery.mCustomScrollbar"
-//= require "javascripts/application"
+//= require "js/application"
