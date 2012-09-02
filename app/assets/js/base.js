@@ -1,4 +1,4 @@
-//= require "javascripts/jquery-1.7.2.min"
+//= require "js/jquery-1.7.2"
 
 //= require "bootstrap/js/bootstrap"
 
