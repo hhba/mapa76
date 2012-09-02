@@ -7,7 +7,7 @@
     }
 
 - content_for :javascripts do
-  = javascript_include_tag "js/analize"
+  = javascript_include_tag "js/analize.js"
   :javascript
     AnalyzeApp.pageList.reset(#{@pages.to_json(:methods => :named_entities)});
     $(function() {

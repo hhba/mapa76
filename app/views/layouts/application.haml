@@ -7,8 +7,7 @@
     %meta{:content => '', :name => 'author'}/
     /[if lt IE 9]
       %script{:src => 'http://html5shim.googlecode.com/svn/trunk/html5.js'}
-    - asset_paths(:css).each do |path|
-      = stylesheet_link_tag path
+    = stylesheet_link_tag "css/base.css"
     = yield_content :styles
 
   %body
@@ -69,6 +68,5 @@
     / /.container-fuild
 
     / Javascript
-    - asset_paths(:js).each do |path|
-      = javascript_include_tag path
+    = javascript_include_tag "js/base.js"
     = yield_content :javascripts
