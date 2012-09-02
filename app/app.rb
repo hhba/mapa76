@@ -41,6 +41,12 @@ class Alegato < Padrino::Application
 
   helpers AssetHelpers
 
+  # Ugly fix for a working Sprockets setup in development with "padrino start"
+  get "#{AssetPipeline.asset_path}/*" do
+    env["PATH_INFO"].gsub!(AssetPipeline.asset_path, "")
+    AssetPipeline.environment.call(env)
+  end
+
   ##
   # You can configure for a specified environment like:
   #
