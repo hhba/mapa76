@@ -1,6 +1,8 @@
-//= require "stylesheets/bootstrap.min"
-//= require "stylesheets/bootstrap-responsive.min"
+//= require "bootstrap/css/bootstrap"
+//= require "bootstrap/css/bootstrap-responsive"
+
 //= require "stylesheets/redmond/jquery-ui-1.8.21.custom"
 //= require "stylesheets/jquery.mCustomScrollbar"
+
 //= require "css/docs"
 //= require "css/styles"
