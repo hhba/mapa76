@@ -19,3 +19,7 @@ config/workers.yml
 
 public/thumbs/*
 public/uploads/*
+
+public/css
+public/js
+public/manifest.json
