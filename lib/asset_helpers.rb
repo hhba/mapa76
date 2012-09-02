@@ -2,12 +2,13 @@ module AssetHelpers
   ##
   # Returns the path to the specified asset (css or javascript)
   #
-  # @param [String] source_file
+  # @param [String] source
   #   The path to the asset (relative or absolute).
   #
   # @return [String] Path for the asset given the +source+.
   #
-  def asset_path(source_file)
+  def asset_path(kind, source=nil)
+    source_file = source || kind
     if asset = AssetPipeline.environment[source_file]
       asset_path = nil
       if PADRINO_ENV == "production" and AssetPipeline.manifest
@@ -17,6 +18,8 @@ module AssetHelpers
       path = ""
       path << "#{AssetPipeline.asset_path}/#{asset_path}"
       path
+    else
+      source_file
     end
   end
 
