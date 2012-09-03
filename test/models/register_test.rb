@@ -11,7 +11,7 @@ class TestRegister < Test::Unit::TestCase
     end
 
     should "Generate json" do
-      assert_instance_of Array, Register.timeline_json
+      assert_instance_of String, Register.timeline_json
     end
   end
 end
