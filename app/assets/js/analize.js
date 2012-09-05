@@ -547,4 +547,7 @@ $(document).ready(function() {
   $(".document .nav a").live("click", function() {
     $(".sidebar").mCustomScrollbar("update");
   });
+  if($("#map").length){
+    drawMap();
+  }
 });

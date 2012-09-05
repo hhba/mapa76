@@ -41,7 +41,7 @@ class NamedEntity
     self.persons.collect { |ne| ne.text }
   end
 
-  def context(length=50)
+  def context(length=150)
     text = self.document.processed_text
 
     # Calculate "start" and "end"
@@ -53,6 +53,10 @@ class NamedEntity
     context_end = text.size if context_end > text.size
 
     text[context_start .. context_end]
+  end
+
+  def page_num
+    Page.where(:_id => self.inner_pos["from"]["pid"]).only(:num).first.try(:num)
   end
 
   def tag_to_s

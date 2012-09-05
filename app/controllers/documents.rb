@@ -47,6 +47,8 @@ Alegato.controllers :documents do
     @doc = Document.find(params[:id])
     @pages = @doc.pages.asc(:_id).first
     @empty_pages = @doc.pages.asc(:_id).only(:id, :num, :width, :height)
+    @addresses = @doc.addresses_found.select { |addr| addr.geocoded? }
+    @center = @addresses.first
 
     render("documents/comb")
   end
