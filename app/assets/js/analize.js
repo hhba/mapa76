@@ -47,7 +47,7 @@ var Register = Backbone.Model.extend({
     where  : [],
     when   : [],
     to_who : [],
-    what   : []
+    what   : ''
   }
 });
 
@@ -404,9 +404,7 @@ var PageListView = Backbone.View.extend({
       break;
     case "actions":
       var verb = $ne.data("lemma");
-      $(_.find($("#whatSelector option"), function(e) {
-        return $(e).text().trim().toLowerCase() === verb;
-      })).attr("selected", true);
+      $("#whatSelector").val(verb);
       break;
     }
   },
@@ -466,7 +464,7 @@ var analyzer = {
   getTemplates: function() {
     this.pageTemplate = $('#pageTemplate').html();
     this.nextPageTemplate = $("#nextPageTemplate").html();
-  },
+  }
 };
 
 function Droppable(el){
@@ -506,6 +504,7 @@ var AnalyzeApp = new (Backbone.Router.extend({
   },
 
   saveRegister: function() {
+    AnalyzeApp.register = new Register(AnalyzeApp.registerView.getValues());
     if (AnalyzeApp.register.isValid()) {
       AnalyzeApp.register.save();
       AnalyzeApp.registerView.resetRegister();
@@ -542,10 +541,6 @@ $(document).ready(function() {
 
   $("button.save").live("click", function() {
     AnalyzeApp.saveRegister();
-  });
-
-  $("#whatSelector").change(function() {
-    AnalyzeApp.register = new Register(AnalyzeApp.registerView.getValues());
   });
 
   // Update scrollbar when changing tabs

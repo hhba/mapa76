@@ -18,14 +18,6 @@ class Register
     all.map { |register| register.timeline_json }.reject {|r| !r}.to_json
   end
 
-  def self.build_and_save(values)
-    whats = values.delete("what")
-    whats.map do |what|
-      values["what"] = what
-      self.create(values)
-    end
-  end
-
   def to_hash
     {
       who:    self.who.map { |w| NamedEntity.find(w).text },

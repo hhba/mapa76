@@ -89,10 +89,7 @@
         .what.box{"data-type" => "what", 'data-klass' => 'what'}
           %h3 Qué
           .controls
-            %select#whatSelector{multiple: true}
-              - ActionEntity::VERBS.each do |action|
-                %option
-                  = action.titleize
+            %input{:type => "text", :data => {:provide => "typeahead", :source => ActionEntity::VERBS.inspect}, :id => "whatSelector"}
         .when.box{"data-type" => "dates", 'data-klass' => 'when'}
           %h3 Cuándo
           .new
