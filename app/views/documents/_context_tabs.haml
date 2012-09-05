@@ -31,20 +31,20 @@
         %thead
           %tr
             %th
-            %th
               Personas
             %th
               Menciones
+            %th
         %tbody
           {{#people}}
           %tr
-            %td.blacklist
-              %a{href: "/api/blacklist/{{id}}", data: {name: "{{name}}"}}
-                %i.icon-remove
             %td
               {{name}}
             %td
               {{mentions}}
+            %td.blacklist
+              %a{href: "/api/blacklist/{{id}}", data: {name: "{{name}}"}}
+                %i.icon-remove
           {{/people}}
       %a{href: '/documents/{{id}}/people'} Lista completa
     .tab-pane#organizations
