@@ -37,7 +37,7 @@ var Register = Backbone.Model.extend({
     console.log(attribs);
     if (attribs.who.length === 0) {
       return "There must be a who";
-    } else if (attribs.what === null) {
+    } else if ($.trim(attribs.what) === "") {
       return "There must be a what";
     }
   },
