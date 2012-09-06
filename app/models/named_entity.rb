@@ -41,7 +41,7 @@ class NamedEntity
     self.persons.collect { |ne| ne.text }
   end
 
-  def context(length=150)
+  def context(length=70)
     text = self.document.processed_text
 
     # Calculate "start" and "end"

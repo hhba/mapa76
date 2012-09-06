@@ -339,9 +339,15 @@ footer { background: url(../images/hhba.png) no-repeat center; min-height: 50px;
   background-color: #666;
   width: 7px;
 }
+#map{
+  height: 360px;
+}
 #map h3{
   font-size: 1.1em;
 }
 #map p{
+  text-transform: none;
+  font-weight: normal;
+  line-height: 14px;
   font-size: 1em;
 }
