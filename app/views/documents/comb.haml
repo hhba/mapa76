@@ -109,7 +109,7 @@
 
     %li.nav-header
       - if @center
-        Mapa
+        %a{:href => "/documents/#{@doc.id}/map", :target => "_blank"} Mapa
         .map#map{:data => {:addresses => @addresses.to_json(:methods => [:context, :page_num]), :center => @center.to_json}}
     %li.nav-header Contexto
     .context#context
