@@ -19,6 +19,9 @@ Dependencies
 Install
 -------
 
+git clone https://github.com/hhba/mapa76.git
+
+
 ### Ruby 1.9 ###
 
 We recommend [rvm](https://rvm.io/rvm/install/) for installing and managing the
