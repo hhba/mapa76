@@ -1,5 +1,6 @@
 class NamedEntity
   include Mongoid::Document
+  include TimeSetter
 
   field :text,      :type => String, :default => lambda { human_form }
   field :pos,       :type => Integer
@@ -61,14 +62,6 @@ class NamedEntity
 
   def tag_to_s
     NamedEntity::CLASSES_PER_TAG[self.tag].to_s
-  end
-
-  def date_to_s
-    begin
-      Time.parse(/(\d{1,2})\/(\d{1,2})\/(\d{4})/.match(lemma)[0]).to_i
-    rescue
-      Time.now.to_i
-    end
   end
 
 protected

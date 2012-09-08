@@ -550,4 +550,12 @@ $(document).ready(function() {
   if($("#map").length){
     drawMap();
   }
+  $("button.showTimeline").click(function(event){
+    event.preventDefault();
+    $(".timeline-container").toggle("30");
+  });
+  currentTimeline = TimelineSetter.Timeline.boot(
+    $("#timeline").data("dates"),
+    {"interval":"","container":"#timeline"}
+  );
 });

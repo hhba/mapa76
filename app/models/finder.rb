@@ -18,4 +18,12 @@ module Finder
   def addresses_found
     self.named_entities.where(:ne_class => :addresses)
   end
+
+  def time_setter
+    dates_found.map { |dated_entity| dated_entity.to_time_setter }
+  end
+
+  def graphicable_dates
+    dates_found.select { |dated_entity| dated_entity.string_date? }.map { |dated_entity| dated_entity.to_time_setter }
+  end
 end

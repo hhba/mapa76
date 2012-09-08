@@ -30,7 +30,7 @@ class Register
 
   def timeline_json
     unless self.when.empty? or who.empty? or where.empty?
-      { order: NamedEntity.find(self.when.first).date_to_s, character: NamedEntity.find(who.first).text, group: NamedEntity.find(where.first).text }
+      { order: NamedEntity.find(self.when.first).timestamp, character: NamedEntity.find(who.first).text, group: NamedEntity.find(where.first).text }
     end
   end
 end

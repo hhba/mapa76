@@ -38,6 +38,7 @@ FactoryGirl.define do
     form  "14_de_julio_de_2011"
     lemma "[??:14/7/2011:??.??:??]"
     tag   "W"
+    pos   1
     document
   end
 

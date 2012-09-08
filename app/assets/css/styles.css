@@ -10,8 +10,7 @@ body {
   height: 100%;
   background-color: #f8f8f8;
   right: 20px;
-  border: 1px solid #ddd;
-  border-top: 0;
+  border: 1px solid #DDD;
 }
 .sidebar-nav {
   padding: 9px 0;
@@ -350,4 +349,15 @@ footer { background: url(../images/hhba.png) no-repeat center; min-height: 50px;
   font-weight: normal;
   line-height: 14px;
   font-size: 1em;
+}
+.timeline-container{
+  display:none;
+  height: 300px;
+  overflow: hidden;
+  background-color:white;
+  border:1px solid #666;
+  border-top:0;
+}
+.timeline-button{
+  text-align: center;
 }

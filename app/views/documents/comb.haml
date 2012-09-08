@@ -33,6 +33,10 @@
 
 / Document content
 .row-fluid
+  .timeline-container
+    #timeline{:data => {:dates => @doc.time_setter.to_json}}
+  .timeline-button
+    %button.btn.btn-mini.showTimeline{:type => "button"} Mostrar línea del tiempo
   .document
     %h2{:id => "document-heading", "data-document-id" => @doc.id}
       = @doc.heading
