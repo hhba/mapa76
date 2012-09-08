@@ -15,4 +15,5 @@
 //= require "javascripts/jquery.tablesorter.min"
 //= require "javascripts/jquery.mousewheel.min"
 //= require "javascripts/jquery.mCustomScrollbar"
+//= require "javascripts/timeline-setter.min.js"
 //= require "js/application"
