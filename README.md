@@ -19,9 +19,6 @@ Dependencies
 Install
 -------
 
-git clone https://github.com/hhba/mapa76.git
-
-
 ### Ruby 1.9 ###
 
 We recommend [rvm](https://rvm.io/rvm/install/) for installing and managing the
@@ -34,6 +31,10 @@ with `rvm`.
 On Debian / Ubuntu machines, install from the package manager:
 
     # apt-get install mongodb mongodb-server redis-server
+
+### Clone the repository
+
+    $ git Clone git@github.com:hhba/mapa76.git
 
 ### Gems ###
 
