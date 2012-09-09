@@ -15,6 +15,10 @@ Alegato.controllers  do
     render :index
   end
 
+  get :ccd do
+    render :ccd
+  end
+
   get :timeline_json do
     persons = Person.find(params[:ids].split(","))
     t = {}
