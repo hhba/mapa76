@@ -16,7 +16,7 @@ Alegato.controllers  do
   end
 
   get :ccd do
-    render :ccd
+    render :ccd, :layout => false
   end
 
   get :timeline_json do
