@@ -15,15 +15,15 @@
     .navbar.navbar-fixed-top
       .navbar-inner
         .container-fluid
-          %a.brand{:href => '/'} Mapa76
+          %a.brand{:href => '/'}= I18n.t("application.title")
           .nav-collapse
             %ul.nav
               %li{:class => request.path_info == url(:index) ? "active" : nil}
-                %a{:href => url(:index)} Inicio
+                %a{:href => url(:index)}= I18n.t("application.home")
               %li{:class => request.path_info.start_with?(url(:documents, :index)) ? "active" : nil}
-                %a{:href => url(:documents, :index)} Documentos
+                %a{:href => url(:documents, :index)}= I18n.t("application.documents")
               %li{:class => "disabled #{request.path_info.start_with?(url(:projects)) ? "active" : nil}"}
-                %a{:href => "#"} Proyectos
+                %a{:href => "#"}= I18n.t("application.projects")
             %ul.nav.pull-right
               -#
                 %li
@@ -31,13 +31,13 @@
                     %input{:type => 'text', :class => 'search-query', :placeholder => 'Buscar'}
                 %li.divider-vertical
                   %li
-                    %a{:href => File.join(request.path_info, 'help')} Ayuda
+                    %a{:href => File.join(request.path_info, 'help')}= I18n.t("application.help")
               %li
-                %a{:href => "http://mapa76.info/"} Blog
+                %a{:href => "http://mapa76.info/"}= I18n.t("application.blog")
               -#
                 %li.divider-vertical
                 %li
-                  %a{:href => '#'} usuario
+                  %a{:href => '#'}= I18n.t("application.user")
           / /.nav-collapse
 
     .container-fluid
@@ -63,8 +63,7 @@
 
     %footer.footer
       %p{:class => 'pull-right'}
-        %a{:href => '#'} Arriba
-
+        %a{:href => '#'}= I18n.t("application.top")
       / /.row-fuild
     / /.container-fuild
 
