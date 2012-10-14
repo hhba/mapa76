@@ -1,0 +1,6 @@
+en:
+  home:
+    foo: "Hello World"
+    title: "Analice.me"
+    subtitle: "Data mining and semantic analysis of documents to visualize relationships"
+    description: "An investigative journalism web platform for automatic data extraction (data mining), semantic analysis and structuring of gathered information to show relationships in visual and interactive ways, such as through timelines and interactive maps."
