@@ -12,7 +12,7 @@
 
 %script#documentContextError{:type => "text/template"}
   .alert.alert-error
-    Ocurrió un error al obtener información de contexto del documento.
+    = I18n.t("documents.error")
 
 %script#documentContext{:type => "text/template"}
   %h4 {{ heading }}
@@ -22,33 +22,28 @@
   .subnav.subnav-fixed
     %ul.nav.nav-pills
       %li{:class => request.path_info == url(:documents, :index) ? "active" : nil}
-        %a{:href => url(:documents, :index)} Documentos
+        %a{:href => url(:documents, :index)}= I18n.t("documents.documents")
       %li{:class => request.path_info.start_with?(url(:documents, :new)) ? "active" : nil}
-        %a{:href => url_for(:documents, :new)} Nuevo
+        %a{:href => url_for(:documents, :new)}= I18n.t("documents.new")
       %li{:class => request.path_info.start_with?(url(:documents, :mine)) ? "active" : nil}
-        %a{:href => url_for(:documents, :mine)} Mis documentos
+        %a{:href => url_for(:documents, :mine)}= I18n.t("documents.my_documents")
 
 - content_for :free do
   .row-fluid
     .content.span7
-      .row-fluid
-        .alert.fade.in.alert-success#stillProcessing{:style => 'display:none;'}
-          %a.close{:href => '#', 'data-dismiss' => 'alert'}×
-          %strong
-            Recuerde que el procesamiento de tareas puede tomar algunos minutos.
       .row-fluid
         %table{:class => 'table documents', :id => 'sorteable'}
           %thead
             %tr
               %th{:style => "width: 70px"}
               %th
-                %a{:href => '#', "data-sort" => "name"}Título
+                %a{:href => '#', "data-sort" => "name"}= I18n.t("documents.title")
               %th
-                %a{:href => '#', "data-sort" => "name"}Tipo
+                %a{:href => '#', "data-sort" => "name"}= I18n.t("documents.type")
               %th
-                %a{:href => '#', "data-sort" => "date"}Fecha
+                %a{:href => '#', "data-sort" => "date"}= I18n.t("documents.date")
               %th
-                %a{:href => '#', "data-sort" => "status"}Estado
+                %a{:href => '#', "data-sort" => "status"}= I18n.t("documents.status")
           %tbody
             - @docs.each do |doc|
               %tr{:"data-id" => doc.id}
@@ -59,20 +54,20 @@
                   .tools
                     .btn-group
                       %a.btn{:href => url_for(:documents, :comb, :id => doc._id), :class => (doc.readable? ? nil : "disabled")}
-                        %i.icon-edit{:title => "Editar"}
+                        %i.icon-edit{:title => I18n.t("documents.edit")}
                       %a.btn{:href => url_for(:documents, :map, :id => doc._id), :class => (doc.has_geocoded_addresses? ? nil : "disabled")}
-                        %i.icon-globe{:title => "Mapa"}
+                        %i.icon-globe{:title => I18n.t("documents.map")}
                       %a.btn{:href => original_file_url(doc)}
-                        %i.icon-download-alt{:title => "Descargar"}
+                        %i.icon-download-alt{:title => I18n.t("documents.download")}
                       %a.btn{:href => url_for(:documents, :people, :id => doc, :format => :csv)}
-                        %i.icon-list-alt{:title => "Exportar a CSV"}
+                        %i.icon-list-alt{:title => I18n.t("documents.export")}
                 %td
                   = doc.category
                 %td
                   = doc._id.generation_time.strftime("%d/%m/%y")
                 %td.state
                   - if doc.processed?
-                    Finalizado
+                    = I18n.t("documents.done")
                     .hidden{:style => "display: none;"}
                       .progress.progress-striped.active
                         .bar{:style => "width: 100%;"}
@@ -83,4 +78,4 @@
     .sidebar.with-scrollbar.span5{:style => "background-color: #fff; border: 0"}
       .with-scrollbar-inner#document
         %h4
-          Haga clic en un documento para ver más información
+          = I18n.t("documents.message")
