@@ -59,7 +59,7 @@ es:
     alert_success: "Aviso\n El registro ha sido guardado"
     references: "Referencias"
     persons: "Personas"
-    organizations: "Organizations"
+    organizations: "Organizaciones"
     places: "Lugares"
     dates: "Fechas"
     actions: "Acciones"
