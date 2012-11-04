@@ -33,7 +33,7 @@ Alegato.controllers :api do
 
   get :person, :with => [:id], :provides => [:html, :json] do
     p = {}
-    data = Person.find(params[:id])
+    data = Person.find(BSON::ObjectId(params[:id]))
 
     if params[:milestones] # poor man's data.to_json(:include => :milestones) which do not seems to work..
       hash = data.attributes

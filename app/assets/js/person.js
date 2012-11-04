@@ -121,12 +121,11 @@ function highlight(){
 
 function update_milestones(){
     var person_id = $("#milestone-pane").data("person-id");
-    $.getJSON(
-      "/api/person/" + person_id + ".json?milestones=true",
-      {},
-      function(d){
+    if (typeOf(person_id) !== undefined){
+      $.getJSON("/api/person/"+person_id+".json?milestones=true",{},function(d){
         set_milestones(d.milestones);
       });
+    }
 }
 function set_milestones(milestones){
     $("#milestones").empty();
