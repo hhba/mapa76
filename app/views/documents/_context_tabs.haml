@@ -1,15 +1,15 @@
 .document{data: { id: "{{id}}" }}
   %ul.nav.nav-tabs{:class => locals[:small] ? "small" : nil}
     %li.active
-      %a{href: '#facts', data: { toggle: 'tab'}} Hechos
+      %a{href: '#facts', data: { toggle: 'tab'}}= I18n.t("documents.facts")
     %li
-      %a{href: '#names', data: { toggle: 'tab'}} Nombres
+      %a{href: '#names', data: { toggle: 'tab'}}= I18n.t("documents.names")
     %li
-      %a{href: '#organizations', data: { toggle: 'tab'} } Organizaciones
+      %a{href: '#organizations', data: { toggle: 'tab'}}= I18n.t("documents.organizations")
     %li
-      %a{href: '#dates', data: { toggle: 'tab'} } Fechas
+      %a{href: '#dates', data: { toggle: 'tab'}}= I18n.t("documents.dates")
     %li
-      %a{href: '#places', data: { toggle: 'tab'} } Lugares
+      %a{href: '#places', data: { toggle: 'tab'}}= I18n.t("documents.places")
   .tab-content
     .tab-pane.active#facts
       %ul
@@ -31,9 +31,9 @@
         %thead
           %tr
             %th
-              Personas
+              = I18n.t("documents.names")
             %th
-              Menciones
+              = I18n.t("documents.mentions")
             %th
         %tbody
           {{#people}}
@@ -46,15 +46,15 @@
               %a{href: "/api/blacklist/{{id}}", data: {name: "{{name}}"}}
                 %i.icon-remove
           {{/people}}
-      %a{href: '/documents/{{id}}/people'} Lista completa
+      %a{href: '/documents/{{id}}/people'}= I18n.t("documents.full_list")
     .tab-pane#organizations
       %table.table.table-bordered.table-condensed.tablesorter
         %thead
           %tr
             %th
-              Organizaciones
+              = I18n.t("documents.organizations")
             %th
-              Menciones
+              = I18n.t("documents.mentions")
         %tbody
           {{#organizations}}
           %tr
@@ -63,15 +63,15 @@
             %td
               {{mentions}}
           {{/organizations}}
-      %a{href: '#'} Lista completa
+      %a{href: '#'}= I18n.t("documents.full_list")
     .tab-pane#dates
       %table.table.table-bordered.table-condensed.tablesorter
         %thead
           %tr
             %th
-              Fechas
+              = I18n.t("documents.dates")
             %th
-              Menciones
+              = I18n.t("documents.mentions")
         %tbody
           {{#dates}}
           %tr
@@ -85,9 +85,9 @@
         %thead
           %tr
             %th
-              Lugares
+              = I18n.t("documents.places")
             %th
-              Menciones
+              = I18n.t("documents.mentions")
         %tbody
           {{#places}}
           %tr

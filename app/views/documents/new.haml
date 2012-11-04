@@ -4,56 +4,31 @@
   .subnav.subnav-fixed
     %ul.nav.nav-pills
       %li{:class => request.path_info == url(:documents, :index) ? "active" : nil}
-        %a{:href => url(:documents, :index)} Documentos
+        %a{:href => url(:documents, :index)}= I18n.t("new.documents")
       %li{:class => request.path_info.start_with?(url(:documents, :new)) ? "active" : nil}
-        %a{:href => url_for(:documents, :new)} Nuevo
+        %a{:href => url_for(:documents, :new)}= I18n.t("new.new")
       %li{:class => request.path_info.start_with?(url(:documents, :mine)) ? "active" : nil}
-        %a{:href => url_for(:documents, :mine)} Mis documentos
+        %a{:href => url_for(:documents, :mine)}= I18n.t("new.my_documents")
 
 - content_for :free do
   .row-fluid
     .span4
-      %h1 Importar documento
+      %h1= I18n.t("new.import")
       - form_tag url_for(:documents, :create),:method => "PUT", :multipart => true, :class => 'well' do
         .control-group
-          %label.control-label Título
+          %label{:for => 'file_input'}= I18n.t("new.file")
+          .controls
+            = file_field_tag :file, :id => 'file_input', :class => 'input-file', :required => true
+        .control-group
+          %label.control-label= I18n.t("new.title")
           .controls
             = text_field_tag :heading, :class => 'input-xlarge', :required => true
             %p.help-block
-              Nombre del documento a importar
-        .control-group
-          %label{:for => 'file_input'} Archivo
-          .controls
-            = file_field_tag :file, :id => 'file_input', :class => 'input-file', :required => true
-          %label.control-label{:for => 'textarea'} Descripción
-          .controls
-            %textarea{:id => 'textarea', :rows => 3, :class => 'input-xlarge', :name => "description"}
-            %p.help-block
-              Más información para ayudarlo a recordar el orígen del documento
-        .control-group
-          %label{:for => 'select_type', :class => "control-label"} Tipo
-          .controls
-            %select{:id => 'select_type', :name => 'category', :class => ""}
-              %option
-                Alegato
-              %option
-                Artículo periodístico
-              %option
-                Fundamentos
-              %option
-                Pericia
-              %option
-                Sentencia
-              %option
-                Testimonio
-              %option
-                Veredicto
-              %option
-                Otro
+              = I18n.t("new.title_hint")
         =# label_tag :URL
         =# text_field_tag :url
         =# label_tag :text
         =# text_area_tag :text
         .form-actions
-          %a.btn{:href => '/documents'} Cancelar
-          %button.btn.btn-primary{:type => "submit"} Importar
+          %a.btn{:href => '/documents'}= I18n.t("new.cancel")
+          %button.btn.btn-primary{:type => "submit"}= I18n.t("new.import")

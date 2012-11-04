@@ -36,7 +36,7 @@
   .timeline-container
     #timeline{:data => {:dates => @doc.time_setter.to_json}}
   .timeline-button
-    %button.btn.btn-mini.showTimeline{:type => "button"} Mostrar línea del tiempo
+    %button.btn.btn-mini.showTimeline{:type => "button"}= I18n.t("comb.show_timeline")
   .document
     %h2{:id => "document-heading", "data-document-id" => @doc.id}
       = @doc.heading
@@ -49,7 +49,7 @@
     .pages
     - if @paragraphs.length > 1
       .next_page
-        = link_to "Cargar más contenido", url_for(:documents, :comb,
+        = link_to I18n.t("comb.load_content"), url_for(:documents, :comb,
           :id => "next_page",
           :"data-next" => params[:page].to_i + 2,
           :"data-document" => @doc.id
@@ -60,62 +60,58 @@
   %ul.nav.nav-list#sidebar
     .alert.alert-error#register-error{style: "display:none;"}
       %a.close{href: '#', data: {dismiss: "alert"}}
-      %strong
-        Aviso
-      El registro no ha sido guardado.
+      %strong= I18n.t("comb.alert_fail")
     .alert.alert-success#register-save{style: "display:none;"}
       %a.close{href: '#', data: {dismiss: "alert"}}
-      %strong
-        Aviso
-      El registro ha sido guardado.
+      %strong= I18n.t("comb.alert_success")
     %li.nav-header
-      Referencias
+      = I18n.t("comb.references")
     %ul#reference
       %li.people
         %input{:type => "checkbox", :id => :people_ref, :checked => true}
-        %label{:for => :people_ref} Personas
+        %label{:for => :people_ref}= I18n.t("comb.persons")
       %li.organizations
         %input{:type => "checkbox", :id => :organizations_ref, :checked => true}
-        %label{:for => :organizations_ref} Organizaciones
+        %label{:for => :organizations_ref}= I18n.t("comb.organizations")
       %li.places
         %input{:type => "checkbox", :id => :places_ref, :checked => true}
-        %label{:for => :places_ref} Lugares
+        %label{:for => :places_ref}= I18n.t("comb.places")
       %li.dates
         %input{:type => "checkbox", :id => :dates_ref, :checked => true}
-        %label{:for => :dates_ref} Fechas
+        %label{:for => :dates_ref}= I18n.t("comb.dates")
       %li.actions
         %input{:type => "checkbox", :id => :actions_ref, :checked => true}
-        %label{:for => :actions_ref} Acciones
+        %label{:for => :actions_ref}= I18n.t("comb.actions")
     %li.nav-header#register
-      Hechos
+      = I18n.t("comb.facts")
       .new_register
         .who.box{"data-type" => "people", 'data-klass' => 'who'}
-          %h3 Quiénes
+          %h3= I18n.t("comb.whos")
           .new
         .what.box{"data-type" => "what", 'data-klass' => 'what'}
-          %h3 Qué
+          %h3= I18n.t("comb.what")
           .controls
             %input{:type => "text", :data => {:provide => "typeahead", :source => ActionEntity::VERBS.inspect}, :id => "whatSelector"}
         .when.box{"data-type" => "dates", 'data-klass' => 'when'}
-          %h3 Cuándo
+          %h3= I18n.t("comb.when")
           .new
         .where.box{"data-type" => "places", 'data-klass' => 'where'}
-          %h3 Dónde
+          %h3= I18n.t("comb.where")
           .new
         .to_who.box{"data-type" => "people", 'data-klass' => 'to_who'}
-          %h3 A quiénes
+          %h3= I18n.t("comb.to_who")
           .new
         .buttons
           %button{:class => 'btn btn-primary save'}
-            Guardar
+            = I18n.t("comb.save")
           %button{:class => 'btn btn-danger clean'}
-            Limpiar
+            = I18n.t("comb.clean")
 
     %li.nav-header
       - if @center
-        %a{:href => "/documents/#{@doc.id}/map", :target => "_blank"} Mapa
+        %a{:href => "/documents/#{@doc.id}/map", :target => "_blank"}= I18n.t("comb.map")
         .map#map{:data => {:addresses => @addresses.to_json(:methods => [:context, :page_num]), :center => @center.to_json}}
-    %li.nav-header Contexto
+    %li.nav-header= I18n.t("comb.context")
     .context#context
 
 / Templates
@@ -143,15 +139,15 @@
       {{name}}
   .information
     .field
-      Nombre: {{full_name}}
+      = I18n.t("comb.name") + ": {{full_name}}"
     .field
-      Tags:
+      = I18n.t("comb.tags") + ":"
       {{#tags}}
       %a{:href => "{{tag_link}}"}
         {{.}}
       {{/tags}}
     .field
-      Documentos:
+      = I18n.t("comb.documents") + ":"
       {{#documents}}
       %a{:href => "/documents/{{id}}"}
         {{name}}
@@ -159,7 +155,7 @@
 
 %script#nextPageTemplate{:type => "text/template"}
   %a{:href => "{{url}}", :id => "next_page", "data-next" => "{{next_page}}", "data-document" => "{{id}}" }
-    Cargar más contenido
+    = I18n.t("comb.load_content")
 
 %script#pageTemplate{:type => "text/template"}
   .page-content{:style => "display: none"}
@@ -179,5 +175,5 @@
     {{{ context }}}
     %i [...]
   %p
-    Mencionado en la
-    %a{:href => "/documents/{{ document_id }}/comb\#{{ page_num }}"} página {{ page_num }}
+    = I18n.t("comb.mentioned_in")
+    %a{:href => "/documents/{{ document_id }}/comb\#{{ page_num }}"}= I18n.t("comb.page") + "{{ page_num }}"
