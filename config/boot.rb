@@ -37,6 +37,13 @@ Padrino::Logger::Config[:production].merge!({
   :format_message => '%s - [%s] %s',
 })
 
+Padrino::Logger::Config[:analiceme].merge!({
+  :log_level => :info,
+  :stream => LOG_FILE || :to_file,
+  :format_datetime => '%d/%b/%Y %H:%M:%S',
+  :format_message => '%s - [%s] %s',
+})
+
 Mongoid.logger = Padrino.logger
 
 ##

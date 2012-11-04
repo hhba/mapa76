@@ -9,7 +9,9 @@ module FreeLing
     attr_reader :document, :last_error
 
     DEFAULT_ANALYZE_PATH = '/usr/local/bin/analyzer'
-    DEFAULT_CONFIG_PATH  = File.join(Padrino.root, 'config', 'freeling', 'es.cfg')
+    ES_CONFIG_PATH = File.join(Padrino.root, 'config', 'freeling', 'es.cfg')
+    EN_CONFIG_PATH = File.join(Padrino.root, 'config', 'freeling', 'en.cfg')
+    DEFAULT_CONFIG_PATH = ES_CONFIG_PATH
 
     NotRunningError     = Class.new(StandardError)
     AnalyzerError       = Class.new(StandardError)
@@ -24,7 +26,9 @@ module FreeLing
         :input_format => :plain,
         :output_format => :tagged,
         :memoize => true,
+        :lang => :es
       }.merge(opts)
+      @options[:config_path] = EN_CONFIG_PATH if @options[:lang] == :en
 
       unless File.exists?(@options[:analyze_path])
         raise "#{@options[:analyze_path]} not found"
