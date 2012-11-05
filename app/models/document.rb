@@ -18,7 +18,8 @@ class Document
   field :fontspecs,        type: Hash
   field :last_analysis_at, type: Time
   field :processed_text,   type: String
-  field :state,            type: Symbol, default: :waiting
+  field :lang,             type: Symbol, :default => :es
+  field :state,            type: Symbol, :default => :waiting
 
   has_many :milestones
   has_many :named_entities

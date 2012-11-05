@@ -2,7 +2,6 @@ require 'yaml'
 
 # Defines our constants
 PADRINO_ENV  = ENV["PADRINO_ENV"] ||= ENV["RACK_ENV"] ||= "development"  unless defined?(PADRINO_ENV)
-puts "Environment: #{PADRINO_ENV}"
 PADRINO_ROOT = File.expand_path('../..', __FILE__).gsub(/releases\/[0-9]+/, "current") unless defined?(PADRINO_ROOT)
 
 $LOAD_PATH << PADRINO_ROOT
@@ -31,13 +30,6 @@ Padrino::Logger::Config[:development].merge!({
 })
 
 Padrino::Logger::Config[:production].merge!({
-  :log_level => :info,
-  :stream => LOG_FILE || :to_file,
-  :format_datetime => '%d/%b/%Y %H:%M:%S',
-  :format_message => '%s - [%s] %s',
-})
-
-Padrino::Logger::Config[:analiceme].merge!({
   :log_level => :info,
   :stream => LOG_FILE || :to_file,
   :format_datetime => '%d/%b/%Y %H:%M:%S',

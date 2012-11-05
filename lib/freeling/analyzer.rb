@@ -30,6 +30,8 @@ module FreeLing
       }.merge(opts)
       @options[:config_path] = EN_CONFIG_PATH if @options[:lang] == :en
 
+      logger.debug "The language is: #{@options[:lang]}"
+
       unless File.exists?(@options[:analyze_path])
         raise "#{@options[:analyze_path]} not found"
       end

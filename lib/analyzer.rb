@@ -17,7 +17,7 @@ module Analyzer
   def self.extract_tokens(content)
     Enumerator.new do |yielder|
       pos = 0
-      analyzer = FreeLing::Analyzer.new(content, :output_format => :token, :memoize => false)
+      analyzer = FreeLing::Analyzer.new(content, :output_format => :token, :memoize => false, :lang => I18n.default_locale)
       analyzer.tokens.each do |token|
         token_pos = content.index(token[:form], pos)
         yielder << token.merge(:pos => token_pos)
@@ -53,7 +53,7 @@ module Analyzer
       end
 
       unless no_tokens
-        analyzer = FreeLing::Analyzer.new(content, :output_format => :tagged, :memoize => false)
+        analyzer = FreeLing::Analyzer.new(content, :output_format => :tagged, :memoize => false, :lang => I18n.default_locale)
         analyzer.sentences.each do |sentence|
           sentence.each do |token|
             logger.debug "Token (#{cur_st[:pos]}/#{total_size}): #{token}"
