@@ -90,4 +90,8 @@ Alegato.controllers :api do
     Person.find(params[:id]).blacklist.to_json
   end
 
+  get :tweet, :map => "/api/tweet/", :provides => :json do
+    Analyzer.extract_tagged_tokens(params["text"]).to_json
+  end
+
 end
