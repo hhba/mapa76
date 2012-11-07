@@ -1,5 +1,4 @@
 require "docsplit"
-require "nokogiri"
 
 class NormalizationTask
   extend ProcessingStrategy
@@ -15,7 +14,7 @@ class NormalizationTask
   # When finished, enqueue the layout analysis task to optimize the document
   # for NERC analysis.
   #
-  def self.perform(document_id, strategy)
+  def self.perform(document_id)
     doc = Document.find(document_id)
     doc.update_attribute :state, :normalizing
 
@@ -83,7 +82,7 @@ class NormalizationTask
     doc.save
 
     logger.info "Enqueue Layout Analysis task"
-    #Resque.enqueue(LayoutAnalysisTask, document_id)
+    Resque.enqueue(LayoutAnalysisTask, document_id)
   end
 
 private
@@ -129,6 +128,7 @@ private
     content = `#{command}`
 
     logger.debug "Parse XML output"
+    require "nokogiri"
     xml = Nokogiri::XML(content)
   end
 end

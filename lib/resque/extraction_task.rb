@@ -15,7 +15,7 @@ class ExtractionTask
     logger.info "Extract named entities from content"
     doc.named_entities.delete_all
     doc_iter = doc.new_iterator
-    Analyzer.extract_named_entities(doc.processed_text).each do |ne_attrs|
+    Analyzer.extract_named_entities(doc.processed_text, doc.lang).each do |ne_attrs|
       inner_pos = {}
 
       doc_iter.seek(ne_attrs[:pos])

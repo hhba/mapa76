@@ -14,10 +14,10 @@ module Analyzer
   # All tokens have a reference to its position in the string
   # for locating it easily.
   #
-  def self.extract_tokens(content)
+  def self.extract_tokens(content, lang = :es)
     Enumerator.new do |yielder|
       pos = 0
-      analyzer = FreeLing::Analyzer.new(content, :output_format => :token, :memoize => false, :lang => I18n.default_locale)
+      analyzer = FreeLing::Analyzer.new(content, :output_format => :token, :memoize => false, :lang => lang)
       analyzer.tokens.each do |token|
         token_pos = content.index(token[:form], pos)
         yielder << token.merge(:pos => token_pos)
@@ -39,13 +39,13 @@ module Analyzer
   # contracted words (e.g. "he's" => "he is"), changing the original text.
   # An exception is raised if this happens.
   #
-  def self.extract_tagged_tokens(content)
+  def self.extract_tagged_tokens(content, lang = :es)
     Enumerator.new do |yielder|
       no_tokens = false
       total_size = content.size
       sentence_pos = 0
 
-      st = self.extract_tokens(content)
+      st = self.extract_tokens(content, lang)
       begin
         cur_st = st.next
       rescue StopIteration
@@ -53,7 +53,7 @@ module Analyzer
       end
 
       unless no_tokens
-        analyzer = FreeLing::Analyzer.new(content, :output_format => :tagged, :memoize => false, :lang => I18n.default_locale)
+        analyzer = FreeLing::Analyzer.new(content, :output_format => :tagged, :memoize => false, :lang => lang)
         analyzer.sentences.each do |sentence|
           sentence.each do |token|
             logger.debug "Token (#{cur_st[:pos]}/#{total_size}): #{token}"
@@ -108,12 +108,12 @@ module Analyzer
   ##
   # Return an enumerator of named entities
   #
-  def self.extract_named_entities(content)
+  def self.extract_named_entities(content, lang)
     Enumerator.new do |yielder|
-      self.extract_tagged_tokens(content).each do |token|
+      self.extract_tagged_tokens(content, lang).each do |token|
         yielder << token if token[:ne_class]
       end
-      self.extract_addresses(content).each do |address|
+      self.extract_addresses(content, lang).each do |address|
         yielder << address
       end
     end
@@ -122,7 +122,7 @@ module Analyzer
   ##
   # Return an enumerator of addressese
   #
-  def self.extract_addresses(content)
+  def self.extract_addresses(content, lang)
     Enumerator.new do |yielder|
       start_pos = 0
       loop do
