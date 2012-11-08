@@ -67,4 +67,20 @@ class Alegato < Padrino::Application
   #     render 'errors/505'
   #   end
   #
+  before do
+    session[:app] ||= pick_app
+    if session[:app] == :analiceme
+      I18n.default_locale = :en
+    else
+      I18n.default_locale = :es
+    end
+  end
+
+  def pick_app
+    if request.env["SERVER_NAME"] =~ /analiceme/
+      :analiceme
+    else
+      :mapa76
+    end
+  end
 end

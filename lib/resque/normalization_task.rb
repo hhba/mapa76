@@ -1,7 +1,8 @@
 require "docsplit"
-require "nokogiri"
 
 class NormalizationTask
+  extend ProcessingStrategy
+
   @queue = :normalization
 
   PDF2HTML_BIN = ENV['PDF2HTML_BIN'] || "/usr/local/bin/pdftohtml"
@@ -127,6 +128,7 @@ private
     content = `#{command}`
 
     logger.debug "Parse XML output"
+    require "nokogiri"
     xml = Nokogiri::XML(content)
   end
 end
