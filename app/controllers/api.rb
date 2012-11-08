@@ -91,6 +91,7 @@ Alegato.controllers :api do
   end
 
   get :tweet, :map => "/api/tweet/", :provides => :json do
+    Tweet.create(params)
     Analyzer.extract_tagged_tokens(params["text"]).to_json
   end
 
