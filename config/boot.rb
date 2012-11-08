@@ -2,7 +2,6 @@ require 'yaml'
 
 # Defines our constants
 PADRINO_ENV  = ENV["PADRINO_ENV"] ||= ENV["RACK_ENV"] ||= "development"  unless defined?(PADRINO_ENV)
-puts "Environment: #{PADRINO_ENV}"
 PADRINO_ROOT = File.expand_path('../..', __FILE__).gsub(/releases\/[0-9]+/, "current") unless defined?(PADRINO_ROOT)
 
 $LOAD_PATH << PADRINO_ROOT
@@ -49,6 +48,11 @@ THUMBNAILS_DIR = 'thumbs'
 # Add your before load hooks here
 #
 Padrino.before_load do
+  if PADRINO_ENV == "analiceme"
+    I18n.default_locale = :en
+  else
+    I18n.default_locale = :es
+  end
   AssetPipeline.setup!(File.join(PADRINO_ROOT, "config", "sprockets.yml"))
 end
 

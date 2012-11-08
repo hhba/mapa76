@@ -18,7 +18,8 @@ class Document
   field :fontspecs,        type: Hash
   field :last_analysis_at, type: Time
   field :processed_text,   type: String
-  field :state,            type: Symbol, default: :waiting
+  field :app,              type: Symbol, :default => :mapa76
+  field :state,            type: Symbol, :default => :waiting
 
   has_many :milestones
   has_many :named_entities
@@ -33,6 +34,10 @@ class Document
   attr_accessor :sample_mode, :people_count
 
   BLOCK_SEPARATOR = ".\n"
+
+  def lang
+    self.app == :mapa76 ? :es : :en
+  end
 
   def to_csv
     heading = %w(name, fuerza, etiqueta)

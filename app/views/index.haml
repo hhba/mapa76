@@ -7,19 +7,19 @@
   #intro
     .row-fluid
       .span8
-        %h1 Mapa76
-        %h2 Extracción automática de datos de documentos para visualizar relaciones
-        %p Es una plataforma de investigación periodística que detecta entidades automáticamente, realiza análisis semántico y estructura la información para mostrar relaciones visuales, aplicada a los juicios de la última dictadura militar argentina.
+        %h1= I18n.t("home.title")
+        %h2= I18n.t("home.subtitle")
+        %p= I18n.t("home.description")
       .span4
-        %h3 Últimos Proyectos
+        %h3= I18n.t("home.last_projects")
     .row-fluid.intro-graph
-      .span2  
+      .span2
       .span3
-        %h3 Extrae
-        %p Nombres, lugares, fechas, verbos para mostrarlos de forma de manera estructurada.
+        %h3= I18n.t("home.extract")
+        %p= I18n.t("home.extract_description")
       .span3
-        %h3 Analiza
-        %p Validar hechos encontrados en los documentos y guardaros automáticamente en una base de datos.
+        %h3= I18n.t("home.analize")
+        %p= I18n.t("home.analize_description")
       .span3
-        %h3 Visualiza
-        %p Comprender gráficamente los hechos encontrados en líneas de tiempos y mapas interactivos.
+        %h3= I18n.t("home.visualize")
+        %p= I18n.t("home.visualize_description")

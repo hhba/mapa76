@@ -3,6 +3,8 @@
 bin/*
 .DS_Store
 .rvmrc
+log/**/*
+.rvmrc
 .sass-cache/*
 *.swp
 *.swo

@@ -7,13 +7,13 @@ require 'resque'
 
 Alegato.controllers :documents do
   get :index do
-    @docs = Document.only(:id, :heading, :state, :thumbnail_file, :original_file)
+    @docs = Document.where(:app => pick_app).only(:id, :heading, :state, :thumbnail_file, :original_file)
     render "documents/index"
   end
 
   get :mine, map: '/documents/mine' do
     # Shows only my documents or the ones I marked as mine
-    @docs = Document.all
+    @docs = Document.where(:app => pick_app)
     render "documents/index"
   end
 
@@ -32,6 +32,7 @@ Alegato.controllers :documents do
     @doc = Document.create({
       :title => filename,
       :original_file => filename,
+      :app => pick_app
     }.merge(params.slice('heading', 'description', 'category')))
 
     redirect url(:documents, :index)

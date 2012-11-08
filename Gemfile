@@ -12,6 +12,7 @@ gem 'rake'
 gem 'activesupport', :require => nil
 gem 'capistrano'
 gem 'rvm-capistrano'
+gem 'capistrano-ext'
 gem 'haml'
 gem 'httpi'
 gem 'mongoid'

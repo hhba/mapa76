@@ -33,7 +33,7 @@ Alegato.controllers :api do
 
   get :person, :with => [:id], :provides => [:html, :json] do
     p = {}
-    data = Person.find(params[:id])
+    data = Person.find(BSON::ObjectId(params[:id]))
 
     if params[:milestones] # poor man's data.to_json(:include => :milestones) which do not seems to work..
       hash = data.attributes
@@ -88,6 +88,11 @@ Alegato.controllers :api do
 
   post :blacklist, map: "/api/blacklist/:id", :provides => :json do
     Person.find(params[:id]).blacklist.to_json
+  end
+
+  get :tweet, :map => "/api/tweet/", :provides => :json do
+    Tweet.create(params)
+    Analyzer.extract_tagged_tokens(params["text"]).to_json
   end
 
 end
