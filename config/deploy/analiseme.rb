@@ -1,1 +1,0 @@
-set :deploy_to, "/home/mapa/analiseme"

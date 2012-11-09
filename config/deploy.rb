@@ -1,15 +1,12 @@
 require "bundler/capistrano"
 require "rvm/capistrano"
 
-set :stages, %w(analiseme mapa76)
-set :default_stage, "mapa76"
-require 'capistrano/ext/multistage'
-
 set :application, "mapa76"
 
 set :user, "mapa"
 set :domain, "hhba.info"
 set :environment, "production"
+set :deploy_to, "/home/mapa/#{application}"
 
 role :app, domain
 role :web, domain
