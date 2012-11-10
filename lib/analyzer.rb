@@ -1,5 +1,7 @@
 # encoding: utf-8
-require 'freeling/analyzer'
+
+# Define ENV variable for customizations to FreeLing default configurations
+ENV['FREELING_CUSTOM'] ||= File.join(PADRINO_ROOT, "config", "freeling")
 
 module Analyzer
   LETTERS = 'áéíóúñüça-z'
@@ -17,7 +19,12 @@ module Analyzer
   def self.extract_tokens(content, lang = :es)
     Enumerator.new do |yielder|
       pos = 0
-      analyzer = FreeLing::Analyzer.new(content, :output_format => :token, :memoize => false, :lang => lang)
+      analyzer = FreeLing::Analyzer.new(content, {
+        :share_path => File.join(Padrino.root, "config", "freeling"),
+        :output_format => :token,
+        :memoize => false,
+        :language => lang
+      })
       analyzer.tokens.each do |token|
         token_pos = content.index(token[:form], pos)
         yielder << token.merge(:pos => token_pos)
@@ -53,7 +60,11 @@ module Analyzer
       end
 
       unless no_tokens
-        analyzer = FreeLing::Analyzer.new(content, :output_format => :tagged, :memoize => false, :lang => lang)
+        analyzer = FreeLing::Analyzer.new(content,
+          :share_path => File.join(Padrino.root, "config", "freeling"),
+          :output_format => :tagged,
+          :memoize => false,
+          :language => lang)
         analyzer.sentences.each do |sentence|
           sentence.each do |token|
             logger.debug "Token (#{cur_st[:pos]}/#{total_size}): #{token}"
