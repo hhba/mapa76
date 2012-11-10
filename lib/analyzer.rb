@@ -1,5 +1,4 @@
 # encoding: utf-8
-
 # Define ENV variable for customizations to FreeLing default configurations
 ENV['FREELING_CUSTOM'] ||= File.join(PADRINO_ROOT, "config", "freeling")
 
@@ -17,6 +16,8 @@ module Analyzer
   # for locating it easily.
   #
   def self.extract_tokens(content, lang = :es)
+    require "freeling/analyzer"
+
     Enumerator.new do |yielder|
       pos = 0
       analyzer = FreeLing::Analyzer.new(content, {
@@ -47,6 +48,8 @@ module Analyzer
   # An exception is raised if this happens.
   #
   def self.extract_tagged_tokens(content, lang = :es)
+    require "freeling/analyzer"
+
     Enumerator.new do |yielder|
       no_tokens = false
       total_size = content.size
