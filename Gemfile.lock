@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/munshkr/freeling-analyzer-ruby.git
-  revision: 1a871aec68b5200261a2f19809ffbbd83213ddc8
+  revision: ac57be6de478a6887be3e7646f49f310faec03bb
   specs:
     freeling-analyzer (0.1.0)
       hashie
