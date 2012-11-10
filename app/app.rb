@@ -77,7 +77,7 @@ class Alegato < Padrino::Application
   end
 
   def pick_app
-    if request.env["SERVER_NAME"] =~ /analiceme/
+    if request.env["SERVER_NAME"] =~ /analice/
       :analiceme
     else
       :mapa76
