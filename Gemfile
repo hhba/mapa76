@@ -24,6 +24,8 @@ gem 'yui-compressor', :require => false
 
 # NER/NEC analyzers, correference solvers, thumbnail generators, etc
 group :workers do
+  gem "freeling-analyzer", :git => "git://github.com/munshkr/freeling-analyzer-ruby.git"
+
   # Splitter
   gem 'docsplit'
   gem "nokogiri"
