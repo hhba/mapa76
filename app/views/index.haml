@@ -12,6 +12,11 @@
         %p= I18n.t("home.description")
       .span4
         %h3= I18n.t("home.last_projects")
+        %ul.projects
+          - @documents.each do |document|
+            %li
+              = document.heading
+
     .row-fluid.intro-graph
       .span2
       .span3

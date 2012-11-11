@@ -2,6 +2,14 @@ body {
   padding-top: 60px;
   padding-bottom: 40px;
 }
+.projects{
+  list-style: none outside none;
+}
+.projects li{
+  color:#FFFFFF;
+  margin-top: 20px;
+  font-size: 14px;
+}
 .document h2 {
   margin-top: 0.3em;
 }

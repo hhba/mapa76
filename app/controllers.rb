@@ -6,6 +6,7 @@ Alegato.controllers  do
   end
 
   get :index do
+    @documents = Document.order_by(:created_at => :desc).limit(3)
     @persons = if params[:ids]
       Person.find(params[:ids].split(','))
     else

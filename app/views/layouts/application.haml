@@ -2,7 +2,7 @@
 %html{:lang => 'es'}
   %head
     %meta{:charset => 'utf-8'}/
-    %title= [@title, 'Mapa76'].compact.join(' | ')
+    %title= [@title, I18n.t("application.title")].compact.join(' | ')
     %meta{:content => '', :name => 'description'}/
     %meta{:content => '', :name => 'author'}/
     /[if lt IE 9]
