@@ -1,3 +1,10 @@
+GIT
+  remote: git://github.com/munshkr/freeling-analyzer-ruby.git
+  revision: 1b224737f3712d8dc17030b73adbe6442684d66e
+  specs:
+    freeling-analyzer (0.1.0)
+      hashie
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -43,6 +50,7 @@ GEM
     geokit (1.6.5)
       multi_json
     haml (3.1.6)
+    hashie (1.2.0)
     highline (1.6.13)
     hike (1.2.1)
     http_router (0.10.2)
@@ -161,6 +169,7 @@ DEPENDENCIES
   debugger
   docsplit
   factory_girl
+  freeling-analyzer!
   geokit
   haml
   httpi
