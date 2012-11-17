@@ -2,18 +2,11 @@ class Register
   include Mongoid::Document
   include Mongoid::Timestamps
 
-  #field :who,    type: Array
-  #field :when,   type: Array
-  #field :where,  type: Array
-  #field :to_who, type: Array
-  #field :what,   type: String
-  #
-  #belongs_to :document, index: true
-  #
-  #def self.actions
-  #  ActionEntity::VERBS
-  #end
-  #
+  def self.actions
+    ActionEntity::VERBS
+  end
+
+  # FIXME
   #def self.build_and_save(values)
   #  whats = values.delete("what")
   #  whats.map do |what|
@@ -21,7 +14,8 @@ class Register
   #    self.create(values)
   #  end
   #end
-  #
+
+  # FIXME
   #def to_hash
   #  {
   #    who:    self.who.map { |w| NamedEntity.find(w).text },
