@@ -32,18 +32,6 @@ class Register
   #  }
   #end
 
-  # FIXME
-  #def self.timeline_json
-  #  all.map { |register| register.timeline_json }.reject {|r| !r}.to_json
-  #end
-
-  # FIXME
-  #def timeline_json
-  #  unless self.when.empty? or who.empty? or where.empty?
-  #    { order: NamedEntity.find(self.when.first).timestamp, character: NamedEntity.find(who.first).text, group: NamedEntity.find(where.first).text }
-  #  end
-  #end
-
 protected
   def self.references(fields, opts={})
     raise ArgumentError, ":type option is missing" if not opts[:type]
