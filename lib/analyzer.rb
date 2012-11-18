@@ -141,11 +141,11 @@ module Analyzer
       start_pos = 0
       loop do
         break if not content.match(ADDRESS_RE, start_pos) do |match|
-          yielder << {
+          yielder << Hashie::Mash.new({
             :form => match[0].strip,
             :pos => match.begin(0),
             :ne_class => :addresses,
-          }
+          })
           start_pos = match.end(0)
         end
       end
