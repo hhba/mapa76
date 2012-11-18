@@ -16,7 +16,7 @@ module Analyzer
   # All tokens have a reference to its position in the string
   # for locating it easily.
   #
-  def self.extract_tokens(content, lang = :es)
+  def self.extract_tokens(content, lang=:es)
     require "freeling/analyzer"
 
     Enumerator.new do |yielder|
@@ -47,7 +47,7 @@ module Analyzer
   # contracted words (e.g. "he's" => "he is"), changing the original text.
   # An exception is raised if this happens.
   #
-  def self.extract_tagged_tokens(content, lang = :es)
+  def self.extract_tagged_tokens(content, lang=:es)
     require "freeling/analyzer"
 
     Enumerator.new do |yielder|
@@ -122,7 +122,7 @@ module Analyzer
   ##
   # Return an enumerator of named entities
   #
-  def self.extract_named_entities(content, lang)
+  def self.extract_named_entities(content, lang=:es)
     Enumerator.new do |yielder|
       self.extract_tagged_tokens(content, lang).each do |token|
         yielder << token if token[:ne_class]
@@ -136,7 +136,7 @@ module Analyzer
   ##
   # Return an enumerator of addressese
   #
-  def self.extract_addresses(content, lang)
+  def self.extract_addresses(content, lang=:es)
     Enumerator.new do |yielder|
       start_pos = 0
       loop do
