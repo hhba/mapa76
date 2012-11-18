@@ -23,7 +23,7 @@ module Analyzer
       pos = 0
       analyzer = FreeLing::Analyzer.new(content, {
         :config_path => File.join(Padrino.root, "config", "freeling", "config", "#{lang}.cfg"),
-        :output_format => :token,
+        :output_format => :splitted,
         :memoize => false,
       })
       analyzer.tokens.each do |token|
