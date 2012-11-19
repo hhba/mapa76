@@ -11,4 +11,12 @@ class RelationRegister < Register
 
   validates :subject_register_id,    presence: true
   validates :complement_register_id, presence: true
+
+  after_save :update_fact_register_isolated_attribute
+
+protected
+  def update_fact_register_isolated_attribute
+    subject_register.set(:isolated, false)
+    complement_register.set(:isolated, false)
+  end
 end

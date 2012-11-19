@@ -6,6 +6,7 @@ class FactRegister < Register
   field :date_id,    type: BSON::ObjectId
   field :action_ids, type: Array
   field :passive,    type: Boolean
+  field :isolated,   type: Boolean, default: true
 
   belongs_to :fact
   belongs_to :document
