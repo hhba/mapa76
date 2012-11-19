@@ -62,7 +62,7 @@ class Document
   def context
     {
       id: self.id,
-      registers: self.registers.map { |register| register.to_hash },
+      registers: (self.relation_registers + self.fact_registers.where(isolated: true)).map(&:to_hash),
       people: self.people.map { |person| { id: person.id, name: person.full_name, mentions: person.mentions_in(self) } },
       dates: self.dates_found.group_by(&:text).map { |k, v| { text: k, mentions: v.size} },
       organizations: self.organizations_found.group_by(&:text).map { |k, v| { text: k, mentions: v.size} },
