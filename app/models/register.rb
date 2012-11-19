@@ -28,7 +28,7 @@ protected
         end
       else
         define_method(field) do
-          klass.where.in(id: (self.send("#{field_singular}_ids") || [])).to_a
+          klass.where.in(_id: (self.send("#{field_singular}_ids") || [])).to_a
         end
       end
     end
