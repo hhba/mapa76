@@ -15,17 +15,6 @@ class Register
   #  end
   #end
 
-  # FIXME
-  #def to_hash
-  #  {
-  #    who:    self.who.map { |w| NamedEntity.find(w).text },
-  #    what:   self.what,
-  #    when:   self.when.map { |w| NamedEntity.find(w).text },
-  #    where:  self.where.map { |w| NamedEntity.find(w).text },
-  #    to_who: self.to_who.map { |w| NamedEntity.find(w).text }
-  #  }
-  #end
-
 protected
   def self.references(fields, opts={})
     raise ArgumentError, ":type option is missing" if not opts[:type]

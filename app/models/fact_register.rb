@@ -16,6 +16,20 @@ class FactRegister < Register
   validates :person_ids, presence: true
   validates :action_ids, presence: true
 
+  def to_hash
+    attrs = {
+      what:  self.actions.map(&:lemma).first,
+      when:  self.date.text,
+      where: self.place.text,
+    }
+    if passive
+      attrs.merge!(to_who: self.people.map(&:text))
+    else
+      attrs.merge!(who: self.people.map(&:text))
+    end
+    attrs
+  end
+
   def self.timeline_json
     all.map { |fr| fr.timeline_json }.reject { |fr| !fr }.to_json
   end

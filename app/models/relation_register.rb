@@ -14,6 +14,14 @@ class RelationRegister < Register
 
   after_save :update_fact_register_isolated_attribute
 
+  def to_hash
+    { who:    self.subject_register.people.map(&:text),
+      what:   self.subject_register.actions.map(&:lemma).first,
+      when:   self.subject_register.date.text,
+      where:  self.subject_register.place.text,
+      to_who: self.complement_register.people.map(&:text) }
+  end
+
 protected
   def update_fact_register_isolated_attribute
     subject_register.set(:isolated, false)
