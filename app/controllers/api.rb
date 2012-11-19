@@ -47,11 +47,62 @@ Alegato.controllers :api do
   end
 
   post :registers, :provides => :json do
-    if register = Register.create(JSON.parse(request.body.read.to_s))
+    data = JSON.parse(request.body.read).symbolize_keys
+    register = {}
+
+    # Create FactRegister in active voice
+    # If to_who field is present
+    #   Create FactRegister in passive voice
+    #   Create Fact using recently created FactRegister
+    #   Create RelationRegister with both created FactRegister
+    #   Create Relation using created RelationRegister
+
+    begin
+      action = ActionEntity.find_or_create_by(document_id: data[:document_id], lemma: data[:what])
+
+      # Create "subject" fact
+      subject_fact = Fact.create!
+      # Create "subject" fact register
+      subject_fr = FactRegister.create!({
+        document_id: data[:document_id],
+        person_ids: data[:who],
+        place_id: data[:where].first,
+        date_id: data[:when].first,
+        action_ids: [action.id],
+        passive: false,
+      })
+      subject_fact.registers << subject_fr
+
+      if not data[:to_who].empty?
+        # Create "complement" fact
+        complement_fact = Fact.create!
+        # Create "complement" fact register
+        complement_fr = FactRegister.create!({
+          document_id: data[:document_id],
+          person_ids: data[:to_who],
+          place_id: data[:where].first,
+          date_id: data[:when].first,
+          action_ids: [action.id],
+          passive: true,
+        })
+        complement_fact.registers << complement_fr
+
+        # Create relation
+        relation = Relation.create!
+        # Create relation register using recently created
+        # "subject" and "complement" fact registers.
+        relation_register = RelationRegister.create!({
+          document_id: data[:document_id],
+          subject_register_id: subject_fr.id,
+          complement_register_id: complement_fr.id,
+        })
+        relation.registers << relation_register
+      end
+    rescue
+      response.status = 405
+    else
       response.status = 201
       register.to_json
-    else
-      response.status = 405
     end
   end
 
