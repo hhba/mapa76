@@ -33,6 +33,18 @@ class Document
   after_create :enqueue_process
   attr_accessor :sample_mode, :people_count
 
+
+  include Tire::Model::Search
+  include Tire::Model::Callbacks
+
+  tire do
+    mapping do
+      indexes :_mid, :index => :not_analyzed
+      indexes :title,   :analyzer => "snowball", :boost => 100
+      indexes :content, :analyzer => "snowball"
+    end
+  end
+
   BLOCK_SEPARATOR = ".\n"
 
   def lang
@@ -149,6 +161,14 @@ class Document
 
   def new_iterator
     DocumentIterator.new(self)
+  end
+
+  def to_indexed_json
+    {
+      _mid:    id.to_s,
+      title:   title,
+      content: processed_text,
+    }.to_json
   end
 
 protected

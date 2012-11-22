@@ -2,7 +2,6 @@ class ProxyObject < SimpleDelegator
   delegate :class, :is_a?, :to => :_proxied_object
 
   def initialize(attrs={})
-    puts "attrs: #{attrs}"
     klass = attrs['_type'].camelize.classify.constantize
     @_proxied_object = klass.new
     attrs["_es_id"] = attrs.delete("id")
