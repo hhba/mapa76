@@ -22,6 +22,9 @@ gem 'mongoid-pagination'
 gem 'sprockets'
 gem 'yui-compressor', :require => false
 
+gem "tire"
+gem "yajl-ruby", :require => "yajl/json_gem"
+
 # NER/NEC analyzers, correference solvers, thumbnail generators, etc
 group :workers do
   gem "freeling-analyzer", :git => "git://github.com/munshkr/freeling-analyzer-ruby.git"
