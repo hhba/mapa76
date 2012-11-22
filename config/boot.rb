@@ -15,6 +15,8 @@ Bundler.require(:default, PADRINO_ENV)
 require 'config/resque'
 require "lib/asset_pipeline"
 
+require 'config/tire'
+
 ##
 # Enable devel logging
 #
