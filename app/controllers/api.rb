@@ -58,7 +58,10 @@ Alegato.controllers :api do
     #   Create Relation using created RelationRegister
 
     begin
-      action = ActionEntity.find_or_create_by(document_id: data[:document_id], lemma: data[:what])
+      action = ActionEntity.find_or_create_by({
+        document_id: data[:document_id],
+        lemma: data[:what].strip.downcase
+      })
 
       # Create "subject" fact
       subject_fact = Fact.create!
