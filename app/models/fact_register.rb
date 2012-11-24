@@ -19,8 +19,8 @@ class FactRegister < Register
   def to_hash
     attrs = {
       what:  self.actions.map(&:lemma).first,
-      when:  self.date.text,
-      where: self.place.text,
+      when:  self.date.try(:text),
+      where: self.place.try(:text),
     }
     if passive
       attrs.merge!(to_who: self.people.map(&:text))

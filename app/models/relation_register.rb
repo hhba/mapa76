@@ -17,8 +17,8 @@ class RelationRegister < Register
   def to_hash
     { who:    self.subject_register.people.map(&:text),
       what:   self.subject_register.actions.map(&:lemma).first,
-      when:   self.subject_register.date.text,
-      where:  self.subject_register.place.text,
+      when:   self.subject_register.date.try(:text),
+      where:  self.subject_register.place.try(:text),
       to_who: self.complement_register.people.map(&:text) }
   end
 
