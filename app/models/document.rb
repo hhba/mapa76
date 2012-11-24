@@ -25,7 +25,6 @@ class Document
   has_many :named_entities
   has_many :pages
   has_many :fact_registers
-  has_many :relation_registers
   has_and_belongs_to_many :people, index: true
 
   validates_presence_of :original_file
@@ -62,7 +61,7 @@ class Document
   def context
     {
       id: self.id,
-      registers: (self.relation_registers + self.fact_registers.where(isolated: true)).map(&:to_hash),
+      registers: self.fact_registers.map(&:to_hash),
       people: self.people.map { |person| { id: person.id, name: person.full_name, mentions: person.mentions_in(self) } },
       dates: self.dates_found.group_by(&:text).map { |k, v| { text: k, mentions: v.size} },
       organizations: self.organizations_found.group_by(&:text).map { |k, v| { text: k, mentions: v.size} },

@@ -25,6 +25,9 @@ end
 puts "=> Rename `named_entities` collection to `citations` (base class of NEs)"
 Mongoid.master[:named_entities].rename(:citations)
 
+puts "=> Delete now unused `registers` collection"
+Mongoid.master[:registers].drop
+
 puts "=> Create registers, facts and relations from JSON dump"
 File.open(json_file).each do |line|
   data = MultiJson.decode(line)
@@ -37,50 +40,30 @@ File.open(json_file).each do |line|
   # TODO Search for the nearest ActionEntity of the "person" named entity
   action = ActionEntity.find_or_create_by({
     document_id: document_id,
-    lemma: data[:what].strip.downcase,
+    lemma: data[:what].strip.downcase
   })
 
-  # Create "subject" fact
-  subject_fact = Fact.create!
-  # Create "subject" fact register
-  subject_fr = FactRegister.create!({
+  # Create fact and its register
+  fact = Fact.create!
+  fr = FactRegister.new({
     document_id: document_id,
-    person_ids: data[:who],
     place_id: data[:where].first,
     date_id: data[:when].first,
     action_ids: [action.id],
-    passive: false,
   })
-  subject_fact.registers << subject_fr
 
-  if not data[:to_who].empty?
-    # Create "complement" fact
-    complement_fact = Fact.create!
-    # Create "complement" fact register
-    complement_fr = FactRegister.create!({
-      document_id: document_id,
-      person_ids: data[:to_who],
-      place_id: data[:where].first,
-      date_id: data[:when].first,
-      action_ids: [action.id],
-      passive: true,
-    })
-    complement_fact.registers << complement_fr
-
-    # Create relation
-    relation = Relation.create!
-    # Create relation register using recently created
-    # "subject" and "complement" fact registers.
-    relation_register = RelationRegister.create!({
-      document_id: document_id,
-      subject_register_id: subject_fr.id,
-      complement_register_id: complement_fr.id,
-    })
-    relation.registers << relation_register
+  # If "who" was not provided but "to_who", voice is passive
+  if data[:who].blank? && !data[:to_who].blank?
+    fr.person_ids = data[:to_who]
+    fr.passive = true
+  else
+    fr.person_ids = data[:who]
+    fr.complement_person_ids = data[:to_who]
+    fr.passive = false
   end
-end
+  fr.save!
 
-puts "=> Delete now unused `registers` collection"
-Mongoid.master[:registers].drop
+  fact.registers << fr
+end
 
 puts "=> Done"

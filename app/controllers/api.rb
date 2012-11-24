@@ -48,14 +48,7 @@ Alegato.controllers :api do
 
   post :registers, :provides => :json do
     data = JSON.parse(request.body.read).symbolize_keys
-    register = {}
-
-    # Create FactRegister in active voice
-    # If to_who field is present
-    #   Create FactRegister in passive voice
-    #   Create Fact using recently created FactRegister
-    #   Create RelationRegister with both created FactRegister
-    #   Create Relation using created RelationRegister
+    register = nil
 
     begin
       action = ActionEntity.find_or_create_by({
@@ -63,48 +56,32 @@ Alegato.controllers :api do
         lemma: data[:what].strip.downcase
       })
 
-      # Create "subject" fact
-      subject_fact = Fact.create!
-      # Create "subject" fact register
-      subject_fr = FactRegister.create!({
+      # Create fact and its register
+      fact = Fact.create!
+      fr = FactRegister.new({
         document_id: data[:document_id],
-        person_ids: data[:who],
         place_id: data[:where].first,
         date_id: data[:when].first,
         action_ids: [action.id],
-        passive: false,
       })
-      subject_fact.registers << subject_fr
 
-      if not data[:to_who].empty?
-        # Create "complement" fact
-        complement_fact = Fact.create!
-        # Create "complement" fact register
-        complement_fr = FactRegister.create!({
-          document_id: data[:document_id],
-          person_ids: data[:to_who],
-          place_id: data[:where].first,
-          date_id: data[:when].first,
-          action_ids: [action.id],
-          passive: true,
-        })
-        complement_fact.registers << complement_fr
-
-        # Create relation
-        relation = Relation.create!
-        # Create relation register using recently created
-        # "subject" and "complement" fact registers.
-        relation_register = RelationRegister.create!({
-          document_id: data[:document_id],
-          subject_register_id: subject_fr.id,
-          complement_register_id: complement_fr.id,
-        })
-        relation.registers << relation_register
+      # If "who" was not provided but "to_who", voice is passive
+      if data[:who].blank? && !data[:to_who].blank?
+        fr.person_ids = data[:to_who]
+        fr.passive = true
+      else
+        fr.person_ids = data[:who]
+        fr.complement_person_ids = data[:to_who]
+        fr.passive = false
       end
+      fr.save!
+
+      fact.registers << fr
     rescue
       response.status = 405
     else
       response.status = 201
+      # FIXME
       register.to_json
     end
   end

@@ -6,12 +6,12 @@ class FactRegister < Register
   field :date_id,    type: BSON::ObjectId
   field :action_ids, type: Array
   field :passive,    type: Boolean
-  field :isolated,   type: Boolean, default: true
+  field :complement_person_ids, type: Array
 
   belongs_to :fact
   belongs_to :document
 
-  references [:people, :place, :date, :actions], type: Citation
+  references [:people, :place, :date, :actions, :complement_people], type: Citation
 
   validates :person_ids, presence: true
   validates :action_ids, presence: true
@@ -23,9 +23,11 @@ class FactRegister < Register
       where: self.place.try(:text),
     }
     if passive
-      attrs.merge!(to_who: self.people.map(&:text))
+      attrs.merge!(who: self.complement_people.map(&:text),
+                   to_who: self.people.map(&:text))
     else
-      attrs.merge!(who: self.people.map(&:text))
+      attrs.merge!(who: self.people.map(&:text),
+                   to_who: self.complement_people.map(&:text))
     end
     attrs
   end
