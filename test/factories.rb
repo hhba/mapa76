@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 FactoryGirl.define do
   factory :named_entity do
     sequence(:text) { |n| "text_#{ n }" }
@@ -42,7 +44,15 @@ FactoryGirl.define do
     document
   end
 
-  factory :register do
+  factory :action_entity, class: ActionEntity do
+    text     "nació"
+    form     "nació"
+    lemma    "nacer"
+    tag      "VMIS3S0"
+    document
+  end
+
+  factory :fact_register do
     document
   end
 end
