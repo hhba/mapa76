@@ -1,25 +1,19 @@
-class NamedEntity
-  include Mongoid::Document
-  include TimeSetter
+require_relative "citation"
 
-  field :text,      :type => String, :default => lambda { human_form }
-  field :pos,       :type => Integer
-  field :inner_pos, :type => Hash
+class NamedEntity < Citation
+  field :text,     type: String, default: lambda { human_form }
 
-  field :ne_class, :type => Symbol, :default => lambda { tag ? CLASSES_PER_TAG[tag] : nil }
+  field :ne_class, type: Symbol, default: lambda { tag ? CLASSES_PER_TAG[tag] : nil }
 
-  field :form,     :type => String
-  field :lemma,    :type => String
-  field :tag,      :type => String
-  field :prob,     :type => Float
-  field :tokens,   :type => Array
+  field :form,     type: String
+  field :lemma,    type: String
+  field :tag,      type: String
+  field :prob,     type: Float
+  field :tokens,   type: Array
 
-  belongs_to :document, index: true
   belongs_to :person, index: true
   belongs_to :blacklist, index: true
-  has_and_belongs_to_many :pages, index: true
 
-  validate :must_have_valid_position
 
   CLASSES_PER_TAG = {
     'NP00O00' => :organizations,
@@ -32,14 +26,6 @@ class NamedEntity
 
   def to_s
     text || human_form || super
-  end
-
-  def self.persons
-    where(:ne_class => :people)
-  end
-
-  def self.persons_text
-    self.persons.collect { |ne| ne.text }
   end
 
   def context(length=70)
@@ -56,70 +42,25 @@ class NamedEntity
     text[context_start .. context_end]
   end
 
-  def page_num
-    Page.where(:_id => self.inner_pos["from"]["pid"]).only(:num).first.try(:num)
-  end
-
   def tag_to_s
     NamedEntity::CLASSES_PER_TAG[self.tag].to_s
   end
 
-protected
-
-  def human_form
-    form.gsub('_', ' ') if form
+  def self.persons
+    where(:ne_class => :people)
   end
 
-  def must_have_valid_position
-    return if inner_pos.nil?
+  def self.persons_text
+    self.persons.collect { |ne| ne.text }
+  end
 
-    pages = {}
-    text_lines = {}
+  def page_num
+    Page.where(:_id => self.inner_pos["from"]["pid"]).only(:num).first.try(:num)
+  end
 
-    ["from", "to"].each do |key|
-      # Existential and type validation
-      if not inner_pos[key].is_a?(Hash)
-        errors.add(:inner_pos, "#{key} is not a Hash")
-        next
-      end
-      if not inner_pos[key]["pid"].is_a?(BSON::ObjectId)
-        errors.add(:inner_pos, "#{key}[pid] is not a BSON::ObjectId")
-      end
-      if not inner_pos[key]["tlid"].is_a?(Fixnum)
-        errors.add(:inner_pos, "#{key}[tlid] is not a Fixnum")
-      end
-      if not inner_pos[key]["pos"].is_a?(Fixnum)
-        errors.add(:inner_pos, "#{key}[pos] is not a Fixnum")
-      end
 
-      # ObjectIds validation
-      if not pages[key] = Page.find(inner_pos[key]["pid"])
-        errors.add(:inner_pos, "#{key}[pid] references to a non-existent Page")
-        next
-      end
-      if not text_lines[key] = pages[key].text_lines.find(inner_pos[key]["tlid"])
-        errors.add(:inner_pos, "#{key}[tlid] references to a non-existent TextLine")
-      end
-
-      # Position out-of-range validation
-      if inner_pos[key]["pos"] < 0 or inner_pos[key]["pos"] >= text_lines[key].text.size
-        errors.add(:inner_pos, "#{key}[pos] is out of range")
-        next
-      end
-    end
-
-    return if not errors[:inner_pos].empty?
-
-    # Different documents
-    if pages["from"].document_id != pages["to"].document_id
-      errors.add(:inner_pos, "from[pid] and to[pid] reference to Pages of different Documents")
-    end
-
-    # Range validation (from..to)
-    if pages["from"].num > pages["to"].num or \
-      (pages["from"].num == pages["to"].num and (text_lines["from"].id > text_lines["to"].id or \
-        (text_lines["from"].id == text_lines["to"].id and inner_pos["from"]["pos"] > inner_pos["to"]["pos"])))
-      errors.add(:inner_pos, "invalid range")
-    end
+protected
+  def human_form
+    form.gsub('_', ' ') if form
   end
 end
