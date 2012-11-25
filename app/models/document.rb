@@ -39,8 +39,8 @@ class Document
   tire do
     mapping do
       indexes :_mid, :index => :not_analyzed
-      indexes :title,   :analyzer => "snowball", :boost => 100
-      indexes :content, :analyzer => "snowball"
+      indexes :title, :analyzer => "snowball", :boost => 100
+      indexes :processed_text, :analyzer => "snowball"
     end
   end
 
@@ -164,9 +164,9 @@ class Document
 
   def to_indexed_json
     {
-      _mid:    id.to_s,
-      title:   title,
-      content: processed_text,
+      _mid: id.to_s,
+      title: title,
+      processed_text: processed_text,
     }.to_json
   end
 
