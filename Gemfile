@@ -57,6 +57,8 @@ group :test do
   gem "shoulda-context"
   gem "factory_girl"
   gem 'database_cleaner'
+  gem "guard"
+  gem "guard-minitest"
 end
 
 group :development do

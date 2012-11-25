@@ -47,11 +47,42 @@ Alegato.controllers :api do
   end
 
   post :registers, :provides => :json do
-    if register = Register.create(JSON.parse(request.body.read.to_s))
-      response.status = 201
-      register.to_json
-    else
+    data = JSON.parse(request.body.read).symbolize_keys
+    register = nil
+
+    begin
+      action = ActionEntity.find_or_create_by({
+        document_id: data[:document_id],
+        lemma: data[:what].strip.downcase
+      })
+
+      # Create fact and its register
+      fact = Fact.create!
+      fr = FactRegister.new({
+        document_id: data[:document_id],
+        place_id: data[:where].first,
+        date_id: data[:when].first,
+        action_ids: [action.id],
+      })
+
+      # If "who" was not provided but "to_who", voice is passive
+      if data[:who].blank? && !data[:to_who].blank?
+        fr.person_ids = data[:to_who]
+        fr.passive = true
+      else
+        fr.person_ids = data[:who]
+        fr.complement_person_ids = data[:to_who]
+        fr.passive = false
+      end
+      fr.save!
+
+      fact.registers << fr
+    rescue
       response.status = 405
+    else
+      response.status = 201
+      # FIXME
+      register.to_json
     end
   end
 
