@@ -166,6 +166,7 @@ class Document
     {
       _mid: id.to_s,
       title: title,
+      heading: heading,
       processed_text: processed_text,
     }.to_json
   end

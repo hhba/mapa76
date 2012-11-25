@@ -5,6 +5,15 @@
      padding-top: 40px;
      background-color: #eee;
     }
+    .highlights {
+      font-size: 12px;
+    }
+    .highlights li {
+      line-height: 15px;
+    }
+    .highlights em {
+      background-color: yellow;
+    }
 
 .row-fluid
   .content
@@ -27,7 +36,15 @@
               %td{:style => "width: 70px"}
                 = thumbnail_tag doc
               %td
-                .title= doc.heading
+                .heading= doc._search["highlight"]["heading"].try(:first) || doc.heading
+                -#.title= doc._search["highlight"]["title"].try(:first) || doc.title
+                - if doc._search["highlight"]["processed_text"]
+                  %ul.highlights
+                    - doc._search["highlight"]["processed_text"].each do |highlight|
+                      %li
+                        = "..."
+                        = highlight.gsub("\n", " ")
+                        = "..."
                 .tools
                   .btn-group
                     %a.btn{:href => url_for(:documents, :comb, :id => doc._id), :class => (doc.readable? ? nil : "disabled")}
