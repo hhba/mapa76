@@ -11,6 +11,17 @@ Alegato.controllers :documents do
     render "documents/index"
   end
 
+  get :search do
+    if not params[:q].blank?
+      # TODO filter by app
+      @search = Document.tire.search(params[:q])
+      @docs = @search.results
+    else
+      @docs = Document.where(:app => pick_app).limit(10)
+    end
+    render "documents/search"
+  end
+
   get :mine, map: '/documents/mine' do
     # Shows only my documents or the ones I marked as mine
     @docs = Document.where(:app => pick_app)

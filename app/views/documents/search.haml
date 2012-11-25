@@ -1,0 +1,63 @@
+-# encoding: utf-8
+- content_for :styles do
+  :css
+    body {
+     padding-top: 40px;
+     background-color: #eee;
+    }
+
+.row-fluid
+  .content
+    .row-fluid
+      %table{:class => 'table documents', :id => 'sorteable'}
+        %thead
+          %tr
+            %th{:style => "width: 70px"}
+            %th
+              %a{:href => '#', "data-sort" => "name"}= I18n.t("documents.title")
+            %th
+              %a{:href => '#', "data-sort" => "name"}= I18n.t("documents.type")
+            %th
+              %a{:href => '#', "data-sort" => "date"}= I18n.t("documents.date")
+            %th
+              %a{:href => '#', "data-sort" => "status"}= I18n.t("documents.status")
+        %tbody
+          - @docs.each do |doc|
+            %tr{:"data-id" => doc.id}
+              %td{:style => "width: 70px"}
+                = thumbnail_tag doc
+              %td
+                .title= doc.heading
+                .tools
+                  .btn-group
+                    %a.btn{:href => url_for(:documents, :comb, :id => doc._id), :class => (doc.readable? ? nil : "disabled")}
+                      %i.icon-edit{:title => I18n.t("documents.edit")}
+                    %a.btn{:href => url_for(:documents, :map, :id => doc._id), :class => (doc.has_geocoded_addresses? ? nil : "disabled")}
+                      %i.icon-globe{:title => I18n.t("documents.map")}
+                    %a.btn{:href => original_file_url(doc)}
+                      %i.icon-download-alt{:title => I18n.t("documents.download")}
+                    %a.btn{:href => url_for(:documents, :people, :id => doc._id, :format => :csv)}
+                      %i.icon-list-alt{:title => I18n.t("documents.export")}
+              %td
+                = doc.category
+              %td
+                = doc._id.generation_time.strftime("%d/%m/%y")
+              %td.state
+                - if doc.processed?
+                  = I18n.t("documents.done")
+                  .hidden{:style => "display: none;"}
+                    .progress.progress-striped.active
+                      .bar{:style => "width: 100%;"}
+                - else
+                  .progress.progress-striped.active
+                    .bar{:style => "width: #{doc.state_to_percentage}%;"}
+
+- content_for :sidebar do
+  %ul.nav.nav-list#sidebar
+    %li.nav-header Filtros de búsqueda
+    %ul#filters
+      %li.document
+        Documento
+        %form.navbar-search.pull-left
+          %input.search-query{name: "q", value: params[:q], type: "search", placeholder: "Buscar por título o contenido"}
+          %button.btn{type: "submit"} Buscar
