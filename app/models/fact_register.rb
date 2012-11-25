@@ -5,7 +5,7 @@ class FactRegister < Register
   field :place_id,   type: BSON::ObjectId
   field :date_id,    type: BSON::ObjectId
   field :action_ids, type: Array
-  field :passive,    type: Boolean
+  field :passive,    type: Boolean, default: false
   field :complement_person_ids, type: Array
 
   belongs_to :fact
