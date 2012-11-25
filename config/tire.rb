@@ -3,9 +3,8 @@ class ProxyObject < SimpleDelegator
 
   def initialize(attrs={})
     klass = attrs['_type'].camelize.classify.constantize
-    @_proxied_object = klass.new
-    attrs["_es_id"] = attrs.delete("id")
-    _assign_attrs(attrs)
+    @_proxied_object = klass.find(attrs.delete("_mid"))
+    _proxied_object["_search"] = attrs.select { |attr| attr.start_with?("_") }
     super(_proxied_object)
   end
 
@@ -13,15 +12,6 @@ class ProxyObject < SimpleDelegator
 
   def _proxied_object
     @_proxied_object
-  end
-
-  def _assign_attrs(attrs={})
-    attrs.each_pair do |key, value|
-      unless _proxied_object.respond_to?("#{key}=".to_sym)
-        _proxied_object.class.send(:attr_accessor, key.to_sym)
-      end
-      _proxied_object.send("#{key}=".to_sym, value)
-    end
   end
 end
 
