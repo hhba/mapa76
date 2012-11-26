@@ -171,7 +171,7 @@ class Document
       pages: {},
     }
     pages.each do |page|
-      fields[:pages][page.num] = page.text
+      fields[:pages][page.num] = page.text.gsub(/<[^<]+?>/, "")
     end
     fields.to_json
   end
