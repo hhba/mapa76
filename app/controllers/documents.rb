@@ -18,7 +18,7 @@ Alegato.controllers :documents do
         s.query do |q|
           q.string params[:q]
         end
-        s.highlight *(1..10000).map(&:to_s)
+        s.highlight :title, :heading, *(1..10000).map(&:to_s)
       end
       @docs = @search.results
     else
