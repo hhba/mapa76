@@ -369,3 +369,16 @@ footer { background: url(../images/hhba.png) no-repeat center; min-height: 50px;
 .timeline-button{
   text-align: center;
 }
+
+/* Search */
+.state {
+  width: 100px;
+  margin-right: 6px;
+  height: 22px;
+}
+.state .progress {
+  height: 22px;
+}
+.state .progress .bar {
+  height: 22px;
+}
