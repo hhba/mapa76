@@ -5,6 +5,7 @@ require 'csv'
 class Document
   include Mongoid::Document
   include Mongoid::Timestamps
+  include Mongoid::Pagination
   include Finder
 
   field :title,            type: String
