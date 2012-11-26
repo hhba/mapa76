@@ -38,12 +38,13 @@
               %td
                 .heading= doc._search["highlight"]["heading"].try(:first) || doc.heading
                 -#.title= doc._search["highlight"]["title"].try(:first) || doc.title
-                - if doc._search["highlight"]["processed_text"]
+                - if doc._search["highlight"].keys.grep(/^\d+$/)
                   %ul.highlights
-                    - doc._search["highlight"]["processed_text"].each do |highlight|
+                    - doc._search["highlight"].keys.grep(/^\d+$/).map(&:to_i).sort.each do |page_num|
                       %li
+                        %strong= "p.#{page_num}"
                         = "..."
-                        = highlight.gsub("\n", " ")
+                        = doc._search["highlight"][page_num.to_s].first.gsub("\n", " ")
                         = "..."
                 .tools
                   .btn-group

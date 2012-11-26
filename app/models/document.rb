@@ -40,7 +40,7 @@ class Document
     mapping do
       indexes :_mid, :index => :not_analyzed
       indexes :title, :analyzer => "snowball", :boost => 100
-      indexes :processed_text, :analyzer => "snowball"
+      indexes :pages, :analyzer => "snowball"
     end
   end
 
@@ -163,12 +163,16 @@ class Document
   end
 
   def to_indexed_json
-    {
+    fields = {
       _mid: id.to_s,
       title: title,
       heading: heading,
-      processed_text: processed_text,
-    }.to_json
+      pages: {},
+    }
+    pages.each do |page|
+      fields[:pages][page.num] = page.text
+    end
+    fields.to_json
   end
 
 protected
