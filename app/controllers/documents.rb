@@ -15,6 +15,7 @@ Alegato.controllers :documents do
     if not params[:q].blank?
       # TODO filter by app
       @search = Document.tire.search do |s|
+        s.fields "_mid"
         s.query do |q|
           q.string params[:q]
         end
