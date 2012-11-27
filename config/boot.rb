@@ -62,6 +62,8 @@ end
 # Add your after load hooks here
 #
 Padrino.after_load do
+  # Stupid workaround for Item#load to work
+  Rails = nil
 end
 
 Padrino.load!

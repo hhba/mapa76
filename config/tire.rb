@@ -1,3 +1,4 @@
+=begin
 class ProxyObject < SimpleDelegator
   delegate :class, :is_a?, :to => :_proxied_object
 
@@ -19,3 +20,4 @@ end
 Tire.configure do
   wrapper ProxyObject
 end
+=end
