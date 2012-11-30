@@ -1,3 +1,5 @@
+require "lib/time_setter"
+
 class Citation
   include Mongoid::Document
   include TimeSetter
@@ -28,8 +30,8 @@ protected
         errors.add(:inner_pos, "#{key} is not a Hash")
         next
       end
-      if not inner_pos[key]["pid"].is_a?(BSON::ObjectId)
-        errors.add(:inner_pos, "#{key}[pid] is not a BSON::ObjectId")
+      if not inner_pos[key]["pid"].is_a?(Moped::BSON::ObjectId)
+        errors.add(:inner_pos, "#{key}[pid] is not a Moped::BSON::ObjectId")
       end
       if not inner_pos[key]["tlid"].is_a?(Fixnum)
         errors.add(:inner_pos, "#{key}[tlid] is not a Fixnum")

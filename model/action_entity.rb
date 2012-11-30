@@ -1,3 +1,5 @@
+require "model/named_entity"
+
 class ActionEntity < NamedEntity
   VERBS = %w(
     abusar

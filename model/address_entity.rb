@@ -1,4 +1,5 @@
 # encoding: utf-8
+require "model/named_entity"
 
 class AddressEntity < NamedEntity
   include Geokit::Geocoders

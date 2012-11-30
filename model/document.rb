@@ -1,6 +1,7 @@
 # encoding: utf-8
-require 'splitter'
-require 'csv'
+require "csv"
+require "lib/splitter"
+require "lib/finder"
 
 class Document
   include Mongoid::Document

@@ -1,4 +1,4 @@
-require "docsplit"
+require "lib/resque/processing_strategy"
 
 class NormalizationTask
   extend ProcessingStrategy

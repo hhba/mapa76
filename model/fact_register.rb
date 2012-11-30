@@ -2,8 +2,8 @@ require_relative "register"
 
 class FactRegister < Register
   field :person_ids, type: Array
-  field :place_id,   type: BSON::ObjectId
-  field :date_id,    type: BSON::ObjectId
+  field :place_id,   type: Moped::BSON::ObjectId
+  field :date_id,    type: Moped::BSON::ObjectId
   field :action_ids, type: Array
   field :passive,    type: Boolean, default: false
   field :complement_person_ids, type: Array
