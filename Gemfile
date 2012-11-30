@@ -9,9 +9,11 @@ gem "mongoid"
 gem "mongoid-pagination"
 gem "rake"
 gem "rvm-capistrano"
+gem "log4r"
 
 group :development, :test do
   gem "debugger"
+  gem "pry", :require => false
 end
 
 group :test do
