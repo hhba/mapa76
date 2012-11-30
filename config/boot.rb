@@ -1,3 +1,4 @@
+=begin
 require 'yaml'
 
 # Defines our constants
@@ -63,3 +64,4 @@ Padrino.after_load do
 end
 
 Padrino.load!
+=end
