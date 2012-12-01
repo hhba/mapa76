@@ -1,10 +1,8 @@
 # encoding: utf-8
 
 class Person
-
   include Mongoid::Document
   include Mongoid::Timestamps
-  include Mongoid::Paranoia
 
   field :name,            type: String
   field :surname_father,  type: String

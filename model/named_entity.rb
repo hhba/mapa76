@@ -1,6 +1,8 @@
 require_relative "citation"
 
 class NamedEntity < Citation
+  include TimeSetter
+
   field :text,     type: String, default: lambda { human_form }
 
   field :ne_class, type: Symbol, default: lambda { tag ? CLASSES_PER_TAG[tag] : nil }
