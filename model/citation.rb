@@ -1,8 +1,5 @@
-require "lib/time_setter"
-
 class Citation
   include Mongoid::Document
-  include TimeSetter
 
   field :text,      type: String
   field :pos,       type: Integer
