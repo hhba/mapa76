@@ -16,6 +16,7 @@ GEM
       multi_json (~> 1.0)
     amatch (0.2.10)
       tins (~> 0.3)
+    ansi (1.4.3)
     bson (1.6.4)
     bson_ext (1.6.4)
       bson (~> 1.6.4)
@@ -113,6 +114,8 @@ GEM
     thor (0.15.4)
     tilt (1.3.3)
     tins (0.4.3)
+    turn (0.9.6)
+      ansi
     tzinfo (0.3.35)
     vegas (0.1.11)
       rack (>= 1.0.0)
@@ -147,3 +150,4 @@ DEPENDENCIES
   resque
   rvm-capistrano
   shoulda-context
+  turn

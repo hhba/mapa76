@@ -31,4 +31,5 @@ group :test do
   gem "guard-minitest"
   gem "minitest", "~> 2.6.0", :require => "minitest/autorun"
   gem "shoulda-context"
+  gem "turn"
 end
