@@ -29,7 +29,7 @@ class NormalizationTask
 
     logger.info "Generate a thumbnail from the first page of the document"
     doc.thumbnail_file = self.create_thumbnail(pdf_path, {
-      :output => File.join(Padrino.root, 'public', THUMBNAILS_DIR)
+      :output => File.join(APP_ROOT, 'public', THUMBNAILS_DIR)
     })
 
     logger.info "Extract PDF as an XML document"

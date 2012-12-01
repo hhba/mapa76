@@ -79,7 +79,7 @@ class Document
   end
 
   def original_file_path
-    File.join(Padrino.root, 'public', DOCUMENTS_DIR, self.original_file) if self.original_file
+    File.join(APP_ROOT, "public", DOCUMENTS_DIR, self.original_file) if self.original_file
   end
 
   def _dump(level)
