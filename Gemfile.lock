@@ -8,22 +8,19 @@ GIT
 GEM
   remote: http://rubygems.org/
   specs:
-    POpen4 (0.1.4)
-      Platform (>= 0.4.0)
-      open4
-    Platform (0.4.0)
-    activemodel (3.2.6)
-      activesupport (= 3.2.6)
+    activemodel (3.2.9)
+      activesupport (= 3.2.9)
       builder (~> 3.0.0)
-    activesupport (3.2.6)
+    activesupport (3.2.9)
       i18n (~> 0.6)
       multi_json (~> 1.0)
     amatch (0.2.10)
       tins (~> 0.3)
+    ansi (1.4.3)
     bson (1.6.4)
     bson_ext (1.6.4)
       bson (~> 1.6.4)
-    builder (3.0.0)
+    builder (3.0.4)
     capistrano (2.12.0)
       highline
       net-scp (>= 1.0.0)
@@ -32,8 +29,7 @@ GEM
       net-ssh-gateway (>= 1.1.0)
     capistrano-ext (1.2.1)
       capistrano (>= 1.0.0)
-    classifier (1.3.3)
-      fast-stemmer (>= 1.0.0)
+    coderay (1.0.8)
     columnize (0.3.6)
     database_cleaner (0.8.0)
     debugger (1.1.4)
@@ -46,7 +42,6 @@ GEM
     docsplit (0.6.3)
     factory_girl (4.0.0)
       activesupport (>= 3.0.0)
-    fast-stemmer (1.0.1)
     ffi (1.1.5)
     geokit (1.6.5)
       multi_json
@@ -55,37 +50,28 @@ GEM
       thor (>= 0.14.6)
     guard-minitest (0.5.0)
       guard (>= 0.4)
-    haml (3.1.6)
     hashie (1.2.0)
     highline (1.6.13)
-    hike (1.2.1)
-    http_router (0.10.2)
-      rack (>= 1.0.0)
-      url_mount (~> 0.2.1)
     httpi (1.1.1)
       rack
-    i18n (0.6.0)
+    i18n (0.6.1)
     listen (0.4.7)
       rb-fchange (~> 0.0.5)
       rb-fsevent (~> 0.9.1)
       rb-inotify (~> 0.8.8)
-    madeleine (0.7.3)
-    mail (2.3.3)
-      i18n (>= 0.4.0)
-      mime-types (~> 1.16)
-      treetop (~> 1.4.8)
-    mime-types (1.19)
+    log4r (1.1.10)
+    method_source (0.8.1)
     minitest (2.6.2)
-    mongo (1.6.2)
-      bson (~> 1.6.2)
-    mongoid (2.4.11)
+    mongoid (3.0.14)
       activemodel (~> 3.1)
-      mongo (<= 1.6.2)
+      moped (~> 1.1)
+      origin (~> 1.0)
       tzinfo (~> 0.3.22)
     mongoid-pagination (0.2.0)
       activesupport
       mongoid
-    multi_json (1.3.6)
+    moped (1.3.0)
+    multi_json (1.4.0)
     net-scp (1.0.4)
       net-ssh (>= 1.99.1)
     net-sftp (2.0.5)
@@ -95,40 +81,14 @@ GEM
       net-ssh (>= 1.99.1)
     nokogiri (1.5.5)
     oj (1.2.11)
-    open4 (1.3.0)
-    padrino (0.10.7)
-      padrino-admin (= 0.10.7)
-      padrino-cache (= 0.10.7)
-      padrino-core (= 0.10.7)
-      padrino-gen (= 0.10.7)
-      padrino-helpers (= 0.10.7)
-      padrino-mailer (= 0.10.7)
-    padrino-admin (0.10.7)
-      padrino-core (= 0.10.7)
-      padrino-helpers (= 0.10.7)
-    padrino-cache (0.10.7)
-      padrino-core (= 0.10.7)
-    padrino-core (0.10.7)
-      activesupport (~> 3.2.0)
-      http_router (~> 0.10.2)
-      sinatra (~> 1.3.1)
-      thor (~> 0.15.2)
-      tilt (~> 1.3.0)
-    padrino-gen (0.10.7)
-      bundler (~> 1.0)
-      padrino-core (= 0.10.7)
-    padrino-helpers (0.10.7)
-      i18n (~> 0.6)
-      padrino-core (= 0.10.7)
-    padrino-mailer (0.10.7)
-      mail (~> 2.3.0)
-      padrino-core (= 0.10.7)
-    polyglot (0.3.3)
+    origin (1.0.11)
+    pry (0.9.10)
+      coderay (~> 1.0.5)
+      method_source (~> 0.8)
+      slop (~> 3.3.1)
     rack (1.4.1)
     rack-protection (1.2.0)
       rack
-    rack-test (0.6.1)
-      rack (>= 1.0)
     rake (0.9.2.2)
     rb-fchange (0.0.5)
       ffi
@@ -143,7 +103,6 @@ GEM
       redis-namespace (~> 1.0.2)
       sinatra (>= 0.9.2)
       vegas (~> 0.1.2)
-    ruby-stemmer (0.9.3)
     rvm-capistrano (1.2.2)
       capistrano (>= 2.0.0)
     shoulda-context (1.0.0)
@@ -151,24 +110,15 @@ GEM
       rack (~> 1.3, >= 1.3.6)
       rack-protection (~> 1.2)
       tilt (~> 1.3, >= 1.3.3)
-    sprockets (2.4.5)
-      hike (~> 1.2)
-      multi_json (~> 1.0)
-      rack (~> 1.0)
-      tilt (~> 1.1, != 1.3.0)
+    slop (3.3.3)
     thor (0.15.4)
     tilt (1.3.3)
     tins (0.4.3)
-    treetop (1.4.10)
-      polyglot
-      polyglot (>= 0.3.1)
-    tzinfo (0.3.33)
-    url_mount (0.2.1)
-      rack
+    turn (0.9.6)
+      ansi
+    tzinfo (0.3.35)
     vegas (0.1.11)
       rack (>= 1.0.0)
-    yui-compressor (0.9.6)
-      POpen4 (>= 0.1.4)
 
 PLATFORMS
   ruby
@@ -179,7 +129,6 @@ DEPENDENCIES
   bson_ext
   capistrano
   capistrano-ext
-  classifier
   database_cleaner
   debugger
   docsplit
@@ -188,21 +137,17 @@ DEPENDENCIES
   geokit
   guard
   guard-minitest
-  haml
   httpi
-  madeleine
+  log4r
   minitest (~> 2.6.0)
   mongoid
   mongoid-pagination
   multi_json
   nokogiri
   oj
-  padrino
-  rack-test
+  pry
   rake
   resque
-  ruby-stemmer
   rvm-capistrano
   shoulda-context
-  sprockets
-  yui-compressor
+  turn

@@ -1,5 +1,4 @@
-# encoding: utf-8
-require File.expand_path(File.dirname(__FILE__) + '/../test_config.rb')
+require "test_helper"
 
 class TestNamedEntity < Test::Unit::TestCase
   context "Parse date" do
@@ -25,34 +24,13 @@ class TestNamedEntity < Test::Unit::TestCase
     end
 
     should "Retrieve timestamp" do
-      assert_instance_of Fixnum, @date_entity_1.timestamp
+      assert @date_entity_1.timestamp.respond_to?(:integer?)
+      assert @date_entity_1.timestamp.integer?
     end
 
     should "tell you when it does not have a parseable date" do
       assert @date_entity_1.string_date?
       assert_equal false, @date_entity_4.string_date?
-    end
-
-    should "Retrieve hash with information to time_setter" do
-      def @date_entity_1.page_num
-        1
-      end
-
-      def @date_entity_1.context
-        "14 de julio de 2011"
-      end
-
-      time_setter_hash = {
-        :date => "14/7/2011",
-        :display_date => "14/7/2011",
-        :description => "14 de julio de 2011",
-        :link => "/documents/#{@date_entity_1.document.id}/comb#1",
-        :series => "",
-        :html => "",
-        :timestamp => 1310612400
-      }
-      
-      assert_equal time_setter_hash, @date_entity_1.to_time_setter
     end
   end
 end

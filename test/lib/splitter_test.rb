@@ -1,5 +1,5 @@
 # encoding: utf-8
-require File.expand_path(File.dirname(__FILE__) + '/../test_config.rb')
+require "test_helper"
 
 class TestSplitter < Test::Unit::TestCase
   def setup

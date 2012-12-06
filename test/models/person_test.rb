@@ -1,5 +1,5 @@
 # encoding: utf-8
-require File.expand_path(File.dirname(__FILE__) + '/../test_config.rb')
+require "test_helper"
 
 class TestPerson < Test::Unit::TestCase
   context "Populate people" do
@@ -62,7 +62,7 @@ class TestPerson < Test::Unit::TestCase
       name_t = "juan perez"
       p = create :person, name: name
 
-      person = Person.first(conditions: { name: name })
+      person = Person.where(name: name).first
       assert_equal(p.id, person.id, "This should be the same person")
 
       person = Person.filter_by_name(name_t).first

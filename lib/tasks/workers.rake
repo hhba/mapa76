@@ -30,7 +30,7 @@ namespace :workers do
   end
 
 
-  WORKERS_PID_PATH = ENV['WORKERS_PID_PATH'] || File.join(PADRINO_ROOT, 'tmp', 'pids')
+  WORKERS_PID_PATH = ENV['WORKERS_PID_PATH'] || File.join(APP_ROOT, 'tmp', 'pids')
 
 
   def signal_workers(signal)

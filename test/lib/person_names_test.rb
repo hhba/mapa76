@@ -1,5 +1,5 @@
 # encoding: utf-8
-require File.expand_path(File.dirname(__FILE__) + '/../test_config.rb')
+require "test_helper"
 
 # TODO Migrate these tests to another test for coverage of border cases and
 # precision of named entities detection.

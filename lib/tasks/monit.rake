@@ -72,7 +72,7 @@ namespace :monit do
     <% workers.each do |worker| %>
       check process <%= worker[:id] %> with pidfile "<%= worker[:pidfile] %>"
       group workers
-      start program "/bin/bash -c 'export HOME=<%= HOME_PATH %>; export rvm_path=$HOME/.rvm; . $rvm_path/scripts/rvm; cd <%= PADRINO_ROOT %>; $rvm_path/bin/rvm rvmrc load; PADRINO_ENV=production VERBOSE=1 QUEUE=<%= worker[:queues].join(',') %> BACKGROUND=yes PIDFILE=<%= worker[:pidfile] %> LOG=<%= worker[:log] %> LD_LIBRARY_PATH=/usr/local/lib  bundle exec rake resque:work  >> <%= worker[:log] %>  2>> <%= worker[:err_log] %>'" with timeout 180 seconds
+      start program "/bin/bash -c 'export HOME=<%= HOME_PATH %>; export rvm_path=$HOME/.rvm; . $rvm_path/scripts/rvm; cd <%= APP_ROOT %>; $rvm_path/bin/rvm rvmrc load; APP_ENV=production VERBOSE=1 QUEUE=<%= worker[:queues].join(',') %> BACKGROUND=yes PIDFILE=<%= worker[:pidfile] %> LOG=<%= worker[:log] %> LD_LIBRARY_PATH=/usr/local/lib  bundle exec rake resque:work  >> <%= worker[:log] %>  2>> <%= worker[:err_log] %>'" with timeout 180 seconds
       stop program  "/bin/kill `cat <%= worker[:pidfile] %>`" with timeout 60 seconds
     <% end %>
   ERB
@@ -103,13 +103,13 @@ namespace :monit do
         id = "resque_worker-#{name}-#{i}"
 
         log_filename = "workers__#{name}"
-        log = File.join(PADRINO_ROOT, 'log', "#{log_filename}.log")
-        err_log = File.join(PADRINO_ROOT, 'log', "#{log_filename}.err.log")
+        log = File.join(APP_ROOT, 'log', "#{log_filename}.log")
+        err_log = File.join(APP_ROOT, 'log', "#{log_filename}.err.log")
         queues = options['queues']
 
         res << {
           :id => id,
-          :pidfile => File.join(PADRINO_ROOT, 'tmp', 'pids', "#{id}.pid"),
+          :pidfile => File.join(APP_ROOT, 'tmp', 'pids', "#{id}.pid"),
           :queues => queues,
           :log => log,
           :err_log => err_log,
@@ -121,7 +121,7 @@ namespace :monit do
   end
 
   def load_settings(path)
-    abs_path = File.join(PADRINO_ROOT, path)
+    abs_path = File.join(APP_ROOT, path)
     if not File.exists?(abs_path)
       raise "#{path} does not exist! Use #{path}.sample as a template"
     end
