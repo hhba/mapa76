@@ -1,5 +1,7 @@
 source :rubygems
 
+gem "mapa76-core", :github => "hhba/mapa76-core"
+
 gem "activesupport", :require => false
 gem "amatch"
 gem "bson_ext"

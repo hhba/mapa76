@@ -1,4 +1,11 @@
 GIT
+  remote: git://github.com/hhba/mapa76-core.git
+  revision: 62af82cf32f4e12f21e4ecfd21067036cae6d28c
+  specs:
+    mapa76-core (0.0.1)
+      mongoid (~> 3.0.14)
+
+GIT
   remote: git://github.com/munshkr/freeling-analyzer-ruby.git
   revision: 363631c4e0c8ac48d883a77af1ed4f60e4f3579d
   specs:
@@ -139,6 +146,7 @@ DEPENDENCIES
   guard-minitest
   httpi
   log4r
+  mapa76-core!
   minitest (~> 2.6.0)
   mongoid
   mongoid-pagination
