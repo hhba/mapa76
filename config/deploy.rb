@@ -109,5 +109,5 @@ after "deploy", "mi:create_indexes"
 after "deploy", "compile_assets"
 
 def rake(task)
-  run "cd #{current_path} && PADRINO_ENV=production bundle exec rake #{task} --trace"
+  run "cd #{current_path} && APP_ENV=production bundle exec rake #{task} --trace"
 end

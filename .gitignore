@@ -14,7 +14,6 @@ tmp
 log
 config/monit.conf
 
-config/mongoid.yml
 config/resque.yml
 config/monit.yml
 config/workers.yml

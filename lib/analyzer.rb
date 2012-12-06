@@ -1,7 +1,7 @@
 # encoding: utf-8
 
 # Define ENV variable for customizations to FreeLing default configurations
-ENV['FREELING_CUSTOM'] ||= File.join(PADRINO_ROOT, "config", "freeling")
+ENV['FREELING_CUSTOM'] ||= File.join(APP_ROOT, "config", "freeling")
 
 module Analyzer
   LETTERS = 'áéíóúñüça-z'
@@ -22,7 +22,7 @@ module Analyzer
     Enumerator.new do |yielder|
       pos = 0
       analyzer = FreeLing::Analyzer.new(content, {
-        :config_path => File.join(Padrino.root, "config", "freeling", "config", "#{lang}.cfg"),
+        :config_path => File.join(APP_ROOT, "config", "freeling", "config", "#{lang}.cfg"),
         :output_format => :splitted,
         :memoize => false,
       })
@@ -64,7 +64,7 @@ module Analyzer
 
       unless no_tokens
         analyzer = FreeLing::Analyzer.new(content, {
-          :config_path => File.join(Padrino.root, "config", "freeling", "config", "#{lang}.cfg"),
+          :config_path => File.join(APP_ROOT, "config", "freeling", "config", "#{lang}.cfg"),
           :output_format => :tagged,
           :memoize => false
         })
