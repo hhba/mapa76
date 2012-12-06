@@ -1,14 +1,9 @@
 # encoding: utf-8
-require "model/named_entity"
 
 class AddressEntity < NamedEntity
   include Geokit::Geocoders
 
   Geokit::Geocoders::provider_order = [:google]
-
-  field :lat, :type => Float
-  field :lng, :type => Float
-
 
   def geocode(place="Ciudad de Buenos Aires, Argentina")
     no_dirs = [
@@ -51,9 +46,5 @@ class AddressEntity < NamedEntity
       self.lat, self.lng = [geoloc.lat, geoloc.lng]
       geoloc
     end
-  end
-
-  def geocoded?
-    self.lat and self.lng
   end
 end
