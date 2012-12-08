@@ -22,11 +22,21 @@ if not File.exists?(json_file)
   exit(2)
 end
 
+
+def rename_collection(original, new)
+  session = Mongoid.default_session
+  session[original].find.each do |document|
+    session[new].insert(document)
+  end
+  session[original].drop
+end
+
+
 puts "=> Rename `named_entities` collection to `citations` (base class of NEs)"
-Mongoid.master[:named_entities].rename(:citations)
+rename_collection(:named_entities, :citations)
 
 puts "=> Delete now unused `registers` collection"
-Mongoid.master[:registers].drop
+Mongoid.default_session[:registers].drop
 
 puts "=> Create registers, facts and relations from JSON dump"
 File.open(json_file).each do |line|
