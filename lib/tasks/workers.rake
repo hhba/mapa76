@@ -1,3 +1,5 @@
+APP_ROOT = File.expand_path("../../..", __FILE__) unless defined?(APP_ROOT)
+
 namespace :workers do
   desc 'Gracefully reload workers (waits for jobs to finish, then restarts processes)'
   task :reload do
@@ -5,7 +7,7 @@ namespace :workers do
   end
 
   desc 'Immediately kill workers, cancelling any current job and re-enqueuing them'
-  task :stop do
+  task :stop => :environment do
     workers = Resque.workers
     workers.each do |worker|
       # Check running job and save arguments

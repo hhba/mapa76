@@ -1,5 +1,9 @@
+task :environment do
+  require File.expand_path("../../../config/boot.rb", __FILE__)
+end
+
 desc "Fire up console"
-task :console do
+task :console => :environment do
   require "pry"
 
   Pry.config.prompt = [

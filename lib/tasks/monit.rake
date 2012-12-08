@@ -46,7 +46,7 @@ namespace :monit do
   end
 
   desc 'Generate *only* Monit configuration file'
-  task :config do
+  task :config => :environment do
     monit_settings = parse_monit_settings
     workers = parse_workers_settings
 

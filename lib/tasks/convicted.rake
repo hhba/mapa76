@@ -2,7 +2,7 @@ require 'csv'
 
 namespace :convicted do
   desc 'Load CSV with the list of processed and convicted repressors'
-  task :load do
+  task :load => :environment do
     CSV_PATH = ENV['CSV_PATH'] || File.join(APP_ROOT, 'data')
 
     def clean_name(name)

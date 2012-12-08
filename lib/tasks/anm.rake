@@ -1,6 +1,6 @@
 namespace :anm do
   desc 'Load JSON files from ANM scrapped documents'
-  task :load do
+  task :load => :environment do
     JSON_PATH = ENV['JSON_PATH'] || File.join(APP_ROOT, 'data', 'anm')
 
     Dir[File.join(JSON_PATH, '*.json')].each do |filename|
