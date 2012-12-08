@@ -22,7 +22,7 @@ gem "resque"
 gem "rvm-capistrano"
 
 group :development, :test do
-  gem "debugger"
+  gem "pry-debugger"
   gem "pry", :require => false
 end
 
