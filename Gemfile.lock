@@ -1,19 +1,18 @@
 GIT
-  remote: git://github.com/hhba/mapa76-core.git
-  revision: a5e1953fff8053653743f32944b69c9d595b2d95
+  remote: git://github.com/munshkr/freeling-analyzer-ruby.git
+  revision: 363631c4e0c8ac48d883a77af1ed4f60e4f3579d
+  specs:
+    freeling-analyzer (0.1.0)
+      hashie
+
+PATH
+  remote: ../mapa76-core
   specs:
     mapa76-core (0.0.1)
       mongoid (~> 3.0.14)
       mongoid-pagination
       tire
       yajl-ruby
-
-GIT
-  remote: git://github.com/munshkr/freeling-analyzer-ruby.git
-  revision: 363631c4e0c8ac48d883a77af1ed4f60e4f3579d
-  specs:
-    freeling-analyzer (0.1.0)
-      hashie
 
 GEM
   remote: http://rubygems.org/
@@ -131,10 +130,10 @@ GEM
     thor (0.15.4)
     tilt (1.3.3)
     tins (0.4.3)
-    tire (0.5.2)
+    tire (0.5.4)
       activemodel (>= 3.0)
       hashr (~> 0.0.19)
-      multi_json (~> 1.0)
+      multi_json (~> 1.3)
       rake
       rest-client (~> 1.6)
     turn (0.9.6)
