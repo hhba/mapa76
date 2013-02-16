@@ -3,6 +3,7 @@ rvm:
   - "1.9.3"
 services:
   - mongodb
+  - elasticsearch
   - redis-server
 bundler_args: --without development
 before_script: ./script/ci/set_config_files.sh
