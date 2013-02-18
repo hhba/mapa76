@@ -11,6 +11,7 @@ PATH
     mapa76-core (0.0.1)
       mongoid (~> 3.0.14)
       mongoid-pagination
+      resque
       tire
       yajl-ruby
 
@@ -171,7 +172,6 @@ DEPENDENCIES
   pry
   pry-debugger
   rake
-  resque
   rvm-capistrano
   shoulda-context
   turn

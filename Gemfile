@@ -18,7 +18,6 @@ gem "multi_json"
 gem "nokogiri"
 gem "oj"
 gem "rake"
-gem "resque"
 gem "rvm-capistrano"
 
 group :development, :test do
