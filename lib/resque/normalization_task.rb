@@ -18,8 +18,20 @@ class NormalizationTask
     doc = Document.find(document_id)
     doc.update_attribute :state, :normalizing
 
+    temp = Tempfile.new(
+      doc.original_filename
+         .split(".")
+         .map.with_index { |p, i| ".#{p}" if not i.zero? }
+    )
+
+    logger.info "Write document file to #{temp.path}"
+    doc.file.each do |chunk|
+      temp.write(chunk)
+    end
+    temp.close
+
     logger.info "Ensure document is a PDF (convert if necessary)"
-    pdf_path = Docsplit.ensure_pdfs(doc.original_file_path).first
+    pdf_path = Docsplit.ensure_pdfs(temp.path).first
 
     raise "Something failed when converting document to a PDF file" if pdf_path.nil?
 
@@ -27,13 +39,17 @@ class NormalizationTask
     logger.info "Extract title from '#{pdf_path}'"
     doc.title = Docsplit.extract_title(pdf_path)
 
-    logger.info "Generate a thumbnail from the first page of the document"
-    doc.thumbnail_file = self.create_thumbnail(pdf_path, {
-      :output => File.join(APP_ROOT, 'public', THUMBNAILS_DIR)
-    })
+    # TODO ... write thumbnail to a temp file, upload and delete
+    #logger.info "Generate a thumbnail from the first page of the document"
+    #doc.thumbnail_file = self.create_thumbnail(pdf_path, {
+      #:output => File.join(APP_ROOT, 'public', THUMBNAILS_DIR)
+    #})
 
     logger.info "Extract PDF as an XML document"
     xml = self.pdf_to_xml(pdf_path)
+
+    logger.info "Unlink temporary file (#{temp.path})"
+    temp.unlink
 
     logger.info "Clean old pages (if any)"
     doc.pages.delete_all
