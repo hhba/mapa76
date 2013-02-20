@@ -18,38 +18,32 @@ class NormalizationTask
     doc = Document.find(document_id)
     doc.update_attribute :state, :normalizing
 
-    temp = Tempfile.new(
-      doc.original_filename
-         .split(".")
-         .map.with_index { |p, i| ".#{p}" if not i.zero? }
-    )
+    xml = nil
 
-    logger.info "Write document file to #{temp.path}"
-    doc.file.each do |chunk|
-      temp.write(chunk)
+    self.create_tempfile(doc.original_filename) do |temp|
+      logger.info "Write document file to #{temp.path}"
+      doc.file.each do |chunk|
+        temp.write(chunk)
+      end
+      temp.close
+
+      logger.info "Ensure document is a PDF (convert if necessary)"
+      pdf_path = Docsplit.ensure_pdfs(temp.path).first
+
+      raise "Something failed when converting document to a PDF file" if pdf_path.nil?
+
+      # Replace title with original title from document
+      logger.info "Extract title from '#{pdf_path}'"
+      doc.title = Docsplit.extract_title(pdf_path)
+
+      logger.info "Generate a thumbnail from the first page of the document"
+      Dir.mktmpdir do |dir|
+        doc.thumbnail_file = create_thumbnail(pdf_path, output: dir)
+      end
+
+      logger.info "Extract PDF as an XML document"
+      xml = self.pdf_to_xml(pdf_path)
     end
-    temp.close
-
-    logger.info "Ensure document is a PDF (convert if necessary)"
-    pdf_path = Docsplit.ensure_pdfs(temp.path).first
-
-    raise "Something failed when converting document to a PDF file" if pdf_path.nil?
-
-    # Replace title with original title from document
-    logger.info "Extract title from '#{pdf_path}'"
-    doc.title = Docsplit.extract_title(pdf_path)
-
-    # TODO ... write thumbnail to a temp file, upload and delete
-    #logger.info "Generate a thumbnail from the first page of the document"
-    #doc.thumbnail_file = self.create_thumbnail(pdf_path, {
-      #:output => File.join(APP_ROOT, 'public', THUMBNAILS_DIR)
-    #})
-
-    logger.info "Extract PDF as an XML document"
-    xml = self.pdf_to_xml(pdf_path)
-
-    logger.info "Unlink temporary file (#{temp.path})"
-    temp.unlink
 
     logger.info "Clean old pages (if any)"
     doc.pages.delete_all
@@ -108,15 +102,14 @@ private
   #
   def self.create_thumbnail(path, opts={})
     opts = {
-      :size => '65x80'
+      size: "65x80",
+      output: Dir.tmpdir,
     }.merge(opts)
 
+    Docsplit.extract_images(path, opts.merge(pages: 1))
+
     basename = File.basename(path).split('.')[0..-2].join('.')
-    filename = basename + '.png'
-
-    Docsplit.extract_images(path, opts.merge(:pages => 1))
-
-    return "#{basename}_1.png"
+    File.join(opts[:output], "#{basename}_1.png")
   end
 
   ##
@@ -146,5 +139,17 @@ private
     logger.debug "Parse XML output"
     require "nokogiri"
     xml = Nokogiri::XML(content)
+  end
+
+  ##
+  # Creates a temporary file using Tempfile,
+  # preserving the original file extension.
+  #
+  def self.create_tempfile(path, &block)
+    path_ary = path
+      .split(".")
+      .map.with_index { |p, i| ".#{p}" if not i.zero? }
+
+    Tempfile.open(path_ary, &block)
   end
 end
