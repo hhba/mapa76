@@ -25,10 +25,6 @@ class Document
     self.pages.sort_by(&:num).map(&:text).join(Page::SEPARATOR)
   end
 
-  def original_file_path
-    File.join(APP_ROOT, "public", DOCUMENTS_DIR, self.original_file) if self.original_file
-  end
-
   def new_iterator
     DocumentIterator.new(self)
   end
