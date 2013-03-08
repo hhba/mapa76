@@ -22,10 +22,10 @@ namespace :monit do
     pid = File.read(ss[:pid_path]).to_i
 
     begin
-      logger.debug("Sending TERM to #{pid}")
+      puts "=> Sending TERM to #{pid}"
       Process.kill("TERM", pid)
     rescue Errno::ESRCH
-      logger.error("No such process #{pid}")
+      puts "No such process #{pid}"
     end
 
     puts "=> Monit daemon stopped"
@@ -130,9 +130,9 @@ namespace :monit do
   end
 
   def run(command)
-    logger.debug(command)
+    puts "=> #{command}"
     out = `#{command}`.gsub("\n", '\n').strip
-    logger.debug(out) unless out.empty?
+    puts out unless out.empty?
     return out
   end
 end
