@@ -32,9 +32,9 @@ class NormalizationTask
 
       raise "Something failed when converting document to a PDF file" if pdf_path.nil?
 
-      # Replace title with original title from document
+      # Save original title from document
       logger.info "Extract title from '#{pdf_path}'"
-      doc.title = Docsplit.extract_title(pdf_path)
+      doc.original_title = Docsplit.extract_title(pdf_path)
 
       logger.info "Generate a thumbnail from the first page of the document"
       Dir.mktmpdir do |dir|
