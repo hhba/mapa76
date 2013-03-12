@@ -91,6 +91,9 @@ class NormalizationTask
     logger.info "Save document"
     doc.save
 
+    logger.info "Update ES index"
+    doc.tire.update_index
+
     logger.info "Enqueue Layout Analysis task"
     Resque.enqueue(LayoutAnalysisTask, document_id)
   end
