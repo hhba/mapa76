@@ -17,6 +17,7 @@ config/monit.conf
 config/resque.yml
 config/monit.yml
 config/workers.yml
+config/elasticsearch.yml
 
 public/thumbs/*
 public/uploads/*

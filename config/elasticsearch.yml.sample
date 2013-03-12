@@ -1,0 +1,6 @@
+development:
+  index_prefix: mapa76_development
+test:
+  index_prefix: mapa76_test
+production:
+  index_prefix: mapa76

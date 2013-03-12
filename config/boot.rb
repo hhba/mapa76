@@ -12,6 +12,7 @@ Bundler.require(:default, APP_ENV)
 require "config/logger"
 require "config/database"
 require "config/resque"
+require "config/tire"
 
 Dir["#{APP_ROOT}/lib/**/*.rb"].sort.each { |file| require file }
 Dir["#{APP_ROOT}/model/**/*.rb"].sort.each { |file| require file }
