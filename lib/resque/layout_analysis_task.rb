@@ -49,8 +49,8 @@ class LayoutAnalysisTask
     end
     pages.values.each { |page| page.save }
 
-    logger.info "Update ES index"
-    doc.tire.update_index
+    logger.info "Save document"
+    doc.save
 
     logger.info "Enqueue Extraction task"
     Resque.enqueue(ExtractionTask, document_id)
