@@ -5,7 +5,7 @@ class GeocodingTask
     document = Document.find(document_id)
     #document.update_attribute :state, :geocoding
     document.addresses_found.each do |address|
-      address.geocode("London") if not address.geocoded?
+      address.geocode if not address.geocoded?
       address.save
     end
   end
