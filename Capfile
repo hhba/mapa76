@@ -1,9 +1,104 @@
 load "deploy"
 
-Dir[%w{
-  vendor/gems/*/recipes/*.rb
-  vendor/plugins/*/recipes/*.rb
-}].each { |plugin| load(plugin) }
+require "bundler/capistrano"
+#require "rvm/capistrano"
 
-# Remove this line to skip loading any of the default tasks
-load "config/deploy"
+set :application, "mapa76"
+
+set :user, "malev"
+set :domain, "grouppet.com.ar"
+set :environment, "production"
+set :deploy_to, "/home/malev/apps/#{application}"
+
+role :app, domain
+role :web, domain
+role :workers, domain
+role :db, domain, :primary => true
+
+set :normalize_asset_timestamps, false
+#set :rvm_ruby_string, '1.9.3-p194@mapa76'
+#set :rvm_type, :user
+
+set :scm, :git
+set :repository, "git://github.com/hhba/mapa76.git"
+set :branch, "develop"
+set :scm_verbose, true
+set :use_sudo, false
+set :ssh_options, :forward_agent => true
+
+set :keep_releases, 5
+
+set :config_files, %w{ mongoid resque monit workers }
+
+namespace :deploy do
+  desc "Symlink config files"
+  task :create_symlink_shared do
+    config_files.each do |filename|
+      run "ln -nfs #{deploy_to}/shared/config/#{filename}.yml #{release_path}/config/#{filename}.yml"
+    end
+  end
+
+  task :migrate do
+    puts "No migrations"
+  end
+end
+
+namespace :monit do
+  desc "Start Monit daemon (rebuilding config file)"
+  task :start, :roles => :app do
+    rake "monit:start"
+  end
+
+  desc "Stop Monit daemon"
+  task :stop, :roles => :app do
+    rake "monit:stop"
+  end
+
+  desc "Restart Monit daemon (rebuilding config file)"
+  task :restart, :roles => :app do
+    rake "monit:restart"
+  end
+
+  desc "Generate *only* Monit configuration file"
+  task :config, :roles => :app do
+    rake "monit:config"
+  end
+end
+
+namespace :workers do
+  desc "Gracefully reload workers (waits for jobs to finish, then restarts processes)"
+  task :reload, :roles => :workers do
+    rake "workers:reload"
+  end
+
+  desc "Immediately kill workers, cancelling any current job and re-enqueuing them"
+  task :stop, :roles => :workers do
+    rake "workers:stop"
+  end
+
+  desc "Pause all workers (stop processing new jobs)"
+  task :pause, :roles => :workers do
+    rake "workers:pause"
+  end
+
+  desc "Resume all workers (begin processing new jobs)"
+  task :resume, :roles => :workers do
+    rake "workers:resume"
+  end
+end
+
+namespace :mi do
+  desc "Create the indexes defined on your Mongoid models"
+  task :create_indexes do
+    rake "mi:create_indexes"
+  end
+end
+
+after "deploy:update_code", "deploy:create_symlink_shared"
+after "deploy", "workers:reload"
+after "deploy", "mi:create_indexes"
+
+
+def rake(task)
+  run "cd #{current_path} && APP_ENV=production bundle exec rake #{task} --trace"
+end
