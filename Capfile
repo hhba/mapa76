@@ -36,6 +36,7 @@ namespace :deploy do
     config_files.each do |filename|
       run "ln -nfs #{deploy_to}/shared/config/#{filename}.yml #{release_path}/config/#{filename}.yml"
     end
+    run "ln -nfs #{deploy_to}/shared/config/monit.conf #{release_path}/config/monit.conf"
   end
 
   task :migrate do
