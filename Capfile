@@ -28,7 +28,7 @@ set :ssh_options, :forward_agent => true
 
 set :keep_releases, 5
 
-set :config_files, %w{ mongoid resque monit workers }
+set :config_files, %w{ mongoid elasticsearch resque monit workers }
 
 namespace :deploy do
   desc "Symlink config files"
