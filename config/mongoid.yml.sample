@@ -1,11 +1,11 @@
-development:
+production:
   # Configure available database sessions. (required)
   sessions:
     # Defines the default session. (required)
     default:
       # Defines the name of the default database that Mongoid can connect to.
       # (required).
-      database: mapa76_development
+      database: mapa76
       # Provides the hosts the default session can connect to. Must be an array
       # of host:port pairs. (required)
       hosts:
@@ -58,6 +58,14 @@ development:
 
     # Ensure all times are UTC in the app side. (default: false)
     # use_utc: false
+development:
+  sessions:
+    default:
+      database: mapa76_development
+      hosts:
+        - localhost:27017
+      options:
+        consistency: :strong
 test:
   sessions:
     default:
