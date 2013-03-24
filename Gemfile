@@ -16,10 +16,7 @@ gem "multi_json"
 gem "nokogiri"
 gem "oj"
 gem "rake"
-
-group :development, :test do
-  gem "pry", :require => false
-end
+gem "pry", :require => false
 
 group :development do
   gem "pry-debugger"
