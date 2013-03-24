@@ -14,7 +14,7 @@ namespace :workers do
       if worker.state == :working
         job_class = worker.job['payload']['class'].constantize
         job_args = worker.job['payload']['args'].first
-        logger.info("Re-enqueuing #{job_class} from worker #{worker.pid}")
+        puts "=> Re-enqueuing #{job_class} from worker #{worker.pid}"
         Resque.enqueue(job_class, job_args)
       end
     end
@@ -41,17 +41,17 @@ namespace :workers do
       begin
         pid = File.read(pidfile).to_i
       rescue
-        logger.error("Something bad happened reading #{pidfile}: #{$!}")
+        puts "=> Something bad happened reading #{pidfile}: #{$!}"
         next
       end
 
       next if pid == 0
 
       begin
-        logger.debug("Sending #{signal} to #{pid}")
+        puts "=> Sending #{signal} to #{pid}"
         Process.kill(signal, pid)
       rescue Errno::ESRCH
-        logger.error("No such process #{pid}")
+        puts "=> No such process #{pid}"
         File.delete(pidfile)
       end
     end
