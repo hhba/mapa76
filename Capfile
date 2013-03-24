@@ -97,7 +97,7 @@ end
 
 after "deploy:update_code", "deploy:create_symlink_shared"
 after "deploy", "workers:reload"
-after "deploy", "mi:create_indexes"
+#after "deploy", "mi:create_indexes"
 
 
 def rake(task)
