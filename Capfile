@@ -21,7 +21,7 @@ set :normalize_asset_timestamps, false
 
 set :scm, :git
 set :repository, "git://github.com/hhba/mapa76.git"
-set :branch, "develop"
+set :branch, "master"
 set :scm_verbose, true
 set :use_sudo, false
 set :ssh_options, :forward_agent => true
