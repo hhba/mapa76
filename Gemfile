@@ -1,4 +1,4 @@
-source :rubygems
+source 'https://rubygems.org'
 
 gem "mapa76-core", github: "hhba/mapa76-core"
 
