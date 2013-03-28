@@ -47,6 +47,7 @@ and modify the connection options to suit your needs:
 
     $ cp config/mongoid.yml.sample config/mongoid.yml
     $ cp config/resque.yml.sample config/resque.yml
+    $ cp config/elasticsearch.yml.sample config/elasticsearch.yml
 
 If the servers will be running on the same machine as Mapa76, you don't need to
 change anything.
@@ -77,6 +78,8 @@ analyzers written in C++.
 This has been tested on *FreeLing 3.0a1* only. Because this is an alpha
 release, there are no binary packages available. You can download the source
 [here](http://devel.cpl.upc.edu/freeling/downloads/16) (114Mb~) and compile it.
+If you are a happy Ubuntu user, check out [this](http://devel.cpl.upc.edu/freeling/downloads?order=time&desc=1)
+link. You will be able to find *.deb* easily to use files.
 
 #### Compile and Install ####
 
@@ -89,13 +92,8 @@ For compiling the source, you need the `build-essential`, `libboost` and
 
 Then, just execute `./configure`, `make` and `make install` as usual.
 
-
 Usage
 -----
-
-Start the Padrino server and visit [http://localhost:3000/](http://localhost:3000/)
-
-    $ bundle exec padrino start
 
 To start workers for document processing, you need to run at least one Resque
 worker:
