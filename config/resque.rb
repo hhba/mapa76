@@ -1,4 +1,5 @@
-require 'resque'
+require "resque"
+require "yaml"
 
 # Taken from config/boot.rb
 APP_ENV  = ENV['APP_ENV'] ||= ENV['RACK_ENV'] ||= 'development'  unless defined?(APP_ENV)
