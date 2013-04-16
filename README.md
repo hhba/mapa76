@@ -98,7 +98,7 @@ Usage
 To start workers for document processing, you need to run at least one Resque
 worker:
 
-    $ QUEUE=* VERBOSE=1 bundle exec rake resque:work
+    $ QUEUE=* bundle exec rake resque:work
 
 you can run multiple workers with the `resque:workers` task:
 
