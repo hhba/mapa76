@@ -5,7 +5,7 @@ class NormalizationTask
 
   @queue = :normalization
 
-  PDF2HTML_BIN = ENV['PDF2HTML_BIN'] || "/usr/local/bin/pdftohtml"
+  PDFTOHTML_PATHS = %w{ /usr/local/bin/pdftohtml /usr/bin/pdftohtml }
 
   ##
   # Split original document data and extract metadata and content as
@@ -130,9 +130,9 @@ private
     params = ["-stdout", "-xml", "-enc UTF-8", "-wbt 20"]
     params << "-f #{opts[:from]}" if opts[:from]
     params << "-l #{opts[:to]}" if opts[:to]
-    logger.debug "pdf2html options: #{params}"
+    logger.debug "pdftohtml options: #{params}"
 
-    command = "#{PDF2HTML_BIN} #{params.join(" ")} '#{path.gsub("'", "\\'")}'"
+    command = "#{pdftohtml_bin} #{params.join(" ")} '#{path.gsub("'", "\\'")}'"
     logger.debug "Run #{command}"
     content = `#{command}`
 
@@ -151,5 +151,25 @@ private
       .map.with_index { |p, i| ".#{p}" if not i.zero? }
 
     Tempfile.open(path_ary, &block)
+  end
+
+  def self.pdftohtml_bin
+    return @pdftohtml_bin if @pdftohtml_bin
+
+    if ENV["PDFTOHTML_BIN"]
+      if File.exists?(ENV["PDFTOHTML_BIN"])
+        @pdftohtml_bin = ENV["PDFTOHTML_BIN"]
+      else
+        raise "pdftohtml is not installed on #{ENV["PDFTOHTML_BIN"]}"
+      end
+    else
+      PDFTOHTML_PATHS.each do |path|
+        if File.exists?(path)
+          @pdftohtml_bin = path
+          return @pdftohtml_bin
+        end
+      end
+      raise "pdftohtml is not installed"
+    end
   end
 end
