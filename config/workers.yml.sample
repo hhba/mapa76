@@ -5,3 +5,7 @@ default:
     - coreference_resolution
     - geocoding
   num: 1
+misc:
+  queues:
+    - misc
+  num: 1
