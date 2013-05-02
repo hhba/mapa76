@@ -4,7 +4,6 @@ class Document
   BLOCK_SEPARATOR = ".\n"
 
   def lang
-    #self.app == :mapa76 ? :es : :en
     :es
   end
 
