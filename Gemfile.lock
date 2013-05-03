@@ -1,4 +1,11 @@
 GIT
+  remote: git://github.com/hhba/freeling-analyzer-ruby.git
+  revision: d64c7022cbe53c0ce32484fd70a03323398162d0
+  specs:
+    freeling-analyzer (0.1.0)
+      hashie
+
+GIT
   remote: git://github.com/hhba/mapa76-core.git
   revision: ab1024a9d412bad3ea0e5eb1193bb657dcfa99dd
   specs:
@@ -9,13 +16,6 @@ GIT
       resque
       tire
       yajl-ruby
-
-GIT
-  remote: git://github.com/munshkr/freeling-analyzer-ruby.git
-  revision: 363631c4e0c8ac48d883a77af1ed4f60e4f3579d
-  specs:
-    freeling-analyzer (0.1.0)
-      hashie
 
 GEM
   remote: https://rubygems.org/
@@ -62,7 +62,7 @@ GEM
       thor (>= 0.14.6)
     guard-minitest (0.5.0)
       guard (>= 0.4)
-    hashie (1.2.0)
+    hashie (2.0.4)
     hashr (0.0.22)
     highline (1.6.16)
     httpi (1.1.1)
