@@ -4,6 +4,7 @@ default:
     - extraction
     - coreference_resolution
     - geocoding
+    - drop_box_creator
   num: 1
 misc:
   queues:
