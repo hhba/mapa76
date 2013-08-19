@@ -1,11 +1,4 @@
 GIT
-  remote: git://github.com/hhba/freeling-analyzer-ruby.git
-  revision: d64c7022cbe53c0ce32484fd70a03323398162d0
-  specs:
-    freeling-analyzer (0.1.0)
-      hashie
-
-GIT
   remote: git://github.com/hhba/mapa76-core.git
   revision: ab1024a9d412bad3ea0e5eb1193bb657dcfa99dd
   specs:
@@ -50,11 +43,13 @@ GEM
       debugger-ruby_core_source (~> 1.1.3)
     debugger-linecache (1.1.2)
       debugger-ruby_core_source (>= 1.1.1)
-    debugger-ruby_core_source (1.1.5)
+    debugger-ruby_core_source (1.1.7)
     docsplit (0.6.4)
     factory_girl (4.0.0)
       activesupport (>= 3.0.0)
     ffi (1.1.5)
+    freeling-analyzer (0.1.2)
+      hashie (~> 2.0.5)
     geokit (1.6.5)
       multi_json
     guard (1.3.2)
@@ -62,19 +57,20 @@ GEM
       thor (>= 0.14.6)
     guard-minitest (0.5.0)
       guard (>= 0.4)
-    hashie (2.0.4)
+    hashie (2.0.5)
     hashr (0.0.22)
     highline (1.6.16)
     httpi (1.1.1)
       rack
     i18n (0.6.1)
+    json (1.7.7)
     listen (0.4.7)
       rb-fchange (~> 0.0.5)
       rb-fsevent (~> 0.9.1)
       rb-inotify (~> 0.8.8)
     log4r (1.1.10)
     method_source (0.8.1)
-    mime-types (1.21)
+    mime-types (1.23)
     minitest (2.6.2)
     mongoid (3.0.23)
       activemodel (~> 3.1)
@@ -89,7 +85,7 @@ GEM
       mongoid
     mono_logger (1.0.0)
     moped (1.4.5)
-    multi_json (1.7.2)
+    multi_json (1.7.3)
     net-scp (1.1.0)
       net-ssh (>= 2.6.5)
     net-sftp (2.1.1)
@@ -138,7 +134,7 @@ GEM
     thor (0.15.4)
     tilt (1.3.6)
     tins (0.4.3)
-    tire (0.5.7)
+    tire (0.5.8)
       activemodel (>= 3.0)
       activesupport
       ansi
@@ -165,11 +161,12 @@ DEPENDENCIES
   database_cleaner
   docsplit
   factory_girl
-  freeling-analyzer!
+  freeling-analyzer
   geokit
   guard
   guard-minitest
   httpi
+  json (~> 1.7.7)
   log4r
   mapa76-core!
   minitest (~> 2.6.0)

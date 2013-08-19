@@ -6,7 +6,7 @@ gem "activesupport", :require => false
 gem "amatch"
 gem "bson_ext"
 gem "docsplit"
-gem "freeling-analyzer", :git => "git://github.com/hhba/freeling-analyzer-ruby.git"
+gem "freeling-analyzer"
 gem "geokit"
 gem "httpi"
 gem "log4r"
@@ -17,6 +17,7 @@ gem "nokogiri"
 gem "oj"
 gem "rake"
 gem "pry", :require => false
+gem 'json', '~> 1.7.7'
 
 group :development do
   gem "pry-debugger"
