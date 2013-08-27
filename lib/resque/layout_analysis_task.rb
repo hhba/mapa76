@@ -29,6 +29,7 @@ class LayoutAnalysisTask
     end.join(Document::BLOCK_SEPARATOR)
 
     logger.info "Save document"
+    doc.percentage = 10
     doc.save
 
     logger.info "Store position range of pages"
@@ -50,6 +51,7 @@ class LayoutAnalysisTask
     pages.values.each { |page| page.save }
 
     logger.info "Save document"
+    doc.percentage = 15
     doc.save
 
     logger.info "Enqueue Extraction task"

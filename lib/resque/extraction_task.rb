@@ -60,14 +60,15 @@ class ExtractionTask
 
     logger.info "Save document"
     doc.last_analysis_at = Time.now
+    doc.percentage = 55
     doc.save
 
     logger.info "Enqueue Coreference Resolution task"
     Resque.enqueue(CoreferenceResolutionTask, document_id)
 
-    if doc.addresses_found.count > 0
-      logger.info "Enqueue Geocoding task (#{doc.addresses_found.count} addresses found)"
-      Resque.enqueue(GeocodingTask, document_id)
-    end
+    # if doc.addresses_found.count > 0
+    #   logger.info "Enqueue Geocoding task (#{doc.addresses_found.count} addresses found)"
+    #   Resque.enqueue(GeocodingTask, document_id)
+    # end
   end
 end

@@ -89,6 +89,7 @@ class NormalizationTask
     logger.info "#{doc.pages.count} pages were processed"
 
     logger.info "Save document"
+    doc.percentage = 5
     doc.save
 
     logger.info "Enqueue Layout Analysis task"
