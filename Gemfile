@@ -6,7 +6,7 @@ gem "activesupport", :require => false
 gem "amatch"
 gem "bson_ext"
 gem "docsplit"
-gem "freeling-analyzer"
+gem "freeling-analyzer", "= 0.1.1"
 gem "geokit"
 gem "httpi"
 gem "log4r"
