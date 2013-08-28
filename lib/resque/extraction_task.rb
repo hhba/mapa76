@@ -64,7 +64,8 @@ class ExtractionTask
     doc.save
 
     logger.info "Enqueue Coreference Resolution task"
-    Resque.enqueue(CoreferenceResolutionTask, document_id)
+    # Resque.enqueue(CoreferenceResolutionTask, document_id)
+    Resque.enqueue(GenerateContextTask, document_id)
 
     # if doc.addresses_found.count > 0
     #   logger.info "Enqueue Geocoding task (#{doc.addresses_found.count} addresses found)"
