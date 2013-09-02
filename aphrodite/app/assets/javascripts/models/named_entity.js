@@ -1,0 +1,1 @@
+var NamedEntity = Backbone.Model.extend({});

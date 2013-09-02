@@ -1,0 +1,8 @@
+test:
+  sessions:
+    default:
+      database: mapa76_test
+      hosts:
+        - localhost:27017
+      options:
+        consistency: :strong

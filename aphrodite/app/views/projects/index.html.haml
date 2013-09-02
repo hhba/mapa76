@@ -1,0 +1,41 @@
+= content_for :breadcrumbs do
+  %ul.breadcrumb
+    %li.active Proyectos
+
+= content_for :free do
+  .row-fluid.projects
+    .span4#projects{data: {projects: @projects.to_json}}
+      = link_to "Nuevo proyecto", new_project_path
+    .span4#documents
+    .span4
+
+%script#projectsList{:type => "text/template"}
+  :plain
+    <ul class="nav nav-tabs nav-stacked">
+      <% _.each(projects, function(project){ %>
+        <li data-id="<%= project._id %>">
+          <a href="/projects/<%= project._id %>" data-project-id="<%= project._id %>">
+            <%= project.name %>
+            <i title="Quitar" class="icon-chevron-right pull-right" data-project-id="<%= project._id %>"></i>
+          </a>
+        </li>
+      <% }); %>
+    </ul>
+  = link_to "Nuevo proyecto", new_project_path
+
+%script#documentsList{:type => "text/template"}
+  :plain
+    <ul class="nav nav-tabs nav-stacked">
+      <% _.each(documents, function(document){ %>
+        <li data-id="<%= document._id %>">
+          <a href="/documents/<%= document._id %>/comb">
+            <%= document.title %>
+            <i class="icon-remove pull-right remove" data-document-id="<%= document._id%>"></i>
+          </a>
+        </li>
+      <% }); %>
+    </ul>
+    <a href="/projects/<%= projectId %>/add_documents">Agregar documentos</a>
+    <br>
+    <a href="/projects/<%= projectId %>/timeline">Ver timelines</a>
+
