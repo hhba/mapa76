@@ -1,0 +1,13 @@
+.row-fluid{style: "margin-top: 3em"}
+  .span4.offset7
+    %h2= t("sessions.forgot_your_password")
+
+    = simple_form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :post }) do |f|
+      = f.error_notification
+      .form-inputs
+        = f.input :email, :required => true
+
+      .form-actions
+        = f.button :submit, t("sessions.send_me_reset_instructions")
+
+    = render "devise/shared/links"

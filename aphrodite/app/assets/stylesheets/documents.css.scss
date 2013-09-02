@@ -1,0 +1,45 @@
+.documents {
+  h5 {
+    margin: 4px 0 0 0;
+  }
+  tr.selected td {
+    background-color: #d7eff9;
+  }
+  tr.failed td {
+    background-color: #FFB4B4;
+    .title a {
+      color: #555;
+    }
+  }
+  .info {
+    margin-right: 1em;
+  }
+  .highlights {
+    font-size: 12px;
+    li {
+      line-height: 15px;
+    }
+  }
+  .info, .highlights, .tools {
+    margin-bottom: 8px;
+  }
+  .heading em,
+  .highlights em {
+    background-color: yellow;
+  }
+  .tools a {
+    color: #555;
+  }
+  .progress {
+    height: 10px;
+    margin: 0;
+  }
+}
+
+.project-docs {
+  color: #666;
+  font-size: 11px;
+  li {
+    line-height: 15px;
+  }
+}

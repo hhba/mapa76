@@ -1,0 +1,30 @@
+- content_for :styles do
+  :css
+    body {
+      padding-top: 51px;
+    }
+
+- content_for :free do
+  #intro
+    .row-fluid
+      .span8
+        %h1 Mapa76
+        %h2 Extracción automática de datos de documentos para visualizar relaciones
+        %p Es una plataforma de investigación periodística que detecta entidades automáticamente, realiza análisis semántico y estructura la información para mostrar relaciones visuales, aplicada a los juicios de la última dictadura militar argentina.
+      .span4
+        %h3 Últimos documentos
+        %ul.documents
+          - @documents.each do |document|
+            %li
+              = link_to document.title, comb_document_path(document)
+    .row-fluid.intro-graph
+      .span2  
+      .span3
+        %h3 Extrae
+        %p Nombres, lugares, fechas, verbos para mostrarlos de forma de manera estructurada.
+      .span3
+        %h3 Analiza
+        %p Validar hechos encontrados en los documentos y guardaros automáticamente en una base de datos.
+      .span3
+        %h3 Visualiza
+        %p Comprender gráficamente los hechos encontrados en líneas de tiempos y mapas interactivos.

@@ -1,0 +1,21 @@
+%header
+  .subnav.subnav-fixed
+    %ul.nav.nav-pills
+      %li{:class => current_page?(documents_path) ? "active" : nil}
+        %a{:href => documents_path}= t "all_documents"
+      %li{:class => active_on_my_documents_page}
+        = link_to t("my_documents"), documents_path(params.merge(mine: 1))
+      %li{:class => current_page?(new_document_path) ? "active" : nil}
+        %a{:href => new_document_path}= t "new_document"
+
+- content_for :free do
+  .row-fluid
+    .span4
+      %h1 Importar documento
+      = simple_form_for @document do |f|
+        = f.input :title
+        = f.input :description
+        = f.input :category, :collection => %w(Alegato Articulo Fundamentos Pericia Sentencia Testimonio Veredicto otro)
+        = f.input :file, :as => :file
+        = f.input :public, :as => :checked_boolean
+        = f.button :submit
