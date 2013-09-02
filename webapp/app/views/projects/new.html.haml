@@ -1,0 +1,7 @@
+%h1
+  New project
+
+= simple_form_for @project do |f|
+  = f.input :name
+  = f.input :description, :as => :text
+  = f.button :submit

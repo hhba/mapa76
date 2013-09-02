@@ -1,0 +1,350 @@
+body {
+  padding-top: 87px;
+  padding-bottom: 40px;
+}
+.subnav-fixed {
+  top: 51px;
+}
+.document h2 {
+  margin-top: 0.3em;
+}
+.sidebar {
+  position: fixed;
+  height: 100%;
+  background-color: #f8f8f8;
+  right: 20px;
+  border: 1px solid #ddd;
+  border-top: 0;
+}
+.sidebar-nav {
+  padding: 9px 0;
+  padding-bottom: 60px;
+}
+.sidebar h3 {
+  line-height: 18px;
+  margin-bottom: 2px;
+}
+.hidden {
+  display: none;
+}
+.classified_good span {
+  color: green;
+}
+.classified_bad span {
+  color: red;
+}
+.paragraphs span.people, .paragraphs .dates, .paragraphs span.places {
+  cursor: pointer;
+}
+h2.fragment {
+  font-size: 17px;
+}
+h3.fragment {
+  font-size: 16px;
+}
+h4.fragment {
+  font-size: 15px;
+}
+
+.navbar-search .search-query {
+  color:#CCC;
+}
+table.tablesorter th {
+  text-decoration: underline;
+  cursor: pointer;
+}
+/* Events */
+.people {
+  color: red;
+}
+.places {
+  color: blue;
+}
+.dates {
+  color: green;
+}
+
+/* Thumbnail */
+.thumbnail {
+  background-color: #fff;
+  width: 65px;
+  height: 80px;
+}
+
+/* Show document info */
+#loading {
+  text-align: center;
+  margin-top: 40px;
+}
+/* Drag and drop */
+.new_register{}
+.new_register h3{
+  font-size: 1.1em;
+  color: #555;
+}
+.who.box h3, .to_who.box h3{
+  color:#B94A48;
+}
+.where.box h3{
+  color:#F89406;
+}
+.when.box h3{
+  color:#468847;
+}
+.new_register .buttons{
+  text-align: center;
+  margin-top: 10px;
+}
+.box .register{
+  width: 96%;
+  height: 20px;
+  line-height: 22px;
+  color: #fff;
+  padding: 0 2%;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+  margin-bottom: 2px;
+}
+.box .people{
+  background-color: #B94A48;
+}
+.box .dates{
+  background-color: #468847;
+}
+.box .organizations {
+  color: #3A87AD;
+}
+.box .places{
+  background-color:#F89406;
+}
+.box .places{
+  background-color:#F89406;
+}
+.box .new{
+  height: 10px;
+  border: 1px dashed #AAA;
+}
+.event {
+  display: block; width: 260px; min-height: 25px;
+  background-color: #ddd; margin-bottom: 6px; padding: 3px 4px;
+  border: 1px solid rgba(0, 0, 0, 0.05); border-radius: 6px;
+  -moz-border-radius: 6px; -webkit-border-radius: 6px;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+  -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+}
+.event .dragged.actions { background-color: #333; }
+.event .dragged.people { background-color: #b94a48; }
+.event .dragged.organizations { background-color: #3a87ad; }
+.event .dragged.places { background-color: #f89406; }
+.event .dragged.dates { background-color: #468847; }
+.event .dragged.others { background-color: #555; }
+
+.event:-moz-drag-over { background: #fff9d7; }
+.event .dragged, #reference li { color: #fff; line-height: 25px;
+  padding: 3px 4px; margin: .0em .1em;
+  border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px;
+}
+.event .dragged i { cursor: pointer; }
+.event .dragged i:before {
+  content: 'x'; color: transparent; margin-left: 5px; padding-left: 9px; opacity: .5;
+  background-position: -168px -96px; background-image: url("../img/glyphicons-halflings-white.png");
+}
+.event .dragged i:hover:before { opacity: 1; }
+.event.empty { border-color: #ddd; opacity: .5; }
+.event .control-group, .event .input-append { margin-bottom: 0; }
+.event input.event-name { width: 225px; background: #eee; }
+.event input.event-name:focus { background: #fff; }
+.event button.event-save { text-indent: -999999px; background-position: -69px -91px; background-image: url("../img/glyphicons-halflings.png") }
+
+.pages .ne.ui-draggable { cursor: pointer; z-index: 1; }
+.pages .ne {
+  font-weight: bold;
+  padding: 1px 3px;
+}
+.pages .ne.people { color: #B94A48; }
+.pages .ne.organizations { color: #3A87AD; }
+.pages .ne.places { color: #F89406; }
+.pages .ne.dates { color: #468847; }
+.pages .ne.others { color: #555; }
+.pages .ne.actions {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  color: #333;
+  background-color: #efefef;
+}
+
+.pages .ne.selected {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  color: #fff;
+}
+.pages .ne.selected.people { background-color: #B94A48; }
+.pages .ne.selected.organizations { background-color: #3A87AD; }
+.pages .ne.selected.places { background-color: #F89406; }
+.pages .ne.selected.dates { background-color: #468847; }
+.pages .ne.selected.others { background-color: #555; }
+.pages .ne.selected.actions {
+  color: #fff;
+  background-color: #333;
+}
+
+.pages.hide-people .ne.people {
+  color: #000;
+  font-weight: normal;
+}
+.pages.hide-organizations .ne.organizations {
+  color: #000;
+  font-weight: normal;
+}
+.pages.hide-places .ne.places {
+  color: #000;
+  font-weight: normal;
+}
+.pages.hide-dates .ne.dates {
+  color: #000;
+  font-weight: normal;
+}
+.pages.hide-others .ne.others {
+  color: #000;
+  font-weight: normal;
+}
+.pages.hide-actions .ne.actions {
+  background-color: #fff;
+  color: #000;
+  font-weight: normal;
+  padding: 0;
+  -webkit-border-radius: 0;
+  border-radius: 0;
+  margin-bottom: 0;
+}
+
+#reference {
+  list-style: none;
+  margin: 0;
+}
+#reference li {
+  color: #000;
+  line-height: 8px;
+}
+#reference li,
+#reference li:before {
+  display: inline-block;
+}
+#reference li label {
+  display: inline-block;
+  cursor: pointer;
+  font-size: 10px;
+  margin: 0;
+  font-weight: bold;
+}
+#reference .actions label { color: #333; }
+#reference .people label { color: #b94a48; }
+#reference .organizations label { color: #3a87ad; }
+#reference .places label { color: #f89406; }
+#reference .dates label { color: #468847; }
+
+.page {
+  background-color: #fff;
+  position: relative;
+  border: 1px solid #aaa;
+  margin-bottom: .75em;
+  /*
+  box-shadow:         4px 4px 4px #ddd;
+  -moz-box-shadow:    4px 4px 4px #ddd;
+  -webkit-box-shadow: 4px 4px 4px #ddd;
+  */
+}
+.page p {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  white-space: nowrap;
+  text-align: justify;
+  /*border: 1px dotted green;*/
+  /*overflow: hidden;*/
+}
+.page.empty {
+  border: 1px solid #bbb;
+  background: url("../images/stripe.png") white;
+}
+.page.fetching {
+  border: 1px solid #bbb;
+  background: url("../images/stripe.png") white;
+}
+
+#document {
+  height: 100%;
+  background-color: #fff;
+  border: 0;
+}
+.with-scrollbar {
+  position: fixed;
+  height: 100%;
+}
+.with-scrollbar-inner {
+  padding-bottom: 120px;
+}
+
+#intro h1, #intro h2, #intro h3, #intro p { color: #fff; font-family: 'Dosis', sans-serif; margin: 0; }
+#intro .span8, #intro .span4, #intro .intro-graph { -webkit-border-radius: 10px; -moz-border-radius: 10px; border-radius: 10px; }
+#intro .span8, #intro .span4 { min-height: 170px; }
+#intro .span8 { background: #2F9CD5; padding: 25px; }
+#intro .span8 h1 { text-transform: uppercase; font-weight: bold; font-size: 40px; }
+#intro .span8 h2 { font-weight: normal; font-size: 24px; }
+#intro .span8 p, #intro .span3 p { font-size: 16px; }
+#intro .span4 { background: #A0D2ED; padding: 10px 20px; }
+#intro .span4 h3 { font-weight: normal; font-size: 22px; }
+#intro .intro-graph { border: 2px solid #D0EAF9; margin-top: 20px; padding-top: 400px; background: url(/images/intro.png) no-repeat center top; }
+#intro .intro-graph .span3 { background: none; }
+#intro .intro-graph .span3 h3, #intro .intro-graph .span3 p { color: #000; }
+#intro .intro-graph .span3 h3 { font-weight: normal; font-size: 25px; }
+footer { background: image-url("hhba.jpg") no-repeat center; min-height: 130px; }
+
+.information {
+  margin-bottom: 4px;
+}
+.information dt {
+  float: left;
+  clear: left;
+  font-weight: bold;
+  margin-right: 6px;
+}
+.information dt:after {
+  content: ":";
+}
+.information dd {
+  padding: 0 0 0.5em 0;
+}
+.nav-tabs.small > li > a, .nav-pills.small > li > a {
+  padding: 4px 6px;
+}
+.navbar .nav > .disabled > a {
+  color: #bbb;
+  cursor: default;
+}
+.navbar .nav > .disabled > a:hover {
+  color: #bbb;
+}
+
+.controls {
+  text-transform: none;
+}
+.mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar{
+  background-color: #666;
+  width: 7px;
+}
+#map{
+  height: 360px;
+}
+#map h3{
+  font-size: 1.1em;
+}
+#map p{
+  text-transform: none;
+  font-weight: normal;
+  line-height: 14px;
+  font-size: 1em;
+}

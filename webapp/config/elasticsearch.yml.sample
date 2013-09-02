@@ -1,0 +1,12 @@
+development:
+  url: "http://localhost:9200"
+  index_prefix: mapa76_development
+  log: log/elasticsearch.development.log
+test:
+  url: "http://localhost:9200"
+  index_prefix: mapa76_test
+  log: log/elasticsearch.test.log
+production:
+  url: "http://localhost:9200"
+  index_prefix: mapa76
+  log: log/elasticsearch.production.log

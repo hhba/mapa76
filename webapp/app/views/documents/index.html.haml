@@ -1,0 +1,112 @@
+-# encoding: utf-8
+- content_for :javascripts do
+  = javascript_include_tag "documents.js"
+
+%header
+  .subnav.subnav-fixed
+    %ul.nav.nav-pills
+      %li{:class => active_on_documents_page}
+        %a{:href => documents_path}= t("all_documents") + " (#{@documents_count})"
+      - if current_user
+        %li{:class => active_on_my_documents_page}
+          = link_to t("my_documents") + " (#{@my_documents_count}) ", documents_path(params.merge(mine: 1))
+      %li{:class => active_on_new_document_page}
+        %a{:href => new_document_path}= t "new_document"
+
+.row-fluid
+  .content.documents
+    .row-fluid
+      .alert.fade.in.alert-success#stillProcessing{:style => 'display: none;'}
+        %a.close{:href => '#', 'data-dismiss' => 'alert'}×
+        %strong
+          Recuerde que el procesamiento de tareas puede tomar algunos minutos.
+    .row-fluid
+      - if project_page?
+        %h4
+          Proyecto:
+          = @project.name
+          = "(#{@project.documents.count})"
+      - if search_page?
+        .well.well-small
+          Se han encontrado
+          = @search.total
+          documentos.
+    .row-fluid
+      %table{:class => 'table documents'}
+        %thead
+          %tr
+            %th{:style => "width: 70px"}
+            %th
+        %tbody
+          - @results.each do |item, document|
+            = render "document_row", :item => item, :document => document
+    .row-fluid
+      = will_paginate @search, :renderer => BootstrapPagination::Rails
+
+    #addToProjectModal.modal.fade
+      .modal-body
+        %button.close{type: "button", "aria-hidden" => "hidden", data: {dismiss: "modal"}} &times;
+        %form{action: "/", id: "add_to_project_form"}
+          %fieldset
+            %legend
+              Agregar al proyecto
+            %select{name: "project_id"}
+              - @projects.each do |project|
+                %option{value: project.id}
+                  = project.name
+            %br
+            %button.btn#addToProjectButton{type: "submit"}
+              Agregar
+
+- content_for :sidebar do
+  %ul.nav.nav-list#sidebar
+    %li.nav-header Filtros de búsqueda
+    %li
+      %ul#filters
+        %li.document
+          Documento
+          %form.navbar-search.pull-left
+            %input.search-query{name: "q", value: params[:q], type: "search", placeholder: "Buscar por título o contenido"}
+            %button.btn{type: "submit"} Buscar
+
+  %ul.nav.nav-list#sidebar.projects_list
+    - unless @projects.empty?
+      = render 'projects_list', projects: @projects
+
+    %li.nav-header Contexto
+    %li
+      #context
+        .alert.alert-info
+          Haga clic en un documento para ver más información
+
+
+%script#documentContextError{:type => "text/template"}
+  .alert.alert-error
+    Ocurrió un error al obtener información de contexto del documento.
+
+%script#documentContext{:type => "text/template"}
+  = render 'context_tabs'
+
+%script#projectsList{type: "text/template"}
+  :plain
+    <li class="nav-header">Proyectos</li>
+    <% _.each(projects, function(project){ %>
+      <li>
+        <a href="/documents?project_id=<%= project._id %>"><%= project.name %></a>
+        <ul class="project-docs">
+          <% _.each(project.documents, function(document){ %>
+            <li><%= document.document.title %></li>
+          <% }); %>
+          <a href="/projects/<%= project._id %>/timeline">Ver línea de tiempo</a>
+        </ul>
+      </li>
+    <% }); %>
+    </li>
+    <li class="nav-header">Contexto</li>
+    <li>
+      <div id="context">
+        <div class="alert alert-info">
+          Haga click en un documento para ver más información
+        </div>
+      </div>
+    </li>

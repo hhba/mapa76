@@ -1,0 +1,10 @@
+%li.nav-header Proyectos
+- projects.each do |project|
+  %li{:class => params[:project_id] == project.id.to_s ? "active" : nil}
+    = link_to documents_path(params.merge(project_id: project.id, mine: nil)) do
+      = project.name
+    - if project.documents.count > 0
+      %ul.project-docs
+        - project.documents.each do |document|
+          %li= document.title
+        = link_to "Ver línea de tiempo", timeline_project_path(project)

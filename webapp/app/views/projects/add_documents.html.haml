@@ -1,0 +1,30 @@
+= content_for :breadcrumbs do
+  %ul.breadcrumb
+    %li
+      = link_to "Proyectos", projects_path
+      %span.divider /
+    %li
+      = link_to @project.name, @project
+      %span.divider /
+    %li.active
+      Agregar documentos
+.add_documents{data: {"project-id" => @project.id, "own-documents" => @own_documents.to_json(:only => [ :_id, :title ]), "other-documents" => (@private_documents + @public_documents).to_json(:only => [ :_id, :title ])}}
+  .notadded
+  .added
+
+%script#documentList{:type => "text/template"}
+  :plain
+    <h4><%= messages.title %></h4>
+    <ul class="nav nav-tabs nav-stacked">
+      <% _.each(documents, function(document){ %>
+        <li data-id="<%= document._id %>">
+          <% if (messages.tooltip === "Remover" ) { %>
+            <i class="icon-chevron-left pull-left" title="<%= messages.tooltip %>" data-id="<%= document._id %>"></i>
+          <% } %>
+          <%= document.title %>
+          <% if (messages.tooltip === "Agregar" ) { %>
+            <i class="icon-chevron-right pull-right" title="<%= messages.tooltip %>" data-id="<%= document._id %>"></i>
+          <% } %>
+        </li>
+      <% }); %>
+    </ul>
