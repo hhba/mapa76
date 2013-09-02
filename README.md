@@ -2,9 +2,9 @@ Mapa76
 ======
 
 This proyect is composed of three applications:
-  * Hephaestus: Workers and background tasks
-  * Aphrodite: Webapplication
-  * Chaos: Core models and libs
+  * [Hephaestus](http://en.wikipedia.org/wiki/Hephaestus): Workers and background tasks
+  * [Aphrodite](http://en.wikipedia.org/wiki/Aphrodite): Web application
+  * [Chaos](http://en.wikipedia.org/wiki/Chaos): Core models and libs
 
 Dependencies
 ------------
