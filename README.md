@@ -1,8 +1,10 @@
 Mapa76
 ======
 
-Main repository for [Mapa76 project](http://mapa76.info/) (in spanish).
-
+This proyect is composed of three applications:
+  * Hephaestus: Workers and background tasks
+  * Aphrodite: Webapplication
+  * Chaos: Core models and libs
 
 Dependencies
 ------------
@@ -15,9 +17,8 @@ Dependencies
   * FreeLing 3.0
   * Poppler 0.20+
 
-
-Install
--------
+Install: Hephaestus
+-------------------
 
 ### Ruby 1.9 ###
 
@@ -92,8 +93,8 @@ For compiling the source, you need the `build-essential`, `libboost` and
 
 Then, just execute `./configure`, `make` and `make install` as usual.
 
-Usage
------
+Usage: Hephaestus
+-----------------
 
 To start workers for document processing, you need to run at least one Resque
 worker:
@@ -104,12 +105,31 @@ you can run multiple workers with the `resque:workers` task:
 
     $ COUNT=2 QUEUE=* bundle exec rake resque:workers
 
+Install: Aphrodite
+------------------
 
-Restart to 0
-------------
+### MongoDB ###
 
-To remove everything from the database and restart all to 0 just run:
+On Debian / Ubuntu machines, install from the package manager:
 
-    $ rake mi:drop && redis-cli FLUSHALL && rake anm:load && rake convicted:load
+    # apt-get install mongodb-server
 
+### ElasticSearch ###
 
+You need Java 6 (or newer) to run ElasticSearch. If on Debian / Ubuntu, you can
+install OpenJDK JRE from the package manager:
+
+    # apt-get install openjdk-7-jre
+
+Then, download and install the .deb package:
+
+    $ wget https://github.com/downloads/elasticsearch/elasticsearch/elasticsearch-0.20.1.deb
+    # dpkg -i elasticsearch-0.20.1.deb
+
+There are alternative downloads [here](http://www.elasticsearch.org/download/).
+
+### Gems ###
+
+First, run `bundle install` to install all gem dependencies.
+
+    $ bundle install
