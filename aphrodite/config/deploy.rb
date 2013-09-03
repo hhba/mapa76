@@ -5,14 +5,14 @@ set :bundle_flags, "--deployment --quiet --binstubs"
 
 server "184.173.160.186", :web, :app, :db, primary: true
 
-set :application, "mapa76-webapp"
+set :application, "mapa76"
 set :user, "deployer"
 set :deploy_to, "/home/#{user}/apps/#{application}"
 set :deploy_via, :remote_cache
 set :use_sudo, false
 
 set :scm, "git"
-set :repository, "git://github.com/hhba/mapa76-webapp.git"
+set :repository, "git://github.com/hhba/mapa76.git"
 set :branch, "master"
 set :scm_verbose, true
 set :ssh_options, :forward_agent => true
