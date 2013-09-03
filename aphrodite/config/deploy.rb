@@ -63,7 +63,7 @@ namespace :deploy do
 
   desc "Checkout subdirectory and delete all the other stuff"
   task :checkout_subdir do
-    run "if [-e '#{current_release}/../chaos']; then rm #{current_release}/../chaos; fi"
+    run "if [-h '#{current_release}/../chaos']; then rm #{current_release}/../chaos; fi"
     run "mv #{current_release}/#{subdir}/ /tmp && rm -rf #{current_release}/* && mv /tmp/#{subdir}/* #{current_release}"
   end
 
