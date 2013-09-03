@@ -4,6 +4,7 @@ source 'https://rubygems.org'
 gemspec
 
 gem "rake"
+gem "capistrano"
 gem "yajl-ruby", :require => "yajl/json_gem"
 
 group :extra do
