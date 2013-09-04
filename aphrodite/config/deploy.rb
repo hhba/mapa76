@@ -63,7 +63,7 @@ namespace :deploy do
 
   desc "Checkout subdirectory and delete all the other stuff"
   task :checkout_subdir do
-    run "if [ -h #{current_release} ] ; then rm #{current_release} ; fi"
+    #run "if [ -h #{current_release} ] ; then rm #{current_release} ; fi"
     run "mv #{current_release}/#{subdir}/ /tmp && rm -rf #{current_release}/* && mv /tmp/#{subdir}/* #{current_release}"
   end
 
@@ -74,7 +74,7 @@ namespace :deploy do
 
   before "deploy", "deploy:check_revision"
   before "deploy:finalize_update", "deploy:checkout_subdir"
-  before "deploy:finalize_update", "deploy:create_chaos_symlink"
+  #before "deploy:finalize_update", "deploy:create_chaos_symlink"
   after "deploy:update_code", "deploy:create_symlink_shared"
   after "deploy:setup", "deploy:setup_config"
   after "deploy:restart", "unicorn:reload" # app IS NOT preloaded
