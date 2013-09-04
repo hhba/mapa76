@@ -1,5 +1,6 @@
-PATH
-  remote: ../chaos
+GIT
+  remote: git://github.com/hhba/mapa76-core.git
+  revision: b7cf5cc90514ee95a26bac1c48ea365f7b1ab37b
   specs:
     mapa76-core (0.0.1)
       mongoid (~> 3.0.14)
@@ -69,7 +70,7 @@ GEM
       rb-inotify (~> 0.8.8)
     log4r (1.1.10)
     method_source (0.8.1)
-    mime-types (1.24)
+    mime-types (1.25)
     minitest (2.6.2)
     mongoid (3.0.23)
       activemodel (~> 3.1)

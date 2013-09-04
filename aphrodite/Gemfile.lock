@@ -1,5 +1,6 @@
-PATH
-  remote: ../chaos
+GIT
+  remote: git://github.com/hhba/mapa76-core.git
+  revision: b7cf5cc90514ee95a26bac1c48ea365f7b1ab37b
   specs:
     mapa76-core (0.0.1)
       mongoid (~> 3.0.14)
