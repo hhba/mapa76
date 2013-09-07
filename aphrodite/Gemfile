@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'rails', '~>3.2.8'
-gem 'mapa76-core', github: 'hhba/mapa76-core'
+gem 'mapa76-core', path: '../chaos/' #github: 'hhba/mapa76-core'
 
 group :assets do
   gem 'backbone-on-rails'

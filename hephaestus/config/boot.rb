@@ -14,6 +14,7 @@ require "config/database"
 require "config/resque"
 require "config/tire"
 
+require "#{APP_ROOT}/lib/resque/logged_job.rb"
 Dir["#{APP_ROOT}/lib/**/*.rb"].sort.each { |file| require file }
 Dir["#{APP_ROOT}/model/**/*.rb"].sort.each { |file| require file }
 
