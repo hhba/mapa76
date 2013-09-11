@@ -7,7 +7,7 @@ class Base
   def self.after_perform(*args)
     logging('end', args)
     store_status('end', args.first)
-    Resque.enqueue(GlueTask, *args)
+    Resque.enqueue(DocumentProcessBootstrapTask, *args)
   end
 
   def self.on_failure(e, *args)

@@ -80,7 +80,7 @@ describe TaskFinder do
         task_finder.next_task.must_equal 'final_task'
 
         document.expect :status, 'final_task-end'
-        task_finder.current_task.must_equal 'final_task-end'
+        task_finder.current_task.must_equal 'final_task'
         task_finder.next_task.must_be_nil
       end
     end
