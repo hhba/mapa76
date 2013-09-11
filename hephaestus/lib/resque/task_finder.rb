@@ -25,18 +25,18 @@ class TaskFinder
   end
 
   def current_task
-    if document.status
-      document.status.split('-')[0]
-    else
+    if document.status == ''
       tasks.first
+    else
+      document.status.split('-')[0]
     end
   end
 
   def current_task_ended?
-    if document.status
-      document.status.split('-')[1] == 'end'
-    else
+    if document.status == ''
       false
+    else
+      document.status.split('-')[1] == 'end'
     end
   end
 

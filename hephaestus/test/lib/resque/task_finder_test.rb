@@ -6,12 +6,11 @@ describe TaskFinder do
 
   before do
     document.expect :tasks, []
-    document.expect :status, nil
+    document.expect :status, ''
   end
 
   context 'document does not specifies tasks' do
     it 'works' do
-      document.expect :status, nil
       task_finder.tasks.must_be_instance_of Array
       task_finder.current_task.must_equal 'normalization_task'
     end
@@ -19,6 +18,8 @@ describe TaskFinder do
     context 'document has finished first task' do
       it 'retrieves second task' do
         document.expect :status, 'normalization_task-end'
+        p document.status
+        p task_finder.current_task
         task_finder.next_task.must_equal 'layout_analysis_task'
       end
 
@@ -79,7 +80,7 @@ describe TaskFinder do
         task_finder.next_task.must_equal 'final_task'
 
         document.expect :status, 'final_task-end'
-        task_finder.current_task.must_equal 'final_task'
+        task_finder.current_task.must_equal 'final_task-end'
         task_finder.next_task.must_be_nil
       end
     end
