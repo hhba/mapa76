@@ -1,5 +1,5 @@
-class LayoutAnalysisTask
-  @queue = :layout_analysis
+class LayoutAnalysisTask < Base
+  @queue = :layout_analysis_task
 
   ##
   # Analyze document layout to determine optimized order of text lines for the
@@ -53,9 +53,6 @@ class LayoutAnalysisTask
     logger.info "Save document"
     doc.percentage = 15
     doc.save
-
-    logger.info "Enqueue Extraction task"
-    Resque.enqueue(ExtractionTask, document_id)
   end
 
 private

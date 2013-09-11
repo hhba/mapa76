@@ -15,7 +15,8 @@ class Document
   field :fontspecs,         type: Hash, default: {}
   field :last_analysis_at,  type: Time
   field :processed_text,    type: String
-  field :state,             type: Symbol, default: :waiting
+  field :status,            type: String, default: ''
+  field :tasks,             type: Array, default: []
   field :public,            type: Boolean, default: true
   field :percentage,        type: Integer, default: 0
   field :file_id,           type: Moped::BSON::ObjectId
