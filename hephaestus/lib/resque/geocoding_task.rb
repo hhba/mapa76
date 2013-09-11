@@ -1,4 +1,4 @@
-class GeocodingTask
+class GeocodingTask < Base
   @queue = :geocoding
 
   def self.perform(document_id)

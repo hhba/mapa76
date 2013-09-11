@@ -1,9 +1,5 @@
-require "lib/resque/processing_strategy"
-
-class NormalizationTask
-  extend ProcessingStrategy
-
-  @queue = :normalization
+class NormalizationTask < Base
+  @queue = :normalization_task
 
   PDFTOHTML_PATHS = %w{ /usr/local/bin/pdftohtml /usr/bin/pdftohtml }
 
@@ -87,13 +83,8 @@ class NormalizationTask
       })
     end
     logger.info "#{doc.pages.count} pages were processed"
-
     logger.info "Save document"
-    doc.percentage = 5
     doc.save
-
-    logger.info "Enqueue Layout Analysis task"
-    Resque.enqueue(LayoutAnalysisTask, document_id)
   end
 
 private
