@@ -1,5 +1,5 @@
-class ExtractionTask
-  @queue = :extraction
+class ExtractionTask < Base
+  @queue = :extraction_task
 
   ##
   # Perform a morphological analysis and extract named entities like persons,
@@ -62,13 +62,5 @@ class ExtractionTask
     doc.last_analysis_at = Time.now
     doc.percentage = 55
     doc.save
-
-    logger.info "Enqueue Coreference Resolution task"
-    Resque.enqueue(CoreferenceResolutionTask, document_id)
-
-    # if doc.addresses_found.count > 0
-    #   logger.info "Enqueue Geocoding task (#{doc.addresses_found.count} addresses found)"
-    #   Resque.enqueue(GeocodingTask, document_id)
-    # end
   end
 end

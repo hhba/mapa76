@@ -2,6 +2,7 @@ ENV["APP_ENV"] = "test"
 require File.expand_path("../../config/boot", __FILE__)
 require "test/unit"
 require "turn/autorun"
+require "minitest-spec-context"
 require "database_cleaner"
 
 class Test::Unit::TestCase
