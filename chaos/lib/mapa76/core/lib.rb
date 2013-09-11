@@ -1,7 +1,6 @@
 autoload :Finder, "mapa76/core/lib/finder"
 autoload :TimeSetter, "mapa76/core/lib/time_setter"
 autoload :DocumentProcessBootstrapTask, "mapa76/core/lib/document_process_bootstrap_task"
-autoload :GlueTask, "mapa76/core/lib/glue_task"
 
 require "mongoid"
 require "resque"
