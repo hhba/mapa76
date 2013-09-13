@@ -1,20 +1,22 @@
 load "deploy"
+set :stages, %w(production staging)
+set :default_stage, "staging"
+require 'capistrano/ext/multistage'
+set :environment, "production"
+
 set :application, "mapa76"
 set :user, "deployer"
-set :domain, "184.173.160.186"
-set :environment, "production"
-set :deploy_to, "/home/deployer/apps/mapa76.info/#{application}"
-set :subdir, "hephaestus"
 
-role :app, domain
-role :web, domain
-role :workers, domain
-role :db, domain, :primary => true
-
-set :normalize_asset_timestamps, false
 set :scm, :git
 set :repository, "git://github.com/hhba/mapa76.git"
 set :branch, "master"
+
+set :deploy_to, "/home/deployer/apps/mapa76.info/#{application}"
+set :app_env, 'production'
+
+set :subdir, "hephaestus"
+set :normalize_asset_timestamps, false
+
 set :scm_verbose, true
 set :use_sudo, false
 set :ssh_options, :forward_agent => true
@@ -22,6 +24,13 @@ set :ssh_options, :forward_agent => true
 set :keep_releases, 5
 
 set :config_files, %w{ mongoid elasticsearch resque monit workers }
+
+set :bundle_flags, "--quiet --binstubs"
+
+task :sed do
+  new_chaos_dir = '/home/deployer/apps/mapa76.info/chaos/current'.gsub("/", "\\/")
+  run 'sed -i "s/..\/chaos/' + new_chaos_dir + '/" Gemfile'
+end
 
 namespace :deploy do
   desc "Symlink config files"
@@ -38,13 +47,16 @@ namespace :deploy do
 
   desc "Checkout subdirectory and delete all the other stuff"
   task :checkout_subdir do
-    #run "if [ -h '#{current_release}/../chaos' ]; then rm #{current_release}/../chaos; fi"
     run "mv #{current_release}/#{subdir}/ /tmp && rm -rf #{current_release}/* && mv /tmp/#{subdir}/* #{current_release}"
   end
 
-  desc "Create Chaos symlink"
-  task :create_chaos_symlink do
-    run "ln -nfs #{deploy_to}/../chaos #{current_release}/../chaos"
+  desc "Add Chaos as a dependency on Gemfile"
+  task :change_chaos_dependency do
+    new_chaos_dir = '/home/deployer/apps/mapa76.info/chaos/current'.gsub("/", "\\/")
+    gemfile = "#{current_release}/Gemfile"
+    gemfile_lock = "#{current_release}/Gemfile.lock"
+    run 'sed -i "s/..\/chaos/' + new_chaos_dir + '/" ' + gemfile
+    run 'sed -i "s/..\/chaos/' + new_chaos_dir + '/" ' + gemfile_lock
   end
 end
 
@@ -104,7 +116,7 @@ def rake(task)
 end
 
 before "deploy:finalize_update", "deploy:checkout_subdir"
-#before "deploy:finalize_update", "deploy:create_chaos_symlink"
+before "deploy:finalize_update", "deploy:change_chaos_dependency"
 after "deploy:update_code", "deploy:create_symlink_shared"
 after "deploy", "workers:reload"
 
