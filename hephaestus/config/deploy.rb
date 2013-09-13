@@ -4,7 +4,7 @@ set :default_stage, "staging"
 require 'capistrano/ext/multistage'
 set :environment, "production"
 
-set :application, "mapa76"
+set :application, "hephaestus"
 set :user, "deployer"
 
 set :scm, :git
