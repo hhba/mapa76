@@ -1,8 +1,10 @@
 require "capistrano-unicorn"
 
-set :bundle_flags, "--deployment --quiet --binstubs"
+set :stages, %w(production staging)
+set :default_stage, "staging"
+require 'capistrano/ext/multistage'
 
-server "184.173.160.186", :web, :app, :db, primary: true
+set :bundle_flags, "--deployment --quiet --binstubs"
 
 set :application, "aphrodite"
 set :user, "deployer"
@@ -67,14 +69,18 @@ namespace :deploy do
     run "mv #{current_release}/#{subdir}/ /tmp && rm -rf #{current_release}/* && mv /tmp/#{subdir}/* #{current_release}"
   end
 
-  desc "Create Chaos symlink"
-  task :create_chaos_symlink do
-    run "ln -nfs #{deploy_to}/../chaos #{current_release}/../chaos"
+  desc "Add Chaos as a dependency on Gemfile"
+  task :change_chaos_dependency do
+    new_chaos_dir = '/home/deployer/apps/mapa76.info/chaos/current'.gsub("/", "\\/")
+    gemfile = "#{current_release}/Gemfile"
+    gemfile_lock = "#{current_release}/Gemfile.lock"
+    run 'sed -i "s/..\/chaos/' + new_chaos_dir + '/" ' + gemfile
+    run 'sed -i "s/..\/chaos/' + new_chaos_dir + '/" ' + gemfile_lock
   end
 
   before "deploy", "deploy:check_revision"
   before "deploy:finalize_update", "deploy:checkout_subdir"
-  #before "deploy:finalize_update", "deploy:create_chaos_symlink"
+  before "deploy:finalize_update", "deploy:change_chaos_dependency"
   after "deploy:update_code", "deploy:create_symlink_shared"
   after "deploy:setup", "deploy:setup_config"
   after "deploy:restart", "unicorn:reload" # app IS NOT preloaded
