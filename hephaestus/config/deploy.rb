@@ -27,11 +27,6 @@ set :config_files, %w{ mongoid elasticsearch resque monit workers }
 
 set :bundle_flags, "--quiet --binstubs"
 
-task :sed do
-  new_chaos_dir = '/home/deployer/apps/mapa76.info/chaos/current'.gsub("/", "\\/")
-  run 'sed -i "s/..\/chaos/' + new_chaos_dir + '/" Gemfile'
-end
-
 namespace :deploy do
   desc "Symlink config files"
   task :create_symlink_shared do
