@@ -13,6 +13,7 @@ set :repository,  "git://github.com/hhba/mapa76.git"
 set :scm, :git
 set :branch, "master"
 set :scm_verbose, true
+set :normalize_asset_timestamps, false
 
 set :ssh_options, :forward_agent => true
 set :keep_releases, 5
