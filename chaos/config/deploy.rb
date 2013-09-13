@@ -1,4 +1,6 @@
-server "184.173.160.186", :app, primary: true
+set :stages, %w(production staging)
+set :default_stage, "staging"
+require 'capistrano/ext/multistage'
 
 set :application, "chaos"
 set :user, "deployer"
