@@ -35,7 +35,7 @@ namespace :deploy do
   end
 
   task :setup_config, roles: :app do
-    sudo "ln -nfs #{current_path}/config/nginx.conf /etc/nginx/sites-enabled/#{application}"
+    # sudo "ln -nfs #{current_path}/config/nginx.conf /etc/nginx/sites-enabled/#{application}"
     sudo "ln -nfs #{current_path}/config/unicorn_init.sh /etc/init.d/unicorn_#{application}"
     run "mkdir -p #{shared_path}/config"
     run "mkdir -p #{shared_path}/thumbs"
@@ -65,7 +65,7 @@ namespace :deploy do
 
   desc "Checkout subdirectory and delete all the other stuff"
   task :checkout_subdir do
-    #run "if [ -h #{current_release} ] ; then rm #{current_release} ; fi"
+    run "if [ -d /tmp/#{subdir} ]; then rm -rf /tmp/#{subdir}; fi"
     run "mv #{current_release}/#{subdir}/ /tmp && rm -rf #{current_release}/* && mv /tmp/#{subdir}/* #{current_release}"
   end
 
