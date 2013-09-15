@@ -138,4 +138,14 @@ describe Document do
       assert_equal @document.id.to_s, search.results.first.id
     end
   end
+
+  describe '#process!' do
+    it 'resets the status field and the call resque' do
+      Resque.expects(:enqueue).with(DocumentProcessBootstrapTask, document.id)
+
+      document = FactoryGirl.create :document, status: 'process-end'
+      document.process!
+      document.status.must_be ''
+    end
+  end
 end

@@ -125,6 +125,11 @@ class Document
     self.context_cache
   end
 
+  def process!
+    update_attribute :status, ''
+    Resque.enqueue(DocumentProcessBootstrapTask, id)
+  end
+
 protected
 
   def context_generator
