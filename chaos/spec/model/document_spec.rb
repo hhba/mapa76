@@ -2,7 +2,7 @@ require "spec_helper"
 
 describe Document do
   before do
-    @document = create :document
+    @document = FactoryGirl.create :document
   end
 
   describe "after_save" do
@@ -146,6 +146,15 @@ describe Document do
       document = FactoryGirl.create :document, status: 'process-end'
       document.process!
       document.status.must_be ''
+    end
+  end
+
+  describe "#reindex_documents" do
+    it 'reindex elasticsearch after removing a document' do
+      tire = stub_everything()
+      Document.expects(:tire).returns(tire).at_least_once
+
+      @document.destroy
     end
   end
 end

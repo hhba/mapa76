@@ -36,6 +36,7 @@ class Document
   before_save   :set_default_title
   after_create  :enqueue_process
   after_destroy :destroy_gridfs_files
+  after_destroy :reindex_documents
 
   scope :public, -> { where(public: true) }
   scope :private_for, ->(user){ where(:user_id => user.id, :public => false) }
@@ -178,5 +179,10 @@ protected
       :limit => Resque::Failure.count
     })
     jobs = [Resque::Failure.all(opts[:offset], opts[:limit])].flatten.compact
+  end
+
+  def reindex_documents
+    Document.tire.index.delete
+    Document.tire.import
   end
 end
