@@ -16,6 +16,7 @@ group :assets do
 end
 
 group :development, :test do
+  gem 'binding_of_caller'
   gem 'database_cleaner'
   gem 'factory_girl_rails'
   gem 'guard-test'
