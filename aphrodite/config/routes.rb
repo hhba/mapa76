@@ -32,7 +32,7 @@ Mapa76::Application.routes.draw do
         end
       end
     end
-    resources :documents
+    resources :documents, only: [:show, :destroy]
     resources :people
     resources :registers
   end

@@ -102,4 +102,10 @@ class DocumentsController < ApplicationController
   rescue Mongoid::Errors::DocumentNotFound
     render text: nil, status: 404
   end
+
+  def destroy
+    document = Document.find(params[:id])
+    document.destroy
+    redirect_to documents_path, notice: "The #{document.title} has been removed"
+  end
 end

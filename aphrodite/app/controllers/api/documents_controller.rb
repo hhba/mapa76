@@ -1,8 +1,4 @@
 class Api::DocumentsController < ApplicationController
-  def index
-
-  end
-
   def show
     document = Document.find(params[:id])
     render :json => if params[:page].nil?
@@ -10,5 +6,10 @@ class Api::DocumentsController < ApplicationController
     else
       document.pages.where(:num => params[:page]).first.to_json(:methods => :named_entities)
     end
+  end
+
+  def destroy
+    document = Document.find(params[:id])
+    render json: document.destroy
   end
 end
