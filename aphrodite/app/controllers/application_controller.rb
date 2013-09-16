@@ -9,7 +9,11 @@ class ApplicationController < ActionController::Base
     if request.nil?
       ''
     else
-      "#{request.protocol}#{request.host}:#{request.port}/"
+      if request.port == 80
+        "#{request.protocol}#{request.host}/"
+      else
+        "#{request.protocol}#{request.host}:#{request.port}/"
+      end
     end
   end
 end
