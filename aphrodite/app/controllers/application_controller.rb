@@ -4,4 +4,12 @@ class ApplicationController < ActionController::Base
   def after_sign_in_path_for(resource)
     documents_path
   end
+
+  def hostname
+    if request.nil?
+      ''
+    else
+      "#{request.protocol}#{request.host}:#{request.port}/"
+    end
+  end
 end

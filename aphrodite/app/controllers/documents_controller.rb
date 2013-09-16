@@ -92,7 +92,7 @@ class DocumentsController < ApplicationController
   end
 
   def export
-    exporter = CSVExporterService.new(Document.find(params[:id]))
+    exporter = CSVExporterService.new Document.find(params[:id]), hostname
     cls = params[:class]
     if %w{ people dates places organizations }.include?(cls)
       send_data exporter.public_send("export_#{cls}"),

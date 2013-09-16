@@ -41,4 +41,3 @@ module ApplicationHelper
     controller_name == "projects" ? 'active' : nil
   end
 end
-

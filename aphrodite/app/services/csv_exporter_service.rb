@@ -3,7 +3,8 @@ require 'csv'
 class CSVExporterService
   attr_reader :document
 
-  def initialize(document)
+  def initialize(document, hostname='')
+    @hostname = hostname.blank? ? 'http://mapa76.info/' : hostname
     @document = document
   end
 
@@ -31,17 +32,20 @@ class CSVExporterService
     document.original_filename
   end
 
+  def link_to_doc
+    "#{@hostname}documents/#{@document._id}"
+  end
+
 private
 
   def export(finders, keys)
     finders = Array(finders)
     CSV.generate do |csv|
-      csv << keys
-      #text = document.processed_text
+      csv << keys.push('link_to_doc')
       finders.each do |finder|
         document.public_send(finder).only(*keys).each do |ne|
           row = keys.map { |k| ne.respond_to?(k) ? ne.public_send(k) : nil }
-          #row << ne.context(70, text)
+          row << link_to_doc
           csv << row
         end
       end
