@@ -20,7 +20,7 @@ class DocumentsControllerTest < ActionController::TestCase
       #assert_select "h5", "public"
       #assert_select "tr[data-id=#{@public_document.id}]"
     #end
-    
+
     should "not display private documentos"
     #should "not display private documentos" do
       #get :index
