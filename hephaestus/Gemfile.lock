@@ -47,7 +47,7 @@ GEM
     factory_girl (4.0.0)
       activesupport (>= 3.0.0)
     ffi (1.1.5)
-    freeling-analyzer (0.1.1)
+    freeling-analyzer (0.1.2)
       hashie (~> 2.0.5)
     geokit (1.6.5)
       multi_json
@@ -161,7 +161,7 @@ DEPENDENCIES
   database_cleaner
   docsplit
   factory_girl
-  freeling-analyzer (= 0.1.1)
+  freeling-analyzer
   geokit
   guard
   guard-minitest
