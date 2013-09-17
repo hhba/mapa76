@@ -84,6 +84,7 @@ class NormalizationTask < Base
     end
     logger.info "#{doc.pages.count} pages were processed"
     logger.info "Save document"
+    doc.percentage = 33
     doc.save
   end
 

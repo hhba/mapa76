@@ -60,7 +60,7 @@ class ExtractionTask < Base
 
     logger.info "Save document"
     doc.last_analysis_at = Time.now
-    doc.percentage = 55
+    doc.percentage = 100
     doc.save
   end
 end
