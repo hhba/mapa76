@@ -164,6 +164,7 @@ protected
 
   def enqueue_process
     logger.info "Enqueue processing task for document with id #{id}"
+    update_attribute :percentage, 5
     Resque.enqueue(DocumentProcessBootstrapTask, id)
   end
 
