@@ -41,7 +41,7 @@ private
   def export(finders, keys)
     finders = Array(finders)
     CSV.generate do |csv|
-      csv << keys.push('link_to_doc')
+      csv << keys + ['link_to_doc']
       finders.each do |finder|
         document.public_send(finder).only(*keys).each do |ne|
           row = keys.map { |k| ne.respond_to?(k) ? ne.public_send(k) : nil }
