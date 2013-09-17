@@ -146,6 +146,7 @@ describe Document do
       document.process!
 
       document.status.must_be :==, ""
+      document.percentage.must_be :==, 0
     end
   end
 end

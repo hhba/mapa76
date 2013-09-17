@@ -131,6 +131,7 @@ class Document
   end
 
   def process!
+    update_attribute :percentage, 0
     update_attribute :status, ''
     Resque.enqueue(DocumentProcessBootstrapTask, id)
   end
