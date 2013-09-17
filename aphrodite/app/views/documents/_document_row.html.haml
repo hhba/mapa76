@@ -33,9 +33,10 @@
           = link_to "#", document_id: document.id, class: "add_to_project", data: {"document-id" => document.id.to_s} do
             %i.icon-plus{:title => "Agregar a un proyecto"}
             %span Agregar a un proyecto
-        = link_to document_path(document.id), method: :delete, confirm: "Esta seguro de que quiere borrar #{document.title}?" do
-          %i.icon-remove{:title => "Borrar este document"}
-          %span Borrar
+        - if document.completed?
+          = link_to document_path(document.id), method: :delete, confirm: "Esta seguro de que quiere borrar #{document.title}?" do
+            %i.icon-remove{:title => "Borrar este document"}
+            %span Borrar
       .dropdown{:style => "display: inline"}
         %a.dropdown-toggle{:href => '#', :'data-toggle' => 'dropdown'}
           %i.icon-file{:title => 'Exportar a CSV'}
