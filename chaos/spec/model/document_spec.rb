@@ -141,20 +141,11 @@ describe Document do
 
   describe '#process!' do
     it 'resets the status field and the call resque' do
-      Resque.expects(:enqueue).with(DocumentProcessBootstrapTask, document.id)
-
       document = FactoryGirl.create :document, status: 'process-end'
+      Resque.expects(:enqueue).with(DocumentProcessBootstrapTask, document.id)
       document.process!
-      document.status.must_be ''
-    end
-  end
 
-  describe "#reindex_documents" do
-    it 'reindex elasticsearch after removing a document' do
-      tire = stub_everything()
-      Document.expects(:tire).returns(tire).at_least_once
-
-      @document.destroy
+      document.status.must_be :==, ""
     end
   end
 end
