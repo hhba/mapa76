@@ -24,9 +24,9 @@ class Document
 
   belongs_to :user
 
-  has_many :pages, dependent: :destroy
-  has_many :fact_registers, dependent: :destroy
-  has_many :named_entities, dependent: :destroy
+  has_many :pages
+  has_many :fact_registers
+  has_many :named_entities
   has_and_belongs_to_many :people, index: true
   has_and_belongs_to_many :project
 
