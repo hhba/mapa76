@@ -35,6 +35,7 @@ class Document
 
   before_save   :set_default_title
   after_create  :enqueue_process
+  before_destroy :'completed?' # You can't delete a document unless it's been processed
   after_destroy :destroy_gridfs_files
 
   scope :public, -> { where(public: true) }

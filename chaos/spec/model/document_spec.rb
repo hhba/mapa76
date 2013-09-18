@@ -2,7 +2,7 @@ require "spec_helper"
 
 describe Document do
   before do
-    @document = FactoryGirl.create :document
+    @document = FactoryGirl.create :document, percentage: 100
   end
 
   describe "after_save" do
@@ -111,7 +111,7 @@ describe Document do
 
     it "should update index if document is modified" do
       @document.update_attributes(title: "New Title")
-      sleep 1
+      sleep 2
 
       search = Document.tire.search(@document.title)
       assert_equal 1, search.count
@@ -120,7 +120,7 @@ describe Document do
 
     it "should delete from index if document is destroyed" do
       @document.destroy
-      sleep 1
+      sleep 2
 
       search = Document.tire.search("*")
       assert search.count.zero?
@@ -131,7 +131,7 @@ describe Document do
       @document.pages << Page.new(num: 1, text_lines: [text_line])
 
       @document.save
-      sleep 1
+      sleep 2
 
       search = Document.tire.search("empty")
       assert_equal 1, search.count
@@ -147,6 +147,14 @@ describe Document do
 
       document.status.must_be :==, ""
       document.percentage.must_be :==, 0
+    end
+  end
+
+  describe '#destroy' do
+    it 'does not destroy a document if process is incomplete' do
+      document = FactoryGirl.create :document, percentage: 90
+      document.destroy
+      document.destroyed?.must_equal false
     end
   end
 end
