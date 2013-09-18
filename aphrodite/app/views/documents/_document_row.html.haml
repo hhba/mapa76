@@ -51,10 +51,5 @@
           %li
             %a{:href => "/documents/#{document.id}/export?class=organizations"} Organizaciones
 
-    - if document.completed?
-      .hidden{:style => "display: none;"}
-        .progress.progress-striped.active
-          .bar{:style => "width: 100%;"}
-    - else
-      .progress.progress-striped.active
-        .bar{:style => "width: #{document.percentage}%;"}
+    %div{class: progress_classes(document)}
+      .bar{:style => "width: #{document.percentage}%;"}

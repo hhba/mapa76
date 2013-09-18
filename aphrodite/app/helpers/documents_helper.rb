@@ -54,4 +54,12 @@ module DocumentsHelper
   def project_page?
     controller_name == "documents" && params.has_key?(:project_id)
   end
+
+  def progress_classes(document)
+    if document.completed?
+      "progress progress-striped active hide"
+    else
+      "progress progress-striped active"
+    end
+  end
 end

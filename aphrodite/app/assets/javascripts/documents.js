@@ -4,13 +4,11 @@ function reloadProjectList(){
     function(response){
       var template = _.template($("#projectsList").html()),
           $container = $(".projects_list");
-      
+
       hh = {projects: response}
       console.log(hh)
       build = template(hh);
       $container.html(build);
-      console.log(build)
-      
     },
     'json'
   );
@@ -53,7 +51,7 @@ $(document).ready(function(){
 
   $(".documents").on("click", "a.add_to_project", function(event){
     var $this = $(this),
-        $form = $("#add_to_project_form"); 
+        $form = $("#add_to_project_form");
     event.preventDefault();
     $form.data("document-id", $this.data("document-id"));
     $("#addToProjectModal").modal();
@@ -74,29 +72,24 @@ $(document).ready(function(){
   function checkDocumentsStatuses() {
     $.get("/documents/status", null, function(data){
       _.each(data, function(doc){
-        $("[data-id='" + doc.id + "']").find(".bar").css("width", doc.percentage + "%");
+        if (doc.percentage === 100){
+          $("[data-id='" + doc.id + "']").
+            find('.progress').
+            hide();
+        } else {
+          $("[data-id='" + doc.id + "']").
+            find('.progress').
+            show().
+            find('.bar').
+              css("width", doc.percentage + "%");
+        }
       });
     }, 'json');
-    setTimeout(checkDocumentsStatuses, 15000 );
+    setTimeout(checkDocumentsStatuses, 1000 );
   }
 
   if($("table.documents").length){
     var template = $("#documentRowTemplate").html();
     checkDocumentsStatuses();
   }
-
-  /*
-  // Blacklist
-  $(".blacklist a").live("click", function(event){
-    event.preventDefault();
-    var $this = $(this);
-    var answer = confirm("Enviar " + $this.data("name") + "a la blacklist?");
-    if(answer) {
-      $.post($this.attr("href"), null, function(){
-        $this.parents("tr").remove();
-        $(".with-scrollbar").mCustomScrollbar("update");
-      }, null);
-    }
-  });
-  */
 });
