@@ -6,27 +6,12 @@ class DocumentsController < ApplicationController
   end
 
   def search
-    @page = params[:page] || 1
-    @search = Document.tire.search(page: @page, per_page: 10) do |s|
-      s.fields :id
-      s.query do |q|
-        params[:q].blank? ? q.all : q.string(params[:q])
-      end
-      if params[:mine].to_i == 1
-        s.filter :term, user_id: [current_user.id]
-      end
-      if params[:project_id]
-        s.filter :term, project_ids: [params[:project_id]]
-      end
-      s.highlight :title, *(1..10000).map(&:to_s)
+    if params[:q].blank?
+      redirect_to documents_path#, error: 'Debe introducir un término a buscar'
+    else
+      @results = SearcherService.new(current_user, params[:q]).call
+      render :index
     end
-    @results = @search.results.map do |item|
-      [item, item.load]
-    end
-    @projects = current_user ? current_user.projects : []
-    @project = Project.find params[:project_id] if params[:project_id]
-    @documents_count = Document.count
-    @my_documents_count = current_user.documents.count if current_user
   end
 
   def new

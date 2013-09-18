@@ -22,6 +22,10 @@ Mapa76::Application.routes.draw do
       get 'download'
       get 'export'
     end
+
+    collection do
+      get 'search'
+    end
   end
 
   namespace :api, defaults: {format: :json} do

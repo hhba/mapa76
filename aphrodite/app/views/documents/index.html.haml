@@ -6,7 +6,10 @@
   .subnav.subnav-fixed
     %ul.nav.nav-pills
       %li{:class => active_on_documents_page}
-        %a{:href => documents_path}= t("all_documents") + " (#{@documents.count})"
+        - if @results.nil?
+          %a{:href => documents_path}= t("all_documents") + " (#{@documents.count})"
+        - else
+          %a{:href => documents_path}= 'Resultados' + " (#{@results.count})"
       %li{:class => active_on_new_document_page}
         %a{:href => new_document_path}= t "new_document"
 
@@ -24,18 +27,18 @@
             %th{:style => "width: 70px"}
             %th
         %tbody
-          = render @documents
+          - if @results.nil?
+            = render @documents
+          - else
+            = render @results
 
 - content_for :sidebar do
   %ul.nav.nav-list#sidebar
     %li.nav-header Filtros de búsqueda
     %li
-      %ul#filters
-        %li.document
-          Documento
-          %form.navbar-search.pull-left
-            %input.search-query{name: "q", value: params[:q], type: "search", placeholder: "Buscar por título o contenido"}
-            %button.btn{type: "submit"} Buscar
+      = form_tag(search_documents_path, method: 'get', class: 'navbar-search.pull-left') do
+        %input.search-query{name: "q", value: params[:q], type: "search", placeholder: "Buscar por título o contenido"}
+        %button.btn{type: "submit"} Buscar
 
     %li.nav-header Contexto
     %li
