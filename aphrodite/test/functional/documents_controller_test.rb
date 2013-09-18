@@ -96,6 +96,19 @@ class DocumentsControllerTest < ActionController::TestCase
       end
     end
 
+    should 'add the new document to current_user' do
+      Tempfile.open("doc.txt") do |fd|
+        fd.write("document content")
+        fd.close
+
+        document = build :document
+        file = Rack::Test::UploadedFile.new(fd.path, "text/plain")
+
+        post :create, document: { title: @document.title, file: file }
+        assert_equal @user.documents.length, 1
+      end
+    end
+
     should "Retrieve a JSON with the statuses" do
       @document.update_attribute :percentage, 100
       get :status, :format => :json

@@ -34,12 +34,13 @@ class DocumentsController < ApplicationController
     @document = Document.new(params[:document])
     @document.original_filename = file.original_filename
     @document.file = file.path
+    current_user.documents << @document
 
     if @document.save
       redirect_to :action => :index
     else
       #flash[:error] = @document.errors
-      redirect_to :back
+      redirect_to :back, error: @document.errors
     end
   end
 
