@@ -1,18 +1,3 @@
-function reloadProjectList(){
-  $.get("/api/v1/projects/",
-    null,
-    function(response){
-      var template = _.template($("#projectsList").html()),
-          $container = $(".projects_list");
-
-      hh = {projects: response}
-      console.log(hh)
-      build = template(hh);
-      $container.html(build);
-    },
-    'json'
-  );
-}
 $(document).ready(function(){
   $(".with-scrollbar").mCustomScrollbar({
     mouseWheel: 5,
@@ -48,25 +33,6 @@ $(document).ready(function(){
   $("#context").on("click", ".nav a", function(){
     $(".with-scrollbar").mCustomScrollbar("update");
   });
-
-  $(".documents").on("click", "a.add_to_project", function(event){
-    var $this = $(this),
-        $form = $("#add_to_project_form");
-    event.preventDefault();
-    $form.data("document-id", $this.data("document-id"));
-    $("#addToProjectModal").modal();
-  });
-
-  $(".documents").on("submit", "#add_to_project_form", function(event){
-    var $this = $(this),
-        projectId = $this.find("select").val();
-    event.preventDefault();
-    $.post("/projects/" + projectId + "/add_document", {document_id: $this.data("document-id")}, function(response){
-      reloadProjectList();
-    }, 'json');
-    $("#addToProjectModal").modal('hide');
-  });
-
 
   // Auto-update documents state
   function checkDocumentsStatuses() {

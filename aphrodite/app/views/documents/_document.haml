@@ -4,22 +4,10 @@
       %img{:src => thumbnail_url(document)}
   %td
     %h5.title
-      %a{:href => "#"}= item.highlight.try(:[], :title).try(:first).try(:html_safe) || document.title
+      %a{:href => "#"}= document.title
 
     .info
-      - if document.category
-        = document.category
-        &ndash;
       = localize(document._id.generation_time.to_date, format: :short_b)
-
-    - if item.highlight && pages = item.highlight.to_hash.keys.grep(/^\d+$/).map { |p| p.to_s.to_i }
-      %ul.highlights
-        - pages.sort.each do |page_num|
-          %li
-            %a{:href => "/documents/#{document.id}/comb##{page_num}"}
-              %b= "p.#{page_num}"
-            = "..."
-            = item.highlight[page_num.to_s].first.gsub("\n", " ").html_safe
 
     .tools
       %a{:href => "/documents/#{document.id}/comb", :class => (document.readable? ? nil : "disabled")}
@@ -28,15 +16,10 @@
       %a{:href => "/documents/#{document.id}/download"}
         %i.icon-download-alt{:title => "Descargar"}
         %span Descargar
-      - if current_user
-        - unless single_project_view?
-          = link_to "#", document_id: document.id, class: "add_to_project", data: {"document-id" => document.id.to_s} do
-            %i.icon-plus{:title => "Agregar a un proyecto"}
-            %span Agregar a un proyecto
-        - if document.completed?
-          = link_to document_path(document.id), method: :delete, confirm: "Esta seguro de que quiere borrar #{document.title}?" do
-            %i.icon-remove{:title => "Borrar este document"}
-            %span Borrar
+      - if document.completed?
+        = link_to document_path(document.id), method: :delete, confirm: "Esta seguro de que quiere borrar #{document.title}?" do
+          %i.icon-remove{:title => "Borrar este document"}
+          %span Borrar
       .dropdown{:style => "display: inline"}
         %a.dropdown-toggle{:href => '#', :'data-toggle' => 'dropdown'}
           %i.icon-file{:title => 'Exportar a CSV'}

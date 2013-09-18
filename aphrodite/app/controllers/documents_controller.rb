@@ -2,6 +2,10 @@ class DocumentsController < ApplicationController
   before_filter :authenticate_user!, only: [:create, :new]
 
   def index
+    @documents = current_user.documents
+  end
+
+  def search
     @page = params[:page] || 1
     @search = Document.tire.search(page: @page, per_page: 10) do |s|
       s.fields :id
