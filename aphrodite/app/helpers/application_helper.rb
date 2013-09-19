@@ -40,4 +40,12 @@ module ApplicationHelper
   def active_on_projects
     controller_name == "projects" ? 'active' : nil
   end
+
+  def show_count(documents=nil, results=nil)
+    if results.nil?
+      link_to t("all_documents") + " (#{@documents.count})", documents_path
+    else
+      link_to 'Resultados' + " (#{@results.count})", documents_path
+    end
+  end
 end

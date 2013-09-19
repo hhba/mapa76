@@ -6,10 +6,7 @@
   .subnav.subnav-fixed
     %ul.nav.nav-pills
       %li{:class => active_on_documents_page}
-        - if @results.nil?
-          %a{:href => documents_path}= t("all_documents") + " (#{@documents.count})"
-        - else
-          %a{:href => documents_path}= 'Resultados' + " (#{@results.count})"
+        = show_count(@documents, @results)
       %li{:class => active_on_new_document_page}
         %a{:href => new_document_path}= t "new_document"
 
@@ -30,8 +27,8 @@
           - if @results.nil?
             = render @documents
           - else
-            = render @results
-
+            - @results.each do |item, document|
+              = render "result", item: item, document: document
 - content_for :sidebar do
   %ul.nav.nav-list#sidebar
     %li.nav-header Filtros de búsqueda

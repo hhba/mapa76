@@ -1,0 +1,23 @@
+%a{:href => "/documents/#{document.id}/comb", :class => (document.readable? ? nil : "disabled")}
+  %i.icon-edit{:title => "Ver"}
+  %span Ver
+%a{:href => "/documents/#{document.id}/download"}
+  %i.icon-download-alt{:title => "Descargar"}
+  %span Descargar
+- if document.completed?
+  = link_to document_path(document.id), method: :delete, confirm: "Esta seguro de que quiere borrar #{document.title}?" do
+    %i.icon-remove{:title => "Borrar este document"}
+    %span Borrar
+.dropdown{:style => "display: inline"}
+  %a.dropdown-toggle{:href => '#', :'data-toggle' => 'dropdown'}
+    %i.icon-file{:title => 'Exportar a CSV'}
+    %span Exportar a CSV
+  %ul.dropdown-menu{:role => 'menu', :'aria-labelledby' => 'dLabel'}
+    %li
+      %a{:href => "/documents/#{document.id}/export?class=people"} Personas
+    %li
+      %a{:href => "/documents/#{document.id}/export?class=places"} Lugares
+    %li
+      %a{:href => "/documents/#{document.id}/export?class=dates"} Fechas
+    %li
+      %a{:href => "/documents/#{document.id}/export?class=organizations"} Organizaciones

@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 class DocumentsController < ApplicationController
   before_filter :authenticate_user!, only: [:create, :new]
 
@@ -6,11 +8,11 @@ class DocumentsController < ApplicationController
   end
 
   def search
-    if params[:q].blank?
-      redirect_to documents_path#, error: 'Debe introducir un término a buscar'
-    else
-      @results = SearcherService.new(current_user, params[:q]).call
+    if params[:q].present?
+      @results = SearcherService.new(current_user).call(params[:q])
       render :index
+    else
+      redirect_to documents_path, error: 'Debe introducir un término a buscar'
     end
   end
 

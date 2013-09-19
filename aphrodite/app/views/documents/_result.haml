@@ -1,13 +1,19 @@
 %tr{:"data-id" => document.id}
+  %td{:style => "width: 70px"}
+    %a.thumbnail{:href => "#"}
+      %img{:src => thumbnail_url(document)}
   %td
     %h5.title
+      = link_to document.title, '#'
+    %h5.title
       %a{:href => "#"}= item.highlight.try(:[], :title).try(:first).try(:html_safe)
-  - if item.highlight && pages = item.highlight.to_hash.keys.grep(/^\d+$/).map { |p| p.to_s.to_i }
-    %ul.highlights
-      - pages.sort.each do |page_num|
-        %li
-          %a{:href => "/documents/#{document.id}/comb##{page_num}"}
-            %b= "p.#{page_num}"
-          = "..."
-          = item.highlight[page_num.to_s].first.gsub("\n", " ").html_safe
-
+    - if item.highlight && pages = item.highlight.to_hash.keys.grep(/^\d+$/).map { |p| p.to_s.to_i }
+      %ul.highlights
+        - pages.sort.each do |page_num|
+          %li
+            %a{:href => "/documents/#{document.id}/comb##{page_num}"}
+              %b= "p.#{page_num}"
+            = "..."
+            = item.highlight[page_num.to_s].first.gsub("\n", " ").html_safe
+    .tools
+      = render 'tools', document: document

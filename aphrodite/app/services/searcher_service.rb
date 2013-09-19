@@ -1,20 +1,27 @@
 class SearcherService
-  attr_accessor :query, :user
+  attr_accessor :user
 
-  def initialize(user, query)
+  def initialize(user)
     @user = user
-    @query = query
   end
 
-  def call
-    @search = Document.tire.search do |s|
-      s.fields :id
-      s.filter :term, user_id: [user.id]
-      s.query do |q|
-        query.blank? ? q.all : q.string(query)
+  def call(q)
+    this = self
+    results = Document.tire.search do
+      fields :id
+      query do
+        boolean do
+          must { string q }
+          must { term :user_id, this.user.id }
+        end
       end
-      s.highlight :title, *(1..10000).map(&:to_s)
+      highlight :title, *(1..10000).map(&:to_s)
+      facet "users" do
+        terms :user_id
+      end
     end
-    @search.results
+    results.map do |item|
+      [item, item.load]
+    end
   end
 end
