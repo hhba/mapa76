@@ -1,7 +1,7 @@
 # encoding: UTF-8
 
 class DocumentsController < ApplicationController
-  before_filter :authenticate_user!, only: [:create, :new]
+  before_filter :authenticate_user!
 
   def index
     @documents = current_user.documents
