@@ -27,11 +27,20 @@ default_run_options[:pty] = true
 ssh_options[:forward_agent] = true
 
 namespace :deploy do
-  %w[start stop restart].each do |command|
-    desc "#{command} unicorn server"
-    task command, roles: :app, except: {no_release: true} do
-      run "/etc/init.d/unicorn_#{application} #{command}"
-    end
+  desc "Zero-downtime restart of Unicorn"
+  task :restart, :except => { :no_release => true } do
+    run "kill `cat #{shared_path}/pids/unicorn/pid`"
+    run "service unicorn_aphrodite start"
+  end
+
+  desc "Start unicorn"
+  task :start, :except => { :no_release => true } do
+    run "service unicorn_aphrodite start"
+  end
+
+  desc "Stop unicorn"
+  task :stop, :except => { :no_release => true } do
+    run "kill `cat #{shared_path}/pids/unicorn/pid`"
   end
 
   task :setup_config, roles: :app do
@@ -83,7 +92,6 @@ namespace :deploy do
   before "deploy:finalize_update", "deploy:change_chaos_dependency"
   after "deploy:update_code", "deploy:create_symlink_shared"
   after "deploy:setup", "deploy:setup_config"
-  after "deploy:restart", "unicorn:reload" # app IS NOT preloaded
   after "deploy", "deploy:cleanup" # keep only the last 5 releases
 end
 
