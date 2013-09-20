@@ -5,6 +5,7 @@ require 'minitest/rails'
 require "minitest-spec-context"
 require 'minitest/focus'
 require 'minitest/colorize'
+require 'mocha/setup'
 
 class ActiveSupport::TestCase
   include FactoryGirl::Syntax::Methods

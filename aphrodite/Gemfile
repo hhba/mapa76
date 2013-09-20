@@ -32,6 +32,7 @@ group :test do
   gem 'minitest-spec-context'
   gem 'minitest-colorize'
   gem 'minitest-focus'
+  gem 'mocha', require: false
 end
 
 gem 'devise'

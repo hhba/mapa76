@@ -134,6 +134,7 @@ GEM
       i18n (>= 0.4.0)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
+    metaclass (0.0.1)
     mime-types (1.24)
     minitest (4.7.5)
     minitest-colorize (0.0.5)
@@ -144,6 +145,8 @@ GEM
       minitest (~> 4.7)
       rails (>= 3.0)
     minitest-spec-context (0.0.3)
+    mocha (0.14.0)
+      metaclass (~> 0.0.1)
     mongoid (3.0.23)
       activemodel (~> 3.1)
       moped (~> 1.2)
@@ -290,6 +293,7 @@ DEPENDENCIES
   minitest-focus
   minitest-rails
   minitest-spec-context
+  mocha
   mongoid
   mongoid-pagination
   oj
