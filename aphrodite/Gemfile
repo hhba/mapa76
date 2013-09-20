@@ -15,23 +15,23 @@ group :assets do
   gem 'bootswatch-rails'
 end
 
-group :development, :test do
-  gem 'binding_of_caller'
-  gem 'database_cleaner'
-  gem 'factory_girl_rails'
-  gem 'guard-test'
-  gem 'ruby-prof'
-  gem 'shoulda-context'
-  gem 'shoulda-matchers'
-end
-
 group :development do
+  gem "better_errors"
+  gem 'binding_of_caller'
   gem 'capistrano'
   gem 'capistrano-unicorn', :require => false
-  gem 'rvm-capistrano'
-
-  gem "better_errors"
   gem 'debugger'
+  gem 'rvm-capistrano'
+  gem 'ruby-prof'
+end
+
+group :test do
+  gem 'database_cleaner'
+  gem 'factory_girl_rails'
+  gem 'minitest-rails'
+  gem 'minitest-spec-context'
+  gem 'minitest-colorize'
+  gem 'minitest-focus'
 end
 
 gem 'devise'
