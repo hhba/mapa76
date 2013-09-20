@@ -9,7 +9,7 @@ class DocumentsController < ApplicationController
 
   def search
     if params[:q].present?
-      @results = SearcherService.new(current_user).call(params[:q])
+      @results = SearcherService.new(current_user).where(params)
       render :index
     else
       redirect_to documents_path, error: 'Debe introducir un término a buscar'

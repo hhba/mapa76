@@ -1,4 +1,31 @@
+var SearchForm = (function() {
+  function SearchForm() {
+    this.bind();
+  }
+  SearchForm.prototype.bind = function() {
+    var self = this;
+    this.form = $('#document_search');
+    this.documentIds = $('#document_ids');
+    this.form.on('submit', function(event){
+      self.submit(event);
+    });
+  };
+  SearchForm.prototype.submit = function(event){
+    var checked = $('input.document_check:checked');
+    if(checked.lenght === 0){
+      this.documentIds.val('');
+    } else {
+      var ids = _.map(checked, function(chk){
+        return $(chk).data('id');
+      });
+      this.documentIds.val(ids);
+    }
+  };
+  return SearchForm;
+})();
+
 $(document).ready(function(){
+  new SearchForm();
   $(".with-scrollbar").mCustomScrollbar({
     mouseWheel: 5,
     scrollInertia: 250,
@@ -51,7 +78,7 @@ $(document).ready(function(){
         }
       });
     }, 'json');
-    setTimeout(checkDocumentsStatuses, 1000 );
+    setTimeout(checkDocumentsStatuses, 10000 );
   }
 
   if($("table.documents").length){

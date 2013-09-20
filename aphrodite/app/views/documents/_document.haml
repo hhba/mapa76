@@ -1,4 +1,6 @@
 %tr{:"data-id" => document.id, :class => (document.failed? && 'failed')}
+  %td
+    %input{type: 'checkbox', data: {id: document.id}, class: 'document_check'}
   %td{:style => "width: 70px"}
     %a.thumbnail{:href => "#"}
       %img{:src => thumbnail_url(document)}

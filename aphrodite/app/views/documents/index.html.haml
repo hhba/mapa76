@@ -21,6 +21,8 @@
       %table{:class => 'table documents'}
         %thead
           %tr
+            - if @results.nil?
+              %th{:style => "width: 10px"}
             %th{:style => "width: 70px"}
             %th
         %tbody
@@ -33,9 +35,10 @@
   %ul.nav.nav-list#sidebar
     %li.nav-header Filtros de búsqueda
     %li
-      = form_tag(search_documents_path, method: 'get', class: 'navbar-search.pull-left') do
+      = form_tag(search_documents_path, method: 'get', class: 'navbar-search.pull-left', id: 'document_search') do
         %input.search-query{name: "q", value: params[:q], type: "search", placeholder: "Buscar por título o contenido"}
-        %button.btn{type: "submit"} Buscar
+        %input#document_ids{name: 'ids', type: 'hidden'}
+        %button.btn{type: "submit", id: 'submit_search'} Buscar
 
     %li.nav-header Contexto
     %li
