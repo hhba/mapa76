@@ -1,12 +1,12 @@
 require 'test_helper'
 
-class Api::PeopleControllerTest < ActionController::TestCase
+describe PeopleController do
   context "People meta info" do
-    setup do
+    before do
       @person = create :person
     end
 
-    should "Should list document's name" do
+    it "Should list document's name" do
       get :show, :id => @person.id
       status = JSON.parse(@response.body)
 

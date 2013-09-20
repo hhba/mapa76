@@ -1,12 +1,12 @@
 require 'test_helper'
 
-class WelcomeControllerTest < ActionController::TestCase
+describe WelcomeController do
   context "WelcomeController" do
-    setup do
+    before do
       @document = create :document, public: true
     end
 
-    should "Respond 200" do
+    it "Respond 200" do
       get :index
       assert_response 200
       assert_select ".documents li a", @document.title

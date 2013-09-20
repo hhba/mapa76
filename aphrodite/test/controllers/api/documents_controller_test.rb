@@ -1,12 +1,12 @@
 require 'test_helper'
 
-class Api::DocumentsControllerTest < ActionController::TestCase
+describe DocumentsController do
   context "Documents list and show" do
-    setup do
+    before do
       @document = FactoryGirl.create :document, percentage: 100
     end
 
-    should "Should list document's name" do
+    it "Should list document's name" do
       get :show, :id => @document.id
       status = JSON.parse(@response.body)
 

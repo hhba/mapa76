@@ -1,10 +1,8 @@
 require 'test_helper'
 
-class ProjectsControllerTest < ActionController::TestCase
-  include Devise::TestHelpers
-
+describe ProjectsController do
   context "Display information about a single project" do
-    setup do
+    before do
       @user = FactoryGirl.create :user
       @document_1 = FactoryGirl.create :document, :public
       @document_2 = FactoryGirl.create :document, :public
@@ -13,21 +11,21 @@ class ProjectsControllerTest < ActionController::TestCase
       sign_in @user
     end
 
-    should "Should list project's name" do
+    it "Should list project's name" do
       get :show, :id => @project.id
       assert_response :success
       assert_template :show
       assert_not_nil assigns(:project)
     end
 
-    should "Add a document to a project" do
+    it "Add a document to a project" do
       assert_difference '@project.documents.length' do
         post :add_document, id: @project.id, document_id: @document_2.id
         @project.reload
       end
     end
 
-    should "Remove a document from a project" do
+    it "Remove a document from a project" do
       @project.documents << @document_1
       assert_difference '@project.documents.length', -1 do
         delete :remove_document, id: @project.id, document_id: @document_1.id
@@ -37,7 +35,7 @@ class ProjectsControllerTest < ActionController::TestCase
   end
 
   context "Add documents" do
-    setup do
+    before do
       @user_1 = FactoryGirl.create :user
       @user_2 = FactoryGirl.create :user
       @project_1 = FactoryGirl.create :project, :user_ids => [@user_1.id]
@@ -60,18 +58,18 @@ class ProjectsControllerTest < ActionController::TestCase
       @private_documents = assigns :private_documents
     end
 
-    should "display public and user_1 private docuements" do
+    it "display public and user_1 private docuements" do
       assert @private_documents.include?(@private_doc_user_1), "private documents is not including private document"
       assert @public_documents.include?(@public_doc), "public documents does not include public document"
       assert @own_documents.include?(@public_doc_already_added)
     end
 
-    should "not display private document for another user" do
+    it "not display private document for another user" do
       assert !@private_documents.include?(@private_doc_user_2)
       assert !@own_documents.include?(@private_doc_added_to_other_project)
     end
 
-    should "not display already added documents" do
+    it "not display already added documents" do
       assert !@public_documents.include?(@public_doc_already_added)
       assert !@private_documents.include?(@public_doc_already_added)
     end

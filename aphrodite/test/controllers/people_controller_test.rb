@@ -1,14 +1,14 @@
 require 'test_helper'
 
-class PeopleControllerTest < ActionController::TestCase
+describe PeopleController do
   context "People's controller" do
-    setup do
+    before do
       @user = create :user
       @person = create :person
       sign_in @user
     end
 
-    should "Add a person to the blacklist" do
+    it "Add a person to the blacklist" do
       post :blacklist, :id => @person.id
       status = JSON.parse(@response.body)
 
