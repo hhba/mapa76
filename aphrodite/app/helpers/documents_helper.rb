@@ -11,7 +11,6 @@ module DocumentsHelper
     {
       id:              document._id,
       title:           document.title,
-      category:        document.category,
       percentage:      document.percentage,
       readable:        document.readable?,
       geocoded:        document.geocoded?,
