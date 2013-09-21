@@ -5,6 +5,7 @@ class TaskFinder
     normalization_task
     layout_analysis_task
     extraction_task
+    coreference_resolution_task
   )
 
   def initialize(document)
