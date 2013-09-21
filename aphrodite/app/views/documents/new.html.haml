@@ -14,8 +14,6 @@
       %h1 Importar documento
       = simple_form_for @document do |f|
         = f.input :title
-        = f.input :description
-        = f.input :category, :collection => %w(Alegato Articulo Fundamentos Pericia Sentencia Testimonio Veredicto otro)
         = f.input :file, :as => :file
         = f.input :public, :as => :checked_boolean
         = f.button :submit
