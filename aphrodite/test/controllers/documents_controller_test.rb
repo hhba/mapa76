@@ -81,16 +81,6 @@ describe DocumentsController do
       end
     end
 
-    it "Retrieve a JSON with the statuses" do
-      @document.update_attribute :percentage, 100
-      get :status, :format => :json
-      status = JSON.parse(@response.body).last
-
-      assert_response :success
-      assert_equal @document.title, status['title']
-      assert_equal 100, status['percentage']
-    end
-
     it "Retrieve a JSON with the context" do
       get :context, :format => :json, :id => @document.id
       status = JSON.parse(@response.body)
