@@ -5,12 +5,13 @@ class DocumentProcessBootstrapTask
     document = Document.find(document_id)
     task_finder = TaskFinder.new(document)
 
-    unless task_finder.last_task? and task_finder.current_task_ended?
+    if task_finder.last_task? and task_finder.current_task_ended?
+      document.update_attribute :percentage, 100
+    else
       klass = Kernel.const_get(
         task_finder.next_task.split('_').map(&:capitalize).join
       )
       Resque.enqueue(klass, document_id)
     end
-    document.update_attribute :percentage, 100
   end
 end
