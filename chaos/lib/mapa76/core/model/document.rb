@@ -33,7 +33,7 @@ class Document
   validates_presence_of :original_filename
 
   before_save   :set_default_title
-  after_create  :enqueue_process
+  after_create  :process!
   before_destroy :'completed?' # You can't delete a document unless it's been processed
   after_destroy :destroy_gridfs_files
 
@@ -131,12 +131,16 @@ class Document
   end
 
   def process!
-    update_attribute :percentage, 0
-    update_attribute :status, ''
+    restart_variables
     Resque.enqueue(DocumentProcessBootstrapTask, id)
   end
 
 protected
+
+  def restart_variables
+    update_attribute :percentage, 0
+    update_attribute :status, ''
+  end
 
   def context_generator
     ctx = {
@@ -160,12 +164,6 @@ protected
     if self.title.blank?
       self.title = self.original_filename
     end
-  end
-
-  def enqueue_process
-    logger.info "Enqueue processing task for document with id #{id}"
-    update_attribute :percentage, 5
-    Resque.enqueue(DocumentProcessBootstrapTask, id)
   end
 
   def destroy_gridfs_files
