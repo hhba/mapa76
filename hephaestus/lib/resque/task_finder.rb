@@ -32,6 +32,10 @@ class TaskFinder
     end
   end
 
+  def task_index
+    tasks.index(current_task)
+  end
+
   def current_task_ended?
     if document.status == ''
       false

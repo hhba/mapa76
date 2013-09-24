@@ -9,6 +9,17 @@ describe TaskFinder do
     document.expect :status, ''
   end
 
+  describe '#task_index' do
+    it 'retrieves task index (0)' do
+      task_finder.task_index.must_equal 0
+    end
+
+    it 'retrieves task index (1)' do
+      document.expect :status, 'layout_analysis_task-start'
+      task_finder.task_index.must_equal 1
+    end
+  end
+
   context 'document does not specifies tasks' do
     it 'works' do
       task_finder.tasks.must_be_instance_of Array
@@ -18,8 +29,6 @@ describe TaskFinder do
     context 'document has finished first task' do
       it 'retrieves second task' do
         document.expect :status, 'normalization_task-end'
-        p document.status
-        p task_finder.current_task
         task_finder.next_task.must_equal 'layout_analysis_task'
       end
 
