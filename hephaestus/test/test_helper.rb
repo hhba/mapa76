@@ -4,6 +4,7 @@ require "test/unit"
 require "turn/autorun"
 require "minitest-spec-context"
 require "database_cleaner"
+require "mocha/setup"
 
 class Test::Unit::TestCase
   include FactoryGirl::Syntax::Methods

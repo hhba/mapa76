@@ -68,10 +68,13 @@ GEM
       rb-fsevent (~> 0.9.1)
       rb-inotify (~> 0.8.8)
     log4r (1.1.10)
+    metaclass (0.0.1)
     method_source (0.8.1)
     mime-types (1.25)
     minitest (2.6.2)
     minitest-spec-context (0.0.3)
+    mocha (0.14.0)
+      metaclass (~> 0.0.1)
     mongoid (3.0.23)
       activemodel (~> 3.1)
       moped (~> 1.2)
@@ -171,6 +174,7 @@ DEPENDENCIES
   mapa76-core!
   minitest (~> 2.6.0)
   minitest-spec-context
+  mocha
   mongoid
   mongoid-pagination
   multi_json
