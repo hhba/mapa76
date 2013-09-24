@@ -56,5 +56,12 @@ describe ProgressHandler do
         @progress_handler.increment
       end
     end
+
+    describe '#increment_to' do
+      it 'hardcode increment' do
+        document.expects(:update_attribute).with(:percentage, 30)
+        @progress_handler.increment_to(30)
+      end
+    end
   end
 end
