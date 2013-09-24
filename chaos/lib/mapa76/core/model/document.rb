@@ -9,15 +9,15 @@ class Document
   field :description,       type: String
   field :original_title,    type: String
   field :original_filename, type: String
-  field :context_cache,     type: Hash, default: {}
+  field :context_cache,     type: Hash,    default: {}
   field :information,       type: Hash
-  field :fontspecs,         type: Hash, default: {}
+  field :fontspecs,         type: Hash,    default: {}
   field :last_analysis_at,  type: Time
   field :processed_text,    type: String
-  field :status,            type: String, default: ''
-  field :tasks,             type: Array, default: []
+  field :status,            type: String,  default: ''
+  field :tasks,             type: Array,   default: []
   field :public,            type: Boolean, default: true
-  field :percentage,        type: Integer, default: 0
+  field :percentage,        type: Float,   default: 0
   field :file_id,           type: Moped::BSON::ObjectId
   field :thumbnail_file_id, type: Moped::BSON::ObjectId
 
