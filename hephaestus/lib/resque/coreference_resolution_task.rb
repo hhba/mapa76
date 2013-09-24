@@ -4,5 +4,6 @@ class CoreferenceResolutionTask < Base
   def self.perform(document_id)
     document = Document.find(document_id)
     Coreference.resolve(document, document.people_found)
+    document.context force: true
   end
 end
