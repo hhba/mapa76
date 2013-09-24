@@ -78,7 +78,7 @@ $(document).ready(function(){
         }
       });
     }, 'json');
-    setTimeout(checkDocumentsStatuses, 10000 );
+    setTimeout(checkDocumentsStatuses, 5000 );
   }
 
   if($("table.documents").length){
