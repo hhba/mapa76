@@ -11,7 +11,7 @@ module DocumentsHelper
     {
       id:              document._id,
       title:           document.title,
-      percentage:      document.percentage,
+      percentage:      document.percentage.ceil,
       readable:        document.readable?,
       geocoded:        document.geocoded?,
       exportable:      document.exportable?,
