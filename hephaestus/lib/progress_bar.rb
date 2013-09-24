@@ -1,11 +1,11 @@
 class ProgressBar
   attr_accessor :starting_at, :ending_at, :current, :bound
 
-  def initialize
-    @current = 0
-    @starting_at = 0
-    @ending_at = 100
-    @bound = 100
+  def initialize(opt={})
+    @current = opt.fetch(:starting_at, 0)
+    @starting_at = opt.fetch(:starting_at, 0)
+    @ending_at = opt.fetch(:ending_at, 100)
+    @bound = opt.fetch(:bound, 100)
   end
 
   def increment

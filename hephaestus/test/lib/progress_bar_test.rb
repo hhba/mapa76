@@ -1,6 +1,16 @@
 require 'test_helper'
 
 describe ProgressBar do
+  describe '#new' do
+    it 'can initialize with a hash' do
+      progress_bar = ProgressBar.new starting_at: 25,
+        ending_at: 50, bound: 1000
+      progress_bar.current.must_equal 25
+      progress_bar.starting_at.must_equal 25
+      progress_bar.ending_at.must_equal 50
+    end
+  end
+
   context 'normal conditions' do
     describe '#increment and #progress' do
       it 'increments %' do
