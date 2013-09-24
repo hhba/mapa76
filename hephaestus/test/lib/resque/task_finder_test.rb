@@ -9,6 +9,13 @@ describe TaskFinder do
     document.expect :status, ''
   end
 
+  describe '#tasks_count' do
+    it 'count the tasks' do
+      task_finder.stubs(:tasks).returns %w(1 2 3)
+      task_finder.tasks_count.must_equal 3
+    end
+  end
+
   describe '#task_index' do
     it 'retrieves task index (0)' do
       task_finder.task_index.must_equal 0
