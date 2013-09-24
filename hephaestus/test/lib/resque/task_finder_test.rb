@@ -12,18 +12,18 @@ describe TaskFinder do
   describe '#tasks_count' do
     it 'count the tasks' do
       task_finder.stubs(:tasks).returns %w(1 2 3)
-      task_finder.tasks_count.must_equal 3
+      task_finder.count.must_equal 3
     end
   end
 
   describe '#task_index' do
     it 'retrieves task index (0)' do
-      task_finder.task_index.must_equal 0
+      task_finder.index.must_equal 0
     end
 
     it 'retrieves task index (1)' do
       document.expect :status, 'layout_analysis_task-start'
-      task_finder.task_index.must_equal 1
+      task_finder.index.must_equal 1
     end
   end
 

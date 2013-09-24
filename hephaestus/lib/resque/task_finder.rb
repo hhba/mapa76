@@ -32,11 +32,11 @@ class TaskFinder
     end
   end
 
-  def task_index
+  def index
     tasks.index(current_task)
   end
 
-  def tasks_count
+  def count
     tasks.length
   end
 
