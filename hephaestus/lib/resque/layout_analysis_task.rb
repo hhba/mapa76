@@ -50,7 +50,7 @@ class LayoutAnalysisTask < Base
     pages.values.each { |page| page.save }
 
     logger.info "Save document"
-    doc.percentage = 66
+    doc.percentage = 50
     doc.save
   end
 

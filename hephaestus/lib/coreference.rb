@@ -8,11 +8,11 @@ module Coreference
 
   def resolve(document, named_entities)
     named_entities = remove_blacklisted(named_entities)
-    # one_words = find_one_words(named_entities)
     named_entities = remove_one_word(named_entities)
-    duplicates = find_duplicates(named_entities)
 
-    # Person.populate(document, one_words)
+    progress_handler = ProgressHandler.new(document, bound: named_entities.length)
+    duplicates = find_duplicates named_entities, :branting, progress_handler: progress_handler
+
     Person.populate(document, duplicates)
   end
 
@@ -20,18 +20,17 @@ module Coreference
     named_entities.select { |ne| ne.text.split.length == 1 }
   end
 
-  def find_duplicates(named_entities, method=:branting)
+  def find_duplicates(named_entities, method=:branting, opt={})
     distance_method = "#{method}_distance".to_sym
 
     duplicates = []
     while !named_entities.empty?
+      opt[:progress_handler].increment if opt[:progress_handler]
       named_entity = named_entities.shift
 
       group = named_entities.select do |ne|
         send(distance_method, named_entity.text, ne.text) >= MIN_SIMILARITY
       end
-      logger.debug "There are still #{named_entities.count}"
-      logger.debug "Duplicates of '#{named_entity.text}': #{group.map(&:text)}"
 
       named_entities.reject! { |ne| group.include?(ne) }
       duplicates << group.append(named_entity)

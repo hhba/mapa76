@@ -11,5 +11,6 @@ class DocumentProcessBootstrapTask
       )
       Resque.enqueue(klass, document_id)
     end
+    document.update_attribute :percentage, 100
   end
 end

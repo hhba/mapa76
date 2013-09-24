@@ -13,7 +13,6 @@ class NormalizationTask < Base
   def self.perform(document_id)
     doc = Document.find(document_id)
     doc.update_attribute :state, :normalizing
-
     xml = nil
 
     self.create_tempfile(doc.original_filename) do |temp|
@@ -84,7 +83,7 @@ class NormalizationTask < Base
     end
     logger.info "#{doc.pages.count} pages were processed"
     logger.info "Save document"
-    doc.percentage = 33
+    doc.percentage = 25
     doc.save
   end
 

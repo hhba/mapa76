@@ -15,7 +15,9 @@ class ExtractionTask < Base
     logger.info "Extract named entities from content"
     doc.named_entities.delete_all
     doc_iter = doc.new_iterator
-    Analyzer.extract_named_entities(doc.processed_text, doc.lang).each do |ne_attrs|
+    progress_handler = ProgressHandler.new(doc, bound: doc.processed_text.size)
+
+    Analyzer.extract_named_entities(doc.processed_text, doc.lang, progress_handler: progress_handler).each do |ne_attrs|
       inner_pos = {}
 
       doc_iter.seek(ne_attrs[:pos])
@@ -60,7 +62,6 @@ class ExtractionTask < Base
 
     logger.info "Save document"
     doc.last_analysis_at = Time.now
-    doc.percentage = 90
     doc.save
   end
 end

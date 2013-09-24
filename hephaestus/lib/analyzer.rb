@@ -47,12 +47,13 @@ module Analyzer
   # contracted words (e.g. "he's" => "he is"), changing the original text.
   # An exception is raised if this happens.
   #
-  def self.extract_tagged_tokens(content, lang=:es)
+  def self.extract_tagged_tokens(content, lang=:es, opt={})
     require "freeling/analyzer"
 
     Enumerator.new do |yielder|
       no_tokens = false
       total_size = content.size
+
       sentence_pos = 0
 
       st = self.extract_tokens(content, lang)
@@ -71,6 +72,8 @@ module Analyzer
         analyzer.sentences.each do |sentence|
           sentence.each do |token|
             logger.debug "Token (#{cur_st[:pos]}/#{total_size}): #{token}"
+            opt[:progress_handler].increment if opt.has_key? :progress_handler
+
             new_token = nil
 
             # exact match
@@ -122,9 +125,9 @@ module Analyzer
   ##
   # Return an enumerator of named entities
   #
-  def self.extract_named_entities(content, lang=:es)
+  def self.extract_named_entities(content, lang=:es, opt={})
     Enumerator.new do |yielder|
-      self.extract_tagged_tokens(content, lang).each do |token|
+      self.extract_tagged_tokens(content, lang, opt).each do |token|
         yielder << token if token[:ne_class]
       end
       self.extract_addresses(content, lang).each do |address|

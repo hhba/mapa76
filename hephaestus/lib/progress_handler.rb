@@ -11,6 +11,10 @@ class ProgressHandler
     update(progress_bar.progress)
   end
 
+  def progress
+    progress_bar.progress
+  end
+
   def increment_to(value)
     progress_bar.progress = value
     update(progress_bar.progress)
