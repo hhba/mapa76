@@ -4,7 +4,7 @@ class DocumentsController < ApplicationController
   before_filter :authenticate_user!
 
   def index
-    @documents = current_user.documents
+    @documents = Document.where(user_id: current_user.id).desc(:created_at)
   end
 
   def search
@@ -96,8 +96,12 @@ class DocumentsController < ApplicationController
   end
 
   def destroy
-    document = Document.find(params[:id])
-    document.destroy
-    redirect_to documents_path, notice: "The #{document.title} has been removed"
+    document = current_user.documents.find(params[:id])
+    if JobsService.not_working_on?(document)
+      document.destroy
+      redirect_to documents_path, notice: "#{document.title} has been removed"
+    else
+      redirect_to documents_path, error: "#{document.title} can't be removed now"
+    end
   end
 end

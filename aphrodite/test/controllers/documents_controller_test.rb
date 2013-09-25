@@ -10,6 +10,7 @@ describe DocumentsController do
       where_entity  = FactoryGirl.create :where_entity
       action_entity = FactoryGirl.create :action_entity, document: @document
       @document     = FactoryGirl.create :document, :public
+      @user.documents << @document
       @register     = FactoryGirl.create :fact_register, {
         document: @document,
         person_ids: [name_entity.id],
@@ -101,6 +102,39 @@ describe DocumentsController do
 
       assert_response :success
       assert_equal "empty content", @response.body
+    end
+  end
+
+  describe 'DELETE #destroy' do
+    before do
+      user = FactoryGirl.create :user
+      @document = FactoryGirl.create :document
+      user.documents << @document
+      sign_in user
+    end
+
+    context 'document can be destroyed' do
+      it 'destoys the document' do
+        JobsService.stubs(:'not_working_on?' => true)
+        initial_count = Document.count
+        delete :destroy, id: @document.id
+        final_count = Document.count
+
+        assert final_count < initial_count
+        assert_response :redirect
+      end
+    end
+
+    context 'document can NOT be destroyed' do
+      it 'does not destroys the document' do
+        JobsService.stubs(:'not_working_on?' => false)
+        initial_count = Document.count
+        delete :destroy, id: @document.id
+        final_count = Document.count
+
+        assert final_count == initial_count
+        assert_response :redirect
+      end
     end
   end
 end
