@@ -1,0 +1,9 @@
+/home/deployer/apps/mapa76.info/hephaestus/current/log/elasticsearch.production.log {
+  su deployer deployer
+  missingok
+  copytruncate
+  size 10M
+  create 0666 deployer deployer
+  rotate 4
+  compress
+}
