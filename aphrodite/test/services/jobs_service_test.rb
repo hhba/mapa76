@@ -1,6 +1,6 @@
 require 'test_helper'
 
-describe JobsSerivice do
+describe JobsService do
   let(:jobs) do
     {
       "queue"=>"extraction_task",

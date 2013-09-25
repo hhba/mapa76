@@ -1,4 +1,8 @@
-class JobsSerivice
+class JobsService
+  def self.not_working_on?(document)
+    !self.working_on?(document)
+  end
+
   def self.working_on?(document)
     new(document).working?
   end
