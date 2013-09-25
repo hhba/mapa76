@@ -149,12 +149,4 @@ describe Document do
       document.percentage.must_be :==, 0
     end
   end
-
-  describe '#destroy' do
-    it 'does not destroy a document if process is incomplete' do
-      document = FactoryGirl.create :document, percentage: 90
-      document.destroy
-      document.destroyed?.must_equal false
-    end
-  end
 end
