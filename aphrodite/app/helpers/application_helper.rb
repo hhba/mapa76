@@ -48,4 +48,8 @@ module ApplicationHelper
       link_to 'Resultados' + " (#{@results.count})", documents_path
     end
   end
+
+  def can_delete?(document)
+    document.completed? || JobsService.working_on?(document)
+  end
 end
