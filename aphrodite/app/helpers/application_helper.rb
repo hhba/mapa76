@@ -50,6 +50,6 @@ module ApplicationHelper
   end
 
   def can_delete?(document)
-    document.completed? || JobsService.working_on?(document)
+    JobsService.not_working_on?(document)
   end
 end
