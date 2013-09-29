@@ -33,6 +33,7 @@ group :development, :test do
   gem 'minitest-colorize'
   gem 'minitest-focus'
   gem 'mocha', require: false
+  gem 'spring'
 end
 
 gem 'devise'
