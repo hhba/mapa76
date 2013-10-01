@@ -9,8 +9,16 @@ class CSVExporterService
   end
 
   def export_people
-    export(:people_found,
-           %w{ document_id text lemma tag prob pos sentence_pos page_num })
+    CSV.generate do |csv|
+      csv << ['person_id', 'Name', 'Mentions', 'Title', 'Filename', 'Date', 'DocumentID', 'link_to_doc']
+      document.people.each do |person|
+        csv << [person.id, person.name, mentions(person), title, date, document.id, link_to_doc]
+      end
+    end
+  end
+
+  def mentions(person)
+    person.mentions.fetch(document.id.to_s, 0)
   end
 
   def export_dates
