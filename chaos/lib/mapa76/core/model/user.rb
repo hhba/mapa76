@@ -37,6 +37,7 @@ class User
   # field :authentication_token, :type => String
 
   has_many :documents
+  has_many :people
   has_and_belongs_to_many :projects
 
   def username
