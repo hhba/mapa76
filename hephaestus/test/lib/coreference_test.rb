@@ -12,7 +12,7 @@ class TestCoreference < Test::Unit::TestCase
       @patty4  = create :named_entity, text: "Luis Ableardo Patty"
       @wrong   = create :named_entity, text: "policia federal"
       @one     = create :named_entity, text: "policia"
-      
+
       @named_entities = [@patty2, @patty3, @videla1, @pomulo1, @patty4]
     end
 
@@ -31,7 +31,7 @@ class TestCoreference < Test::Unit::TestCase
 
     should "test_remove_blacklisted" do
       named_entities = [@patty2, @patty3, @videla1, @pomulo1, @patty4, @wrong]
-      result = [@patty2, @patty3, @videla1, @pomulo1, @patty4] 
+      result = [@patty2, @patty3, @videla1, @pomulo1, @patty4]
       Person.create(name: "policia federal").blacklist
 
       assert_equal result, Coreference.remove_blacklisted(named_entities)
