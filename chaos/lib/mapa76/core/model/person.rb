@@ -7,6 +7,7 @@ class Person
   field :searchable_name, type: String
   field :jurisdiction,    type: String
   field :force,           type: String
+  field :mentions,        type: Hash
   field :tags,            type: Array
   field :confidence,      type: Float, default: 0.0
 
