@@ -10,11 +10,16 @@ class Person
 
     output = []
     duplicates.each do |group|
-      already_added = group.collect { |ne| searchable_with(ne.text).first }.compact
+      already_added = group.map do |ne|
+        where(user_id: document.user_id).searchable_with(ne.text).first
+      end.compact
+
       if already_added.empty?
         person = Person.create(:name => group.first.text,
                                :tags => tags,
-                               :confidence => confidence)
+                               :confidence => confidence,
+                               :user_id => document.user_id,
+                              )
       else
         person = already_added.first
       end
