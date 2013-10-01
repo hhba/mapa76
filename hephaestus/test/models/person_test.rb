@@ -1,9 +1,9 @@
 # encoding: utf-8
 require "test_helper"
 
-class TestPerson < Test::Unit::TestCase
+describe Person do
   context "Populate people" do
-    setup do
+    before do
       patty1  = create :named_entity, text: "Luis Abelardo Patty"
       patty2  = create :named_entity, text: "Luis Ableardo Patty"
       videla1 = create :named_entity, text: "Jorge Rafael Videla"
@@ -18,7 +18,7 @@ class TestPerson < Test::Unit::TestCase
       assert_equal 2, Person.count
       assert_equal 2, Person.first.named_entities.count
     end
-    
+
     should "not create a new person if it's already stored" do
       create :person, name: "Eduardo Massera", tags: ['procesados', 'condenados', 'condenados']
       named_entity = create :named_entity, text: "Eduardo Massera"
