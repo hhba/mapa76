@@ -1,9 +1,11 @@
 require "capistrano-unicorn"
-require "whenever/capistrano"
 
 set :stages, %w(production staging)
 set :default_stage, "staging"
 require 'capistrano/ext/multistage'
+
+set :whenever_command, "bundle exec whenever"
+require "whenever/capistrano"
 
 set :bundle_flags, "--deployment --quiet --binstubs"
 
