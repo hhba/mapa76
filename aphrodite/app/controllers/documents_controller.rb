@@ -4,7 +4,7 @@ class DocumentsController < ApplicationController
   before_filter :authenticate_user!
 
   def index
-    @documents = Document.where(user_id: current_user.id).desc(:created_at)
+    @documents = Document.where(user_id: current_user.id).order_by(order)
   end
 
   def search
@@ -103,5 +103,13 @@ class DocumentsController < ApplicationController
     else
       redirect_to documents_path, error: "#{document.title} can't be removed now"
     end
+  end
+
+private
+
+  def order
+    sort = %w(created_at title).include?(params[:sort]) ? params[:sort] : 'created_at'
+    direction = %w(asc desc).include?(params[:direction]) ? params[:direction] : 'desc'
+    "#{sort} #{direction}"
   end
 end
