@@ -1,4 +1,5 @@
 require "capistrano-unicorn"
+require "whenever/capistrano"
 
 set :stages, %w(production staging)
 set :default_stage, "staging"

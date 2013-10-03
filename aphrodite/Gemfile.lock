@@ -65,6 +65,7 @@ GEM
       net-ssh-gateway (>= 1.1.0)
     capistrano-unicorn (0.1.7)
       capistrano
+    chronic (0.10.2)
     chunky_png (1.2.7)
     coderay (1.0.9)
     coffee-rails (3.2.2)
@@ -263,6 +264,9 @@ GEM
       rack (>= 1.0.0)
     warden (1.2.1)
       rack (>= 1.0)
+    whenever (0.8.4)
+      activesupport (>= 2.3.4)
+      chronic (>= 0.6.3)
     will_paginate (3.0.4)
     will_paginate-bootstrap (0.2.2)
       will_paginate (>= 3.0.3)
@@ -309,4 +313,5 @@ DEPENDENCIES
   therubyracer
   uglifier (>= 1.0.3)
   unicorn
+  whenever
   will_paginate-bootstrap

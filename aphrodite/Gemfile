@@ -48,3 +48,5 @@ gem 'simple_form'
 gem 'rabl'
 gem 'unicorn'
 gem 'will_paginate-bootstrap', :require => "will_paginate-bootstrap"
+gem 'whenever', require: false
+
