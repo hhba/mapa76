@@ -6,6 +6,7 @@ require "minitest-spec-context"
 require 'minitest/focus'
 require 'minitest/colorize'
 require 'mocha/setup'
+Dir["#{Rails.root}/test/support/*.rb"].sort.each { |file| require file }
 
 class ActiveSupport::TestCase
   include FactoryGirl::Syntax::Methods
@@ -29,8 +30,13 @@ end
 class ActionController::TestCase
   include Rails.application.routes.url_helpers
   include Devise::TestHelpers
+  include Requests::JsonHelpers
 
   before do
     DatabaseCleaner.clean
+  end
+
+  def json
+    @json ||= JSON.parse(response.body)
   end
 end
