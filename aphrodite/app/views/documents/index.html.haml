@@ -24,7 +24,11 @@
             - if @results.nil?
               %th{:style => "width: 10px"}
             %th{:style => "width: 70px"}
-            %th
+            %th.sort
+              Ordenar por
+              = sorteable('created_at', 'Fecha')
+              o
+              = sorteable('title', 'Titulo')
         %tbody
           - if @results.nil?
             = render @documents

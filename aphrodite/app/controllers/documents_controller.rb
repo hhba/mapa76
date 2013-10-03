@@ -2,6 +2,7 @@
 
 class DocumentsController < ApplicationController
   before_filter :authenticate_user!
+  helper_method :sort_column, :sort_direction
 
   def index
     @documents = Document.where(user_id: current_user.id).order_by(order)
@@ -108,8 +109,14 @@ class DocumentsController < ApplicationController
 private
 
   def order
-    sort = %w(created_at title).include?(params[:sort]) ? params[:sort] : 'created_at'
-    direction = %w(asc desc).include?(params[:direction]) ? params[:direction] : 'desc'
-    "#{sort} #{direction}"
+    "#{sort_column} #{sort_direction}"
+  end
+
+  def sort_column
+    %w[created_at title].include?(params[:sort]) ? params[:sort] : 'created_at'
+  end
+
+  def sort_direction
+    %w[asc desc].include?(params[:direction]) ? params[:direction] : "desc"
   end
 end
