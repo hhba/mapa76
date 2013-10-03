@@ -4,9 +4,6 @@ set :stages, %w(production staging)
 set :default_stage, "staging"
 require 'capistrano/ext/multistage'
 
-set :whenever_command, "bundle exec whenever"
-require "whenever/capistrano"
-
 set :bundle_flags, "--deployment --quiet --binstubs"
 
 set :application, "aphrodite"
@@ -99,3 +96,5 @@ namespace :deploy do
 end
 
 require "bundler/capistrano"
+set :whenever_command, "bundle exec whenever"
+require "whenever/capistrano"
