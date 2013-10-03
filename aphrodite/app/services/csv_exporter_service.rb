@@ -12,7 +12,7 @@ class CSVExporterService
     CSV.generate do |csv|
       csv << %w[PersonID Name Mentions].concat(document_info_str)
       document.people.each do |person|
-        csv << [person.id, person.name, mentions(person), title, original_filename, date, document.id, link_to_doc]
+        csv << [person.id, person.name, mentions(person)].concat(document_info)
       end
     end
   end
@@ -23,12 +23,18 @@ class CSVExporterService
 
   def export_dates
     export(:dates_found,
-           %w{ document_id text lemma tag prob pos sentence_pos page_num time })
+      %w{ document_id text lemma tag prob pos sentence_pos page_num time })
   end
 
   def export_places
-    export([:places_found, :addresses_found],
-           %w{ document_id text lemma tag prob pos sentence_pos page_num lat lng })
+    places_groups = (document.places_found + document.addresses_found).group_by(&:text)
+    CSV.generate do |csv|
+      csv << %w[Place Mentions].concat(document_info_str)
+      places_groups.each do |group|
+        place = group.first
+        csv << [place, group.count].concat(document_info)
+      end
+    end
   end
 
   def export_organizations
