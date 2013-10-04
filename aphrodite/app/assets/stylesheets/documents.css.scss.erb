@@ -11,6 +11,19 @@
       color: #555;
     }
   }
+  th.sort{
+    .current{
+      padding-right: 12px;
+      background-repeat: no-repeat;
+      background-position: right center;
+    }
+    .asc{
+      background-image: url('<%= asset_path 'up_arrow.gif' %>');
+    }
+    .desc{
+      background-image: url('<%= asset_path 'down_arrow.gif' %>');
+    }
+  }
   .info {
     margin-right: 1em;
   }
