@@ -1,4 +1,6 @@
 class Api::DocumentsController < ApplicationController
+  before_filter :authenticate_user!
+
   def show
     document = Document.find(params[:id])
     render :json => if params[:page].nil?
