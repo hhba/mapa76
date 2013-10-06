@@ -1,5 +1,4 @@
-class Api::V1::PeopleController < ApplicationController
-  respond_to :json
+class Api::V1::PeopleController < Api::V1::BaseController
   before_filter :authenticate_user!
 
   def show
@@ -7,7 +6,7 @@ class Api::V1::PeopleController < ApplicationController
     respond_with({
       name: person.name,
       mentions: person.mentions,
-      id: person.id
+      id: person.id,
     })
   end
 end
