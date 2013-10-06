@@ -2,17 +2,17 @@ class Api::V1::NamedEntitiesController < Api::V1::BaseController
   before_filter :authenticate_user!
 
   def show
-    entity_type
-    respond_with {}
+    verify_params!
+    ne = Document.find(params[:document_id]).
+      named_entities.find(params[:id])
+    respond_with({id: ne.id, text: ne.text})
   end
 
 private
 
-  def entity_type
-    if %w[places organizations dates addresses].include? params[:type]
-      params[:type]
-    else
-      raise ActiveResource::BadRequest, "Bad parameters"
+  def verify_params!
+    unless params[:document_id] && params[:id]
+      raise(ActiveResource::BadRequest, "Bad parameters")
     end
   end
 end

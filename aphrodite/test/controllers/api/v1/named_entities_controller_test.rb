@@ -6,16 +6,18 @@ describe Api::V1::NamedEntitiesController do
   let(:user) { FactoryGirl.create :user }
 
   before do
+    document.named_entities << named_entity
     sign_in user
   end
 
   describe '#show' do
-    it '' do
-      get :show, id: named_entity.id,
-        type: 'places',
-        document_id: document.id,
-        format: 'json'
-      response.status.must_equal 200
+    context 'correct params' do
+      it '' do
+        get :show, id: named_entity.id,
+          document_id: document.id,
+          format: 'json'
+        response.status.must_equal 200
+      end
     end
 
     context 'bad parameters' do
