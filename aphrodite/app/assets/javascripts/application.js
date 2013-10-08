@@ -28,3 +28,5 @@
 //= require projects/index
 //= require projects
 //= require timeliner
+//= require import
+
