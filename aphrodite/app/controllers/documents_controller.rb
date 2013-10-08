@@ -22,18 +22,15 @@ class DocumentsController < ApplicationController
   end
 
   def create
-    file = params[:document].delete(:file)
-    @document = Document.new(params[:document])
-    @document.original_filename = file.original_filename
-    @document.file = file.path
-    current_user.documents << @document
-
-    if @document.save
-      redirect_to :action => :index
-    else
-      #flash[:error] = @document.errors
-      redirect_to :back, error: @document.errors
+    files = params[:document].delete(:files)
+    files.each do |file|
+      @document = Document.new
+      @document.original_filename = file.original_filename
+      @document.file = file.path
+      current_user.documents << @document
+      @document.save
     end
+    redirect_to :action => :index
   end
 
   def show

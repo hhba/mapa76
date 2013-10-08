@@ -9,8 +9,8 @@
 - content_for :free do
   .row-fluid
     .span4
-      %h1 Importar documento
-      = simple_form_for @document do |f|
-        = f.input :title
-        = f.input :file, :as => :file
-        = f.button :submit
+      %h3 Importar documento
+      = form_tag documents_path, multipart: true, id: 'new_document' do |f|
+        %div{class: 'input file optional document_file'}
+          %input#file_upload{type: 'file', name: 'document[files][]', multiple: true}
+        %input{type: 'submit', class: 'btn'}
