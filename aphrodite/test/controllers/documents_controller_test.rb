@@ -102,7 +102,7 @@ describe DocumentsController do
         get :new
         assert_response :success
         assert_template :new
-        assert_select 'h1', "Importar documento"
+        assert_select 'h3', "Importar documento"
       end
     end
 
@@ -132,7 +132,7 @@ describe DocumentsController do
           document = build :document
           file = Rack::Test::UploadedFile.new(fd.path, "text/plain")
 
-          post :create, document: { title: 'title', file: file }
+          post :create, document: {files: [file]}
           assert_equal user.documents.length, 1
         end
       end

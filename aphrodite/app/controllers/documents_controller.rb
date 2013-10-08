@@ -22,7 +22,7 @@ class DocumentsController < ApplicationController
   end
 
   def create
-    files = params[:document].delete(:files)
+    files = params[:document].fetch(:files, [])
     files.each do |file|
       @document = Document.new
       @document.original_filename = file.original_filename
