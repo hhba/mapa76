@@ -7,3 +7,8 @@
 //= require mustache
 //= require spin.js.min
 //= require timeline-setter.min
+
+//= require jquery.iframe-transport
+//= require jquery.fileupload
+//= require jquery.fileupload-process
+
