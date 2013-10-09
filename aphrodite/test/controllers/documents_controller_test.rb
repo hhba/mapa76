@@ -78,7 +78,9 @@ describe DocumentsController do
 
     describe 'POST #flag' do
       it '' do
-        #FlaggerService.expects(:call).with(document)
+        flagger_service = mock
+        FlaggerService.expects(:new).with(user, document).returns(flagger_service)
+        flagger_service.expects(:call)
         post :flag, id: document.id
 
         response.status.must_equal 302

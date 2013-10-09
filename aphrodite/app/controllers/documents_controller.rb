@@ -62,7 +62,9 @@ class DocumentsController < ApplicationController
   end
 
   def flag
-    redirect_to documents_path, notice: "hola"
+    document = Document.find(params[:id])
+    FlaggerService.new(current_user, document).call
+    redirect_to documents_path, notice: "#{document.title} ha sido reportado"
   end
 
   def generate_thumbnail
