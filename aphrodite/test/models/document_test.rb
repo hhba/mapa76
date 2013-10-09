@@ -1,6 +1,16 @@
 require 'test_helper'
 
 describe Document do
+  describe '#flag!' do
+    it 'flags a document' do
+      user = mock(id: Moped::BSON::ObjectId.new)
+      document = FactoryGirl.create :document
+
+      document.flag!(user)
+      document.flagger_id.must_be_instance_of Moped::BSON::ObjectId
+    end
+  end
+
   before do
     @document = FactoryGirl.create :document
     @document.update_attributes :percentage => 100, :category => 'Veredicto'
