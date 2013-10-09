@@ -58,6 +58,14 @@ class Document
     Document.tire.import
   end
 
+  def flagger
+    if flagger_id
+      User.find(flagger_id)
+    else
+      nil
+    end
+  end
+
   def to_indexed_json
     fields = {
       title: title,
@@ -70,10 +78,6 @@ class Document
       fields[:pages][page.num] = page.text.gsub(/<[^<]+?>/, "")
     end
     fields.to_json
-  end
-
-  def flagged_by
-    flagger
   end
 
   def file

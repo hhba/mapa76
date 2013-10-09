@@ -5,6 +5,17 @@ describe Document do
     @document = FactoryGirl.create :document, percentage: 100
   end
 
+  describe '#flagger' do
+    it '' do
+      user = mock(id: Moped::BSON::ObjectId.new)
+      User.expects(:find).returns(user)
+      @document.update_attribute :flagger_id, user.id
+      @document.reload
+
+      @document.flagger.must_equal user
+    end
+  end
+
   describe "after_save" do
     it "should enqueue process bootstrap task" do
       document = build :document
