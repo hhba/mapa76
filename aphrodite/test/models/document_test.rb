@@ -11,6 +11,13 @@ describe Document do
     end
   end
 
+  describe "#flagged?" do
+    it '' do
+      document = FactoryGirl.create :document, flagger_id: Moped::BSON::ObjectId.new
+      document.flagged?.must_equal true
+    end
+  end
+
   before do
     @document = FactoryGirl.create :document
     @document.update_attributes :percentage => 100, :category => 'Veredicto'

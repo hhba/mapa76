@@ -8,9 +8,10 @@
   = link_to document_path(document.id), method: :delete, confirm: "Esta seguro de que quiere borrar #{document.title}?" do
     %i.icon-remove{:title => "Borrar este document"}
     %span Borrar
-= link_to flag_document_path(document), method: 'post', confirm: "Esta seguro de que quiere reportar #{document.title}?" do
-  %i.icon-flag{:title => "Reportar este document"}
-  %span Reportar
+- unless document.flagged?
+  = link_to flag_document_path(document), method: 'post', confirm: "Esta seguro de que quiere reportar #{document.title}?" do
+    %i.icon-flag{:title => "Reportar este document"}
+    %span Reportar
 .dropdown{:style => "display: inline"}
   %a.dropdown-toggle{:href => '#', :'data-toggle' => 'dropdown'}
     %i.icon-file{:title => 'Exportar a CSV'}
