@@ -36,6 +36,7 @@ group :development, :test do
   gem 'spring'
 end
 
+gem 'activeadmin-mongoid'
 gem 'devise'
 gem 'haml'
 gem 'sass'
