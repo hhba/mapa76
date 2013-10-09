@@ -16,7 +16,7 @@ class ActiveSupport::TestCase
   end
 
   def setup
-    DatabaseCleaner.strategy = :truncation
+    DatabaseCleaner[:mongoid].strategy = :truncation
     DatabaseCleaner.clean
     Document.tire.index.delete
     @routes = Rails.application.routes
