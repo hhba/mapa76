@@ -42,6 +42,7 @@ GEM
     hashr (0.0.22)
     highline (1.6.19)
     i18n (0.6.1)
+    json (1.7.7)
     listen (0.7.3)
     lumberjack (1.0.3)
     metaclass (0.0.1)
@@ -128,6 +129,7 @@ DEPENDENCIES
   factory_girl
   guard
   guard-minitest
+  json (~> 1.7.7)
   mapa76-core!
   minitest
   mocha

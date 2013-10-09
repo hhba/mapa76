@@ -3,8 +3,9 @@ source 'https://rubygems.org'
 # Specify your gem's dependencies in mapa76-core.gemspec
 gemspec
 
-gem "rake"
 gem "capistrano"
+gem 'json', '~> 1.7.7'
+gem "rake"
 gem "yajl-ruby", :require => "yajl/json_gem"
 
 group :extra do
