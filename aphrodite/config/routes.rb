@@ -1,4 +1,6 @@
 Mapa76::Application.routes.draw do
+  ActiveAdmin.routes(self)
+
   devise_for :users
 
   resources :people do

@@ -16,4 +16,13 @@ class ApplicationController < ActionController::Base
       end
     end
   end
+
+protected
+
+  def authenticate_admin_user!
+    authenticate_user!
+    unless current_user.admin?
+      redirect_to root_path, error: "Unauthorized access!"
+    end
+  end
 end

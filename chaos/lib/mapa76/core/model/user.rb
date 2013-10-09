@@ -2,8 +2,9 @@ class User
   include Mongoid::Document
 
   ## Database authenticatable
-  field :email,              :type => String, :default => ""
-  field :encrypted_password, :type => String, :default => ""
+  field :admin,              :type => Boolean, :default => false
+  field :email,              :type => String,  :default => ""
+  field :encrypted_password, :type => String,  :default => ""
 
   validates_presence_of :email
   validates_presence_of :encrypted_password
