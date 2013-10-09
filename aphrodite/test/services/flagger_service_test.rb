@@ -6,7 +6,7 @@ describe FlaggerService do
     user = mock
     mailer = mock
     mailer.stubs(deliver: true)
-    document.expects(:"flag!")
+    document.expects(:"flag!").with(user)
     FlagMailer.expects(:flag).with(user, document).returns(mailer)
 
     FlaggerService.new(user, document).call

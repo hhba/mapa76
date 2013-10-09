@@ -7,7 +7,7 @@ class FlaggerService
   end
 
   def call
-    document.flag!
+    document.flag!(user)
     FlagMailer.flag(user, document).deliver
   end
 end
