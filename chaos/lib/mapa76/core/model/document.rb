@@ -18,6 +18,7 @@ class Document
   field :tasks,             type: Array,   default: []
   field :public,            type: Boolean, default: true
   field :percentage,        type: Float,   default: 0
+  field :flagger_id,        type: Moped::BSON::ObjectId
   field :file_id,           type: Moped::BSON::ObjectId
   field :thumbnail_file_id, type: Moped::BSON::ObjectId
 
@@ -71,6 +72,9 @@ class Document
     fields.to_json
   end
 
+  def flagged_by
+    flagger
+  end
 
   def file
     if file_id

@@ -19,10 +19,11 @@ Mapa76::Application.routes.draw do
   resources :documents do
     get 'status', :on => :collection
     member do
-      get 'context'
-      get 'comb'
-      get 'download'
-      get 'export'
+      get  'context'
+      get  'comb'
+      get  'download'
+      get  'export'
+      post 'flag'
     end
 
     collection do

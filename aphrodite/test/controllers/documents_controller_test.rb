@@ -76,6 +76,16 @@ describe DocumentsController do
       sign_in user
     end
 
+    describe 'POST #flag' do
+      it '' do
+        #FlaggerService.expects(:call).with(document)
+        post :flag, id: document.id
+
+        response.status.must_equal 302
+        assert_redirected_to documents_path
+      end
+    end
+
     describe 'GET #context' do
       it "Retrieve a JSON with the context" do
         get :context, :format => :json, :id => document.id

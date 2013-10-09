@@ -61,6 +61,10 @@ class DocumentsController < ApplicationController
     send_data @document.file.data, filename: @document.original_filename
   end
 
+  def flag
+    redirect_to documents_path, notice: "hola"
+  end
+
   def generate_thumbnail
     @document = Document.find(params[:id])
 
