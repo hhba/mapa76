@@ -39,6 +39,9 @@
   .document
     %h2{:id => "document-title", "data-document-id" => @document.id}
       = @document.title
+    = link_to download_document_path(@document) do
+      %i.icon-download-alt{:title => "Descargar"}
+      %span Descargar
     .pages
       - @empty_pages.each do |page|
         .page.empty{:id => page.num, :"data-id" => page.id, :style => "width: 100%; height: #{page.height}px"}
