@@ -40,12 +40,12 @@ gem 'devise'
 gem 'haml'
 gem 'sass'
 gem 'haml-rails'
-gem 'jquery-rails', '2.1.4'
 gem 'mongoid'
 gem 'mongoid-pagination'
 gem 'oj'
 gem 'simple_form'
 gem 'rabl'
+gem 'rails_admin'
 gem 'unicorn'
 gem 'will_paginate-bootstrap', :require => "will_paginate-bootstrap"
 gem 'whenever', require: false
