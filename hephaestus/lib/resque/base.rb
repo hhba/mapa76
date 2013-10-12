@@ -11,6 +11,13 @@ class Base
   end
 
   def self.on_failure(e, *args)
+    id = args[0]
+    begin
+      document = Document.find(id)
+      document.update_attribute :status, "FAILED"
+    rescue Mongoid::Errors::DocumentNotFound
+      logging("Document not found. #{id}")
+    end
     logging('failure', args)
   end
 
