@@ -8,6 +8,6 @@ class FlaggerService
 
   def call
     document.flag!(user)
-    FlagMailer.flag(user, document).deliver
+    NotificationMailer.flag(user, document).deliver
   end
 end
