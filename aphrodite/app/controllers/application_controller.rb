@@ -16,4 +16,11 @@ class ApplicationController < ActionController::Base
       end
     end
   end
+
+  def only_signed_off
+    if current_user
+      redirect_to documents_path, notice: 'Ud. ya se ha registrado'
+      return
+    end
+  end
 end
