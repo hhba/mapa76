@@ -49,4 +49,9 @@ FactoryGirl.define do
   factory :person do
     sequence(:name) { |n| "name_#{ n }" }
   end
+
+  factory :invitation do
+    name 'John'
+    email 'email@email.com'
+  end
 end
