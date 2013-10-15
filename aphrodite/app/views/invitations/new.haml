@@ -1,0 +1,8 @@
+%h2
+  Pedido de invitación
+
+= simple_form_for @invitation do |f|
+  = f.input :name
+  = f.input :email
+  = f.input :reason, as: :text
+  = f.button :submit

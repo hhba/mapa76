@@ -7,6 +7,8 @@ Mapa76::Application.routes.draw do
     post "blacklist", :on => :member
   end
 
+  resources :invitations, only: [:new, :create]
+
   resources :projects, :except => [:edit, :update, :delete] do
     member do
       get    'timeline'
