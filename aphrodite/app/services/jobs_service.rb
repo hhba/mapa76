@@ -26,5 +26,4 @@ class JobsService
       end
     end.flatten
   end
-
 end
