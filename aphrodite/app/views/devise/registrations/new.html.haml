@@ -9,6 +9,7 @@
         = f.input :email, :required => true, :autofocus => true
         = f.input :password, :required => true
         = f.input :password_confirmation, :required => true
+        = f.input :invitation_token
 
       .form-actions
         = f.button :submit, t("sessions.sign_up")
