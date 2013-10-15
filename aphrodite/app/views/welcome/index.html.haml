@@ -11,6 +11,10 @@
         %h1 Mapa76
         %h2 Extracción automática de datos de documentos para visualizar relaciones
         %p Es una plataforma de investigación periodística que detecta entidades automáticamente, realiza análisis semántico y estructura la información para mostrar relaciones visuales, aplicada a los juicios de la última dictadura militar argentina.
+        - unless current_user
+          %h3
+            = link_to 'Solicitar invitación', new_invitation_path, style: 'color: white;'
+
       .span4
         %h3 Últimos documentos
         %ul.documents
