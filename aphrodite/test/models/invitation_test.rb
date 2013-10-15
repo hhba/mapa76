@@ -1,6 +1,30 @@
 require 'test_helper'
 
 describe Invitation do
+  context 'class methods' do
+    describe '#burn!' do
+      context 'invitation not burned' do
+        it 'returns true' do
+          invitation = FactoryGirl.create :invitation
+          Invitation.burn!(invitation.token).must_equal true
+        end
+      end
+
+      context 'invitation already burned' do
+        it 'returns false' do
+          invitation = FactoryGirl.create :invitation, burned_at: Time.now
+          Invitation.burn!(invitation.token).must_equal false
+        end
+      end
+
+      context 'invitation not exist' do
+        it 'returns false' do
+          Invitation.burn!('notoken').must_equal false
+        end
+      end
+    end
+  end
+
   describe 'validations' do
     it '' do
       invitation = Invitation.new
