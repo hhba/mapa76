@@ -3,6 +3,7 @@
 
 = simple_form_for @invitation do |f|
   = f.input :name
+  = f.input :organization
   = f.input :email
   = f.input :reason, as: :text
   = f.button :submit
