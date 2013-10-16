@@ -43,7 +43,7 @@ GEM
     debugger-linecache (1.1.2)
       debugger-ruby_core_source (>= 1.1.1)
     debugger-ruby_core_source (1.1.7)
-    docsplit (0.6.4)
+    docsplit (0.7.2)
     factory_girl (4.0.0)
       activesupport (>= 3.0.0)
     ffi (1.1.5)
