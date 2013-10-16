@@ -8,3 +8,6 @@
 
 MANDRILL_USERNAME: username@mandrill.com
 MANDRILL_API_KEY: theapikey
+NOTIFICATION_EMAIL: analiceme@mailinator.com
+production:
+  NOTIFICATION_EMAIL: analiceme-production@mailinator.com

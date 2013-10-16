@@ -1,7 +1,7 @@
 # encoding: utf-8
 
 class NotificationMailer < ActionMailer::Base
-  default from: "info@analice.me", to: 'info@analice.me'
+  default from: "info@analice.me", to: Figaro.env.notification_email
 
   def flag(user, document)
     @user = user
