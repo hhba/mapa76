@@ -21,3 +21,6 @@ public/assets
 config/mongoid.yml
 config/resque.yml
 config/elasticsearch.yml
+
+# Ignore application configuration
+/config/application.yml

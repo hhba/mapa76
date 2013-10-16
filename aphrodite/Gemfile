@@ -38,6 +38,7 @@ end
 
 gem 'devise'
 gem 'haml'
+gem 'figaro'
 gem 'sass'
 gem 'haml-rails'
 gem 'mongoid'
