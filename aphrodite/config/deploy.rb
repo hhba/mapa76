@@ -21,7 +21,7 @@ set :ssh_options, :forward_agent => true
 
 set :keep_releases, 5
 
-set :config_files, %w{ mongoid resque elasticsearch }
+set :config_files, %w{ application mongoid resque elasticsearch }
 
 default_run_options[:pty] = true
 ssh_options[:forward_agent] = true
