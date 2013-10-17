@@ -5,7 +5,7 @@ gem "mapa76-core", path: '../chaos'
 gem "activesupport", :require => false
 gem "amatch"
 gem "bson_ext"
-gem "docsplit"
+gem "docsplit", "0.6.0"
 gem "freeling-analyzer"
 gem "geokit"
 gem "httpi"
