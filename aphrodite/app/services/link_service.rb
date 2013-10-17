@@ -10,17 +10,22 @@ class LinkService
   end
 
   def call
-    Tempfile.open(filename, encoding: 'ascii-8bit') do |file|
-      open(file_url, 'rb') do |read_file|
-        file.write(read_file.read)
-        file.rewind
-        document = Document.new
-        document.original_filename = filename
-        document.file = file.path
-        document.save
+    begin
+      Tempfile.open(filename, encoding: 'ascii-8bit') do |file|
+        open(file_url, 'rb') do |read_file|
+          file.write(read_file.read)
+          file.rewind
+          document = Document.new
+          document.original_filename = filename
+          document.file = file.path
+          document.save
 
-        user.documents << document if user
+          user.documents << document if user
+        end
       end
+      true
+    rescue Errno::ENOENT => e
+      false
     end
   end
 

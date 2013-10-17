@@ -34,8 +34,12 @@ class DocumentsController < ApplicationController
   end
 
   def link
-    LinkService.new(params[:document][:link], current_user).call
-    redirect_to documents_path, notice: 'El archivo ha sido linkeado'
+    link_service = LinkService.new(params[:document][:link], current_user)
+    if link_service.call
+      redirect_to documents_path, notice: 'El archivo ha sido linkeado'
+    else
+      render :new, error: 'Hay un problema con el link'
+    end
   end
 
   def show

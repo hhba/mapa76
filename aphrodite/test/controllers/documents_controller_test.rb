@@ -88,7 +88,13 @@ describe DocumentsController do
       end
 
       context 'wrong arguments' do
-        it 'sends an error message'
+        it 'sends an error message' do
+          link = mock(call: false)
+          LinkService.expects(:new).returns(link)
+
+          post :link, document: { link: 'bad_link' }
+          response.status.must_equal 200
+        end
       end
     end
 
