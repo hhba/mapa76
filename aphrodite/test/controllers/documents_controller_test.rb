@@ -76,6 +76,22 @@ describe DocumentsController do
       sign_in user
     end
 
+    describe 'POST #link' do
+      context 'url as an argument' do
+        it '' do
+          link = mock(call: true)
+          LinkService.expects(:new).returns(link)
+
+          post :link, document: { link: 'http://example.org/file.txt' }
+          response.status.must_equal 302
+        end
+      end
+
+      context 'wrong arguments' do
+        it 'sends an error message'
+      end
+    end
+
     describe 'POST #flag' do
       it '' do
         flagger_service = mock

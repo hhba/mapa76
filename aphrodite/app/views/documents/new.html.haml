@@ -14,3 +14,10 @@
         %div{class: 'input file optional document_file'}
           %input#file_upload{type: 'file', name: 'document[files][]', multiple: true}
         %input{type: 'submit', class: 'btn'}
+
+      %h3 Linkear documento
+      = form_tag link_documents_path do |f|
+        %div{class: 'input file optional document_file'}
+          %input#link{type: 'text', name: 'document[link]'}
+        %input{type: 'submit', class: 'btn', value: 'Link'}
+

@@ -33,6 +33,11 @@ class DocumentsController < ApplicationController
     redirect_to :action => :index
   end
 
+  def link
+    LinkService.new(params[:document][:link], current_user).call
+    redirect_to documents_path, notice: 'El archivo ha sido linkeado'
+  end
+
   def show
     @document = Document.find(params[:id])
   end
