@@ -45,7 +45,9 @@ module ApplicationHelper
     if results.nil?
       link_to t("all_documents") + " (#{@documents.count})", documents_path
     else
-      link_to 'Resultados' + " (#{@results.count})", documents_path
+      total = 0
+      @results.each { |r| total = total + r.count }
+      link_to 'Resultados' + " (#{total}/#{@results.count})", documents_path
     end
   end
 
