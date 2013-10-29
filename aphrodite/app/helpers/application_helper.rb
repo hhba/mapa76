@@ -54,4 +54,14 @@ module ApplicationHelper
   def can_delete?(document)
     JobsService.not_working_on?(document)
   end
+
+  def flash_message(name)
+    if name == :notice
+      'success'
+    elsif name == :alert
+      'error'
+    else
+      name
+    end
+  end
 end

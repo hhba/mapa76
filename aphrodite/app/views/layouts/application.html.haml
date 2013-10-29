@@ -46,7 +46,10 @@
                   = link_to t("sessions.sign_up"), new_user_registration_path
     .container-fluid
       - flash.each do |name, msg|
-        = content_tag :div, msg, :id => "flash_#{name}", class: "row-fluid flash #{name}"
+        = content_tag :div, :id => "flash_#{name}", class: "flash alert alert-#{flash_message(name)}" do
+          %button.close{'data-dismiss' => 'alert'}
+            &times;
+          = msg
       - if content_for?(:breadcrumbs)
         .row-fluid
           .content.span12
