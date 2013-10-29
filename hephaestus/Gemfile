@@ -20,7 +20,7 @@ gem "pry", :require => false
 gem 'json', '~> 1.7.7'
 
 group :development do
-  gem "pry-debugger"
+  #gem "pry-debugger"
 
   gem "capistrano"
   gem "capistrano-ext"
