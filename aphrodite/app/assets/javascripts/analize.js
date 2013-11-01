@@ -73,22 +73,26 @@ $(document).ready(function() {
     return new Droppable($(".box." + klass));
   });
 
-  $(".new_register button.close").live("click", function() {
+  $(document).on('click', '.new_register button.close', function(){
     $(this).parent().remove();
   });
+  /*$(".new_register button.close").live("click", function() {*/
+  /*$(this).parent().remove();*/
+  /*});*/
 
-  $("button.clean").live("click", function() {
+  $(document).on('click', 'button.clean', function(){
     AnalyzeApp.registerView.resetRegister();
   });
 
-  $("button.save").live("click", function() {
+  $(document).on('click', 'button.save', function(){
     AnalyzeApp.saveRegister();
   });
 
   // Update scrollbar when changing tabs
-  $(".document .nav a").live("click", function() {
+  $(document).on('click', '.document .nav a', function(){
     $(".sidebar").mCustomScrollbar("update");
   });
+
   if($("#map").length){
     drawMap();
   }
@@ -96,8 +100,8 @@ $(document).ready(function() {
     event.preventDefault();
     $(".timeline-container").toggle("30");
   });
-  currentTimeline = TimelineSetter.Timeline.boot(
-    $("#timeline").data("dates"),
-    {"interval":"","container":"#timeline"}
-  );
+  /*currentTimeline = TimelineSetter.Timeline.boot(*/
+  /*$("#timeline").data("dates"),*/
+  /*{"interval":"","container":"#timeline"}*/
+  /*);*/
 });
