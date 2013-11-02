@@ -93,9 +93,6 @@ $(document).ready(function() {
     $(".sidebar").mCustomScrollbar("update");
   });
 
-  if($("#map").length){
-    drawMap();
-  }
   $("button.showTimeline").click(function(event){
     event.preventDefault();
     $(".timeline-container").toggle("30");
