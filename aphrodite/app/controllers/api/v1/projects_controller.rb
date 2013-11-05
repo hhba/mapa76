@@ -7,10 +7,6 @@ module Api
         @project = Project.find params[:id]
       end
 
-      def timeline
-        @project = Project.find params[:id]
-      end
-
       def index
         @projects = current_user.projects
       end

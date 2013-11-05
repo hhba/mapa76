@@ -92,13 +92,4 @@ $(document).ready(function() {
   $(document).on('click', '.document .nav a', function(){
     $(".sidebar").mCustomScrollbar("update");
   });
-
-  $("button.showTimeline").click(function(event){
-    event.preventDefault();
-    $(".timeline-container").toggle("30");
-  });
-  /*currentTimeline = TimelineSetter.Timeline.boot(*/
-  /*$("#timeline").data("dates"),*/
-  /*{"interval":"","container":"#timeline"}*/
-  /*);*/
 });

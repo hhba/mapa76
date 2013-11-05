@@ -11,7 +11,6 @@ Mapa76::Application.routes.draw do
 
   resources :projects, :except => [:edit, :update, :delete] do
     member do
-      get    'timeline'
       get    'add_documents'
       post   'add_document'
       delete 'remove_document'
@@ -40,11 +39,7 @@ Mapa76::Application.routes.draw do
       resources :documents
       resources :people, only: [:show]
       resources :named_entities, only: [:show]
-      resources :projects, only: [:show, :index] do
-        member do
-          get :timeline
-        end
-      end
+      resources :projects, only: [:show, :index]
     end
     resources :documents, only: [:show, :destroy]
     resources :people
