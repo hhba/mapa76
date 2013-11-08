@@ -44,8 +44,4 @@ class ProjectsController < ApplicationController
     @project = Project.find params[:id]
     render json: @project.remove_document_by_id(params[:document_id]).to_json
   end
-
-  def timeline
-    @project = Project.find params[:id]
-  end
 end
