@@ -16,11 +16,18 @@
             = link_to 'Solicitar invitación', new_invitation_path, style: 'color: white;'
 
       .span4
-        %h3 Últimos documentos
+        %h3 Estadísticas
         %ul.documents
-          - @documents.each do |document|
-            %li
-              = link_to document.title, comb_document_path(document)
+          %li
+            = "#{@documents} Docs cargados"
+          %li
+            = "#{@people} Personas"
+          %li
+            = "#{@organizations} Organizaciones"
+          %li
+            = "#{@places} Lugares"
+          %li
+            = "#{@dates} Fechas"
     .row-fluid.intro-graph
       .span2  
       .span3
