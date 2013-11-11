@@ -1,0 +1,28 @@
+{
+  "author": "Pablo Novas <pjnovas@gmail.com>",
+  "name": "aeolus",
+  "description": "JavaScript application for Mapa76",
+  "version": "0.0.1",
+  "main": "lib/index.js",
+  "scripts": {
+    "start": "node mockup-server"
+  },
+  "engines": {
+    "node": "0.10.x"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "webmake": "~0.3.23",
+    "grunt-contrib-clean": "~0.5.0",
+    "grunt-contrib-watch": "~0.5.3",
+    "grunt-contrib-concat": "~0.3.0",
+    "grunt-contrib-jshint": "~0.7.1",
+    "grunt-contrib-copy": "~0.4.1",
+    "grunt-contrib-uglify": "~0.2.7",
+    "grunt-contrib-less": "~0.8.1",
+    "grunt-commonjs-handlebars": "0.1.0-rc7",
+    
+    "express": "~3.4.4"
+  }
+}
