@@ -6,7 +6,9 @@
       = f.error_notification
 
       .form-inputs
-        = f.input :email, :required => true, :autofocus => true
+        = f.input :name, required: true, autofocus: true
+        = f.input :organization
+        = f.input :email, :required => true
         = f.input :password, :required => true
         = f.input :password_confirmation, :required => true
         = f.input :invitation_token, required: true

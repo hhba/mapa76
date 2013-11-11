@@ -1,13 +1,14 @@
 class User
-  # Include default devise modules. Others available are:
-  # :token_authenticatable, :confirmable,
-  # :lockable, :timeoutable and :omniauthable
   attr_accessor :invitation_token
+
+  field :name, type: String
+  field :organization, type: String
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
   validate :token, unless: "invitation_token.nil?"
+  validate :name, presence: true
 
 private
 
