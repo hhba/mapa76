@@ -1,0 +1,9 @@
+%h2
+  Contacto
+
+= simple_form_for @contact, url: '/save_contact' do |f|
+  = f.input :name
+  = f.input :organization
+  = f.input :email
+  = f.input :message
+  = f.submit
