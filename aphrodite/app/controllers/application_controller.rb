@@ -23,4 +23,13 @@ class ApplicationController < ActionController::Base
       return
     end
   end
+
+  def current_user_admin
+    if current_user.admin?
+      current_user
+    else
+      redirect_to '/', error: 'Authorization denied'
+      false
+    end
+  end
 end
