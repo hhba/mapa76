@@ -46,8 +46,10 @@ Mapa76::Application.routes.draw do
     resources :registers
   end
 
+  get "/contact" => "welcome#contact"
+  post "/save_contact" => "welcome#save_contact"
   root :to => "welcome#index"
 
-  match "#{Mapa76::Application.config.thumbnails_path}/:id" => "documents#generate_thumbnail"
+  get "#{Mapa76::Application.config.thumbnails_path}/:id" => "documents#generate_thumbnail"
   get '/blog' => redirect('/blog/')
 end

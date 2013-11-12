@@ -3,12 +3,17 @@ class User
 
   field :name, type: String
   field :organization, type: String
+  field :admin, type: Boolean
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
   validate :token, unless: "invitation_token.nil?"
   validate :name, presence: true
+
+  def admin?
+    !!admin
+  end
 
 private
 
