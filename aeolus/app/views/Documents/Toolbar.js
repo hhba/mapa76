@@ -1,21 +1,17 @@
 /**
- * VIEW: Document List
+ * VIEW: Toolbar
  * 
  */
 
-var 
-  template = require('./templates/documents.tpl'),
-  Document = require('./Document');
+var template = require('./templates/toolbar.tpl');
 
-module.exports = Backbone.Marionette.CompositeView.extend({
+module.exports = Backbone.Marionette.ItemView.extend({
 
   //--------------------------------------
   //+ PUBLIC PROPERTIES / CONSTANTS
   //--------------------------------------
 
   template: template,
-  itemViewContainer: "ul.documents",
-  itemView: Document,
 
   //--------------------------------------
   //+ INHERITED / OVERRIDES
