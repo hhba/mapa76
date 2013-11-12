@@ -1,0 +1,352 @@
+@import "mixin";
+@import "vars";
+@import "slider";
+
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+.clearfix {
+	@include clearfix;
+}
+
+.hidden {
+	display: none;
+}
+.left {
+	float: left;
+}
+.right {
+	float: right;
+}
+
+/*font family ============*/
+//font-family: "opensans-light";
+@include font-face('opensans-light',    '#{$path-to-fonts}/opensans-light',    'opensans-light');
+//font-family: "opensans-semibold";
+@include font-face('opensans-semibold', '#{$path-to-fonts}/opensans-semibold', 'opensans-semibold');
+//font-family: "fopensans-italic";
+@include font-face('fopensans-italic',  '#{$path-to-fonts}/opensans-italic',   'opensans-italic');
+//font-family: "opensans-regular";
+@include font-face('opensans-regular',  '#{$path-to-fonts}/opensans-regular',  'opensans-regular');
+/* ====================== */
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+  display: block;
+ }
+body {
+  line-height: 1;
+  background: #fff url("#{$path-to-images}/bg-pattern.png") repeat 0 0;
+  @include font-regular-text;
+ }
+
+ol, ul {
+  list-style: none;
+}
+
+blockquote, q {
+  quotes: none;
+}
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: '';
+  content: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+h1 { @include font-headin-xxx-large; }
+h2 { @include font-headin-xx-large; }
+h3 { @include font-headin-x-large; }
+h4 { @include font-headin-large; }
+
+p { @include font-regular-text; }
+
+strong {
+	@include opensans-semibold;
+}
+
+a {
+	color: $color-primary-link;
+	text-decoration:none;
+	@include transition(all, 0.2s, ease-in-out);
+	&:hover {
+		color: lighten( $color-primary-link, 10% );
+	}
+}
+
+
+/*global*/
+input:not([type]),
+input[type="color"],
+input[type="email"],
+input[type="number"],
+input[type="password"],
+input[type="tel"],
+input[type="url"],
+input[type="text"] {
+	@include inputs;
+	&:focus {
+		@include transition(all, 0.2s, ease-in-out);
+		-moz-box-shadow: #959290 0 0 7px;
+		-webkit-box-shadow: #959290 0 0 7px;
+		box-shadow: #959290 0 0 7px;
+		outline: none;
+	}
+}
+input[type="button"],
+input[type="submit"],
+input[type="reset"],
+input[type="file"],
+button {
+	@include buttons;
+}
+textarea {
+	@include inputs (129px);
+	&:focus {
+		@include transition(all, 0.2s, ease-in-out);
+		-moz-box-shadow: #959290 0 0 7px;
+		-webkit-box-shadow: #959290 0 0 7px;
+		box-shadow: #959290 0 0 7px;
+		outline: none;
+	}
+}
+
+/* header */
+.header input:not([type]),
+.header input[type="color"],
+.header input[type="email"],
+.header input[type="number"],
+.header input[type="password"],
+.header input[type="tel"],
+.header input[type="url"],
+.header input[type="text"] {
+	@include inputs (15px);
+}
+
+/* Emphasis class ================= */
+input {
+	&.input-muted {
+		@include imput-emphasis ($color-muted);
+		background: $color-bg;
+	}
+	&.input-warning {
+		@include imput-emphasis ($color-warning);
+	}
+	&.input-error {
+		@include imput-emphasis ($color-error);
+	}
+	&.input-info {
+		@include imput-emphasis ($color-info);
+	}
+	&.input-success {
+		@include imput-emphasis ($color-success);
+	}
+}
+
+.text-muted {
+	color: $color-muted;
+}
+.text-warning {
+	color: $color-warning;
+}
+.text-error {
+	color: $color-error;
+}
+.text-info {
+	color: $color-info;
+}
+.text-success {
+	color: $color-success;
+}
+
+.input-item {
+	position: relative;
+}
+
+/* header ========================= */
+.container {
+	.header-and-content {
+		.wrapper-header {
+			background: $color-bg;
+			.header {
+				@include max-width (0px, 29px, 0px, 29px);
+				@include center-layout;
+				.logo a {
+					background: url("#{$path-to-images}/logo.png") no-repeat top left;
+					width: 93px;
+					height: 20px;
+					float: left;
+					margin: 24px 0px 20px 1px;
+					display: block;
+				}
+				.user-login {
+					float: right;
+					width: 577px;
+					margin: 17px 0px 0px 0px;
+					form {
+						float: left;
+						input[type="password"],
+						input[type="text"] {
+							width: 154px;
+							margin-right:8px;
+						}
+					}
+					.user-options {
+						float: right;
+						width: 111px;
+						font-size: $font-size-tiny;
+						a {
+							display: block;
+							margin-top: -1px;
+							&:first-child {
+								@include secondary-link;
+							}
+						}
+						a+a {
+							margin-top: -7px;
+						}
+					}
+				}
+			}
+		}
+		.line-deco {
+			background: url("#{$path-to-images}/shadow_deco.png") no-repeat top center;
+			height: 20px;
+		}
+		.main-content {
+			@include max-width (32px, 29px, 10px, 29px);
+			@include center-layout;
+			.content {
+				width: $contet;
+				float: left;
+				margin-right: $margin-content-to-sidebar;
+				p {
+					color: $color-secondary-text;
+				}
+			}
+			.side-bar {
+				width: $sidebar;
+				height: 300px;
+				float: left;
+			}
+		}
+	}
+}
+/* Footer section ===================== */
+	// Sticky footer ======
+	html, body, .container { height: 100%; }
+	body > .container { height: auto; min-height: 100%; }
+
+	.footer-secction.partners {
+		clear: both;
+		position: relative;
+		z-index: 10;
+		height: $footer-partners;
+		margin-top: -$footer-partners;
+	}
+	.header-and-content.partners { padding-bottom: $footer-partners; }
+
+	.footer-secction {
+		clear: both;
+		position: relative;
+		z-index: 10;
+		height: $footer-no-partners;
+		margin-top: -$footer-no-partners;
+	}
+	.header-and-content { padding-bottom: $footer-no-partners; }
+	//=====================
+
+.footer-secction {
+	.wrapper-prefooter {
+		background: #fff url("#{$path-to-images}/shadow_deco.png") no-repeat top center;
+		.prefooter {
+			@include max-width (0px, 29px, 0px, 29px);
+			@include center-layout;
+			height: 172px;
+		}
+	}
+	.wrapper-footer {
+			background: $color-bg;
+			height: 169px;
+		.footer {
+			background: url("#{$path-to-images}/footer_logo.png") no-repeat 32px 21px;
+			@include max-width (0px, 29px, 0px, 29px);
+			@include center-layout;
+			height: 169px;
+			.footer-menu {
+				@include horizontal-list;
+				float: right;
+				font-size: $font-size-tiny;
+				margin-top: 22px;
+			}
+		}
+	}
+}
+
+/* prefooter section ============== */
+.prefooter {
+	.partner-title {
+		text-align: center;
+		padding-bottom: 8px;
+		padding-top: 26px;
+		margin: 0 12px;
+		h3 {
+			margin: 0px;
+			color: $color-primary-link;
+			border-bottom: 1px solid $color-border;
+			font-size: $font-size-small;
+			padding-bottom: 6px;
+		}
+		.deco {
+			background: url("#{$path-to-images}/prefooter_deco.png") no-repeat center bottom;
+			width: 20px;
+			height: 10px;
+			margin: -2px auto 0 auto;
+		}
+	}
+}
+
+/* ================================ */
+/* Contact ======================== */
+.contact {
+	textarea,
+	input[type="text"] {
+		@include input-width-full;
+	}
+}
+/* ================================ */
+
+/* Registration ======================== */
+.registration {
+	textarea,
+	input[type="password"],
+	input[type="text"] {
+		@include input-width-full;
+	}
+}
+/* ================================ */

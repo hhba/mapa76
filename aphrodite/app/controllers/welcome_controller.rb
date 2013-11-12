@@ -1,4 +1,6 @@
 class WelcomeController < ApplicationController
+  layout 'pretty'
+
   def index
     @documents = Document.count
     @people = Person.count

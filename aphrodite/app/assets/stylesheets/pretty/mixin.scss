@@ -1,0 +1,180 @@
+//Clearfix =================================
+@mixin clearfix {
+  &:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+  }
+  * html & { height: 1px }
+}
+//==========================================
+//@font-face mixin =========================
+//@include font-face('family', '../fonts/', 'myfontname');
+@mixin font-face($font-family, $font-url, $font-name) {
+	@font-face {
+    	font: {
+        	family: $font-family;
+        	style: normal;
+        	weight: normal;
+		}
+		src: url($font-url + '/' + $font-name + '.eot')  format('eot'), 
+			 url($font-url + '/' + $font-name + '.woff') format('woff'), 
+			 url($font-url + '/' + $font-name + '.ttf')  format('truetype'),
+			 url($font-url + '/' + $font-name + '.svg#' + $font-name) format('svg');
+	}
+}
+
+@mixin opensans-light {
+	font-family: "opensans-light";
+}
+@mixin opensans-semibold {
+	font-family: "opensans-semibold";
+}
+@mixin fopensans-italic {
+	font-family: "fopensans-italic";
+}
+@mixin opensans-regular {
+	font-family: "opensans-regular";
+}
+//==========================================
+//Layout ===================================
+@mixin center-layout {
+	margin: 0 auto;
+}
+
+@mixin max-width ($padding-top, $padding-left, $padding-buttom, $margin-right){
+	width: $max-width - ($padding-left + $margin-right);
+	padding: $padding-top $padding-left $padding-buttom $margin-right;
+}
+//==========================================
+//Headings =================================
+@mixin font-headin-xxx-large {
+	@include opensans-light;
+	font-size: $font-size-xxx-large;
+	color: $color-primary-heading;
+	margin-bottom: 30px;
+	line-height: 35px;
+}
+
+@mixin font-headin-xx-large {
+	@include opensans-light;
+	font-size: $font-size-xx-large;
+	color: $color-secondary-heading;
+	margin-bottom: 15px;
+}
+
+@mixin font-headin-x-large {
+	@include opensans-semibold;
+	font-size: $font-size-x-large;
+	color: $color-secondary-heading;
+	margin-bottom: 10px;
+	margin-top: 10px;
+}
+
+@mixin font-headin-large {
+	@include fopensans-italic;
+	font-size: $font-size-large;
+	color: $color-secondary-heading;
+}
+//==========================================
+// Regular text ============================
+@mixin font-regular-text {
+	@include opensans-regular;
+	font-size: $font-size-regular;
+	color: $color-primary-text;
+	line-height: 20px;
+	margin-bottom: 20px;
+}
+//==========================================
+// imputs ==================================
+@mixin inputs ($input-height: 22px){
+	height: $input-height;
+	border-radius: $global-border-radius;
+	border: 1px solid $color-border;
+	padding: 5px 9px;
+	font-size: $font-size-small;
+	margin-bottom: 12px;
+	@include opensans-regular;
+}
+@mixin input-width-small {
+	width: 200px;
+}
+@mixin input-width-full {
+	width: 547px;
+}
+//==========================================
+
+// buttons =================================
+@mixin buttons {
+	background-color: $color-button;
+	color: $color-button-txt;
+	border: 0px;
+	border-radius: $global-border-radius;
+	padding: 6px 17px;
+	font-size: $font-size-small;
+	cursor: pointer;
+	@include transition(all, 0.2s, ease-in-out);
+	outline-color: #ff0000;
+	&:hover {
+		background: lighten( $color-button, 10% );
+	}
+}
+//==========================================
+
+//Emphasis mixin ===========================
+@mixin imput-emphasis ($emphasis-color){
+	color: $emphasis-color;
+	border-color: $emphasis-color;
+	&::-webkit-input-placeholder { color: $emphasis-color; }
+	&:-moz-placeholder { color: $emphasis-color; }
+	&::-moz-placeholder { color: $emphasis-color; }
+	&:-ms-input-placeholder { color: $emphasis-color; }
+	&+.msj { 
+		@include fopensans-italic;
+		font-size: $font-size-small;
+		position: absolute;
+		top: 7px;
+		right: 10px;
+		z-index: 1; 
+		color: $emphasis-color;
+	}
+}
+//==========================================
+
+// Transitions =============================
+// @include transition(all, 0.2s, ease-in-out);
+@mixin transition($transition-property, $transition-time, $method) {
+    -webkit-transition: $transition-property $transition-time $method;
+    -moz-transition: $transition-property $transition-time $method;
+    -ms-transition: $transition-property $transition-time $method;
+    -o-transition: $transition-property $transition-time $method;
+    transition: $transition-property $transition-time $method;
+}
+//==========================================
+
+//Alternativ link ==========================
+@mixin secondary-link {
+	color: $color-secondary-link;
+	@include transition(all, 0.2s, ease-in-out);
+	&:hover {
+		color: darken( $color-primary-link, 30% );
+	}
+}
+
+//Horizontal list ==========================
+@mixin horizontal-list {
+	li {
+		float: left;
+		margin-left: 43px;
+		&:first-child {
+			margin-left:0px;
+		}
+		a {
+			@include secondary-link;
+		}
+	}
+}
+
+//==========================================
