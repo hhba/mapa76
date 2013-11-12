@@ -1,6 +1,7 @@
 @import "mixin";
 @import "vars";
 @import "slider";
+@import "list";
 
 
 html, body, div, span, applet, object, iframe,
@@ -12,8 +13,8 @@ b, u, i, center,
 dl, dt, dd, ol, ul, li,
 fieldset, form, label, legend,
 table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed,
-figure, figcaption, footer, header, hgroup,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
 menu, nav, output, ruby, section, summary,
 time, mark, audio, video {
   margin: 0;
@@ -23,7 +24,7 @@ time, mark, audio, video {
   font: inherit;
   vertical-align: baseline;
 }
-
+ 
 .clearfix {
 	@include clearfix;
 }
@@ -50,7 +51,7 @@ time, mark, audio, video {
 /* ====================== */
 
 /* HTML5 display-role reset for older browsers */
-article, aside, details, figcaption, figure,
+article, aside, details, figcaption, figure, 
 footer, header, hgroup, menu, nav, section {
   display: block;
  }
@@ -59,21 +60,21 @@ body {
   background: #fff url("#{$path-to-images}/bg-pattern.png") repeat 0 0;
   @include font-regular-text;
  }
-
+ 
 ol, ul {
   list-style: none;
 }
-
+ 
 blockquote, q {
   quotes: none;
 }
-
+ 
 blockquote:before, blockquote:after,
 q:before, q:after {
-  content: '';
+  content: '';	
   content: none;
 }
-
+ 
 table {
   border-collapse: collapse;
   border-spacing: 0;
@@ -101,13 +102,13 @@ a {
 
 
 /*global*/
-input:not([type]),
-input[type="color"],
-input[type="email"],
-input[type="number"],
-input[type="password"],
-input[type="tel"],
-input[type="url"],
+input:not([type]), 
+input[type="color"], 
+input[type="email"], 
+input[type="number"], 
+input[type="password"], 
+input[type="tel"], 
+input[type="url"], 
 input[type="text"] {
 	@include inputs;
 	&:focus {
@@ -118,10 +119,10 @@ input[type="text"] {
 		outline: none;
 	}
 }
-input[type="button"],
-input[type="submit"],
-input[type="reset"],
-input[type="file"],
+input[type="button"], 
+input[type="submit"], 
+input[type="reset"], 
+input[type="file"], 
 button {
 	@include buttons;
 }
@@ -136,14 +137,30 @@ textarea {
 	}
 }
 
+/*button biger */
+.button-bigger {
+	color: $color-button-txt;
+	background: $color-button-bigger;
+	display: block;
+	text-transform: uppercase;
+	font-size: $font-size-large;
+	text-align: center;
+	padding: 13px 0px;
+	border-radius: $global-border-radius;
+	&:hover {
+		background: lighten( $color-button-bigger, 10% );
+		color: $color-button-txt;
+	}
+}
+
 /* header */
-.header input:not([type]),
-.header input[type="color"],
-.header input[type="email"],
-.header input[type="number"],
-.header input[type="password"],
-.header input[type="tel"],
-.header input[type="url"],
+.header input:not([type]), 
+.header input[type="color"], 
+.header input[type="email"], 
+.header input[type="number"], 
+.header input[type="password"], 
+.header input[type="tel"], 
+.header input[type="url"], 
 .header input[type="text"] {
 	@include inputs (15px);
 }
@@ -218,7 +235,7 @@ input {
 					}
 					.user-options {
 						float: right;
-						width: 111px;
+						width: 111px;	
 						font-size: $font-size-tiny;
 						a {
 							display: block;
@@ -252,7 +269,7 @@ input {
 			.side-bar {
 				width: $sidebar;
 				height: 300px;
-				float: left;
+				float: left;	
 			}
 		}
 	}
@@ -332,21 +349,112 @@ input {
 }
 
 /* ================================ */
-/* Contact ======================== */
+/* Home page ====================== */
+.home {
+	.side-bar {
+		h3 {
+			margin-top: -5px;
+			margin-left: -2px;
+		}
+		p {
+			line-height: 16px;
+		}
+		.arrow-deco {
+			background: url("#{$path-to-images}/deco_line.png") no-repeat center bottom;
+			height: 9px;
+			clear: both;
+			padding: 13px 0px 0px 0px;
+			margin-bottom: 23px;
+		}
+		.infomation {
+			.docs-upload {
+				background: #e1e1e1;
+				padding: 10px;
+				margin: 46px 0px 0px 0px;
+				color: $color-secondary-text;
+				.ups {
+					float: left;
+					background: url("#{$path-to-images}/icon_docs.png") no-repeat -3px -2px;
+					padding-left: 25px;
+					font-size: 26px;
+					font-family: arial;
+					font-weight: bold;
+				}
+				label {
+					margin: 0px 0px 0px 7px;
+					margin-top: 0px;
+					margin-right: 0px;
+					margin-bottom: 0px;
+					margin-left: 7px;
+					font-size: 11px;
+				}
+			}
+			.deco {
+				background: url("#{$path-to-images}/deco_arrow.png") no-repeat 10px 0px;
+				height: 26px;
+				width: 100%;
+			}
+			.information-item {
+				float: left;
+				width: 155px;
+				height: 56px;
+				.people-number {
+					@include opensans-semibold;
+					color: $color-people;
+					padding-left: 34px;
+					font-size: $font-size-xx-large;
+					background: url("#{$path-to-images}/icon_personas.png") no-repeat 10px 2px;
+				}
+				.org-number {
+					@include opensans-semibold;
+					color: $color-organizations;
+					padding-left: 34px;
+					font-size: $font-size-xx-large;
+					background: url("#{$path-to-images}/icon_org.png") no-repeat 2px 0px;
+				}
+				.places-number {
+					@include opensans-semibold;
+					color: $color-places;
+					padding-left: 34px;
+					font-size: $font-size-xx-large;
+					background: url("#{$path-to-images}/icon_lugares.png") no-repeat 14px 1px;
+				}
+				.dates-number {
+					@include opensans-semibold;
+					color: $color-dates;
+					padding-left: 34px;
+					font-size: $font-size-xx-large;
+					background: url("#{$path-to-images}/icon_fecha.png") no-repeat 11px 0px;
+				}
+				label {
+					margin-left: 35px;
+					font-size: 11px;
+				}
+			}
+		}
+	}
+}
+
+/* ================================ */
+/* Contact page =================== */
 .contact {
-	textarea,
-	input[type="text"] {
-		@include input-width-full;
+	.content {
+		textarea,
+		input[type="text"] {
+			@include input-width-full;
+		}
 	}
 }
 /* ================================ */
 
-/* Registration ======================== */
+/* Registration page ============== */
 .registration {
-	textarea,
-	input[type="password"],
-	input[type="text"] {
-		@include input-width-full;
+	.content {
+		textarea,
+		input[type="password"], 
+		input[type="text"] {
+			@include input-width-full;
+		}
 	}
 }
 /* ================================ */

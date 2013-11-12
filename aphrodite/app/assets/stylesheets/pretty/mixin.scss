@@ -63,6 +63,7 @@
 	font-size: $font-size-xx-large;
 	color: $color-secondary-heading;
 	margin-bottom: 15px;
+	line-height: 30px;
 }
 
 @mixin font-headin-x-large {
@@ -154,7 +155,7 @@
 }
 //==========================================
 
-//Alternativ link ==========================
+//Secondary link ==========================
 @mixin secondary-link {
 	color: $color-secondary-link;
 	@include transition(all, 0.2s, ease-in-out);
@@ -176,5 +177,7 @@
 		}
 	}
 }
+//==========================================
 
+//==========================================
 //==========================================

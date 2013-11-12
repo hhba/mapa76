@@ -46,7 +46,10 @@ Mapa76::Application.routes.draw do
     resources :registers
   end
 
+  get "/about" => "welcome#about"
   get "/contact" => "welcome#contact"
+  get "/terms" => "welcome#terms"
+  get "/faq" => "welcome#faq"
   post "/save_contact" => "welcome#save_contact"
   root :to => "welcome#index"
 

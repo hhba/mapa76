@@ -21,4 +21,13 @@ class WelcomeController < ApplicationController
       render :contact
     end
   end
+
+  def about
+  end
+
+  def terms
+  end
+
+  def faq
+  end
 end
