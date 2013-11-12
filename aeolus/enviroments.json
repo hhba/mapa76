@@ -1,0 +1,11 @@
+{
+  "prod": {
+    "root": "http://mapa76.info/"
+  },
+  "stage": {
+    "root": "http://staging.urdamales.com.ar/"
+  },
+  "local": {
+    "root": "http://localhost:3000"
+  }
+}
