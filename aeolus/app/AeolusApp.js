@@ -3,8 +3,7 @@
  *
  */
 
-var Documents = require('./models/Documents');
-var DocumentsListView = require('./views/Documents');
+var Documents = require('./views/Documents');
 
 var app = module.exports = new Backbone.Marionette.Application();
 
@@ -14,14 +13,5 @@ app.addInitializer( function () {
     appContainer: "#app-container"
   });
 
-  var docs = new Documents();
-
-  app.appContainer.show(new DocumentsListView({
-    collection: docs
-  }));
-
-  docs.fetch({
-    reset: true
-  });
-
+  app.appContainer.show(new Documents());
 });

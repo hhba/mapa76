@@ -1,18 +1,21 @@
 /**
- * VIEW: Document Item List
+ * VIEW: Document List
  * 
  */
 
-var template = require('./templates/document.tpl');
+var 
+  template = require('./templates/documentList.tpl'),
+  Document = require('./DocumentItem');
 
-module.exports = Backbone.Marionette.ItemView.extend({
+module.exports = Backbone.Marionette.CompositeView.extend({
 
   //--------------------------------------
   //+ PUBLIC PROPERTIES / CONSTANTS
   //--------------------------------------
 
-  tagName: "li",
   template: template,
+  itemViewContainer: "ul.documents",
+  itemView: Document,
 
   //--------------------------------------
   //+ INHERITED / OVERRIDES
