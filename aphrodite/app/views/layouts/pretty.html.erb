@@ -21,17 +21,7 @@
         <div class="wrapper-header clearfix">
           <div class="header clearfix">
             <div class="logo"><a href="<%= root_path %>"></a></div>
-            <div class="user-login">
-              <form id="login-form" name="login-form">
-                <input type="text" name="username" placeholder="Usuario">
-                <input type="password" name="pwd" placeholder="Contraseña">
-                <input type="button" value="Ingresar">
-              </form>
-              <div class="user-options">
-                <a href="faq.html">No puedes acceder?</a>
-                <a href="reg.html">Registrarme</a>
-              </div>
-            </div>
+            <%= render 'shared/sign_in' %>
           </div>
         </div>
         <div class="line-deco"></div>
