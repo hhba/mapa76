@@ -15,10 +15,10 @@ class WelcomeController < ApplicationController
 
   def save_contact
     @contact = Contact.new params[:contact]
-    if @contact.save
+    if @contact.valid? && @contact.save
       redirect_to root_path, notice: 'Se ha notificado a nuestros administradores'
     else
-      render :contact
+      render :contact, error: "Se ha producido un error"
     end
   end
 

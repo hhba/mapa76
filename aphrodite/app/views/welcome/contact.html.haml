@@ -1,20 +1,21 @@
-.content.contact.clearfix
-  %h1 Contacto
-  %form#contact-form{name: "contact-form", action: '/save_contact', method: 'post'}
-    .input-item
-      %input{name: "contact[name]", placeholder: "Nombre *", type: "text"}/
-    .input-item
-      %input{name: "contact[email]", placeholder: "Email *", type: 'text'}
-    .input-item
-      %input{name: "contact[organization]", placeholder: "Organización *", type: "text"}/
-    .input-item
-      %textarea{name: "contact[message]", placeholder: "Mensaje *", type: "text"}
-    %input.right{type: "submit", value: "Ingresar"}/
-.side-bar.clearfix
-  %h3 Nosotros
-  %p
-    %strong Analice.me
-    %br/
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque accumsan nisl lacus, et tincidunt eros pellentesque non. Vivamus libero enim, dictum nec consequat ut, elementum in eros. Maecenas metus nunc, iaculis vel posuere
-  %h4
-    = link_to "ver más.", about_path
+.main-content.contact.clearfix
+  .content.contact.clearfix
+    %h1 Contacto
+    = form_tag save_contact_path, name: 'contact-form', id: 'contact-form' do
+      .input-item
+        %input{name: "contact[name]", placeholder: "Nombre *", type: "text"}/
+      .input-item
+        %input{name: "contact[email]", placeholder: "Email *", type: 'text'}
+      .input-item
+        %input{name: "contact[organization]", placeholder: "Organización", type: "text"}/
+      .input-item
+        %textarea{name: "contact[message]", placeholder: "Mensaje *", type: "text"}
+      %input.right{type: "submit", value: "Ingresar"}/
+  .side-bar.clearfix
+    %h3 Nosotros
+    %p
+      %strong Analice.me
+      %br/
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque accumsan nisl lacus, et tincidunt eros pellentesque non. Vivamus libero enim, dictum nec consequat ut, elementum in eros. Maecenas metus nunc, iaculis vel posuere
+    %h4
+      = link_to "ver más.", about_path
