@@ -1,0 +1,13 @@
+<% if current_user.nil? %>
+  <div class="user-login">
+    <%= form_tag user_session_path, id: 'login-form', name: 'login-form' do %>
+      <input type="text" name="user[email]" placeholder="Usuario">
+      <input type="password" name="user[password]" placeholder="Contraseña">
+      <input type="submit" value="Ingresar">
+    <% end %>
+    <div class="user-options">
+      <%= link_to 'No puedes acceder?', faq_path %>
+      <%= link_to 'Registrarme', new_user_registration_path %>
+    </div>
+  </div>
+<% end %>

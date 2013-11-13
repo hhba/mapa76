@@ -11,4 +11,26 @@ describe WelcomeController do
       assert_response 200
     end
   end
+
+  describe "Visit all pages" do
+    it 'contact' do
+      get :contact
+      assert_response 200
+    end
+
+    it 'terms' do
+      get :terms
+      assert_response 200
+    end
+
+    it 'about' do
+      get :about
+      assert_response 200
+    end
+
+    it 'faq' do
+      get :faq
+      assert_response 200
+    end
+  end
 end

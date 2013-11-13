@@ -1,41 +1,77 @@
-- content_for :styles do
-  :css
-    body {
-      padding-top: 51px;
-    }
+.main-content.home.clearfix
+  .content.clearfix
+    .content-caroufredsel.carouse2
+      %ul#content-caroufredsel.slides.clearfix
+        %li
+          %img{src: "http://dummyimage.com/567x377/c9c7c9/fff.png"}/
+        %li
+          %img{src: "http://dummyimage.com/567x377/c9c7c9/fff.png"}/
+        %li
+          %img{src: "http://dummyimage.com/567x377/c9c7c9/fff.png"}/
+        %li
+          %img{src: "http://dummyimage.com/567x377/c9c7c9/fff.png"}/
+      #content-caroufredsel-pager.pager.clearfix
+  .side-bar.clearfix
+    %h3 Es la primera vez que ingresas?
+    %p
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque accumsan nisl lacus, et tincidunt eros pellentesque non. Vivamus libero enim, dictum nec consequat ut, elementum in eros.
+    .arrow-deco
+    = link_to "Pedir Invitación", new_invitation_path, class: 'button-bigger'
+    .infomation.clearfix
+      .docs-upload.clearfix
+        .ups
+          = @documents
+        %label Docs cargados
+      .deco
+      .information-item.clearfix
+        .people-number
+          = @people
+        %label Personas
+      .information-item.clearfix
+        .org-number
+          = @organizations
+        %label Organizaciones
+      .information-item.clearfix
+        .places-number
+          = @places
+        %label Lugares
+      .information-item.clearfix
+        .dates-number
+          = @dates
+        %label Fechas
 
-- content_for :free do
-  #intro
-    .row-fluid
-      .span8
-        %h1 Mapa76
-        %h2 Extracción automática de datos de documentos para visualizar relaciones
-        %p Es una plataforma de investigación periodística que detecta entidades automáticamente, realiza análisis semántico y estructura la información para mostrar relaciones visuales, aplicada a los juicios de la última dictadura militar argentina.
-        - unless current_user
-          %h3
-            = link_to 'Solicitar invitación', new_invitation_path, style: 'color: white;'
-
-      .span4
-        %h3 Estadísticas
-        %ul.documents
-          %li
-            = "#{@documents} Docs cargados"
-          %li
-            = "#{@people} Personas"
-          %li
-            = "#{@organizations} Organizaciones"
-          %li
-            = "#{@places} Lugares"
-          %li
-            = "#{@dates} Fechas"
-    .row-fluid.intro-graph
-      .span2  
-      .span3
-        %h3 Extrae
-        %p Nombres, lugares, fechas, verbos para mostrarlos de forma de manera estructurada.
-      .span3
-        %h3 Analiza
-        %p Validar hechos encontrados en los documentos y guardaros automáticamente en una base de datos.
-      .span3
-        %h3 Visualiza
-        %p Comprender gráficamente los hechos encontrados en líneas de tiempos y mapas interactivos.
+= content_for :footer do
+  .footer-secction.partners
+    .wrapper-prefooter
+      .prefooter
+        .partner-title
+          %h3 PARTNERS
+          .deco
+        .prefooter-caroufredsel.carouse2
+          %ul#prefooter-caroufredsel.slides.clearfix
+            %li
+              %img{src: "http://dummyimage.com/115x63/c9c7c9/fff&text=Primero"}/
+            %li
+              %img{src: "http://dummyimage.com/115x63/c9c7c9/fff"}/
+            %li
+              %img{src: "http://dummyimage.com/115x63/c9c7c9/fff"}/
+            %li
+              %img{src: "http://dummyimage.com/115x63/c9c7c9/fff"}/
+            %li
+              %img{src: "http://dummyimage.com/115x63/c9c7c9/fff"}/
+            %li
+              %img{src: "http://dummyimage.com/115x63/c9c7c9/fff"}/
+            %li
+              %img{src: "http://dummyimage.com/115x63/c9c7c9/fff"}/
+            %li
+              %img{src: "http://dummyimage.com/115x63/c9c7c9/fff"}/
+            %li
+              %img{src: "http://dummyimage.com/115x63/c9c7c9/fff"}/
+            %li
+              %img{src: "http://dummyimage.com/115x63/c9c7c9/fff"}/
+            %li
+              %img{src: "http://dummyimage.com/115x63/c9c7c9/fff"}/
+            %li
+              %img{src: "http://dummyimage.com/115x63/c9c7c9/fff&text=Ultimo"}/
+          %a#prev2.prev{href: "#"} <
+          %a#next2.next{href: "#"} >

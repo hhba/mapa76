@@ -1,0 +1,70 @@
+//People-list ==============================
+//example /examples/people-list.jpg
+.people-list {
+	li {
+		margin-bottom: 20px;
+		.left-info {
+			float:left;
+			width: 79px;
+			margin-right: 21px;
+			.avatar {
+				float:left;
+				background:$color-white;
+				padding:4px;
+				margin-bottom: 12px;
+				img{}
+			}
+			.social-icon {
+				float:left;
+				margin-left:7px;
+			}
+			.avatar+.social-icon {
+				margin-left: 0px;
+				clear: left;
+			}
+		}
+		.right-info {
+			.name {
+				@include opensans-semibold;
+				font-size: $font-size-large;
+			}
+			.mail {
+				margin-top: -5px;
+				font-size: $font-size-small;
+				margin-bottom: 2px;
+			}
+			p {
+				margin-left: 100px;
+			}
+		}
+	}
+}
+//=======================================
+//Partners-list =========================
+//example /examples/partners-list.jpg
+.partners-list {
+	.partner {
+		margin-bottom: 20px;
+		.left-part {
+			float: left;
+			margin-right: 14px;
+			.logo {
+				img{}
+			}
+		}
+		.rigth-part {
+			.partner-name {
+				font-size: $font-size-tiny;
+				text-transform: uppercase;
+				color: $color-secondary-text;
+			}
+			.website {
+				margin-top: -7px;
+				a {
+					@include secondary-link;
+					font-size: $font-size-tiny;
+				}
+			}
+		}
+	}
+}

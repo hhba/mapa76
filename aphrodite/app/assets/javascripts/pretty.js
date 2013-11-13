@@ -1,0 +1,5 @@
+//= require jquery
+//= require jquery.placeholder
+//= require jquery.carouFredSel-6.2.1
+
+//= require home

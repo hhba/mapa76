@@ -71,6 +71,10 @@ module Mapa76
     # Thumbnails and upload paths
     config.thumbnails_path = "/thumbs"
 
+    config.action_view.field_error_proc = Proc.new { |html_tag, instance|
+      "#{html_tag}".html_safe
+    }
+
     config.after_initialize do
       # Force load of models because after requiring Mapa76::Core models,
       # autoload marks all of the models extensions in app/models as *already*
