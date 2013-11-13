@@ -29,13 +29,16 @@ module.exports = Backbone.Marionette.Layout.extend({
   //--------------------------------------
   
   onRender: function(){
-    this.toolbar.show(new Toolbar());
+    this.toolbar.show(new Toolbar({
+      model: this.model
+    }));
 
     this.content.show(new DocumentList({
       collection: this.model.get('documents')
     }));
 
     this.menu.show(new Menu({
+      model: this.model,
       collection: this.model.get('documents')
     }));
   }

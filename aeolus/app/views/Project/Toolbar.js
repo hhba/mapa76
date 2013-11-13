@@ -13,9 +13,26 @@ module.exports = Backbone.Marionette.ItemView.extend({
 
   template: template,
 
+  ui: {
+    multiOptions: ".multi"
+  },
+
+  modelEvents: {
+    "change:counter": "render"
+  },
+
   //--------------------------------------
   //+ INHERITED / OVERRIDES
   //--------------------------------------
+
+  onDomRefresh: function(){
+    if (this.model.get("counter").selected > 0){
+      this.ui.multiOptions.show();
+    }
+    else {
+      this.ui.multiOptions.hide(); 
+    }
+  }
 
   //--------------------------------------
   //+ PUBLIC METHODS / GETTERS / SETTERS

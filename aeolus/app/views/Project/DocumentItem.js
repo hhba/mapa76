@@ -26,8 +26,17 @@ module.exports = Backbone.Marionette.ItemView.extend({
     };
   },
 
+  ui: {
+    selection: ".selection"
+  },
+
   events: {
-    "click .delete": "deleteDocument"
+    "click .delete": "deleteDocument",
+    "click .selection": "toggleSelectDocument"
+  },
+
+  modelEvents: {
+    "change:selection": "render"
   },
 
   //--------------------------------------
@@ -44,6 +53,11 @@ module.exports = Backbone.Marionette.ItemView.extend({
 
   deleteDocument: function(){
     this.model.destroy();
+  },
+
+  toggleSelectDocument: function(){
+    var checked = this.ui.selection.is(":checked");
+    this.model.set("selected", checked);
   }
 
   //--------------------------------------

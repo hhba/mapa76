@@ -15,7 +15,15 @@ module.exports = Backbone.Marionette.CompositeView.extend({
 
   template: template,
   itemViewContainer: "ul.documents",
-  itemView: Document
+  itemView: Document,
+
+  ui: {
+    selectionAll: ".selection-all"
+  },
+
+  events: {
+    "click .selection-all": "toggleAll"
+  },
 
   //--------------------------------------
   //+ INHERITED / OVERRIDES
@@ -28,6 +36,11 @@ module.exports = Backbone.Marionette.CompositeView.extend({
   //--------------------------------------
   //+ EVENT HANDLERS
   //--------------------------------------
+
+  toggleAll: function(){
+    var selected = this.ui.selectionAll.is(":checked");
+    this.collection.toggleSelect(selected);
+  }
 
   //--------------------------------------
   //+ PRIVATE AND PROTECTED METHODS

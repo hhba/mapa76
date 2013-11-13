@@ -8,7 +8,9 @@ module.exports = Backbone.Model.extend({
     people: 0,
     dates: 0,
     organizations: 0,
-    places: 0
+    places: 0,
+
+    selected: false
   }
 
 });

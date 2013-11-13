@@ -13,6 +13,10 @@ module.exports = Backbone.Marionette.Layout.extend({
 
   template: template,
 
+  modelEvents: {
+    "change:counter": "render"
+  }
+
   //--------------------------------------
   //+ INHERITED / OVERRIDES
   //--------------------------------------

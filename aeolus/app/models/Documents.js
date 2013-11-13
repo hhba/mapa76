@@ -6,6 +6,14 @@ module.exports = Backbone.Collection.extend({
 
   url: function(){
     return aeolus.rootURL + "/documents"; 
+  },
+
+  toggleSelect: function(selected){
+    this.each(function(doc){
+      doc.set("selected", selected); 
+    });
+
+    this.trigger("reset");
   }
 
 });
