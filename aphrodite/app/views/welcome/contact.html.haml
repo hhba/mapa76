@@ -1,16 +1,14 @@
 .main-content.contact.clearfix
   .content.contact.clearfix
     %h1 Contacto
-    = form_tag save_contact_path, name: 'contact-form', id: 'contact-form' do
+    = form_for @contact, url: save_contact_path, name: 'contact-form', id: 'contact-form', builder: PrettyFormBuilder do |f|
       .input-item
-        %input{name: "contact[name]", placeholder: "Nombre *", type: "text"}/
-      .input-item
-        %input{name: "contact[email]", placeholder: "Email *", type: 'text'}
-      .input-item
-        %input{name: "contact[organization]", placeholder: "Organización", type: "text"}/
-      .input-item
-        %textarea{name: "contact[message]", placeholder: "Mensaje *", type: "text"}
-      %input.right{type: "submit", value: "Ingresar"}/
+        = f.pretty_text_field :name, placeholder: 'Nombre *'
+        = f.pretty_text_field :email, placeholder: 'Email *'
+        = f.pretty_text_field :organization, placeholder: 'Organización'
+        = f.pretty_text_area :message, placeholder: 'Message'
+      = f.submit "Ingresar"
+
   .side-bar.clearfix
     %h3 Nosotros
     %p
