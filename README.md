@@ -127,6 +127,12 @@ Then, download and install the .deb package:
     $ wget https://github.com/downloads/elasticsearch/elasticsearch/elasticsearch-0.20.1.deb
     # dpkg -i elasticsearch-0.20.1.deb
 
+Keep in mind that elasticsearch produces a large amount of logs, so it's a good idea to setup a logrotate for this tool. Also, elasticsearch needs to keep lots of files open simultaneously so you'll probably need to run this (for the elasticsearch runner user):
+
+    $ ulimint -n 32000
+
+For more information about this issue, please [read](http://www.elasticsearch.org/tutorials/too-many-open-files/).
+
 There are alternative downloads [here](http://www.elasticsearch.org/download/).
 
 ### Gems ###
