@@ -53,7 +53,34 @@ body {
     li {
       display: block;
       margin: 5px;
+      clear: both;
+
+      >.item-menu {
+        display: none;
+        float: left;
+        clear: left;
+
+         ul {
+          list-style: none;
+          float: left;
+          height: 100%;
+
+          li {
+            margin: 5px;
+            float: left;
+          }
+        }
+      }
+
+      &:hover {
+        background-color: silver;
+
+        >.item-menu {
+          display: block;
+        } 
+      }
     }
+
   }
 }
 

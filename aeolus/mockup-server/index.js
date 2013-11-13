@@ -16,7 +16,7 @@ function allowCORS(req, res, next) {
 }
 
 // all environments
-app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.PORT || 4123);
 app.use(express.logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded());

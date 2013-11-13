@@ -15,7 +15,7 @@ module.exports = Backbone.Marionette.CompositeView.extend({
 
   template: template,
   itemViewContainer: "ul.documents",
-  itemView: Document,
+  itemView: Document
 
   //--------------------------------------
   //+ INHERITED / OVERRIDES

@@ -9,4 +9,8 @@ module.exports = function(){
     res.send(require('./data/documents'));
   });
 
+  app.del('/api/v1/documents/:id', function(req, res){
+    res.send(200);
+  });
+
 };

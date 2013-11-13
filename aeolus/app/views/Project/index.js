@@ -8,8 +8,7 @@ var
   template = require("./templates/documents.tpl"),
   Toolbar = require("./Toolbar"),
   Menu = require("./Menu"),
-  DocumentList = require("./DocumentList"),
-  Documents = require('../../models/Documents');
+  DocumentList = require("./DocumentList");
   
 module.exports = Backbone.Marionette.Layout.extend({
 
@@ -29,24 +28,16 @@ module.exports = Backbone.Marionette.Layout.extend({
   //+ INHERITED / OVERRIDES
   //--------------------------------------
   
-  initialize: function(){
-    this.collection = new Documents();
-  },
-
   onRender: function(){
     this.toolbar.show(new Toolbar());
 
     this.content.show(new DocumentList({
-      collection: this.collection
+      collection: this.model.get('documents')
     }));
 
     this.menu.show(new Menu({
-      collection: this.collection
+      collection: this.model.get('documents')
     }));
-
-    this.collection.fetch({
-      reset: true
-    });
   }
 
   //--------------------------------------

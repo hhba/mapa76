@@ -3,7 +3,9 @@
  *
  */
 
-var Documents = require('./views/Documents');
+var 
+  Project = require("./models/Project"),
+  ProjectLayout = require("./views/Project");
 
 var app = module.exports = new Backbone.Marionette.Application();
 
@@ -13,5 +15,9 @@ app.addInitializer( function () {
     appContainer: "#app-container"
   });
 
-  app.appContainer.show(new Documents());
+  app.project = new Project();
+
+  app.appContainer.show(new ProjectLayout({
+    model: app.project
+  }));
 });

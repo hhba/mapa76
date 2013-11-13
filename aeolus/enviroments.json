@@ -6,6 +6,6 @@
     "root": "http://staging.urdamales.com.ar/"
   },
   "local": {
-    "root": "http://localhost:3000"
+    "root": "http://localhost:4123"
   }
 }

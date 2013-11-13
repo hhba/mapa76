@@ -1,15 +1,45 @@
 [{
-  "id": 1,
-  "name": "Titulo 1",
-  "description": "Descripcion 1"
+  "id": "52704be53ea2af7657000001",
+  "title": "test1.txt",
+  "created_at": "2013-10-29T23:59:33Z",
+  "updated_at": "2013-10-31T13:25:22Z",
+  "user_id": "523e07e63ea2af36ad000005",
+
+  "description": "description A",
+  "file_id": "12704be53ea2af7657000001",
+
+  "people": 15,
+  "dates": 10,
+  "organizations": 5,
+  "places": 1
 }, {
-  "id": 2,
-  "name": "Titulo 2",
-  "description": "Descripcion 2"
+  "id": "52704be53ea2af7657000002",
+  "title": "test2.txt",
+  "created_at": "2013-10-05T23:59:33Z",
+  "updated_at": "2013-10-31T13:25:22Z",
+  "user_id": "523e07e63ea2af36ad000005",
+
+  "description": "description B",
+  "file_id": "12704be53ea2af7657000002",
+
+  "people": 15,
+  "dates": 10,
+  "organizations": 5,
+  "places": 1
 }, {
-  "id": 3,
-  "name": "Titulo 3",
-  "description": "Descripcion 3"
+  "id": "52704be53ea2af7657000003",
+  "title": "test3.txt",
+  "created_at": "2013-11-10T23:59:33Z",
+  "updated_at": "2013-11-20T13:25:22Z",
+  "user_id": "523e07e63ea2af36ad000005",
+
+  "description": "description C",
+  "file_id": "12704be53ea2af7657000003",
+
+  "people": 15,
+  "dates": 10,
+  "organizations": 5,
+  "places": 1
 }, {
   "id": 4
 }]

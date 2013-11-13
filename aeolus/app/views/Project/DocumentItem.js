@@ -14,6 +14,22 @@ module.exports = Backbone.Marionette.ItemView.extend({
   tagName: "li",
   template: template,
 
+  templateHelpers: function(){
+    var baseUrl = aeolus.rootURL + "/documents/" + this.model.get("id");
+    
+    return {
+      urls: {
+        preview: baseUrl + "/comb",
+        file: baseUrl + "/download",
+        export: baseUrl + "/export"
+      }
+    };
+  },
+
+  events: {
+    "click .delete": "deleteDocument"
+  },
+
   //--------------------------------------
   //+ INHERITED / OVERRIDES
   //--------------------------------------
@@ -25,6 +41,10 @@ module.exports = Backbone.Marionette.ItemView.extend({
   //--------------------------------------
   //+ EVENT HANDLERS
   //--------------------------------------
+
+  deleteDocument: function(){
+    this.model.destroy();
+  }
 
   //--------------------------------------
   //+ PRIVATE AND PROTECTED METHODS
