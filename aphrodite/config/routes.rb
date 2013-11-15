@@ -41,6 +41,11 @@ Mapa76::Application.routes.draw do
       resources :named_entities, only: [:show]
       resources :projects, only: [:show, :index]
     end
+    namespace :v2 do
+      resources :documents do
+        resources :people
+      end
+    end
     resources :documents, only: [:show, :destroy]
     resources :people
     resources :registers
