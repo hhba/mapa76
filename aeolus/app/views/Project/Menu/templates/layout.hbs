@@ -7,20 +7,25 @@
     docs sel
     {{counter.selected}}
   </li>
-  <li class="people">
+  <li class="people" data-menu="people">
     nombres
     {{counter.people}}
   </li>
-  <li class="organizations">
+  <li class="organizations" data-menu="organizations">
     orgs
     {{counter.organizations}}
   </li>
-  <li class="places">
+  <li class="places" data-menu="places">
     lugares
     {{counter.places}}
   </li>
-  <li class="dates">
+  <li class="dates" data-menu="dates">
     fechas
     {{counter.dates}}
   </li>
 </ul>
+<div class="menu-modal">
+  <a class="close">X</a>
+  <div class="header"></div>
+  <div class="content"></div>
+</div>

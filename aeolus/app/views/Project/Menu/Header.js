@@ -1,11 +1,11 @@
 /**
- * VIEW: Toolbar
+ * VIEW: Header menu
  * 
  */
 
-var template = require('./templates/menu.tpl');
+var template = require('./templates/header.tpl');
 
-module.exports = Backbone.Marionette.Layout.extend({
+module.exports = Backbone.Marionette.ItemView.extend({
 
   //--------------------------------------
   //+ PUBLIC PROPERTIES / CONSTANTS
@@ -13,9 +13,13 @@ module.exports = Backbone.Marionette.Layout.extend({
 
   template: template,
 
-  modelEvents: {
-    "change:counter": "render"
-  }
+  ui: {
+    searchBox: ".search"
+  },
+
+  events: {
+    "keyup .search": "filter"
+  },
 
   //--------------------------------------
   //+ INHERITED / OVERRIDES
@@ -28,6 +32,10 @@ module.exports = Backbone.Marionette.Layout.extend({
   //--------------------------------------
   //+ EVENT HANDLERS
   //--------------------------------------
+
+  filter: function(){
+    this.trigger("filter", this.ui.searchBox.val());
+  }
 
   //--------------------------------------
   //+ PRIVATE AND PROTECTED METHODS

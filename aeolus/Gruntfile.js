@@ -168,6 +168,7 @@ module.exports = function(grunt) {
           ,globals: {
               window: true
             , $: true
+            , jQuery: true
             , _: true
             , require: true
             , module: true

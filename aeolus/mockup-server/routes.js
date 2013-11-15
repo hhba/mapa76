@@ -17,4 +17,8 @@ module.exports = function(){
     res.send(require('./data/status'));
   });
 
+  app.get('/api/v1/people', function(req, res){
+    res.send(require('./data/people'));
+  });
+
 };

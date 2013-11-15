@@ -91,4 +91,33 @@ body {
   ul {
     list-style: none;
   }
+
+  .menu-modal {
+    display: none;
+    position: relative;
+    width: 400px;
+    height: 500px;
+    position: absolute;
+    right: 100px;
+    top: 0;
+
+    a.close {
+      position: absolute;
+      right: 0;
+      top: 0;
+    }
+
+    div {
+      width: 100%;
+      border: 1px solid silver;
+
+      &.header {
+        height: 100px;
+      }
+
+      &.content {
+        height: 500px;
+      }
+    }
+  }
 }

@@ -3,7 +3,9 @@
  * A Group of Documents
  */
 
-var Documents = require("./Documents");
+var 
+    Documents = require("./Documents")
+  , People = require("./People");
 
 module.exports = Backbone.Model.extend({
 
@@ -72,6 +74,34 @@ module.exports = Backbone.Model.extend({
         self.checkStatus();
       }, aeolus.poolingStatusTime);
     }
+  },
+
+  getSelectedIds: function(){
+    var selecteds = this.get("documents").where({ selected: true }),
+      ids = [];
+    
+    _.each(selecteds, function(doc){
+      ids.push(doc.get('id'));
+    });
+
+    return ids;
+  },
+
+  getListByTypes: function(type){
+    var collection,
+      opts = {
+        docs: this.getSelectedIds()
+      };
+
+    switch(type){
+      case "people": 
+        collection = new People(opts); 
+        break;
+    }
+
+    collection.fetch({ reset: true });
+
+    return collection;
   }
 
 });
