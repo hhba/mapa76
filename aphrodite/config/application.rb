@@ -68,6 +68,8 @@ module Mapa76
     # or other lib in js/css templates, we should enable this.
     config.assets.initialize_on_precompile = false
 
+    config.assets.precompile += ['pretty.css', 'pretty.js']
+
     # Thumbnails and upload paths
     config.thumbnails_path = "/thumbs"
 
