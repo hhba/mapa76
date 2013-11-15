@@ -12,6 +12,8 @@ class User
   validate :has_invitation_token, unless: "invitation_token.nil?"
   validate :name, presence: true
 
+  before_create :generate_access_token
+
   def admin?
     !!admin
   end
