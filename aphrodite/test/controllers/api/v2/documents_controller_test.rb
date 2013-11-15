@@ -18,6 +18,15 @@ describe Api::V2::DocumentsController do
       end
     end
 
+    describe 'DELETE #destroy_multiple' do
+      it 'removes documents' do
+        request.env['X-Document-Ids'] = document.id.to_s
+
+        delete :destroy_multiple, format: 'json'
+        response.status.must_equal 204
+      end
+    end
+
     describe 'DELETE #destroy' do
       context 'document can be destroyed' do
         it 'destroys the document' do

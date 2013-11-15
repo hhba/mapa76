@@ -44,6 +44,10 @@ Mapa76::Application.routes.draw do
     namespace :v2 do
       resources :documents do
         resources :people
+
+        collection do
+          delete :destroy_multiple
+        end
       end
     end
     resources :documents, only: [:show, :destroy]
