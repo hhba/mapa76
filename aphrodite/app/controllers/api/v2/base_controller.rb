@@ -8,7 +8,6 @@ private
 
   def restrict_access
     authenticate_or_request_with_http_token do |token, options|
-      puts token
       @current_user = User.where(access_token: token).first
       @current_user
     end
