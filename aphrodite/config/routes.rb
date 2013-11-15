@@ -46,6 +46,7 @@ Mapa76::Application.routes.draw do
         resources :people
 
         collection do
+          get    :status
           delete :destroy_multiple
         end
       end

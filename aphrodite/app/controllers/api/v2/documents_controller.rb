@@ -13,11 +13,15 @@ class Api::V2::DocumentsController < Api::V2::BaseController
   end
 
   def destroy_multiple
-    if document_ids.all? { |id| remove(Document.find(id))}
+    if document_ids.all? { |id| remove(current_user.documents.find(id))}
       render nothing: true, status: :no_content
     else
       render nothing: true, status: :bad_request
     end
+  end
+
+  def status
+    @documents = current_user.documents.reject { |d| d.percentage == 100.0 }
   end
 
 private

@@ -18,6 +18,25 @@ describe Api::V2::DocumentsController do
       end
     end
 
+    describe 'GET #status' do
+      context 'document has finished' do
+        it 'returns an empty array' do
+          document.update_attribute :percentage, 100.0
+          get :status, format: 'json'
+          json.must_equal []
+          response.status.must_equal 200
+        end
+      end
+
+      context 'document in process' do
+        it 'returns an array with id and percentage' do
+          get :status, format: 'json'
+          json.first['id'].must_equal document.id.to_s
+          json.first['percentage'].must_equal 0.0
+        end
+      end
+    end
+
     describe 'DELETE #destroy_multiple' do
       it 'removes documents' do
         request.env['X-Document-Ids'] = document.id.to_s
