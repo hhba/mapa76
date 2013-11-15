@@ -182,7 +182,7 @@ describe DocumentsController do
     end
 
     context 'document can be destroyed' do
-      it 'destoys the document' do
+      it 'destroys the document' do
         JobsService.stubs(:'not_working_on?' => true)
         initial_count = Document.count
         delete :destroy, id: @document.id
