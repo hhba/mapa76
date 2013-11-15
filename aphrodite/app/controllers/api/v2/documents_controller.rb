@@ -24,6 +24,10 @@ class Api::V2::DocumentsController < Api::V2::BaseController
     @documents = current_user.documents.reject { |d| d.percentage == 100.0 }
   end
 
+  def show
+    @document = current_user.documents.find(params[:id])
+  end
+
 private
 
   def remove(document)

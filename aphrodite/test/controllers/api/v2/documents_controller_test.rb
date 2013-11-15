@@ -18,6 +18,14 @@ describe Api::V2::DocumentsController do
       end
     end
 
+    describe 'GET #show' do
+      it 'returns info about the document' do
+        get :show, id: document.id, format: 'json'
+        json['id'].must_equal document.id.to_s
+        response.status.must_equal 200
+      end
+    end
+
     describe 'GET #status' do
       context 'document has finished' do
         it 'returns an empty array' do
