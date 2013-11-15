@@ -22,9 +22,10 @@ module.exports = Backbone.Model.extend({
     var documents = new Documents();
     this.set("documents", documents);
     
-    documents.on("change:selected remove", this.updateCounter.bind(this));
-
-    documents.fetch({ reset: true });
+    documents
+      .on("change:selected remove", this.updateCounter.bind(this))
+      .fetch({ reset: true })
+      .done(this.checkStatus.bind(this));
   },
 
   updateCounter: function(){
@@ -58,6 +59,19 @@ module.exports = Backbone.Model.extend({
       places: 0,
       dates: 0
     });
+  },
+
+  checkStatus: function(){
+    if (aeolus.poolingStatusTime){
+      window.clearTimeout(this.timer);
+
+      var self = this;
+      
+      this.timer = window.setTimeout(function(){
+        self.get("documents").getStatus();
+        self.checkStatus();
+      }, aeolus.poolingStatusTime);
+    }
   }
 
 });

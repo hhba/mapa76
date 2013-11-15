@@ -3,6 +3,10 @@
   <label>{{title}}</label>
   <br/>
   <span>{{created_at}}</span>
+  <br/>
+  {{#if status}}
+  <span>[status: {{status}}]</span>
+  {{/if}}
 </div>
 
 <div class="item-menu">

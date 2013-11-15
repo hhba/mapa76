@@ -10,7 +10,11 @@ module.exports = function(){
   });
 
   app.del('/api/v1/documents/:id', function(req, res){
-    res.send(200);
+    res.send(204);
+  });
+
+  app.get('/api/v1/documents/status', function(req, res){
+    res.send(require('./data/status'));
   });
 
 };

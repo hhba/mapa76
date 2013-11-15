@@ -14,6 +14,23 @@ module.exports = Backbone.Collection.extend({
     });
 
     this.trigger("reset");
+  },
+
+  getStatus: function(){
+
+    $.ajax({
+      url: this.url() + "/status",
+      cache: false,
+      context: this
+    }).done(function(docs){
+
+      this.each(function(doc){
+        doc.unset("status");
+      });
+
+      this.set(docs);
+      this.trigger("reset");
+    });
   }
 
 });
