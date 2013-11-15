@@ -7,9 +7,9 @@ class Api::V2::DocumentsController < Api::V2::BaseController
     document = current_user.documents.find(params[:id])
     if JobsService.not_working_on?(document)
       document.destroy
-      render status: :no_content
+      render nothing: true, status: :no_content
     else
-      render status: :bad_request
+      render nothing: true, status: :bad_request
     end
   end
 end
