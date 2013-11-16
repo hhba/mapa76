@@ -45,6 +45,10 @@ Mapa76::Application.routes.draw do
       resources :documents do
         resources :people
 
+        member do
+          post :flag
+        end
+
         collection do
           get    :status
           delete :destroy_multiple

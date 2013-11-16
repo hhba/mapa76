@@ -99,7 +99,7 @@ describe DocumentsController do
     end
 
     describe 'POST #flag' do
-      it '' do
+      it 'flags a document' do
         flagger_service = mock
         FlaggerService.expects(:new).with(user, document).returns(flagger_service)
         flagger_service.expects(:call)

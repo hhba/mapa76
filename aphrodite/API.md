@@ -89,3 +89,6 @@ Remeber, completed documents are not being listed. And **failed** are marked wit
 ### DELETE api/v2/documents/destroy_multiple
 
 This request must include the header attribute `X-Document-Ids` with the ids separated by `,`.
+
+### POST api/v2/documents/52704be53ea2af7657000009/flag
+

@@ -28,6 +28,12 @@ class Api::V2::DocumentsController < Api::V2::BaseController
     @document = current_user.documents.find(params[:id])
   end
 
+  def flag
+    document = current_user.documents.find(params[:id])
+    FlaggerService.new(current_user, document).call
+    render nothing: true, status: :no_content
+  end
+
 private
 
   def remove(document)

@@ -10,6 +10,18 @@ describe Api::V2::DocumentsController do
       authenticate_api(user.access_token)
     end
 
+    describe 'POST #flag' do
+      it 'flags a document' do
+        flagger_service = mock
+        FlaggerService.expects(:new).with(user, document).returns(flagger_service)
+        flagger_service.expects(:call)
+
+        post :flag, id: document.id
+
+        response.status.must_equal 204
+      end
+    end
+
     describe 'GET #index' do
       it 'returns a list of documents' do
         get :index, format: 'json'
