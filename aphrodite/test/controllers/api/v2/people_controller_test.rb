@@ -18,4 +18,12 @@ describe Api::V2::PeopleController do
       json.first['name'].must_equal person.name
     end
   end
+
+  describe 'GET #show' do
+    it 'returns a person info' do
+      get :show, format: 'json', id: person.id
+      response.status.must_equal 200
+      json['name'].must_equal person.name
+    end
+  end
 end

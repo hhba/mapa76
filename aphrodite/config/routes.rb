@@ -42,6 +42,7 @@ Mapa76::Application.routes.draw do
       resources :projects, only: [:show, :index]
     end
     namespace :v2 do
+      resources :people
       resources :documents do
         resources :people
 

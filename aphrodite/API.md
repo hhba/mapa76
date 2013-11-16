@@ -92,3 +92,18 @@ This request must include the header attribute `X-Document-Ids` with the ids sep
 
 ### POST api/v2/documents/52704be53ea2af7657000009/flag
 
+#### GET api/v2/documents/52704be53ea2af7657000009/people
+
+### GET api/v2/people/524c782f3ea2af1c09000001
+
+```json
+{
+  "id":"524c782f3ea2af1c09000001",
+  "name":"Cristina Kirchner",
+  "mentioned_in":[{
+    "id":"52704be53ea2af7657000009",
+    "title":"scioli.txt",
+    "mentions":2
+  }]
+}
+````
