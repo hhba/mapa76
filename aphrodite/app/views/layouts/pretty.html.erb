@@ -20,7 +20,13 @@
       <div class="header-and-content">
         <div class="wrapper-header clearfix">
           <div class="header clearfix">
-            <div class="logo"><a href="<%= root_path %>"></a></div>
+            <div class="logo">
+              <% if current_user %>
+                <%= link_to '', documents_path %>
+              <% else %>
+                <%= link_to '', root_path %>
+              <% end %>
+            </div>
             <%= render 'shared/sign_in' %>
           </div>
         </div>
