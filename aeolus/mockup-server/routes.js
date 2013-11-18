@@ -25,4 +25,8 @@ module.exports = function(){
     res.send(require('./data/people'));
   });
 
+  app.get('/api/v1/people/:id', function(req, res){
+    res.send(require('./data/person'));
+  });
+
 };

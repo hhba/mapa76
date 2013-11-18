@@ -13,6 +13,6 @@
   "local": {
       "root": "http://localhost:4123"
     , "version": "v1"
-    , "poolingStatusTime": 10000
+    , "poolingStatusTime": 600000
   }
 }

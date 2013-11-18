@@ -1,11 +1,10 @@
 /**
- * VIEW: A Person
+ * VIEW: A Document where a person has mentions
  * 
  */
 
 var 
-    template = require("./templates/item.tpl")
-  , Mentions = require("./Mentions");
+    template = require("./templates/mention.tpl");
 
 module.exports = Backbone.Marionette.ItemView.extend({
 
@@ -16,14 +15,6 @@ module.exports = Backbone.Marionette.ItemView.extend({
   tagName: "li",
   template: template,
 
-  ui: {
-    mentions: ".mentions-ctn"
-  },
-
-  events: {
-    "click .mentions": "showMentions"
-  },
-
   //--------------------------------------
   //+ INHERITED / OVERRIDES
   //--------------------------------------
@@ -32,27 +23,16 @@ module.exports = Backbone.Marionette.ItemView.extend({
   //+ PUBLIC METHODS / GETTERS / SETTERS
   //--------------------------------------
 
+  onDomRefresh: function(){
+    this.$el.on('click', this.toggleParagraphs.bind(this));
+  },
+
   //--------------------------------------
   //+ EVENT HANDLERS
   //--------------------------------------
 
-  showMentions: function(){
-    if (this.model.get("mentions") > 0){
-      
-      var self = this;
-
-      this.model.fetch().done(function(){
-
-        var mentions = new Mentions({
-          model: self.model,
-          collection: self.model.get("mentioned_in")
-        });
-
-        mentions.render();
-
-        self.ui.mentions.empty().append(mentions.$el).show();
-      });
-    }
+  toggleParagraphs: function(){
+    
   }
 
   //--------------------------------------
