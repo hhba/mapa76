@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::Base
   if Rails.env.production?
     rescue_from Mongoid::Errors::DocumentNotFound, with: :not_found_page
+    rescue_from ActionController::RoutingError, with: :not_found_page
     rescue_from RuntimeError, with: :error_page
   end
   protect_from_forgery
