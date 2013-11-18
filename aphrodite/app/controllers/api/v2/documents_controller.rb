@@ -4,16 +4,14 @@ class Api::V2::DocumentsController < Api::V2::BaseController
   end
 
   def destroy
-    document = current_user.documents.find(params[:id])
-    if remove(document)
-      render nothing: true, status: :no_content
+    removed = if params[:id]
+      document = current_user.documents.find(params[:id])
+      remove(document)
     else
-      render nothing: true, status: :bad_request
+      document_ids.all? { |id| remove(current_user.documents.find(id))}
     end
-  end
 
-  def destroy_multiple
-    if document_ids.all? { |id| remove(current_user.documents.find(id))}
+    if removed
       render nothing: true, status: :no_content
     else
       render nothing: true, status: :bad_request

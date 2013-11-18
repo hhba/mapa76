@@ -52,9 +52,9 @@ Mapa76::Application.routes.draw do
 
         collection do
           get    :status
-          delete :destroy_multiple
         end
       end
+      delete 'documents' => 'documents#destroy'
     end
     resources :documents, only: [:show, :destroy]
     resources :people

@@ -57,16 +57,16 @@ describe Api::V2::DocumentsController do
       end
     end
 
-    describe 'DELETE #destroy_multiple' do
-      it 'removes documents' do
-        request.env['X-Document-Ids'] = document.id.to_s
-
-        delete :destroy_multiple, format: 'json'
-        response.status.must_equal 204
-      end
-    end
-
     describe 'DELETE #destroy' do
+      context 'multiple documents' do
+        it 'destroys multiple documents' do
+          request.env['X-Document-Ids'] = document.id.to_s
+
+          delete :destroy, format: 'json'
+          response.status.must_equal 204
+        end
+      end
+
       context 'document can be destroyed' do
         it 'destroys the document' do
           JobsService.stubs(:'not_working_on?' => true)
@@ -78,17 +78,17 @@ describe Api::V2::DocumentsController do
           assert_response :no_content
         end
       end
-    end
 
-    context 'document can NOT be destroyed' do
-      it 'does not destroys the document' do
-        JobsService.stubs(:'not_working_on?' => false)
-        initial_count = Document.count
-        delete :destroy, id: document.id
-        final_count = Document.count
+      context 'document can NOT be destroyed' do
+        it 'does not destroys the document' do
+          JobsService.stubs(:'not_working_on?' => false)
+          initial_count = Document.count
+          delete :destroy, id: document.id
+          final_count = Document.count
 
-        assert final_count == initial_count
-        assert_response :bad_request
+          assert final_count == initial_count
+          assert_response :bad_request
+        end
       end
     end
   end
