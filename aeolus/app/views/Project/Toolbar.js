@@ -3,7 +3,9 @@
  * 
  */
 
-var template = require('./templates/toolbar.tpl');
+var 
+    template = require("./templates/toolbar.tpl")
+  , DocumentNew = require("./DocumentNew");
 
 module.exports = Backbone.Marionette.ItemView.extend({
 
@@ -14,10 +16,12 @@ module.exports = Backbone.Marionette.ItemView.extend({
   template: template,
 
   ui: {
-    multiOptions: ".multi"
+    multiOptions: ".multi",
+    subMenu: ".sub-menu"
   },
 
   events: {
+    "click #upload": "showNewDocument",
     "click #delete": "removeDocuments"
   },
 
@@ -48,6 +52,12 @@ module.exports = Backbone.Marionette.ItemView.extend({
 
   removeDocuments: function(){
     this.model.get('documents').destroySelecteds();
+  },
+
+  showNewDocument: function(){
+    var newDocForm = new DocumentNew();
+    newDocForm.render();
+    this.ui.subMenu.empty().append(newDocForm.$el);
   }
 
   //--------------------------------------
