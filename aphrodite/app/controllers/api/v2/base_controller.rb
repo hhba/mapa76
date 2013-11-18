@@ -1,8 +1,13 @@
 class Api::V2::BaseController < ApplicationController
   rescue_from ActiveResource::BadRequest, with: :bad_request
   rescue_from Mongoid::Errors::DocumentNotFound, with: :not_found
-  before_filter :restrict_access
+  before_filter :restrict_access, except: [:options]
   respond_to :json
+
+  def options
+    set_headers
+    render nothing: true, status: 200
+  end
 
 private
 
@@ -22,6 +27,14 @@ private
   end
 
 protected
+
+  def set_headers
+    headers['Access-Control-Allow-Origin'] = '*'
+    headers['Access-Control-Expose-Headers'] = 'ETag'
+    headers['Access-Control-Allow-Methods'] = 'GET, POST, PATCH, PUT, DELETE, OPTIONS, HEAD'
+    headers['Access-Control-Allow-Headers'] = '*,x-requested-with,Content-Type,If-Modified-Since,If-None-Match'
+    headers['Access-Control-Max-Age'] = '86400'
+  end
 
   def bad_request(exception)
     render json: {respond_type: 'BAD REQUEST'}, status: :bad_request

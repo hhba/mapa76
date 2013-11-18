@@ -68,6 +68,8 @@ Mapa76::Application.routes.draw do
   post "/save_contact" => "welcome#save_contact"
   root :to => "welcome#index"
 
+  match '/api/v2/*route', to: 'api/v2/base#options', constraints: { method: 'OPTIONS' }
+
   get "#{Mapa76::Application.config.thumbnails_path}/:id" => "documents#generate_thumbnail"
   get '/blog' => redirect('/blog/')
 end
