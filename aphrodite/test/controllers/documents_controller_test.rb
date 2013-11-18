@@ -99,7 +99,7 @@ describe DocumentsController do
     end
 
     describe 'POST #flag' do
-      it '' do
+      it 'flags a document' do
         flagger_service = mock
         FlaggerService.expects(:new).with(user, document).returns(flagger_service)
         flagger_service.expects(:call)
@@ -182,7 +182,7 @@ describe DocumentsController do
     end
 
     context 'document can be destroyed' do
-      it 'destoys the document' do
+      it 'destroys the document' do
         JobsService.stubs(:'not_working_on?' => true)
         initial_count = Document.count
         delete :destroy, id: @document.id

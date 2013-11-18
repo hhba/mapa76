@@ -41,6 +41,21 @@ Mapa76::Application.routes.draw do
       resources :named_entities, only: [:show]
       resources :projects, only: [:show, :index]
     end
+    namespace :v2 do
+      resources :people
+      resources :documents do
+        resources :people
+
+        member do
+          post :flag
+        end
+
+        collection do
+          get    :status
+        end
+      end
+      delete 'documents' => 'documents#destroy'
+    end
     resources :documents, only: [:show, :destroy]
     resources :people
     resources :registers
@@ -52,6 +67,8 @@ Mapa76::Application.routes.draw do
   get "/faq" => "welcome#faq"
   post "/save_contact" => "welcome#save_contact"
   root :to => "welcome#index"
+
+  match '/api/v2/*route', to: 'api/v2/base#options', constraints: { method: 'OPTIONS' }
 
   get "#{Mapa76::Application.config.thumbnails_path}/:id" => "documents#generate_thumbnail"
   get '/blog' => redirect('/blog/')

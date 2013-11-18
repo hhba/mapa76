@@ -39,4 +39,8 @@ class ActionController::TestCase
   def json
     @json ||= JSON.parse(response.body)
   end
+
+  def authenticate_api(access_token)
+    request.env['HTTP_AUTHORIZATION'] = "Token token=\"#{access_token}\""
+  end
 end
