@@ -2,10 +2,10 @@ class Api::V2::BaseController < ApplicationController
   rescue_from ActiveResource::BadRequest, with: :bad_request
   rescue_from Mongoid::Errors::DocumentNotFound, with: :not_found
   before_filter :restrict_access, except: [:options]
+  before_filter :set_headers
   respond_to :json
 
   def options
-    set_headers
     render nothing: true, status: 200
   end
 
