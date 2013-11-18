@@ -17,6 +17,10 @@ private
     @current_user
   end
 
+  def document_ids
+    request.headers['X-Document-Ids'].split(',')
+  end
+
 protected
 
   def bad_request(exception)

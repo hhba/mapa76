@@ -39,8 +39,4 @@ private
   def remove(document)
     JobsService.not_working_on?(document) && document.destroy
   end
-
-  def document_ids
-    request.headers['X-Document-Ids'].split(',')
-  end
 end

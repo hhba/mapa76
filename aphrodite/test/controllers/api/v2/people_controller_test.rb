@@ -12,10 +12,20 @@ describe Api::V2::PeopleController do
   end
 
   describe 'GET #index' do
-    it 'returns a list of persons' do
-      get :index, format: 'json', document_id: document.id
-      response.status.must_equal 200
-      json.first['name'].must_equal person.name
+    context 'For a single document' do
+      it 'returns a list of persons' do
+        get :index, format: 'json', document_id: document.id
+        response.status.must_equal 200
+        json.first['name'].must_equal person.name
+      end
+    end
+
+    context 'For multiple documents' do
+      it 'returns people for many documents' do
+        request.env['X-Document-Ids'] = document.id.to_s
+        get :index, format: 'json'
+        json.first['name'].must_equal person.name
+      end
     end
   end
 
