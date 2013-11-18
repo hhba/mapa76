@@ -15,11 +15,25 @@ or, in a RESTful client just add the header `Authorization` with the value `Toke
   {
     "id": "52704be53ea2af7657000009",
     "title": "scioli.txt",
-    "created_at": "2013-10-29T23:59:33Z"
+    "created_at": "2013-10-29T23:59:33Z",
+    "percentage": 100,
+    "counters": {
+      "people": 8,
+      "organizations": 12,
+      "places": 10,
+      "dates": 2
+    }
   },{
     "id": "52725a0d3ea2af765700000c",
     "title": "economy.txt",
-    "created_at": "2013-10-31T13:24:29Z"
+    "created_at": "2013-10-31T13:24:29Z",
+    "percentage": 100,
+    "counters": {
+      "people": 8,
+      "organizations": 12,
+      "places": 10,
+      "dates": 2
+    }
   }
 ]
 ```
@@ -92,7 +106,7 @@ This request must include the header attribute `X-Document-Ids` with the ids sep
 
 ### POST api/v2/documents/52704be53ea2af7657000009/flag
 
-#### GET api/v2/documents/52704be53ea2af7657000009/people
+### GET api/v2/documents/52704be53ea2af7657000009/people
 
 ### GET api/v2/people/524c782f3ea2af1c09000001
 
@@ -107,3 +121,29 @@ This request must include the header attribute `X-Document-Ids` with the ids sep
   }]
 }
 ````
+
+### GET api/v2/people
+This request must include the header attribute `X-Document-Ids` with the ids separated by `,`. For example: `52704be53ea2af7657000009,52725a0d3ea2af765700000c`
+
+```json
+[
+  {
+    "id": "524c782f3ea2af1c09000001",
+    "name": "Cristina Kirchner",
+    "mentions":
+    {
+        "526fc92e3ea2af7657000006": 2,
+        "52704be53ea2af7657000009": 2
+    }
+  },
+  {
+    "id": "526fccf63ea2afae27000001",
+    "name": "Daniel Scioli",
+    "mentions":
+    {
+        "526fc92e3ea2af7657000006": 2,
+        "52704be53ea2af7657000009": 2
+    }
+  }
+]
+```
