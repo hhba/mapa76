@@ -33,10 +33,16 @@
 	font-family: "opensans-semibold";
 }
 @mixin fopensans-italic {
-	font-family: "fopensans-italic";
+	font-family: "opensans-italic";
 }
 @mixin opensans-regular {
 	font-family: "opensans-regular";
+}
+@mixin montserrat-bold {
+	font-family: "montserrat-bold";
+}
+@mixin montserrat-regular {
+	font-family: "montserrat-regular";
 }
 //==========================================
 //Layout ===================================

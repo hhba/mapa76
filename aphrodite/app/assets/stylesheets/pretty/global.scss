@@ -45,9 +45,13 @@ time, mark, audio, video {
 //font-family: "opensans-semibold";
 @include font-face('opensans-semibold', '#{$path-to-fonts}/opensans-semibold', 'opensans-semibold');
 //font-family: "fopensans-italic";
-@include font-face('fopensans-italic',  '#{$path-to-fonts}/opensans-italic',   'opensans-italic');
+@include font-face('opensans-italic',  '#{$path-to-fonts}/opensans-italic',   'opensans-italic');
 //font-family: "opensans-regular";
 @include font-face('opensans-regular',  '#{$path-to-fonts}/opensans-regular',  'opensans-regular');
+//font-family: "montserrat-bold";
+@include font-face('montserrat-bold',  '#{$path-to-fonts}/montserrat-bold',  'montserrat-bold');
+//font-family: "montserrat-regular";
+@include font-face('montserrat-regular',  '#{$path-to-fonts}/montserrat-regular',  'montserrat-regular');
 /* ====================== */
 
 /* HTML5 display-role reset for older browsers */
@@ -203,6 +207,38 @@ input {
 
 .input-item {
 	position: relative;
+}
+
+/*error 404 502 =================== */
+.error-wrapper {
+	float: right;
+	width: 260px;
+	position: absolute;
+	top: 20%;
+	left: 50%;
+	margin-left: -130px;
+	.text {
+		color: $color-secondary-text;
+		float: left;
+		font-size: 56px;
+		letter-spacing: -3px;
+		line-height: 44px;
+		margin-top: 14px;
+	}
+	.number {
+		@include opensans-semibold;
+		color: darken( $color-error, 20% );
+		font-size: 70px;
+		line-height: 63px;
+		margin-right: 18px;
+	}
+	.text2 {
+		font-size: 35px;
+		margin-top: -4px;
+		text-align: left;
+		margin-left: 3px;
+		line-height: 42px;
+	}
 }
 
 /* header ========================= */
@@ -395,32 +431,36 @@ input {
 				width: 155px;
 				height: 56px;
 				.people-number {
-					@include opensans-semibold;
+					@include montserrat-bold;
 					color: $color-people;
 					padding-left: 34px;
 					font-size: $font-size-xx-large;
 					background: url("#{$path-to-images}/icon_personas.png") no-repeat 10px 2px;
+					line-height: 22px;
 				}
 				.org-number {
-					@include opensans-semibold;
+					@include montserrat-bold;
 					color: $color-organizations;
 					padding-left: 34px;
 					font-size: $font-size-xx-large;
 					background: url("#{$path-to-images}/icon_org.png") no-repeat 2px 0px;
+					line-height: 22px;
 				}
 				.places-number {
-					@include opensans-semibold;
+					@include montserrat-bold;
 					color: $color-places;
 					padding-left: 34px;
 					font-size: $font-size-xx-large;
-					background: url("#{$path-to-images}/icon_lugares.png") no-repeat 14px 1px;
+					background: url("#{$path-to-images}/icon_lugares.png") no-repeat 14px 0px;
+					line-height: 22px;
 				}
 				.dates-number {
-					@include opensans-semibold;
+					@include montserrat-bold;
 					color: $color-dates;
 					padding-left: 34px;
 					font-size: $font-size-xx-large;
 					background: url("#{$path-to-images}/icon_fecha.png") no-repeat 11px 0px;
+					line-height: 22px;
 				}
 				label {
 					margin-left: 35px;
