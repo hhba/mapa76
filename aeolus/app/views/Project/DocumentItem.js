@@ -32,6 +32,7 @@ module.exports = Backbone.Marionette.ItemView.extend({
 
   events: {
     "click .delete": "deleteDocument",
+    "click .flag": "flagDocument",
     "click .selection": "toggleSelectDocument"
   },
 
@@ -53,6 +54,10 @@ module.exports = Backbone.Marionette.ItemView.extend({
 
   deleteDocument: function(){
     this.model.destroy();
+  },
+
+  flagDocument: function(){
+    this.model.flag();
   },
 
   toggleSelectDocument: function(){

@@ -17,6 +17,10 @@ module.exports = Backbone.Marionette.ItemView.extend({
     multiOptions: ".multi"
   },
 
+  events: {
+    "click #delete": "removeDocuments"
+  },
+
   modelEvents: {
     "change:counter": "render"
   },
@@ -32,7 +36,7 @@ module.exports = Backbone.Marionette.ItemView.extend({
     else {
       this.ui.multiOptions.hide(); 
     }
-  }
+  },
 
   //--------------------------------------
   //+ PUBLIC METHODS / GETTERS / SETTERS
@@ -41,6 +45,10 @@ module.exports = Backbone.Marionette.ItemView.extend({
   //--------------------------------------
   //+ EVENT HANDLERS
   //--------------------------------------
+
+  removeDocuments: function(){
+    this.model.get('documents').destroySelecteds();
+  }
 
   //--------------------------------------
   //+ PRIVATE AND PROTECTED METHODS

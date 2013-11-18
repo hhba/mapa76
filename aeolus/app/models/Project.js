@@ -76,30 +76,19 @@ module.exports = Backbone.Model.extend({
     }
   },
 
-  getSelectedIds: function(){
-    var selecteds = this.get("documents").where({ selected: true }),
-      ids = [];
-    
-    _.each(selecteds, function(doc){
-      ids.push(doc.get('id'));
-    });
-
-    return ids;
-  },
-
   getListByTypes: function(type){
-    var collection,
-      opts = {
-        docs: this.getSelectedIds()
-      };
-
+    var collection;
+      
     switch(type){
       case "people": 
-        collection = new People(opts); 
+        collection = new People(); 
         break;
     }
 
-    collection.fetch({ reset: true });
+    collection.fetch({ 
+      reset: true, 
+      xDocumentIds: this.get("documents").getSelectedIds()
+    });
 
     return collection;
   }

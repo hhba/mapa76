@@ -11,6 +11,15 @@ module.exports = Backbone.Model.extend({
     places: 0,
 
     selected: false
+  },
+
+  flag: function(){
+    $.ajax({
+      url: this.url() + "/flag",
+      type: "POST",
+      cache: false,
+      context: this
+    }).done();
   }
 
 });

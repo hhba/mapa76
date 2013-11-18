@@ -25,11 +25,43 @@ module.exports = Backbone.Collection.extend({
     }).done(function(docs){
 
       this.each(function(doc){
-        doc.unset("status");
+        doc.unset("percentage");
       });
 
       this.set(docs);
       this.trigger("reset");
+    });
+  },
+
+  getSelectedIds: function(){
+    var selecteds = this.where({ selected: true });
+
+    return selecteds.map(function(doc){
+      return doc.get("id");
+    });
+
+  },
+
+  destroySelecteds: function(){
+    var ids = this.getSelectedIds();
+    
+    var headers = {};
+    headers[aeolus.headers.xDocumentIds] = ids.join(",");
+
+    $.ajax({
+      url: this.url(),
+      type: "DELETE",
+      headers: headers,
+      context: this
+    }).done(function(){
+
+      var toRemove = [];
+      
+      _.each(ids, function(id){
+        toRemove.push(this.get(id));
+      }, this);
+
+      this.remove(toRemove);
     });
   }
 

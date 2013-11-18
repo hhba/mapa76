@@ -6,6 +6,11 @@ module.exports = function() {
       baseRoot: base.root
     , rootURL: (base.rootURL || base.root + "/api/") + (base.version || "v1")
     , imagesURL: base.root + "/images/"
+    , authKey: base.authKey
+    , headers: {
+      xDocumentIds: "X-Document-Ids",
+      authorization: "Authorization"
+    }
 
     // time delay in milliseconds for getting the documents status
     // any falsy value to turn it off (i.e. 0, false, null, undefined)

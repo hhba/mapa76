@@ -175,6 +175,7 @@ module.exports = function(grunt) {
             , Backbone: true
             , Handlebars: true
             , console: true
+            , moment: true
             , aeolus: true
           }
         }

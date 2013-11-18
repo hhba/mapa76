@@ -2,10 +2,10 @@
   <input type="checkbox" class="selection" {{#if selected}}checked{{/if}}>
   <label>{{title}}</label>
   <br/>
-  <span>{{created_at}}</span>
+  <span>{{formatDateText created_at}}</span>
   <br/>
-  {{#if status}}
-  <span>[status: {{status}}]</span>
+  {{#if percentage}}
+  <span>[{{percentage}}%]</span>
   {{/if}}
 </div>
 
@@ -13,6 +13,9 @@
   <ul>
     <li>
       <a class="preview" href="{{urls.preview}}">V</a>
+    </li>
+    <li>
+      <a class="flag">F</a>
     </li>
     <li>
       <a class="export" href="{{urls.export}}" target="_blank">E</a>

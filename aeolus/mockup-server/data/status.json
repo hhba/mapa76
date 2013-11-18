@@ -1,13 +1,13 @@
 [{
   "id": "52704be53ea2af7657000001",
-  "status": 5
+  "percentage": 5
 }, {
   "id": "52704be53ea2af7657000002",
-  "status": 50
+  "percentage": -1
 }, {
   "id": "52704be53ea2af7657000003",
-  "status": 75
+  "percentage": 0
 }, {
   "id": "52704be53ea2af7657000004",
-  "status": 100
+  "percentage": 100
 }]
