@@ -32,5 +32,3 @@ protected
   end
 end
 
-# 2e47f4cbc9229d86681f1f0ad1b1f702
-# curl http://localhost:3000/api/products -H 'Authorization: Token token="2e47f4cbc9229d86681f1f0ad1b1f702"'
