@@ -251,10 +251,6 @@ input {
 				}
 			}
 		}
-		.line-deco {
-			background: url("#{$path-to-images}/shadow_deco.png") no-repeat top center;
-			height: 20px;
-		}
 		.main-content {
 			@include max-width (32px, 29px, 10px, 29px);
 			@include center-layout;
