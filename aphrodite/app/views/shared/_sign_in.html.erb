@@ -10,13 +10,15 @@
         <%= link_to 'Registrarme', new_user_registration_path %>
       </div>
   <% else %>
-    <div id="dd" class="xx wrapper-dropdown" tabindex="1">
-      <span><a href="#"><%= current_user.email %></a></span>
+    <div id="dd" class="xx wrapper-dropdown">
+      <span><a href="#" class='menu'><%= current_user.email %></a></span>
       <ul class="dropdown">
         <li>
+          <i class=""></i>
           <%= link_to 'Mis documents', documents_path %>
         </li>
         <li>
+          <i class=""></i>
           <%= link_to 'Cerrar sesión', destroy_user_session_path, :method => :delete %>
         </li>
       </ul>

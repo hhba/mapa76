@@ -317,6 +317,7 @@ DEPENDENCIES
   figaro
   haml
   haml-rails
+  jquery-rails
   jquery-ui-rails
   mapa76-core!
   minitest-colorize

@@ -6,6 +6,7 @@ gem 'mapa76-core', path: '../chaos'
 group :assets do
   gem 'backbone-on-rails'
   gem 'ejs'
+  gem 'jquery-rails'
   gem 'jquery-ui-rails'
   gem 'sass-rails',   '~> 3.2.3'
   gem 'compass-rails'
@@ -49,4 +50,3 @@ gem 'rails_admin'
 gem 'unicorn'
 gem 'will_paginate-bootstrap', :require => "will_paginate-bootstrap"
 gem 'whenever', require: false
-
