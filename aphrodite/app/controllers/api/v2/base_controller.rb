@@ -23,11 +23,7 @@ private
   end
 
   def document_ids
-    if request['X-Document-Ids']
-      request['X-Document-Ids'].split(',')
-    else
-      []
-    end
+    request.headers.fetch('X-Document-Ids', '').split(',')
   end
 
 protected
