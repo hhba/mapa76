@@ -38,6 +38,10 @@ or, in a RESTful client just add the header `Authorization` with the value `Toke
 ]
 ```
 
+### POST api/v2/documents
+
+This should have an array of files in: `document[files]`.
+
 ### GET api/v2/documents/52704be53ea2af7657000009
 
 ```json

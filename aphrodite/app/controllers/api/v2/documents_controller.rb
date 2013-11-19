@@ -1,6 +1,20 @@
 class Api::V2::DocumentsController < Api::V2::BaseController
+  skip_before_filter :verfy_authenticity_token, only: [:create]
+
   def index
     @documents = current_user.documents
+  end
+
+  def create
+    files = params[:document].fetch(:files, [])
+    files.each do |file|
+      document = Document.new
+      document.original_filename = file.original_filename
+      document.file = file.path
+      current_user.documents << document
+      document.save
+    end
+    render nothing: true, status: 201
   end
 
   def destroy

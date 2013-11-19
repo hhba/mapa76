@@ -10,6 +10,22 @@ describe Api::V2::DocumentsController do
       authenticate_api(user.access_token)
     end
 
+    describe 'POST #create' do
+      it 'creates a new document' do
+        Tempfile.open("doc.txt") do |fd|
+          fd.write("document content")
+          fd.close
+
+          document = build :document
+          file = Rack::Test::UploadedFile.new(fd.path, "text/plain")
+
+          post :create, document: {files: [file]}
+          user.documents.length.must_equal 2
+          response.status.must_equal 201
+        end
+      end
+    end
+
     describe 'POST #flag' do
       it 'flags a document' do
         flagger_service = mock
