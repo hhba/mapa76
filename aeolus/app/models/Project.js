@@ -43,7 +43,7 @@ module.exports = Backbone.Model.extend({
       counter.selected++;
 
       _.each(props, function(p){
-        counter[p] += doc.get(p);
+        counter[p] += doc.get("counters")[p];
       });
     });
 

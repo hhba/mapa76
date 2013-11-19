@@ -15,7 +15,7 @@ module.exports = Backbone.Marionette.ItemView.extend({
   template: template,
 
   templateHelpers: function(){
-    var baseUrl = aeolus.rootURL + "/documents/" + this.model.get("id");
+    var baseUrl = aeolus.baseRoot + "/documents/" + this.model.get("id");
     
     return {
       urls: {
