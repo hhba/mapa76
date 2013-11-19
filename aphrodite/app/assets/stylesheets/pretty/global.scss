@@ -2,6 +2,7 @@
 @import "vars";
 @import "slider";
 @import "list";
+@import "dropdown";
 
 
 html, body, div, span, applet, object, iframe,
@@ -23,6 +24,7 @@ time, mark, audio, video {
   font-size: 100%;
   font: inherit;
   vertical-align: baseline;
+  outline: none;
 }
  
 .clearfix {

@@ -1,13 +1,27 @@
-<% if current_user.nil? %>
-  <div class="user-login">
-    <%= form_tag user_session_path, id: 'login-form', name: 'login-form' do %>
-      <input type="text" name="user[email]" placeholder="Usuario">
-      <input type="password" name="user[password]" placeholder="Contraseña">
-      <input type="submit" value="Ingresar">
-    <% end %>
-    <div class="user-options">
-      <%= link_to 'No puedes acceder?', faq_path %>
-      <%= link_to 'Registrarme', new_user_registration_path %>
+<div class="user-login">
+  <% if current_user.nil? %>
+      <%= form_tag user_session_path, id: 'login-form', name: 'login-form' do %>
+        <input type="text" name="user[email]" placeholder="Usuario">
+        <input type="password" name="user[password]" placeholder="Contraseña">
+        <input type="submit" value="Ingresar">
+      <% end %>
+      <div class="user-options">
+        <%= link_to 'No puedes acceder?', faq_path %>
+        <%= link_to 'Registrarme', new_user_registration_path %>
+      </div>
+  <% else %>
+    <div id="dd" class="xx wrapper-dropdown">
+      <span><a href="#" class='menu'><%= current_user.email %></a></span>
+      <ul class="dropdown">
+        <li>
+          <i class=""></i>
+          <%= link_to 'Mis documents', documents_path %>
+        </li>
+        <li>
+          <i class=""></i>
+          <%= link_to 'Cerrar sesión', destroy_user_session_path, :method => :delete %>
+        </li>
+      </ul>
     </div>
-  </div>
-<% end %>
+  <% end -%>
+</div>
