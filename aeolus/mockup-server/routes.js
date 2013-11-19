@@ -13,6 +13,10 @@ module.exports = function(){
     res.send(204);
   });
 
+  app.get('/api/v1/documents/search', function(req, res){
+    res.send(require('./data/documents'));
+  });
+
   app.del('/api/v1/documents/:id', function(req, res){
     res.send(204);
   });

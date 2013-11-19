@@ -5,7 +5,8 @@
 
 var 
     template = require("./templates/toolbar.tpl")
-  , DocumentNew = require("./DocumentNew");
+  , DocumentNew = require("./DocumentNew")
+  /*, DocumentSearch = require("../../models/DocumentSearch")*/;
 
 module.exports = Backbone.Marionette.ItemView.extend({
 
@@ -17,7 +18,8 @@ module.exports = Backbone.Marionette.ItemView.extend({
 
   ui: {
     multiOptions: ".multi",
-    subMenu: ".sub-menu"
+    subMenu: ".sub-menu",
+    searchBox: "#search"
   },
 
   events: {
@@ -40,6 +42,8 @@ module.exports = Backbone.Marionette.ItemView.extend({
     else {
       this.ui.multiOptions.hide(); 
     }
+
+    this.initAutocomplete();
   },
 
   //--------------------------------------
@@ -58,10 +62,37 @@ module.exports = Backbone.Marionette.ItemView.extend({
     var newDocForm = new DocumentNew();
     newDocForm.render();
     this.ui.subMenu.empty().append(newDocForm.$el);
-  }
+  },
 
   //--------------------------------------
   //+ PRIVATE AND PROTECTED METHODS
   //--------------------------------------
+
+  initAutocomplete: function(){
+    //more info at https://github.com/devbridge/jQuery-Autocomplete
+    //style: https://github.com/devbridge/jQuery-Autocomplete#styling
+    this.ui.searchBox.autocomplete({
+
+      serviceUrl: aeolus.rootURL + "/documents/search",
+      paramName: "q",
+      minChars: 3,
+      deferRequestBy: 300,
+
+      transformResult: function(response) {
+        var trans = _.map(JSON.parse(response), function(doc) {
+          return { value: doc.title, data: doc.id };
+        });
+
+        return {
+          suggestions: trans
+        };
+      },
+
+      onSelect: function (doc) {
+        console.log('search doc selected: ' + doc.value + ', ' + doc.data);
+      }
+    });
+
+  }
 
 });
