@@ -14,7 +14,7 @@ module.exports = function(){
   });
 
   app.get('/api/v1/documents/search', function(req, res){
-    res.send(require('./data/documents'));
+    res.send(require('./data/documents_search'));
   });
 
   app.del('/api/v1/documents/:id', function(req, res){

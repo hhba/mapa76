@@ -3,7 +3,9 @@
  * 
  */
 
-var template = require('./templates/documentItem.tpl');
+var 
+    template = require('./templates/documentItem.tpl')
+  , DocumentSummaries = require("./DocumentSummaries");
 
 module.exports = Backbone.Marionette.ItemView.extend({
 
@@ -27,7 +29,8 @@ module.exports = Backbone.Marionette.ItemView.extend({
   },
 
   ui: {
-    selection: ".selection"
+    selection: ".selection",
+    summaries: ".summaries"
   },
 
   events: {
@@ -43,6 +46,21 @@ module.exports = Backbone.Marionette.ItemView.extend({
   //--------------------------------------
   //+ INHERITED / OVERRIDES
   //--------------------------------------
+
+  onRender: function(){
+    var sums = this.model.get("summaries");
+    
+    if (sums && sums.length > 0){
+      var summaries = new DocumentSummaries({
+        model: this.model,
+        collection: sums
+      });
+
+      summaries.render();
+
+      this.ui.summaries.empty().append(summaries.$el);
+    }
+  },
 
   //--------------------------------------
   //+ PUBLIC METHODS / GETTERS / SETTERS

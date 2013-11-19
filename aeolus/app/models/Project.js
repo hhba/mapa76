@@ -25,7 +25,7 @@ module.exports = Backbone.Model.extend({
     this.set("documents", documents);
     
     documents
-      .on("change:selected remove", this.updateCounter.bind(this))
+      .on("reset add remove change:selected", this.updateCounter.bind(this))
       .fetch({ reset: true })
       .done(this.checkStatus.bind(this));
   },
@@ -46,6 +46,8 @@ module.exports = Backbone.Model.extend({
         counter[p] += doc.get("counters")[p];
       });
     });
+
+    counter.online = this.get("documents").length;
 
     this
       .set("counter", counter)

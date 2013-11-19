@@ -1,4 +1,6 @@
 
+var DocumentSummaries = require("./DocumentSummaries");
+
 module.exports = Backbone.Model.extend({
  
   defaults: {
@@ -11,6 +13,13 @@ module.exports = Backbone.Model.extend({
     places: 0,
 
     selected: false
+  },
+
+  parse: function(response){
+    if (response.hasOwnProperty("findings")){
+      response.summaries = new DocumentSummaries(response.findings);
+    }
+    return response;
   },
 
   flag: function(){

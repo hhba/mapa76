@@ -8,6 +8,18 @@ module.exports = Backbone.Collection.extend({
     return aeolus.rootURL + "/documents"; 
   },
 
+  changeSort: function(prop, order){
+    order = order === "asc" ? -1 : 1;
+
+    this.comparator = function(docA, docB){
+      if (docA.get(prop) > docB.get(prop)) { return -order; }
+      if (docB.get(prop) > docA.get(prop)) { return order; }
+      return 0;
+    }; 
+
+    this.sort().trigger("reset");
+  },
+
   toggleSelect: function(selected){
     this.each(function(doc){
       doc.set("selected", selected); 
@@ -63,6 +75,28 @@ module.exports = Backbone.Collection.extend({
 
       this.remove(toRemove);
     });
+  },
+
+  search: function(query){
+    var ids = this.getSelectedIds();
+    var headers = {};
+    
+    if (ids.length > 0){
+      headers[aeolus.headers.xDocumentIds] = ids.join(",");
+    }
+
+    $.ajax({
+      url: this.url() + "/search",
+      data: $.param({ q: query }),
+      headers: headers,
+      context: this
+    }).done(function(foundDocs){
+      this.reset(foundDocs, { parse: true });
+    });
+  },
+
+  clearSearch: function(){
+    this.fetch({ reset: true });
   }
 
 });

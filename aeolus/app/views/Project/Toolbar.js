@@ -19,16 +19,20 @@ module.exports = Backbone.Marionette.ItemView.extend({
   ui: {
     multiOptions: ".multi",
     subMenu: ".sub-menu",
-    searchBox: "#search"
+    searchBox: "#search",
+    clearSearch: ".clear-search"
   },
 
   events: {
+    "keyup #search": "onSearchKeyup",
+    "click .clear-search": "clearSearch",
+
     "click #upload": "showNewDocument",
     "click #delete": "removeDocuments"
   },
 
   modelEvents: {
-    "change:counter": "render"
+    "change:counter": "updateCounter"
   },
 
   //--------------------------------------
@@ -36,14 +40,7 @@ module.exports = Backbone.Marionette.ItemView.extend({
   //--------------------------------------
 
   onDomRefresh: function(){
-    if (this.model.get("counter").selected > 0){
-      this.ui.multiOptions.show();
-    }
-    else {
-      this.ui.multiOptions.hide(); 
-    }
-
-    this.initAutocomplete();
+    this.updateCounter();
   },
 
   //--------------------------------------
@@ -64,35 +61,38 @@ module.exports = Backbone.Marionette.ItemView.extend({
     this.ui.subMenu.empty().append(newDocForm.$el);
   },
 
+  onSearchKeyup: function(e){
+    var key = e.keyCode || e.which;
+    if (key === 13){
+      this.searchDocuments();
+    }
+  },
+
+  clearSearch: function(){
+    this.ui.searchBox.val("");
+    this.ui.clearSearch.hide();
+    this.model.get('documents').clearSearch();
+  },
+
   //--------------------------------------
   //+ PRIVATE AND PROTECTED METHODS
   //--------------------------------------
 
-  initAutocomplete: function(){
-    //more info at https://github.com/devbridge/jQuery-Autocomplete
-    //style: https://github.com/devbridge/jQuery-Autocomplete#styling
-    this.ui.searchBox.autocomplete({
+  updateCounter: function(){
+    if (this.model.get("counter").selected > 0){
+      this.ui.multiOptions.show();
+    }
+    else {
+      this.ui.multiOptions.hide(); 
+    }
+  },
 
-      serviceUrl: aeolus.rootURL + "/documents/search",
-      paramName: "q",
-      minChars: 3,
-      deferRequestBy: 300,
-
-      transformResult: function(response) {
-        var trans = _.map(JSON.parse(response), function(doc) {
-          return { value: doc.title, data: doc.id };
-        });
-
-        return {
-          suggestions: trans
-        };
-      },
-
-      onSelect: function (doc) {
-        console.log('search doc selected: ' + doc.value + ', ' + doc.data);
-      }
-    });
-
+  searchDocuments: function(){
+    var query = this.ui.searchBox.val();
+    if (query){
+      this.ui.clearSearch.show();
+      this.model.get('documents').search(query);
+    }
   }
 
 });
