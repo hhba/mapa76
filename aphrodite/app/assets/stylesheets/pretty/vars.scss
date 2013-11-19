@@ -43,6 +43,8 @@ $color-error: 				#ff0000;
 $color-info: 				#00a6fc;
 $color-success: 			#68c589;
 
+$color-arrow: 				#a4a7aa;
+
 //Layout
 $max-width: 	1024px;
 $contet: 		 567px;
@@ -55,3 +57,18 @@ $global-border-radius: 6px;
 
 $footer-partners: 341px;
 $footer-no-partners: 169px;
+
+
+//@mixin add-icon
+$img-x 							:0px;
+$img-y 							:0px;
+$add-icon-txt-margin-left 		:0px;
+$add-icon-txt-margin-right 		:0px;
+
+
+//@mixin arrow-deco
+//arrows directions
+$arrow-top 		: 0px 8px 8px 8px;
+$arrow-bot 		: 8px 8px 0px 8px;
+$arrow-left 	: 8px 0px 8px 8px;
+$arrow-right 	: 8px 8px 8px 0px;

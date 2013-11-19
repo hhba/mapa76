@@ -152,7 +152,7 @@
 
 // Transitions =============================
 // @include transition(all, 0.2s, ease-in-out);
-@mixin transition($transition-property, $transition-time, $method) {
+@mixin transition($transition-property:all, $transition-time:0.2s, $method:ease-in-out) {
     -webkit-transition: $transition-property $transition-time $method;
     -moz-transition: $transition-property $transition-time $method;
     -ms-transition: $transition-property $transition-time $method;
@@ -160,6 +160,13 @@
     transition: $transition-property $transition-time $method;
 }
 //==========================================
+
+@mixin border-radius($radius:6px) {
+  -moz-border-radius: $radius;
+  -webkit-border-radius: $radius;
+  -ms-border-radius: $radius;
+  border-radius: $radius;
+}
 
 //Secondary link ==========================
 @mixin secondary-link {
@@ -185,5 +192,49 @@
 }
 //==========================================
 
+//Add img in text ==========================
+//Usar para agregar un icono a un texto.
+@mixin add-icon ($img-name, $img-x, $img-y, $add-icon-txt-margin-left, $add-icon-txt-margin-right ){
+	background: url("#{$path-to-images}/#{$img-name}.png") repeat $img-x $img-y;
+	margin-left: $add-icon-txt-margin-left;
+	margin-right: $add-icon-txt-margin-right;
+	display: block;
+}
+
 //==========================================
+
+// Decos Arrows ============================
+
+@mixin arrow-deco ( $direction:right, $size:8px, $color-arrow:$color-white, $x:13px, $y:100%) {
+	&:after {
+		content: "";
+		position: absolute;
+		bottom: $y;
+    	right: $x;
+		/* style */
+		border-width: $size;
+		border-color: transparent;
+		border-style: solid;
+		display: inline-block;
+		height: 0px;
+		width: 0px;
+
+
+		@if $direction == "right" {
+			border-left-color: $color-arrow;
+			border-right-width: 0px;
+		} @else if $direction == "left" {
+			border-right-color: $color-arrow;
+			border-left-width: 0px;
+		} @else if $direction == "up" {
+			border-bottom-color: $color-arrow;
+			border-top-width: 0px;
+		} @else if $direction == "down" {
+			border-top-color: $color-arrow;
+			border-bottom-width: 0px;
+
+		}
+	}
+}
 //==========================================
+   
