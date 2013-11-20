@@ -1,16 +1,4 @@
-<form id="new-document" 
-  method="post" 
-  action="{{uploadURL}}" 
-  enctype="multipart/form-data"
-  accept-charset="UTF-8" >
-  
-  <input name="utf8" type="hidden" value="✓">
-  <input name="authenticity_token" type="hidden" value="{{token}}">
-  
-  <input id="file_upload" multiple="" name="document[files][]" type="file">  
-  <a id="upload">Subir documento</a>
-</form>
-
-<div id="error-upload" style="display: none">
-  <span></span>
+<input id="file_upload" multiple type="file">  
+<div id="progress">
+  <div class="bar" style="width: 0%;"></div>
 </div>

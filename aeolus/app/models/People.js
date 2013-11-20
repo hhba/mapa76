@@ -7,6 +7,6 @@ module.exports = Backbone.Collection.extend({
 
   url: function(){
     return aeolus.rootURL + "/people"; 
-  },
+  }
 
 });

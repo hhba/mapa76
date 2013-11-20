@@ -15,13 +15,7 @@ module.exports = Backbone.Marionette.ItemView.extend({
   template: template,
 
   ui: {
-    uploadForm: "#new-document",
-    inputFile: "#new-document input[type=file]",
-    errorMessage: "#error-upload"
-  },
-
-  events:{
-    "click #upload": "uploadDocument"
+    inputFile: "#file_upload"
   },
 
   modelEvents: {
@@ -40,23 +34,7 @@ module.exports = Backbone.Marionette.ItemView.extend({
   //--------------------------------------
 
   onRender: function(){
-    var self = this;
-
-    this.ui.uploadForm.ajaxForm(function(data, status/*, xhr*/) { 
-      console.log(data);
-      console.log(status);
-
-      if (status.toLowerCase() === "success") {
-        console.log("all good!");
-      }
-    });
-
-    this.ui.uploadForm.ajaxError(function(event, request/*, settings*/){
-      var err = JSON.parse(request.responseText);
-      if (err && err.hasOwnProperty('error')){
-        self.ui.errorMessage.show();
-      }
-    });
+    this.initUploader();
   },
 
   //--------------------------------------
@@ -67,15 +45,38 @@ module.exports = Backbone.Marionette.ItemView.extend({
   //+ EVENT HANDLERS
   //--------------------------------------
   
-  uploadDocument: function(){
-    if (this.ui.inputFile.val()){
-      this.ui.errorMessage.hide();
-      this.ui.uploadForm.submit();
-    }
-  }
-
   //--------------------------------------
   //+ PRIVATE AND PROTECTED METHODS
   //--------------------------------------
+
+  initUploader: function(){
+    var self = this;
+
+    this.ui.inputFile.fileupload({
+      url: aeolus.rootURL + "/documents",  
+      dataType: "multipart/form-data",
+      paramName: "document[files][]",
+      formAcceptCharset: "utf-8",
+      singleFileUploads: false,
+
+      add: function (e, data) {
+        data.submit();
+      },
+
+      progressall: function (e, data) {
+        var progress = parseInt(data.loaded / data.total * 100, 10);
+        $('#progress .bar').css('width', progress + '%');
+      },
+
+      done: function (e, data) {
+        $.each(data.result.files, function (index, file) {
+          $('<p/>').text(file.name).appendTo(window.document.body);
+        });
+
+        self.close();
+      }
+    });
+
+  }
 
 });

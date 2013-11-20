@@ -92,6 +92,7 @@ module.exports = function(grunt) {
               '<%= paths.vendor.js %>underscore.min.js'
             , '<%= paths.vendor.js %>backbone.min.js'
             , '<%= paths.vendor.js %>backbone.marionette.min.js'
+            , '<%= paths.vendor.js %>jquery.ui.widget.js'
             , '<%= paths.vendor.js %>**/*.js'
           ]
         }
