@@ -10,6 +10,21 @@ describe Api::V2::DocumentsController do
       authenticate_api(user.access_token)
     end
 
+    describe 'GET #search' do
+      it 'returns results' do
+        result = stub(
+          id: document.id,
+          title: document.title,
+          original_filename: '',
+          highlight: [])
+        SearcherService.any_instance.stubs(:where).returns([[result]])
+
+        get :search, q: 'text', format: 'json'
+        json.first['title'] = document.title
+        response.status = 200
+      end
+    end
+
     describe 'POST #create' do
       it 'creates a new document' do
         Tempfile.open("doc.txt") do |fd|

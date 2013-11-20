@@ -46,6 +46,16 @@ class Api::V2::DocumentsController < Api::V2::BaseController
     render nothing: true, status: :no_content
   end
 
+  def search
+    if params[:q].present?
+      params[:ids] = document_ids.join(',') # TODO: Fix this
+      results = SearcherService.new(current_user).where(params)
+      @results = results.map { |r| r.first }
+    else
+      render nothing: true, status: :bad_request
+    end
+  end
+
 private
 
   def remove(document)

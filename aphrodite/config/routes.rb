@@ -52,6 +52,7 @@ Mapa76::Application.routes.draw do
 
         collection do
           get    :status
+          get    :search
         end
       end
       delete 'documents' => 'documents#destroy'
