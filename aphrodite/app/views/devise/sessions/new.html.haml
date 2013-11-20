@@ -1,6 +1,6 @@
 .main-content.registration.clearfix
   .content.clearfix
-    %h1 Registración
+    %h1 Inicio de sesión
     = form_for resource, as: resource_name, url: session_path(resource_name), builder: PrettyFormBuilder, id: 'registration-form' do |f|
       = f.text_field :email, placeholder: 'Email *'
       = f.text_field :password, placeholder: 'Contraseña *'
