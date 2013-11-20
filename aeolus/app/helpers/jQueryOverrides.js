@@ -10,3 +10,14 @@ jQuery.expr[":"].icontains = jQuery.expr.createPseudo(function (arg) {
     };                                                                                  
 });
 
+// Set default ajaxOptions for authentication.
+// If an authentication key is defined, it will be used for every ajax request.
+if (aeolus.authKey){
+  var opts = {
+    headers: {}
+  };
+
+  opts.headers[aeolus.headers.authorization] = 'Token token="' + aeolus.authKey + '"';
+  
+  jQuery.ajaxSetup(opts);
+}

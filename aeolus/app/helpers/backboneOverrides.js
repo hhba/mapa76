@@ -13,10 +13,6 @@ Backbone.sync = function(method, model, options) {
   if (!options.headers) {
     options.headers = {};
   }
-  
-  if (aeolus.authKey){
-    options.headers[aeolus.headers.authorization] = 'Token token="' + aeolus.authKey + '"';
-  }
 
   if (options.xDocumentIds){
     options.headers[aeolus.headers.xDocumentIds] = options.xDocumentIds.join(",");

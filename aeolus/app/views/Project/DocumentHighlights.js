@@ -3,7 +3,7 @@
  * 
  */
 
-var DocumentSummary = require('./DocumentSummary');
+var DocumentHighlight = require('./DocumentHighlight');
 
 module.exports = Backbone.Marionette.CollectionView.extend({
 
@@ -12,7 +12,7 @@ module.exports = Backbone.Marionette.CollectionView.extend({
   //--------------------------------------
 
   tagName: "ul",
-  itemView: DocumentSummary,
+  itemView: DocumentHighlight,
 
   itemViewOptions: function(){
     return {

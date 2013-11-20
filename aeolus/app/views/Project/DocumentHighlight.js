@@ -3,7 +3,7 @@
  * 
  */
 
-var template = require('./templates/documentSummary.tpl');
+var template = require('./templates/documentHighlight.tpl');
 
 module.exports = Backbone.Marionette.ItemView.extend({
 

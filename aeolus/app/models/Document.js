@@ -1,5 +1,5 @@
 
-var DocumentSummaries = require("./DocumentSummaries");
+var DocumentHighlights = require("./DocumentHighlights");
 
 module.exports = Backbone.Model.extend({
  
@@ -16,8 +16,8 @@ module.exports = Backbone.Model.extend({
   },
 
   parse: function(response){
-    if (response.hasOwnProperty("findings")){
-      response.summaries = new DocumentSummaries(response.findings);
+    if (response.hasOwnProperty("highlight")){
+      response.highlights = new DocumentHighlights(response.highlight, { parse: true });
     }
     return response;
   },

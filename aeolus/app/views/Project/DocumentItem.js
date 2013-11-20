@@ -5,7 +5,7 @@
 
 var 
     template = require('./templates/documentItem.tpl')
-  , DocumentSummaries = require("./DocumentSummaries");
+  , DocumentHighlights = require("./DocumentHighlights");
 
 module.exports = Backbone.Marionette.ItemView.extend({
 
@@ -30,7 +30,7 @@ module.exports = Backbone.Marionette.ItemView.extend({
 
   ui: {
     selection: ".selection",
-    summaries: ".summaries"
+    highlights: ".highlights"
   },
 
   events: {
@@ -48,17 +48,17 @@ module.exports = Backbone.Marionette.ItemView.extend({
   //--------------------------------------
 
   onRender: function(){
-    var sums = this.model.get("summaries");
+    var sums = this.model.get("highlights");
     
     if (sums && sums.length > 0){
-      var summaries = new DocumentSummaries({
+      var highlights = new DocumentHighlights({
         model: this.model,
         collection: sums
       });
 
-      summaries.render();
+      highlights.render();
 
-      this.ui.summaries.empty().append(summaries.$el);
+      this.ui.highlights.empty().append(highlights.$el);
     }
   },
 

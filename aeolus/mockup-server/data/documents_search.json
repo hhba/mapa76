@@ -12,16 +12,18 @@
 
   "percentage": 0,
 
-  "findings": [{
-    "page": 2,
-    "text": "jnasjdnjkas 2 jkanfj sgkjsnfs kjfnsdjnfajnfsjnas dnas nasd"
-  },{
-    "page": 3,
-    "text": "jnasjdnjkas 3 jkanfj sgkjsnfs kjfnsdjnfajnfsjnas dnas nasd"
-  },{
-    "page": 6,
-    "text": "jnasjdnjkas 6 jkanfj sgkjsnfs kjfnsdjnfajnfsjnas dnas nasd"
-  }]
+  "highlight": {
+    "2": [
+      "jnasjdnjkas 2 jkanfj sgkjsnfs kjfnsdjnfajnfsjnas dnas nasd",
+      "jnasjdnjkas 2 jkanfj sgkjsnfs kjfnsdjnfajnfsjnas dnas nasd",
+      "jnasjdnjkas 2 jkanfj sgkjsnfs kjfnsdjnfajnfsjnas dnas nasd"
+      ],
+    "5": [
+      "jnasjdnjkas 5 jkanfj sgkjsnfs kjfnsdjnfajnfsjnas dnas nasd",
+      "jnasjdnjkas 5 jkanfj sgkjsnfs kjfnsdjnfajnfsjnas dnas nasd",
+      "jnasjdnjkas 5 jkanfj sgkjsnfs kjfnsdjnfajnfsjnas dnas nasd"
+      ]
+  }
 
 }, {
   "id": "52704be53ea2af7657000005",
@@ -36,15 +38,17 @@
   },
 
   "percentage": 100.0,
-
-  "findings": [{
-    "page": 1,
-    "text": "jnasjdnjkas 1 jkanfj sgkjsnfs kjfnsdjnfajnfsjnas dnas nasd"
-  },{
-    "page": 5,
-    "text": "jnasjdnjkas 5 jkanfj sgkjsnfs kjfnsdjnfajnfsjnas dnas nasd"
-  },{
-    "page": 666,
-    "text": "jnasjdnjkas 666 jkanfj sgkjsnfs kjfnsdjnfajnfsjnas dnas nasd"
-  }]
+  
+  "highlight": {
+    "1": [
+      "jnasjdnjkas 1 jkanfj sgkjsnfs kjfnsdjnfajnfsjnas dnas nasd",
+      "jnasjdnjkas 1 jkanfj sgkjsnfs kjfnsdjnfajnfsjnas dnas nasd",
+      "jnasjdnjkas 1 jkanfj sgkjsnfs kjfnsdjnfajnfsjnas dnas nasd"
+      ],
+    "3": [
+      "jnasjdnjkas 3 jkanfj sgkjsnfs kjfnsdjnfajnfsjnas dnas nasd",
+      "jnasjdnjkas 3 jkanfj sgkjsnfs kjfnsdjnfajnfsjnas dnas nasd",
+      "jnasjdnjkas 3 jkanfj sgkjsnfs kjfnsdjnfajnfsjnas dnas nasd"
+      ]
+  }
 }]

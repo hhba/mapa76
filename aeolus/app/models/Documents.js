@@ -29,18 +29,12 @@ module.exports = Backbone.Collection.extend({
   },
 
   getStatus: function(){
-
     $.ajax({
       url: this.url() + "/status",
       cache: false,
       context: this
     }).done(function(docs){
-
-      this.each(function(doc){
-        doc.unset("percentage");
-      });
-
-      this.set(docs);
+      this.set(docs, { remove: false });
       this.trigger("reset");
     });
   },

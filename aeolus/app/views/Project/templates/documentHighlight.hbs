@@ -1,4 +1,6 @@
 <a href="{{pageURL}}#{{page}}">p.{{page}}</a>
 <br/>
-{{text}}
+{{#each lines}}
+<p>{{{.}}}</p>
+{{/each}}
 <hr/>
