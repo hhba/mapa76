@@ -1,19 +1,21 @@
-.row-fluid{style: "margin-top: 3em"}
-  .span4.offset7
-    %h2= t("sessions.sign_up")
-
-    = simple_form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f|
-      = f.error_notification
-
-      .form-inputs
-        = f.input :name, required: true, autofocus: true
-        = f.input :organization
-        = f.input :email, :required => true
-        = f.input :password, :required => true
-        = f.input :password_confirmation, :required => true
-        = f.input :invitation_token, required: true
-
-      .form-actions
-        = f.button :submit, t("sessions.sign_up")
-
+.main-content.registration.clearfix
+  .content.clearfix
+    %h1 Registración
+    = form_for resource, ad: resource_name, url: registration_path(resource_name), builder: PrettyFormBuilder, id: 'registration-form' do |f|
+      = f.pretty_text_field :username, placeholder: 'Nombre *'
+      = f.pretty_text_field :email, placeholder: 'Email *'
+      = f.pretty_text_field :organization, placeholder: 'Organización'
+      = f.pretty_password_field :password, placeholder: 'Contraseña *'
+      = f.pretty_password_field :password_confirmation, placeholder: 'Confirmar contraseña *'
+      = f.pretty_text_field :invitation_token, placeholder: 'Código de invitación *'
+      = f.submit 'Ingresar'
     = render "devise/shared/links"
+
+  .side-bar.clearfix
+    %h3 Nosotros
+    %p
+      %strong Analice.me
+      %br/
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque accumsan nisl lacus, et tincidunt eros pellentesque non. Vivamus libero enim, dictum nec consequat ut, elementum in eros. Maecenas metus nunc, iaculis vel posuere
+    %h4
+      %a{href: "#"} ver más.
