@@ -23,7 +23,7 @@ private
   end
 
   def document_ids
-    request.headers['X-Document-Ids'].split(',')
+    request.headers.fetch('X-Document-Ids', '').split(',')
   end
 
 protected
@@ -32,7 +32,7 @@ protected
     headers['Access-Control-Allow-Origin'] = '*'
     headers['Access-Control-Expose-Headers'] = 'ETag'
     headers['Access-Control-Allow-Methods'] = 'GET, POST, PATCH, PUT, DELETE, OPTIONS, HEAD'
-    headers['Access-Control-Allow-Headers'] = '*,x-requested-with,Content-Type,If-Modified-Since,If-None-Match,Authorization,Document-Ids'
+    headers['Access-Control-Allow-Headers'] = '*,x-requested-with,Content-Type,If-Modified-Since,If-None-Match,Authorization,X-Document-Ids'
     headers['Access-Control-Max-Age'] = '86400'
   end
 

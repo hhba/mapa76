@@ -10,6 +10,37 @@ describe Api::V2::DocumentsController do
       authenticate_api(user.access_token)
     end
 
+    describe 'GET #search' do
+      it 'returns results' do
+        result = stub(
+          id: document.id,
+          title: document.title,
+          original_filename: '',
+          highlight: [])
+        SearcherService.any_instance.stubs(:where).returns([[result]])
+
+        get :search, q: 'text', format: 'json'
+        json.first['title'] = document.title
+        response.status = 200
+      end
+    end
+
+    describe 'POST #create' do
+      it 'creates a new document' do
+        Tempfile.open("doc.txt") do |fd|
+          fd.write("document content")
+          fd.close
+
+          document = build :document
+          file = Rack::Test::UploadedFile.new(fd.path, "text/plain")
+
+          post :create, document: {files: [file]}
+          user.documents.length.must_equal 2
+          response.status.must_equal 201
+        end
+      end
+    end
+
     describe 'POST #flag' do
       it 'flags a document' do
         flagger_service = mock

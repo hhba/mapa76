@@ -38,6 +38,10 @@ or, in a RESTful client just add the header `Authorization` with the value `Toke
 ]
 ```
 
+### POST api/v2/documents
+
+This should have an array of files in: `document[files]`.
+
 ### GET api/v2/documents/52704be53ea2af7657000009
 
 ```json
@@ -103,6 +107,24 @@ Remeber, completed documents are not being listed. And **failed** are marked wit
 You can also delete a list of documents with the header attribute `X-Document-Ids` with the ids separated by `,`.
 
 ### POST api/v2/documents/52704be53ea2af7657000009/flag
+
+### GET api/v2/documents/search?q=scioli
+
+```json
+[
+  {
+    "id": "52704be53ea2af7657000009",
+    "title": "scioli.txt",
+    "highlight": {
+      "1": [
+        "EL PAIS › ENTREVISTA A DANIEL <em>SCIOLI</em> LUEGO DE LA DERROTA DEL FRENTE PARA LA \nVICTORIA EN LA",
+        " <em>Scioli</em> hace de su presencia un hecho político. Así como \ntuvo una participación excluyente en la campaña",
+        " a trabajar. “Acá estamos, como todos los días”, saluda. <em>Scioli</em> aclara \nque la del domingo fue sólo una"
+      ]
+    }
+  }
+]
+```
 
 ### GET api/v2/documents/52704be53ea2af7657000009/people
 

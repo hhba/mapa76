@@ -1,6 +1,20 @@
 class Api::V2::DocumentsController < Api::V2::BaseController
+  skip_before_filter :verfy_authenticity_token, only: [:create]
+
   def index
     @documents = current_user.documents
+  end
+
+  def create
+    files = params[:document].fetch(:files, [])
+    files.each do |file|
+      document = Document.new
+      document.original_filename = file.original_filename
+      document.file = file.path
+      current_user.documents << document
+      document.save
+    end
+    render nothing: true, status: 201
   end
 
   def destroy
@@ -30,6 +44,16 @@ class Api::V2::DocumentsController < Api::V2::BaseController
     document = current_user.documents.find(params[:id])
     FlaggerService.new(current_user, document).call
     render nothing: true, status: :no_content
+  end
+
+  def search
+    if params[:q].present?
+      params[:ids] = document_ids.join(',') # TODO: Fix this
+      results = SearcherService.new(current_user).where(params)
+      @results = results.map { |r| r.first }
+    else
+      render nothing: true, status: :bad_request
+    end
   end
 
 private
