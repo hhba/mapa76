@@ -1,3 +1,5 @@
+require 'active_support/all'
+
 class DocumentProcessBootstrapTask
   @queue = :document_process_bootstrap
 
@@ -9,9 +11,7 @@ class DocumentProcessBootstrapTask
       document.update_attribute :percentage, 100
       document.update_attribute :flagger_id, nil
     else
-      klass = Kernel.const_get(
-        task_finder.next_task.split('_').map(&:capitalize).join
-      )
+      klass = task_finder.next_task.split('_').map(&:capitalize).join.constantize
       Resque.enqueue(klass, document_id)
     end
   end
