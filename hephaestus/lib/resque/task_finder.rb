@@ -2,8 +2,7 @@ class TaskFinder
   attr_reader :document
 
   DEFAULT_TASKS = %w(
-    normalization_task
-    layout_analysis_task
+    text_extraction_task
     extraction_task
     coreference_resolution_task
   )
