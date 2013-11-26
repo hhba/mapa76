@@ -1,0 +1,52 @@
+require 'tempfile'
+require 'tmpdir'
+
+class TextExtractionTask < Base
+  @queue = :text_extraction_task
+  attr_reader :document
+
+  def self.perform(document_id)
+    self.new(document_id).call
+  end
+
+  def initialize(id)
+    @document = Document.find(id)
+    @document.update_attribute :processed_text, ''
+    @document.pages.delete_all
+  end
+
+  def call
+    text = ''
+    Tempfile.open(document.original_filename) do |temp|
+      document.file.each do |chunk|
+        temp.write(chunk)
+      end
+      temp.close
+      document.original_title = Docsplit.extract_title(temp.path)
+      Dir.mktmpdir do |temp_dir|
+        Docsplit.extract_text(temp.path, output: temp_dir)
+        text = File.open(File.join(temp_dir, document.original_filename)).read
+        text = text.force_encoding('UTF-8')
+      end
+    end
+    store(text)
+  end
+
+  def store(text)
+    pos = 0
+    text.split("\f").each_with_index do |text_page, index|
+      text_page = text_page.gsub("\n", " ").gsub("  ", " ")
+      page = Page.create({
+        num:      index + 1,
+        text:     text_page,
+        from_pos: pos,
+        to_pos:   pos + text_page.length,
+      })
+      document.pages << page
+      pos = pos + text_page.length
+    end
+    pages = Page.where(document_id: document.id)
+    document.processed_text = pages.map { |p| p.text }.join#(' ')
+    document.save!
+  end
+end
