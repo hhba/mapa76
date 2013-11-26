@@ -11,6 +11,9 @@ FactoryGirl.define do
     sequence(:name) { |n| "name_#{ n }" }
   end
 
+  factory :page do
+  end
+
   factory :document do
     sequence(:title)             { |n| "text_#{ n }" }
     sequence(:original_filename) { |n| "text_#{ n }" }

@@ -1,6 +1,8 @@
 class ExtractionTask < Base
   @queue = :extraction_task
 
+  attr_reader :document, :progress_handler
+
   ##
   # Perform a morphological analysis and extract named entities like persons,
   # organizations, places, dates and addresses.
@@ -9,59 +11,76 @@ class ExtractionTask < Base
   # addresses were found, enqueue the geocoding task.
   #
   def self.perform(document_id)
-    doc = Document.find(document_id)
-    doc.update_attribute :state, :extracting
+    new(document_id).call
+  end
 
-    logger.info "Extract named entities from content"
-    doc.named_entities.delete_all
-    doc_iter = doc.new_iterator
-    progress_handler = ProgressHandler.new(doc, bound: doc.processed_text.size)
+  def initialize(id)
+    @document = Document.find(id)
+    @document.named_entities.destroy_all
+    @progress_handler = ProgressHandler.new(document, bound: document.processed_text.size)
+  end
 
-    Analyzer.extract_named_entities(doc.processed_text, doc.lang, progress_handler: progress_handler).each do |ne_attrs|
-      inner_pos = {}
+  def call
+    pos = 0
+    analyze(document.processed_text).map do |token|
+      if valid_token?(token)
+        ne_text = token['form']
+        ne_regexp = build_regexp(ne_text)
+        pos = pos + (document.processed_text[pos..-1] =~ ne_regexp)
 
-      doc_iter.seek(ne_attrs[:pos])
-      inner_pos["from"] = {
-        "pid" => doc_iter.page.id,
-        "tlid" => doc_iter.text_line.id,
-        "pos" => doc_iter.inner_pos,
-      }
+        puts "Searching for #{ne_text} in pos: #{pos}"
+        page = find_page(pos)
 
-      last_token = (ne_attrs[:tokens] && ne_attrs[:tokens].last) || ne_attrs
-      doc_iter.seek(last_token[:pos] + last_token[:form].size - 1)
-      inner_pos["to"] = {
-        "pid" => doc_iter.page.id,
-        "tlid" => doc_iter.text_line.id,
-        "pos" => doc_iter.inner_pos,
-      }
-
-      ne_attrs[:inner_pos] = inner_pos
-
-      ne_klass = case ne_attrs[:ne_class]
-        when :addresses then AddressEntity
-        when :actions then ActionEntity
-        else NamedEntity
-      end
-
-      ne = ne_klass.new(ne_attrs)
-      ne.save!
-
-      doc.named_entities << ne
-      doc.pages.in(:_id => ["from", "to"].map{ |k| ne.inner_pos[k]["pid"] }.uniq).each do |page|
+        ne = store_named_entity(token, page, pos)
         page.named_entities << ne
+        document.named_entities << ne
+
+        pos = pos + ne_text.length
       end
+      progress_handler.increment_to(pos)
     end
+    logger.info "We found #{document.named_entities.count} named entities"
+    document.save
+  end
 
-    logger.info "Count classes of named entities found"
-    doc.information = {
-      :people => doc.people.count,
-      :people_ne => doc.people_found.size,
-      :dates_ne => doc.dates_found.size,
-      :organizations_ne => doc.organizations_found.size
-    }
+  def store_named_entity(token, page, pos)
+    NamedEntity.create({
+      form:  token['form'],
+      lemma: token['lemma'],
+      tag:   token['tag'],
+      prob:  token['prob'],
+      text:  token['form'],
+      pos:   pos,
+      inner_pos: { pid: page.id, from_pos: pos, to_pos: pos + token['form'].length }
+    })
+  end
 
-    logger.info "Save document"
-    doc.last_analysis_at = Time.now
-    doc.save
+  def analyze(text)
+    analyzer = FreeLing::Analyzer.new(text, {
+      :config_path => File.join(APP_ROOT, "config", "freeling", "config", "es.cfg"),
+      :output_format => :tagged,
+      :memoize => false
+    })
+    analyzer.tokens
+  end
+
+  def find_text(text, regexp, pos=0)
+    text.index(regexp, pos)
+  end
+
+  def find_page(pos)
+    document.pages.detect { |page| page.from_pos <= pos && pos <= page.to_pos }
+  end
+
+  def build_regexp(ne_text)
+    if ne_text =~ /\_/
+       /#{ne_text.split('_').join('\W')}/
+    else
+      /#{ne_text}/
+    end
+  end
+
+  def valid_token?(token)
+    !!NamedEntity::CLASSES_PER_TAG[token['tag']]
   end
 end
