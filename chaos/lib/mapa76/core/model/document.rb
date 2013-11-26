@@ -10,9 +10,7 @@ class Document
   field :original_title,    type: String
   field :original_filename, type: String
   field :context_cache,     type: Hash,    default: {}
-  field :information,       type: Hash
   field :fontspecs,         type: Hash,    default: {}
-  field :last_analysis_at,  type: Time
   field :processed_text,    type: String
   field :status,            type: String,  default: ''
   field :tasks,             type: Array,   default: []

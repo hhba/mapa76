@@ -6,9 +6,9 @@ class Citation
   field :inner_pos, type: Hash
 
   belongs_to :document
-  has_and_belongs_to_many :pages
+  belongs_to :page
 
-  validate :must_have_valid_position
+#  validate :must_have_valid_position
 
   def to_s
     text || super
