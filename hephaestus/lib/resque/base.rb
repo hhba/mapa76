@@ -15,6 +15,7 @@ class Base
     begin
       document = Document.find(id)
       document.update_attribute :status, "FAILED"
+      document.update_attribute :percentage, -1.0
     rescue Mongoid::Errors::DocumentNotFound
       logging("Document not found. #{id}")
     end
