@@ -22,7 +22,8 @@ module.exports = Backbone.Marionette.Layout.extend({
   template: template,
 
   ui: {
-    modal: ".menu-modal"
+    modal: ".menu-modal",
+    links: ".group-b a"
   },
 
   regions: {
@@ -35,7 +36,7 @@ module.exports = Backbone.Marionette.Layout.extend({
   },
 
   events: {
-    "click ul li": "menuClicked",
+    "click .group-b a": "menuClicked",
     "click .close": "closeModal"
   },
 
@@ -52,9 +53,13 @@ module.exports = Backbone.Marionette.Layout.extend({
   //--------------------------------------
 
   menuClicked: function(e){
-    var item = $(e.target).attr("data-menu");
+    var link = $(e.target).parents("a"),
+      item = link.attr("data-menu");
 
     if (item && types.hasOwnProperty(item)){
+      this.ui.links.removeClass("active");
+      link.addClass("active");
+
       this.ui.modal.show();
 
       var header = new Header({
@@ -79,6 +84,7 @@ module.exports = Backbone.Marionette.Layout.extend({
 
   closeModal: function(){
     this.ui.modal.hide();
+    this.ui.links.removeClass("active");
   }
 
   //--------------------------------------

@@ -1,22 +1,14 @@
 
-<input id="search" type="text" placeholder="Buscar Documentos">
-<a class="clear-search" style="display:none">X</a>
-
-<ul>
-  <li>
-    <a id="upload">Subir Documentos</a>
+<ul class="submenu-tools clearfix">
+  <li class="tool first search-doc search-2">
+    <input id="search" type="text" placeholder="Buscar Documentos">
+    <input type="button" value="">
+    <a class="clear-search" style="display:none">X</a>
   </li>
-  <li class="multi">
-    <a id="export">Exportar</a>
-  </li>
-  <li class="multi">
-    <a id="download">Descargar</a>
-  </li>
-  <li class="multi">
-    <a id="delete">Eliminar</a>
-  </li>
+  <li class="tool upload-doc"><a id="upload" href="#">Subir Documento</a></li>
+  <li class="multi tool export-doc"><a id="export" href="#">Exportar</a></li>
+  <li class="multi tool download-doc"><a id="download" href="#">Descargar</a></li>
+  <li class="multi tool last trash-doc"><a id="delete" href="#">Eliminar</a></li>
 </ul>
-
-<br/>
 
 <div class="sub-menu"></div>

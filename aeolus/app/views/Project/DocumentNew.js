@@ -69,10 +69,7 @@ module.exports = Backbone.Marionette.ItemView.extend({
       },
 
       done: function (e, data) {
-        $.each(data.result.files, function (index, file) {
-          $('<p/>').text(file.name).appendTo(window.document.body);
-        });
-
+        console.dir(data.result.files);
         self.close();
       }
     });

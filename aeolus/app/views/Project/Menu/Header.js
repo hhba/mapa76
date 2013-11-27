@@ -14,11 +14,11 @@ module.exports = Backbone.Marionette.ItemView.extend({
   template: template,
 
   ui: {
-    searchBox: ".search"
+    searchBox: ".search-box"
   },
 
   events: {
-    "keyup .search": "filter"
+    "keyup .search-box": "filter"
   },
 
   //--------------------------------------

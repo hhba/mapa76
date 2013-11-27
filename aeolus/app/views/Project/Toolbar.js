@@ -15,6 +15,7 @@ module.exports = Backbone.Marionette.ItemView.extend({
   //--------------------------------------
 
   template: template,
+  className: "nav-bar-submenu",
 
   ui: {
     multiOptions: ".multi",
