@@ -1,6 +1,7 @@
 # encoding: utf-8
 
 class InvitationsController < ApplicationController
+  layout 'pretty'
   before_filter :only_signed_off
 
   def new
@@ -9,11 +10,8 @@ class InvitationsController < ApplicationController
 
   def create
     @invitation = Invitation.new params[:invitation]
+    @invitation.save
     NotificationMailer.invitation_request(@invitation).deliver
-    if @invitation.save
-      redirect_to root_path, notice: 'Se ha creado el pedido de invitación'
-    else
-      render :new, error: 'No se ha podido cargar el pedido de invitación'
-    end
+    redirect_to root_path, notice: 'Se ha creado el pedido de invitación'
   end
 end

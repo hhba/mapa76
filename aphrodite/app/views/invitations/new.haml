@@ -1,9 +1,17 @@
-%h2
-  Pedido de invitación
-
-= simple_form_for @invitation do |f|
-  = f.input :name
-  = f.input :organization
-  = f.input :email
-  = f.input :reason, as: :text
-  = f.button :submit
+.main-content.registration.clearfix
+  .content.clearfix
+    %h1 Invitación
+    = form_for @invitation, builder: PrettyFormBuilder, id: 'registration-form' do |f|
+      = f.pretty_text_field :name, placeholder: 'Nombre *'
+      = f.pretty_text_field :organization, placeholder: 'Organización *'
+      = f.pretty_text_field :email, placeholder: 'Email *'
+      = f.pretty_text_area  :reason
+      = f.submit 'Ingresar'
+  .side-bar.clearfix
+    %h3 Nosotros
+    %p
+      %strong Analice.me
+      %br/
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque accumsan nisl lacus, et tincidunt eros pellentesque non. Vivamus libero enim, dictum nec consequat ut, elementum in eros. Maecenas metus nunc, iaculis vel posuere
+    %h4
+      %a{href: "#"} ver más.

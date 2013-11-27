@@ -10,6 +10,18 @@ class PrettyFormBuilder < ActionView::Helpers::FormBuilder
     @template.content_tag(:div, input, class: 'input-item')
   end
 
+  def pretty_password_field(method, options={})
+    input = if @object.errors.messages[method]
+      options[:class] = 'input-error'
+      @template.password_field(@object_name, method, objectify_options(options)) +
+        @template.content_tag(:label, error_message(method), class: 'msj')
+    else
+      @template.password_field(@object_name, method, objectify_options(options))
+    end
+    @template.content_tag(:div, input, class: 'input-item')
+
+  end
+
   def pretty_text_area(method, options={})
     input = @template.text_area(@object_name, method, objectify_options(options))
     @template.content_tag(:div, input, class: 'input-item')

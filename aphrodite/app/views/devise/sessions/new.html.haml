@@ -1,14 +1,18 @@
-.row-fluid{style: "margin-top: 3em"}
-  .span4.offset7
-    %h2= t("sessions.sign_in")
-
-    = simple_form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f|
-      .form-inputs
-        = f.input :email, :required => false, :autofocus => true
-        = f.input :password, :required => false
-        = f.input :remember_me, :as => :boolean if devise_mapping.rememberable?
-
-      .form-actions
-        = f.button :submit, t("sessions.sign_in")
-
-    = render "devise/shared/links"
+.main-content.registration.clearfix
+  .content.clearfix
+    %h1 Inicio de sesión
+    = form_for resource, as: resource_name, url: session_path(resource_name), builder: PrettyFormBuilder, id: 'registration-form' do |f|
+      = f.text_field :email, placeholder: 'Email *'
+      = f.password_field :password, placeholder: 'Contraseña *'
+      = f.label 'Recordarme', for: 'user_remember_me'
+      = f.check_box :remember_me if devise_mapping.rememberable?
+      %br/
+      = f.submit 'Ingresar'
+  .side-bar.clearfix
+    %h3 Nosotros
+    %p
+      %strong Analice.me
+      %br/
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque accumsan nisl lacus, et tincidunt eros pellentesque non. Vivamus libero enim, dictum nec consequat ut, elementum in eros. Maecenas metus nunc, iaculis vel posuere
+    %h4
+      %a{href: "#"} ver más.

@@ -10,6 +10,7 @@ class DocumentsController < ApplicationController
 
   def search
     if params[:q].present?
+      params[:ids] = params.fetch(:ids, '').split(',')
       @results = SearcherService.new(current_user).where(params)
       render :index
     else

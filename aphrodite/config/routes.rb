@@ -73,4 +73,6 @@ Mapa76::Application.routes.draw do
 
   get "#{Mapa76::Application.config.thumbnails_path}/:id" => "documents#generate_thumbnail"
   get '/blog' => redirect('/blog/')
+
+  match '*not_found_page', :to => 'application#not_found_page'
 end

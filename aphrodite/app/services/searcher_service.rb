@@ -7,7 +7,7 @@ class SearcherService
 
   def where(opt={})
     @q = opt[:q]
-    @ids = opt.fetch(:ids, '').split(',')
+    @ids = opt.fetch(:ids, [])
     store(@q) unless @q.nil?
     call
   end
