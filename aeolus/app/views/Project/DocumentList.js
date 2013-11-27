@@ -33,6 +33,18 @@ module.exports = Backbone.Marionette.CompositeView.extend({
   //+ INHERITED / OVERRIDES
   //--------------------------------------
 
+  /*
+  Disabled iCheck cause blowup native events
+
+  onDomRefresh: function(){
+    this.ui.selectionAll.iCheck({
+      checkboxClass: 'icheckbox_flat-grey left',
+      radioClass: 'iradio_flat-grey left',
+      increaseArea: '20%'
+    });
+  },
+  */
+
   //--------------------------------------
   //+ PUBLIC METHODS / GETTERS / SETTERS
   //--------------------------------------

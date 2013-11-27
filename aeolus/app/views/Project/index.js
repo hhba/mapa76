@@ -5,7 +5,7 @@
  */
 
 var 
-  template = require("./templates/documents.tpl"),
+  template = require("./templates/project.tpl"),
   Toolbar = require("./Toolbar"),
   Menu = require("./Menu"),
   DocumentList = require("./DocumentList");
@@ -20,8 +20,8 @@ module.exports = Backbone.Marionette.Layout.extend({
 
   regions: {
     toolbar: ".toolbar",
-    content: ".content",
-    menu: ".menu"
+    content: ".box-content",
+    menu: ".vertical-toolbar"
   },
 
   //--------------------------------------

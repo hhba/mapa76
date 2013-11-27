@@ -1,31 +1,55 @@
-<ul>
-  <li class="docs-online">
-    docs online
-    {{counter.online}}
-  </li>
-  <li class="docs-sel">
-    docs sel
-    {{counter.selected}}
-  </li>
-  <li class="people" data-menu="people">
-    nombres
-    {{counter.people}}
-  </li>
-  <li class="organizations" data-menu="organizations">
-    orgs
-    {{counter.organizations}}
-  </li>
-  <li class="places" data-menu="places">
-    lugares
-    {{counter.places}}
-  </li>
-  <li class="dates" data-menu="dates">
-    fechas
-    {{counter.dates}}
-  </li>
-</ul>
-<div class="menu-modal">
-  <a class="close">X</a>
-  <div class="header"></div>
-  <div class="content"></div>
+<div class="full-height subtraction-item subtraction-0 toolbar clearfix">
+  <div class="full-height-truecontent toolbar-content">
+    <div class="group-a">
+      <div class="menu-icon"></div>
+      <div class="tool tool-doc-online" data-hasqtip="0" aria-describedby="qtip-0">
+        <a>
+          <div class="icon"></div>
+          <label class="value">{{counter.online}}</label>
+        </a>
+      </div>
+      <div class="tool tool-doc-selected">
+        <a>
+          <div class="icon"></div>
+          <label class="value ttt">{{counter.selected}}</label>
+        </a>
+      </div>
+    </div>
+    <div class="group-b">
+      <div class="tool tool-people">
+        <a data-menu="people">
+          <div class="icon"></div>
+          <label class="value">{{counter.people}}</label>
+        </a>
+      </div>
+      <div class="tool tool-organizations">
+        <a data-menu="organizations">
+          <div class="icon"></div>
+          <label class="value">{{counter.organizations}}</label>
+        </a>
+      </div>
+      <div class="tool tool-places">
+        <a data-menu="places">
+          <div class="icon"></div>
+          <label class="value">{{counter.places}}</label>
+        </a>
+      </div>
+      <div class="tool tool-dates">
+        <a data-menu="dates">
+          <div class="icon"></div>
+          <label class="value">{{counter.dates}}</label>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="menu-modal full-height subtraction-item subtraction-1 drawer drawer-people clearfix"
+  style="display: none;">
+
+  <div class="full-height-truecontent">
+    <a class="close">X</a>
+    <div class="header drawer-header"></div>
+    <div class="content drawer-content"></div>
+  </div>
 </div>

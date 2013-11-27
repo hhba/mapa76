@@ -14,6 +14,7 @@ module.exports = Backbone.Marionette.ItemView.extend({
   //--------------------------------------
 
   tagName: "li",
+  className: "item-list clearfix",
   template: template,
 
   templateHelpers: function(){
@@ -61,6 +62,18 @@ module.exports = Backbone.Marionette.ItemView.extend({
       this.ui.highlights.empty().append(highlights.$el);
     }
   },
+
+  /*
+  Disabled iCheck cause blowup native events
+  
+  onDomRefresh: function(){
+    this.ui.selection.iCheck({
+      checkboxClass: 'icheckbox_flat-grey left',
+      radioClass: 'iradio_flat-grey left',
+      increaseArea: '20%'
+    });
+  },
+  */
 
   //--------------------------------------
   //+ PUBLIC METHODS / GETTERS / SETTERS
