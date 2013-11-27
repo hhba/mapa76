@@ -1,8 +1,8 @@
 .main-content.about-us.clearfix
   .content.clearfix
     %h1 Nosotros
-    %h2 Analice.me
-    %p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque accumsan nisl lacus, et tincidunt eros pellentesque non. Vivamus libero enim, dictum nec consequat ut, elementum in eros. Maecenas metus nunc, iaculis vel posuere eget, mollis et risus. Duis fermentum, tortor id bibendum sollicitudin, odio dolor placerat lectus, sit amet mollis nisi lorem sed nulla. Etiam vel eros tempus, semper libero vel, tristique metus. Sed euismod arcu sed quam vulputate sollicitudin. Nulla non justo elit. Fusce eu pellentesque tortor. Integer rhoncus, neque in hendrerit pretium, leo diam feugiat eros, a consequat neque metus quis leo. In placerat lectus id porta imperdiet. Nullam sit amet volutpat est. Vivamus tempor suscipit venenatis. Proin enim felis, laoreet et molestie sed, consequat non eros. Morbi eu dictum ante. Suspendisse potenti.
+    /%h2 Analice.me
+    %p La plataforma de Analice.me ha sido desarrollada de forma colaborativa a través de Hacks/Hackers Buenos Aires desde el año 2011. Somos un grupo de periodistas, programadores, diseñadores y productores apasionados por la intersección entre la tecnología y la forma de contar historias y la capacidad de la tecnología para resolver problemas y mejorar la calidad de los medios. Actualmente, cuenta con el apoyo del International Center For Journalists, la Fundación Desarrollar y el portal de Datos Públicos del gobierno argentino. Si bien más de 50 personas pasaron en distintos momentos por el proyecto Mapa76, cuya versión instrumental es Analice.me, este es el equipo que terminó el producto mínimo viable.
     %h2 Equipo
     %ul.people-list
       %li.people.clearfix
@@ -10,55 +10,95 @@
           .avatar
             %img{src: "images/avatar/avatar.png"}/
           .social-icon.linkedin
-            %img{src: "http://dummyimage.com/21x20/dedade/000003.png"}/
+            = link_to 'http://ar.linkedin.com/in/marianoblejman/' do
+              %img{src: "http://dummyimage.com/21x20/dedade/000003.png"}/
           .social-icon.twitter
-            %img{src: "http://dummyimage.com/21x20/dedade/000003.png"}/
-          .social-icon.face
-            %img{src: "http://dummyimage.com/21x20/dedade/000003.png"}/
+            = link_to 'http://twitter.com/blejman' do
+              %img{src: "http://dummyimage.com/21x20/dedade/000003.png"}/
+          .social-icon.mail
+            = link_to 'mailto:marianet@he.net' do
+              %img{src: "http://dummyimage.com/21x20/dedade/000003.png"}/
         .right-info.clearfix
-          .name Nombre Apellido
-          %div{lass: "mail"}
-            %a{href: "mailto:mail@mail.com", target: "_top"} mail@mail.com
+          .name Mariano Blejman
           %p.info
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque accumsan nisl lacus, et tincidunt eros pellentesque non. Vivamus libero enim, dictum nec consequat ut, elementum in eros. Maecenas metus nunc, iaculis vel posuere eget, mollis et risus.
+            Lidera el proyecto de Mapa76/analice.me desde 2011. Actualmente lleva adelante un programa de innovación en medios como Knight Fellow del International Center For Journalists. Es también manager partner de la Media Factory, primera aceleradora de medios de América latina.
             %br/
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque accumsan nisl lacus, et tincidunt eros pellentesque non. Vivamus libero enim, dictum nec consequat ut, elementum in eros. Maecenas metus nunc, iaculis vel posuere eget, mollis et risus.
+            Es co-fundador de Hacks/Hackers Buenos Aires, el segundo capítulo más grande del mundo y fundador de la Media Party, evento productivo de medios más grande de América latina. Anteriormente fue editor de tecnología y de la sección joven “NO” del diario Página/12.
       %li.people.clearfix
         .left-info.clearfix
           .avatar
             %img{src: "images/avatar/avatar.png"}/
           .social-icon.linkedin
-            %img{src: "http://dummyimage.com/21x20/dedade/000003.png"}/
+            = link_to 'http://ar.linkedin.com/in/marcosvanetta/' do
+              %img{src: "http://dummyimage.com/21x20/dedade/000003.png"}/
           .social-icon.twitter
-            %img{src: "http://dummyimage.com/21x20/dedade/000003.png"}/
-          .social-icon.face
-            %img{src: "http://dummyimage.com/21x20/dedade/000003.png"}/
+            = link_to 'http://twitter.com/malev' do
+              %img{src: "http://dummyimage.com/21x20/dedade/000003.png"}/
+          .social-icon.mail
+            = link_to 'mailto:marcosvanetta@gmail.com' do
+              %img{src: "http://dummyimage.com/21x20/dedade/000003.png"}/
         .right-info.clearfix
-          .name Nombre Apellido
-          %div{lass: "mail"}
-            %a{href: "mailto:mail@mail.com", target: "_top"} mail@mail.com
+          .name Marcos Vanetta
+          /%div{lass: "mail"}
+          /  %a{href: "mailto:mail@mail.com", target: "_top"} mail@mail.com
           %p.info
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque accumsan nisl lacus, et tincidunt eros pellentesque non. Vivamus libero enim, dictum nec consequat ut, elementum in eros. Maecenas metus nunc, iaculis vel posuere eget, mollis et risus.
-            %br/
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque accumsan nisl lacus, et tincidunt eros pellentesque non. Vivamus libero enim, dictum nec consequat ut, elementum in eros. Maecenas metus nunc, iaculis vel posuere eget, mollis et risus.
+            Marcos Vanetta es Ingeniero Biomédico y próximo Especialista en Ingeniería de Software. Formó parte de un equipo de investigación en la Universidad Nacional de Tucumán y trabaja actualmente como Software Designer. Colabora en varios proyectos de Software Libre y participa en las comunidades de Python Argentina y Hacks/Hackers Buenos Aires, donde vuelca casi todos sus esfuerzos en Mapa76. Fanático de las tecnologías libres y el Rock and Roll. Lo pueden encontrar en el hackatón más cercano.
       %li.people.clearfix
         .left-info.clearfix
           .avatar
             %img{src: "images/avatar/avatar.png"}/
           .social-icon.linkedin
-            %img{src: "http://dummyimage.com/21x20/dedade/000003.png"}/
+            = link_to 'http://www.linkedin.com/in/dsilvani/es' do
+              %img{src: "http://dummyimage.com/21x20/dedade/000003.png"}/
           .social-icon.twitter
-            %img{src: "http://dummyimage.com/21x20/dedade/000003.png"}/
+            = link_to 'http://twitter.com/munshkr' do
+              %img{src: "http://dummyimage.com/21x20/dedade/000003.png"}/
           .social-icon.face
-            %img{src: "http://dummyimage.com/21x20/dedade/000003.png"}/
+            = link_to 'mailto:dsilvani@gmail.com' do
+              %img{src: "http://dummyimage.com/21x20/dedade/000003.png"}/
         .right-info.clearfix
-          .name Nombre Apellido
-          %div{lass: "mail"}
-            %a{href: "mailto:mail@mail.com", target: "_top"} mail@mail.com
+          .name Damián Silvani
           %p.info
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque accumsan nisl lacus, et tincidunt eros pellentesque non. Vivamus libero enim, dictum nec consequat ut, elementum in eros. Maecenas metus nunc, iaculis vel posuere eget, mollis et risus.
+            Damián Silvani es estudiante de Ciencias de la Computación en la UBA, life hacker y fonometrista aficionado. Promotor del software y hardware libre, y colaborador en Analice.me (Mapa76), un proyecto de análisis y visualización sobre documentos de texto en lenguaje natural.
             %br/
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque accumsan nisl lacus, et tincidunt eros pellentesque non. Vivamus libero enim, dictum nec consequat ut, elementum in eros. Maecenas metus nunc, iaculis vel posuere eget, mollis et risus.
+            Y como si fuera poco, hace de sysadmin de HHBA cuando las papas queman.
+      %li.people.clearfix
+        .left-info.clearfix
+          .avatar
+            %img{src: "images/avatar/avatar.png"}/
+          .social-icon.linkedin
+            = link_to 'http://linkedin.com/pub/mariana-berruezo' do
+              %img{src: "http://dummyimage.com/21x20/dedade/000003.png"}/
+          .social-icon.twitter
+            = link_to 'http://twitter.com/Myberru' do
+              %img{src: "http://dummyimage.com/21x20/dedade/000003.png"}/
+          .social-icon.face
+            = link_to 'mailto:berru33@gmail.com' do
+              %img{src: "http://dummyimage.com/21x20/dedade/000003.png"}/
+        .right-info.clearfix
+          .name Mariana Berruezo
+          %p.info
+            Abogada. Emprendedora. Desde el '97 trabaja "de la web": como analista, PM, consultora y productora de contenidos. Cuadro multifunción del capítulo Buenos Aires de Hacks/Hackers. A cargo de la producción general de la Media Party. Administra Open Data Latinoamérica, es middleware de Mapa76, coordina el desarrollo de una red social para la construcción de consensos explícitos que está a punto de lanzar: winwins. Además, es especialista en formación de adultos por medios no convencionales y consultora de Paginar.net
+      %li.people.clearfix
+        .left-info.clearfix
+          .avatar
+            %img{src: "images/avatar/avatar.png"}/
+          .social-icon.linkedin
+            = link_to 'http://www.linkedin.com/in/andresnit' do
+              %img{src: "http://dummyimage.com/21x20/dedade/000003.png"}/
+          .social-icon.twitter
+            = link_to 'http://twitter.com/rusosnith' do
+              %img{src: "http://dummyimage.com/21x20/dedade/000003.png"}/
+          .social-icon.face
+            = link_to 'mailto:andres@soviet.com.ar' do
+              %img{src: "http://dummyimage.com/21x20/dedade/000003.png"}/
+        .right-info.clearfix
+          .name Andrés Snitcofsky
+          %p.info
+            Aporta a mapa76 ordenamiento visual y conceptual, pensando la interface para con el usuario. Sueña con las infinitas posibilidades que tendrá mapa76 cuando se encuentre funcionando, con su potencial en visualizaciones gráficas de las historias personales de las victimas y victimarios de la ultima dictadura militar.
+            %br/
+            Es porteño, nació en 1982 y es diseñador gráfico, carrera que estudió en la UBA. Trabaja haciendo motion graphics para vivir, y experimenta con distintas ramas del diseño y la comunicación visual para no morir. Es fundador de Soviet Inc, un aglomerado de diseño, desde donde dirige y realiza piezas de animación para televisión, videoclips, instalaciones experimentales, discos de música y concursos varios. Ademas es docente universitario de Heuristica. Y en los tiempos de render cuida su huertita terrazera.
+
   .side-bar.clearfix
     %h2 Partners
     %ul.partners-list
