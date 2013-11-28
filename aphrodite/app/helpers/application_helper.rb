@@ -64,4 +64,8 @@ module ApplicationHelper
       name
     end
   end
+
+  def data_attributes
+    @data_attributes || {}
+  end
 end
