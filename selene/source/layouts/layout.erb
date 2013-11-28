@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+	<meta name="classification" content=""/>
+	<link rel="icon" href="favicon.ico"/>
+	<meta name="author" content="mausedar"/>
+    <%= stylesheet_link_tag "normalize", "global" %>
+    <%= javascript_include_tag  "all" %>
+	<title><%= current_page.data.title || "Mapa76" %></title>
+	
+	<!-- IE placeholder function -->
+	<script>
+		$(function() { $('input, textarea').placeholder();});
+	</script>
+
+	<!-- checkbox & radios jquery.icheck settings -->
+	<script>
+		$(document).ready(function(){
+		  $('input').iCheck({
+		    checkboxClass: 'icheckbox_flat-grey left',
+		    radioClass: 'iradio_flat-grey left',
+		    increaseArea: '20%' // optional
+		  });
+		});
+	</script>
+	
+</head>
+	<body class="<%= page_classes %>">
+		<div class="container">
+			<div class="header-and-content partners">
+				<div class="wrapper-header clearfix">
+					<div class="header clearfix">
+						<div class="logo"><a href="index.html"></a></div>
+					</div>
+				</div>
+				<%= yield %>
+			</div>
+		</div>
+		<div class="footer-secction partners">
+			<div class="wrapper-prefooter">
+				<div class="prefooter">
+					<div class="partner-title">
+						<h3>PARTNERS</h3>
+						<div class="deco"></div>
+					</div>
+					<div class="prefooter-caroufredsel carouse2">
+						<ul id="prefooter-caroufredsel" class="slides clearfix">
+							<li>
+								<img src="http://dummyimage.com/115x63/c9c7c9/fff&text=Primero" />
+							</li>
+							<li>
+								<img src="http://dummyimage.com/115x63/c9c7c9/fff" />
+							</li>
+							<li>
+								<img src="http://dummyimage.com/115x63/c9c7c9/fff" />
+							</li>
+							<li>
+								<img src="http://dummyimage.com/115x63/c9c7c9/fff" />
+							</li>
+							<li>
+								<img src="http://dummyimage.com/115x63/c9c7c9/fff" />
+							</li>
+							<li>
+								<img src="http://dummyimage.com/115x63/c9c7c9/fff" />
+							</li>
+							<li>
+								<img src="http://dummyimage.com/115x63/c9c7c9/fff" />
+							</li>
+							<li>
+								<img src="http://dummyimage.com/115x63/c9c7c9/fff" />
+							</li>
+							<li>
+								<img src="http://dummyimage.com/115x63/c9c7c9/fff" />
+							</li>
+							<li>
+								<img src="http://dummyimage.com/115x63/c9c7c9/fff" />
+							</li>
+							<li>
+								<img src="http://dummyimage.com/115x63/c9c7c9/fff" />
+							</li>
+							<li>
+								<img src="http://dummyimage.com/115x63/c9c7c9/fff&text=Ultimo" />
+							</li>
+						</ul>
+						<a id="prev2" class="prev" href="#">&lt;</a>
+						<a id="next2" class="next" href="#">&gt;</a>
+					</div>
+		    	</div>
+			</div>
+			<div class="wrapper-footer">
+				<div class="footer">
+					<ul class="footer-menu">
+						<li><a href="about.html">Nosotros</a></li>
+						<li><a href="terms.html">Términos de uso</a></li>
+						<li><a href="http://blog.mapa76.info">Blog</a></li>
+						<li><a href="contact.html">Contacto</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
