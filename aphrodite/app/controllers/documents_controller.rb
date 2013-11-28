@@ -62,6 +62,7 @@ class DocumentsController < ApplicationController
     @empty_pages = @document.pages.asc(:_id).only(:id, :num, :width, :height)
     @addresses = @document.addresses_found.select { |addr| addr.geocoded? }
     @center = @addresses.first
+    @data_attributes = {document_id: @document.id}
   end
 
   def download

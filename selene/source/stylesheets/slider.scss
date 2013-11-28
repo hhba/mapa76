@@ -1,0 +1,72 @@
+@import "vars";
+//Slider content ================================ 
+.content-caroufredsel {
+	.caroufredsel_wrapper {
+		#content-caroufredsel {
+			li{
+				float: left;
+				width: 567px;
+				margin:0 15px;
+				img {}
+			}
+		}
+	}
+	#content-caroufredsel-pager {
+		text-align: center;
+		margin: 24px auto 18px auto;
+		width: 49px;
+		a {
+			background-image: url("#{$path-to-images}/slider_control.png");
+			background-repeat: no-repeat;
+			background-position: right 0;
+			width: 8px;
+			height: 8px;
+			text-indent: -99999px;
+			display: block;
+			float: left;
+			margin: 2px 2px;
+			&.selected {
+				background-position: left 0;
+			}
+			span {
+			}
+		}
+	}
+}
+
+
+//Slider prefooter ================================ 
+.prefooter-caroufredsel {
+	padding-top: 6px;
+	position: relative;
+	.caroufredsel_wrapper {
+		margin: 0 60px !important;
+		#prefooter-caroufredsel {
+			li{
+				float: left;
+				width: 115px;
+				margin:0 15px;
+				img {}
+			}
+		}
+	}
+	a {
+		width: 20px;
+		height: 60px;
+		position: absolute;
+		top: 11px;
+		text-indent: -99999px;
+	}
+	.prev {
+		float: left;
+		left: 0px;
+		background: url("#{$path-to-images}/carousel_prev.png") no-repeat 0px 0px;
+		margin-left: 6px;
+	}
+	.next {
+		float: right;
+		right: 0px;
+		background: url("#{$path-to-images}/carousel_next.png") no-repeat 0px 0px;
+		margin-right: 6px;
+	}
+}

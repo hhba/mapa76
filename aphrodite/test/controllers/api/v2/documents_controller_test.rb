@@ -34,9 +34,9 @@ describe Api::V2::DocumentsController do
           document = build :document
           file = Rack::Test::UploadedFile.new(fd.path, "text/plain")
 
-          post :create, document: {files: [file]}
+          post :create, document: {files: [file]}, format: 'json'
           user.documents.length.must_equal 2
-          response.status.must_equal 201
+          response.status.must_equal 200
         end
       end
     end
