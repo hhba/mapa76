@@ -1,0 +1,301 @@
+@import "vars";
+@import "mixin";
+//People-list ==============================
+//example /examples/people-list.jpg
+.people-list {
+	li {
+		margin-bottom: 20px;
+		.left-info {
+			float:left;
+			width: 79px;
+			margin-right: 21px;
+			.avatar {
+				float:left;
+				background:$color-white;
+				padding:4px;
+				margin-bottom: 12px;
+				img{}
+			}
+			.social-icon {
+				float:left;
+				margin-left:7px;
+			}
+			.avatar+.social-icon {
+				margin-left: 0px;
+				clear: left;
+			}
+		}
+		.right-info {
+			.name {
+				@include opensans-semibold;
+				font-size: $font-size-large;
+			}
+			.mail {
+				margin-top: -5px;
+				font-size: $font-size-small;
+				margin-bottom: 2px;
+			}
+			p {
+				margin-left: 100px;
+			}
+		}
+	}
+}
+//=======================================
+//Partners-list =========================
+//example /examples/partners-list.jpg
+.partners-list {
+	.partner {
+		margin-bottom: 20px;
+		.left-part {
+			float: left;
+			margin-right: 14px;
+			.logo {
+				img{}
+			}
+		}
+		.rigth-part {
+			.partner-name {
+				font-size: $font-size-tiny;
+				text-transform: uppercase;
+				color: $color-secondary-text;
+			}
+			.website {
+				margin-top: -7px;
+				a {
+					@include secondary-link;
+					font-size: $font-size-tiny;
+				}
+			}
+		}
+	}
+}
+
+
+// info-list ============================
+//example /examples/info-list.jpg
+.info-list {
+	width: 100%;
+	li {
+		margin: 0 16px;
+		padding: 17px 0;
+		border-bottom: 1px dotted $color-lines;
+		@include opensans-semibold;
+		
+		.wrapper {
+			position: relative;
+			label{
+				font-size: $font-size-small;
+				margin-right: 54px;
+				float: left;
+			}
+			.result {
+				position: absolute;
+				right: 0px;
+				top: 0px;
+				float: right;
+				.value {
+					float: left;
+					background: $color-bg-third-lvl;
+					height: 17px;
+					padding: 0px 7px;
+					border-radius: 2px;
+					line-height: 18px;
+				}
+				.view-more {
+					width: 18px;
+					height: 18px;
+					float: left;
+					background-image:  url("#{$path-to-images}/icon_add.png");
+					background-repeat: no-repeat;
+					background-position-x: right;
+					background-position-y: 0;
+					cursor: pointer;
+					&:hover {
+						background-position-x: left;
+					}
+				}
+			}
+		}
+	}
+}
+//=======================================
+
+
+// view-more-list =======================
+//example /examples/view-more-list.jpg
+.view-more-list {
+		background: $color-bg-third-lvl;
+		border: 1px solid $color-people;
+		position: absolute;
+		top: 20px;
+		right: 0px;
+		z-index: 20;
+		@include box-shadow(0, 0, 6px, $color-bg-first-lvl, $inset:"");
+		@include border-radius (3px 0px 3px 3px);
+		.more-list-close {
+			content: "x";
+			position: absolute;
+			border-top: 1px solid $color-people;
+			border-left: 1px solid $color-people;
+			border-right: 1px solid $color-people;
+			border-radius: 3px 3px 0px 0px;
+			width: 16px;
+			height: 21px;
+			background: $color-bg-third-lvl;
+			top: -22px;
+			right: -1px;
+			text-align: center;
+			line-height: 17px;
+			font-size: 15px;
+			cursor: pointer;
+			@include transition(all, 0.1s, ease-in-out);
+			&:hover {
+				@include transition(all, 0.1s, ease-in-out);
+				background: $color-people;
+				color: $color-white;
+			}
+		}
+	.content-list {
+		width: 322px;
+		height: 261px;
+		overflow: hidden;
+		.header-list {
+			border-bottom: 1px solid $color-lines;
+			padding: 10px 11px;
+			line-height: 12px;
+			em {
+				font-size: $font-size-tiny;
+				font-style: italic;
+			}
+		}
+		ul {
+			li {
+				margin: 0px;
+				padding: 8px 6px;
+				border-bottom: 1px solid $color-lines;
+				cursor: pointer;
+				position: relative;
+				line-height: 14px;
+				&:hover {
+					@include arrow-deco (left, 5px, $color-people, none, 40%, -6px);
+					background: $color-white;
+				}
+				p {
+					@include montserrat-bold;
+					color: $color-darck-text;
+					font-size: $font-size-tiny;
+					margin-bottom: 0px;
+					margin-left: 42px;
+					line-height: 14px;
+				}
+				i {
+					@include opensans-regular;
+					color: $color-people;
+					margin-right: 11px;
+					width: 31px;
+					float: left;
+					font-size: $font-size-small;
+				}
+			}
+		}
+	}
+}
+
+//=======================================
+
+// view-more-list-lvl2 ==================
+//example /examples/view-more-list-lvl2.jpg
+.view-more-list-lvl2 {
+	background: $color-bg-fourth-lvl;
+	border: 1px solid $color-people;
+	position: absolute;
+	top: 20px;
+	right: 323px;
+	z-index: 20;
+	@include box-shadow(0, 0, 6px, $color-bg-first-lvl, $inset:"");
+	@include border-radius (3px);
+	.view-more-list-lvl2-list {
+		width: 307px;
+		height: 490px;
+		ul {
+			li {
+				margin: 0;
+				padding: 0 11px 17px 11px;
+				.doc-info {
+					@include opensans-light;
+					font-style: italic;
+					width: 100%;
+					margin: 0;
+					clear: both;
+					padding: 7px 0;
+					margin-bottom: 6px;
+				}
+				p {
+					@include opensans-regular;
+					font-size: $font-size-small;
+					margin:0;
+					line-height: 15px;
+				}
+			}
+		}
+	}
+}
+//=======================================
+
+// documents-list ==================
+//example /examples/documents-list.jpg
+.documents-list {
+	li {}
+	.header-list {
+		.select-all {}
+		.order-for {
+			float: left;
+		}
+	}
+	.item-list {
+		border-bottom: 1px solid $color-lines;
+		table {
+			min-height: 68px;
+			tr {
+				th {
+					vertical-align: middle;
+					&.col1,
+					&.col2,
+					&.col3 {}
+
+					&.col1 {
+						padding-left: 28px;
+					}
+					&.col2 {
+						padding-left: 11px;
+						.doc-name {
+							float: left;
+						}
+						.doc-date {
+							float: left;
+							clear: both;
+						}
+					}
+					&.col3 {}
+					&.progres-bar {}
+				}
+			}
+		}
+	}
+}
+//=======================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+

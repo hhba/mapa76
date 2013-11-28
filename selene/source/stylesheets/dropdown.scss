@@ -1,0 +1,58 @@
+.wrapper-dropdown {
+	position: relative;
+	float: right;
+	padding-right: 19px;
+	cursor: pointer;
+	@include arrow-deco ( down, 6px, $color-arrow, 0px, 8px );
+	&.active .dropdown {
+	    opacity: 1;
+	    pointer-events: auto;
+	}
+	span {
+	    a {
+			font-size: $font-size-small;
+			@include secondary-link;
+		}
+	}
+	.dropdown {
+	  	// Size & position
+	    position: absolute;
+		top: 113%;
+		left: -34px;
+		right: -12px;
+	    z-index: 10;
+	 
+	    // Styles
+	    background: $color-white;
+	    border-radius: inherit;
+	    box-shadow: 0 0 7px rgba(0, 0, 0, 0.15);
+	    font-weight: normal;
+	    list-style: none;
+	    @include transition;
+	    @include border-radius;
+	 
+	    //Hiding
+	    opacity: 0;
+	    pointer-events: none;
+
+	    //After
+	    @include arrow-deco (up, 5px, $color-white, 13px, -5px);
+
+		li {
+			&:first-of-type a {}
+			&:last-of-type a {}
+			&:hover a {}
+
+			a {
+			    display: block;
+			    padding: 7px 10px;
+			    text-decoration: none;
+			    border-bottom: 1px solid #e6e8ea;
+			}
+			i {
+	    		float: right;
+	    		color: inherit;
+			}
+		}
+	}
+}
