@@ -29,6 +29,10 @@ module.exports = Backbone.Marionette.CompositeView.extend({
     "click .sort-date": "toggleSortDate"
   },
 
+  collectionEvents: {
+    "add": "scrollBottom"
+  },
+
   //--------------------------------------
   //+ INHERITED / OVERRIDES
   //--------------------------------------
@@ -68,10 +72,14 @@ module.exports = Backbone.Marionette.CompositeView.extend({
   toggleAll: function(){
     var selected = this.ui.selectionAll.is(":checked");
     this.collection.toggleSelect(selected);
-  }
+  },
 
   //--------------------------------------
   //+ PRIVATE AND PROTECTED METHODS
   //--------------------------------------
+
+  scrollBottom: function(){
+    //TODO: send UL scroll to bottom to reflect the new documents added.
+  }
 
 });
