@@ -7,14 +7,16 @@ class Api::V2::DocumentsController < Api::V2::BaseController
 
   def create
     files = params[:document].fetch(:files, [])
-    files.each do |file|
+    @documents = files.map do |file|
       document = Document.new
       document.original_filename = file.original_filename
       document.file = file.path
       current_user.documents << document
       document.save
+      document
     end
-    render nothing: true, status: 201
+
+    render :index
   end
 
   def destroy
