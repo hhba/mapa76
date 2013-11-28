@@ -1,11 +1,13 @@
 
 <ul class="submenu-tools clearfix">
   <li class="tool first search-doc search-2">
-    <input id="search" type="text" placeholder="Buscar Documentos">
+    <input id="search" type="text" placeholder="Buscar{{#unless singleDocument}} Documentos{{/unless}}">
     <input type="button" value="">
     <a class="clear-search" style="display:none">X</a>
   </li>
+  {{#unless singleDocument}}
   <li class="tool upload-doc"><a id="upload" href="#">Subir Documento</a></li>
+  {{/unless}}
   <li class="multi tool export-doc"><a id="export" href="#">Exportar</a></li>
   <li class="multi tool download-doc"><a id="download" href="#">Descargar</a></li>
   <li class="multi tool last trash-doc"><a id="delete" href="#">Eliminar</a></li>

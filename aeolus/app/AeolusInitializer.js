@@ -11,6 +11,5 @@ module.exports = function(){
 
   moment.lang("es");
 
-  window.aeolus.app = require('./AeolusApp');
-  window.aeolus.app.start();
+  window.aeolus.startApp = require('./AeolusApp');
 };

@@ -44,6 +44,16 @@ module.exports = Backbone.Marionette.Layout.extend({
   //+ INHERITED / OVERRIDES
   //--------------------------------------
 
+  initialize: function(options){
+    this.documentView = options.documentView;
+  },
+
+  serializeData: function(){  
+    return _.extend({
+      showDocumentStats: this.documentView ? false : true
+    }, ((this.model && this.model.toJSON()) || {}));
+  },
+
   //--------------------------------------
   //+ PUBLIC METHODS / GETTERS / SETTERS
   //--------------------------------------
