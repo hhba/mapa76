@@ -2,6 +2,7 @@
   <div class="full-height-truecontent toolbar-content">
     <div class="group-a">
       <div class="menu-icon"></div>
+      {{#if showDocumentStats}}
       <div class="tool tool-doc-online" data-hasqtip="0" aria-describedby="qtip-0">
         <a>
           <div class="icon"></div>
@@ -14,6 +15,7 @@
           <label class="value ttt">{{counter.selected}}</label>
         </a>
       </div>
+      {{/if}}
     </div>
     <div class="group-b">
       <div class="tool tool-people">

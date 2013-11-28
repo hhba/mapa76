@@ -5,8 +5,7 @@
 
 var 
     template = require("./templates/toolbar.tpl")
-  , DocumentNew = require("./DocumentNew")
-  /*, DocumentSearch = require("../../models/DocumentSearch")*/;
+  , DocumentNew = require("./Project/DocumentNew");
 
 module.exports = Backbone.Marionette.ItemView.extend({
 
@@ -40,8 +39,18 @@ module.exports = Backbone.Marionette.ItemView.extend({
   //+ INHERITED / OVERRIDES
   //--------------------------------------
 
+  initialize: function(options){
+    this.documentView = options.documentView;
+  },
+
   onDomRefresh: function(){
     this.updateCounter();
+  },
+
+  serializeData: function(){  
+    return _.extend({
+      singleDocument: this.documentView ? true : false
+    }, ((this.model && this.model.toJSON()) || {}));
   },
 
   //--------------------------------------
@@ -80,6 +89,10 @@ module.exports = Backbone.Marionette.ItemView.extend({
   //--------------------------------------
 
   updateCounter: function(){
+    if (this.documentView){
+      return;
+    }
+    
     if (this.model.get("counter").selected > 0){
       this.ui.multiOptions.show();
     }
