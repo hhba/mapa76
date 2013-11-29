@@ -157,6 +157,7 @@ DEPENDENCIES
   geokit
   guard
   guard-minitest
+  hashie
   httpi
   json (~> 1.7.7)
   log4r
