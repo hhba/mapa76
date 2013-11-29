@@ -23,6 +23,10 @@ class NamedEntity < Citation
     'NP00000' => :unknown,
     'W'       => :dates,
   }
+  
+  def self.valid_token?(token)
+    !!CLASSES_PER_TAG[token]
+  end
 
   def to_s
     text || human_form || super

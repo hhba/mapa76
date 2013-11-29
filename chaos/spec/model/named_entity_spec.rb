@@ -9,6 +9,10 @@ describe NamedEntity do
       @date_entity_4 = create :date_entity, :lemma => "nothing to do"
     end
 
+    it "Checks if a token is valid" do
+      NamedEntity.valid_token? 'NP00O00'
+    end
+
     it "should get string version of the date" do
       assert_equal "14/7/2011", @date_entity_1.string_date
       assert_equal "01/7/2011", @date_entity_2.string_date
