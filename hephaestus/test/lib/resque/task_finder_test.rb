@@ -5,7 +5,12 @@ describe TaskFinder do
   let(:task_finder) { TaskFinder.new(document) }
 
   before do
-    document.expect :tasks, []
+    document.expect :tasks, %w(
+      normalization_task
+      layout_analysis_task
+      extraction_task
+      coreference_resolution_task
+    )
     document.expect :status, ''
   end
 
