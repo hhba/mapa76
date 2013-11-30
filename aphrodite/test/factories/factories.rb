@@ -50,6 +50,10 @@ FactoryGirl.define do
     sequence(:name) { |n| "name_#{ n }" }
   end
 
+  factory :organization do
+    sequence(:name) { |n| "name_#{ n }" }
+  end
+
   factory :invitation do
     name 'John'
     email 'email@email.com'

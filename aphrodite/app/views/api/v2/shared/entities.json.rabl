@@ -1,2 +1,2 @@
-collection @people
+collection @entities
 attributes :id, :name, :mentions
