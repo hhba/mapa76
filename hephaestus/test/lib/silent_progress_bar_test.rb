@@ -1,10 +1,10 @@
 require 'test_helper'
 
-describe ProgressBar do
+describe SilentProgressBar do
   describe '#new' do
     it 'can initialize with a hash' do
-      progress_bar = ProgressBar.new starting_at: 25,
-        ending_at: 50, bound: 1000
+      progress_bar = SilentProgressBar.new '', 1000, starting_at: 25,
+        ending_at: 50
       progress_bar.current.must_equal 25
       progress_bar.starting_at.must_equal 25
       progress_bar.ending_at.must_equal 50
@@ -14,7 +14,7 @@ describe ProgressBar do
   context 'normal conditions' do
     describe '#increment and #progress' do
       it 'increments %' do
-        progress_bar = ProgressBar.new
+        progress_bar = SilentProgressBar.new ''
         progress_bar.increment
         progress_bar.progress.must_equal 1
         progress_bar.increment
@@ -24,7 +24,7 @@ describe ProgressBar do
 
     describe '#progress=' do
       it 'changes progress' do
-        progress_bar = ProgressBar.new
+        progress_bar = SilentProgressBar.new ''
         progress_bar.progress = 10
         progress_bar.progress.must_equal 10
       end
@@ -33,7 +33,7 @@ describe ProgressBar do
 
   describe '#starting_at=' do
     it 'changes the starting point' do
-      progress_bar = ProgressBar.new
+      progress_bar = SilentProgressBar.new ''
       progress_bar.starting_at = 10
       progress_bar.progress = 10
       progress_bar.increment
@@ -43,7 +43,7 @@ describe ProgressBar do
 
   describe '#ending_at' do
     it 'never pass ending_at point' do
-      progress_bar = ProgressBar.new
+      progress_bar = SilentProgressBar.new ''
       progress_bar.ending_at = 60
       progress_bar.bound = 3
       progress_bar.increment
@@ -57,7 +57,7 @@ describe ProgressBar do
   context "change unit's scale" do
     describe '#bound=' do
       it 'changes the bound' do
-        progress_bar = ProgressBar.new
+        progress_bar = SilentProgressBar.new ''
         progress_bar.bound = 10
         progress_bar.progress.must_equal 0
         progress_bar.increment
@@ -65,7 +65,7 @@ describe ProgressBar do
       end
 
       it 'changes scale and bound' do
-        progress_bar = ProgressBar.new
+        progress_bar = SilentProgressBar.new ''
         progress_bar.bound = 300
         progress_bar.starting_at = 20
         progress_bar.ending_at = 50
