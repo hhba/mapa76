@@ -26,6 +26,13 @@ private
     request.headers.fetch('X-Document-Ids', '').split(',')
   end
 
+  def get_document_ids
+    ids = if params[:document_id]
+      [params[:document_id]]
+    else
+      document_ids
+    end
+  end
 protected
 
   def set_headers
