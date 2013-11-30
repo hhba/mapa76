@@ -5,6 +5,7 @@ class TaskFinder
     text_extraction_task
     extraction_task
     coreference_resolution_task
+    mentions_finder_task
   )
 
   def initialize(document)
