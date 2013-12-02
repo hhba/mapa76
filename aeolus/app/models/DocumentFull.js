@@ -1,5 +1,9 @@
 
-var People = require("./People");
+var 
+    People = require("./People")
+  , Organizations = require("./Organizations")
+  , Places = require("./Places")
+  , Dates = require("./Dates");
 
 module.exports = Backbone.Model.extend({
   
@@ -18,6 +22,9 @@ module.exports = Backbone.Model.extend({
     };
 
     response.people = new People(ctx.people);
+    response.organizations = new Organizations(ctx.organizations);
+    response.places = new Places(ctx.places);
+    response.dates = new Dates(ctx.dates);
 
     delete response.context_cache;
     return response;

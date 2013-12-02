@@ -1,18 +1,19 @@
 /**
- * VIEW: People Collection
+ * VIEW: A Person
  * 
  */
 
-var Item = require("./Item");
+var 
+    template = require("./templates/person.tpl"),
+    BaseItem = require("./Item");
 
-module.exports = Backbone.Marionette.CollectionView.extend({
+module.exports = BaseItem.extend({
 
   //--------------------------------------
   //+ PUBLIC PROPERTIES / CONSTANTS
   //--------------------------------------
 
-  tagName: "ul",
-  itemView: Item
+  template: template
 
   //--------------------------------------
   //+ INHERITED / OVERRIDES
@@ -29,5 +30,7 @@ module.exports = Backbone.Marionette.CollectionView.extend({
   //--------------------------------------
   //+ PRIVATE AND PROTECTED METHODS
   //--------------------------------------
+
+
 
 });

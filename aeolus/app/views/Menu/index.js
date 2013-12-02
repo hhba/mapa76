@@ -7,10 +7,10 @@ var
     template = require("./templates/layout.tpl")
   , Header = require("./Header")
   , types = {
-        people: require("../People")
-      //, organizations: require("../Organizations")
-      //, places: require("../Places")
-      //, dates: require("../Dates")
+        people: require("../MenuModal/People")
+      , organizations: require("../MenuModal/Organizations")
+      , places: require("../MenuModal/Places")
+      , dates: require("../MenuModal/Dates")
     };
 
 module.exports = Backbone.Marionette.Layout.extend({

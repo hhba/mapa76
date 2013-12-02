@@ -1,11 +1,10 @@
 /**
- * VIEW: A Person
- * 
+ * VIEW: A Item for menu modal collection
+ * Must Inherit and implement the template
  */
 
 var 
-    template = require("./templates/item.tpl")
-  , Mentions = require("./Mentions");
+    Mentions = require("./Mentions");
 
 module.exports = Backbone.Marionette.ItemView.extend({
 
@@ -14,8 +13,7 @@ module.exports = Backbone.Marionette.ItemView.extend({
   //--------------------------------------
 
   tagName: "li",
-  template: template,
-
+  
   ui: {
     mentions: ".mentions-ctn"
   },

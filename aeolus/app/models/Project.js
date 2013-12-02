@@ -5,7 +5,10 @@
 
 var 
     Documents = require("./Documents")
-  , People = require("./People");
+  , People = require("./People")
+  , Organizations = require("./Organizations")
+  , Places = require("./Places")
+  , Dates = require("./Dates");
 
 module.exports = Backbone.Model.extend({
 
@@ -84,6 +87,15 @@ module.exports = Backbone.Model.extend({
     switch(type){
       case "people": 
         collection = new People(); 
+        break;
+      case "organizations": 
+        collection = new Organizations(); 
+        break;
+      case "places": 
+        collection = new Places(); 
+        break;
+      case "dates": 
+        collection = new Dates(); 
         break;
     }
 
