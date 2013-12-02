@@ -58,6 +58,9 @@ class Api::V2::DocumentsController < Api::V2::BaseController
     end
   end
 
+  def pages
+  end
+
 private
 
   def remove(document)

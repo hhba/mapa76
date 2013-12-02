@@ -5,6 +5,7 @@ class Api::V2::PeopleController < Api::V2::BaseController
   end
 
   def show
-    @person = Person.find(params[:id])
+    @entity = Person.find(params[:id])
+    render 'api/v2/shared/entity'
   end
 end

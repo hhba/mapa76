@@ -5,4 +5,13 @@ class Api::V2::PlacesController < Api::V2::BaseController
     @entities = @places + @addresses
     render 'api/v2/shared/entities'
   end
+
+  def show
+    begin
+      @entity = Place.find(params[:id])
+    rescue Mongoid::Errors::DocumentNotFound => error
+      @entity = Address.find(params[:id])
+    end
+    render 'api/v2/shared/entity'
+  end
 end

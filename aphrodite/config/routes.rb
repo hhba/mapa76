@@ -43,6 +43,8 @@ Mapa76::Application.routes.draw do
     end
     namespace :v2 do
       resources :people
+      resources :organizations
+      resources :places
       resources :documents do
         resources :people
         resources :organizations
