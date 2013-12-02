@@ -148,10 +148,15 @@ module Analyzer
             :form => match[0].strip,
             :pos => match.begin(0),
             :ne_class => :addresses,
+            :lemma => build_lemma(match[0].strip)
           })
           start_pos = match.end(0)
         end
       end
     end
+  end
+
+  def self.build_lemma(str)
+    str.downcase.split.join('_')
   end
 end
