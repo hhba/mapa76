@@ -144,6 +144,7 @@ You can also delete a list of documents with the header attribute `X-Document-Id
 
 ### GET api/v2/people
 This request must include the header attribute `X-Document-Ids` with the ids separated by `,`. For example: `52704be53ea2af7657000009,52725a0d3ea2af765700000c`
+Same with organizations and places.
 
 ```json
 [
