@@ -1,8 +1,8 @@
-object @person
+object @entity
 attributes :id, :name
 
-node :mentioned_in do |person|
-  person.mentions.map do |id, val|
+node :mentions do |entity|
+  entity.mentions.map do |id, val|
     begin
       {id: id, title: Document.find(id).title, mentions: val}
     rescue Mongoid::Errors::DocumentNotFound
