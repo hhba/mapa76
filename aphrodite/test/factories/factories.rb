@@ -16,7 +16,7 @@ FactoryGirl.define do
     document
   end
 
-  factory :where_entity, class: NamedEntity do
+  factory :place_entity, class: NamedEntity do
     text     "ESMA"
     ne_class :places
     form     "esma"
@@ -47,6 +47,18 @@ FactoryGirl.define do
   end
 
   factory :person do
+    sequence(:name) { |n| "name_#{ n }" }
+  end
+
+  factory :address do
+    sequence(:name) { |n| "name_#{ n }" }
+  end
+
+  factory :place do
+    sequence(:name) { |n| "name_#{ n }" }
+  end
+
+  factory :organization do
     sequence(:name) { |n| "name_#{ n }" }
   end
 

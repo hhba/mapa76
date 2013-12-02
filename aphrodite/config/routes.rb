@@ -45,7 +45,8 @@ Mapa76::Application.routes.draw do
       resources :people
       resources :documents do
         resources :people
-
+        resources :organizations
+        resources :places
         member do
           post :flag
         end

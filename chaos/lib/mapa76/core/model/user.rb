@@ -38,6 +38,9 @@ class User
 
   has_many :documents
   has_many :people
+  has_many :organizations
+  has_many :addresses
+  has_many :places
   has_and_belongs_to_many :projects
 
   def username

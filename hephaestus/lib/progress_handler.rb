@@ -21,8 +21,8 @@ class ProgressHandler
   end
 
   def progress_bar
-    @progress_bar ||= ProgressBar.new starting_at: starting_at,
-      ending_at: ending_at, bound: bound
+    @progress_bar ||= SilentProgressBar.new '', bound, starting_at: starting_at,
+      ending_at: ending_at
   end
 
   def starting_at

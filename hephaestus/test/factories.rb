@@ -11,6 +11,10 @@ FactoryGirl.define do
     sequence(:name) { |n| "name_#{ n }" }
   end
 
+  factory :organization do
+    sequence(:name) { |n| "name_#{ n }" }
+  end
+ 
   factory :document do
     sequence(:title)             { |n| "text_#{ n }" }
     sequence(:original_filename) { |n| "text_#{ n }" }
@@ -23,6 +27,15 @@ FactoryGirl.define do
     form     "Elias_Seman"
     lemma    "elias_seman"
     tag      "NP00SP0"
+    document
+  end
+
+  factory :organization_entity, class: NamedEntity do
+    text     "Marina"
+    ne_class :organizations
+    form     "marina"
+    lemma    "marina"
+    tag      "NP00O00"
     document
   end
 
@@ -53,7 +66,20 @@ FactoryGirl.define do
     document
   end
 
+  factory :address_entity, class: NamedEntity do
+    text     'Territorio 2709'
+    form     'Territorio 2709'
+    lemma    'territorio_2709'
+    tag      'ADDRESS'
+    ne_class :addresses
+  end
+
   factory :fact_register do
     document
+  end
+
+  factory :user do
+    sequence(:email) {|n| "example#{n}@example.com" }
+    encrypted_password 123456
   end
 end

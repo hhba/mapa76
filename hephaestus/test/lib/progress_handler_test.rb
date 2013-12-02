@@ -17,14 +17,7 @@ describe ProgressHandler do
 
     describe '#ending_at' do
       it 'ends on 25' do
-        @progress_handler.ending_at.must_equal 25
-      end
-    end
-
-    describe '#increment' do
-      it 'updates the document status' do
-        document.expects(:update_attribute).with(:percentage, 0.25)
-        @progress_handler.increment
+        @progress_handler.ending_at.must_equal 20.0
       end
     end
   end

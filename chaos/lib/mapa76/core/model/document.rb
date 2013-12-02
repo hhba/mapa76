@@ -27,7 +27,10 @@ class Document
   has_many :pages, dependent: :destroy
   has_many :fact_registers, dependent: :destroy
   has_many :named_entities, dependent: :destroy
-  has_and_belongs_to_many :people, index: true
+  has_and_belongs_to_many :people,        index: true
+  has_and_belongs_to_many :organizations, index: true
+  has_and_belongs_to_many :addresses,     index: true
+  has_and_belongs_to_many :places,        index: true
   has_and_belongs_to_many :project
 
   validates_presence_of :file_id
