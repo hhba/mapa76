@@ -2,7 +2,7 @@ require 'test_helper'
 
 describe Api::V1::NamedEntitiesController do
   let(:document){ FactoryGirl.create :document }
-  let(:named_entity) { FactoryGirl.create :where_entity }
+  let(:named_entity) { FactoryGirl.create :place_entity }
   let(:user) { FactoryGirl.create :user }
 
   before do
