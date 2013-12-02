@@ -37,19 +37,14 @@ module.exports = Backbone.Marionette.ItemView.extend({
   showMentions: function(){
     if (this.model.get("mentions") > 0){
       
-      var self = this;
-
-      this.model.fetch().done(function(){
-
-        var mentions = new Mentions({
-          model: self.model,
-          collection: self.model.get("mentioned_in")
-        });
-
-        mentions.render();
-
-        self.ui.mentions.empty().append(mentions.$el).show();
+      var mentions = new Mentions({
+        model: this.model,
+        collection: this.model.get("mentioned_in")
       });
+
+      mentions.render();
+
+      this.ui.mentions.empty().append(mentions.$el).show();
     }
   }
 
