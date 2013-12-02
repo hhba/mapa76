@@ -23,7 +23,7 @@ private
   end
 
   def document_ids
-    request.headers.fetch('X-Document-Ids', '').split(',')
+    request.headers.fetch('HTTP_X_DOCUMENT_IDS', '').split(',')
   end
 
   def get_document_ids
