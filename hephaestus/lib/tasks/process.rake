@@ -3,38 +3,30 @@ require 'ruby-progressbar'
 
 task "resque:setup" => :environment
 
+def process(task)
+  documents = Document.all
+  pbar = ProgressBar.create(:title => task.to_s, :total => documents.count)
+
+  documents.each do |document|
+    task.perform(document.id)
+    pbar.increment
+  end
+end
+
 namespace :process do
   desc 'Run extraction task for all the documents available'
   task extraction: :environment do
-    documents = Document.all
-    pbar = ProgressBar.create(:title => "Extraction Task", :total => documents.count)
-
-    documents.each do |document|
-      ExtractionTask.perform(document.id)
-      pbar.increment
-    end
+    process(ExtractionTask)
   end
 
   desc 'Run coreference task for all the documents available'
   task coreference: :environment do
-    documents = Document.all
-    pbar = ProgressBar.create(:title => "Coreference Task", :total => documents.count)
-
-    documents.each do |document|
-      CoreferenceTask.perform(document.id)
-      pbar.increment
-    end
+    process(CoreferenceTask)
   end
 
   desc 'Run mentions task for all documents available'
   task mentions: :environment do
-    documents = Document.all
-    pbar = ProgressBar.create(:title => "Coreference Task", :total => documents.count)
-
-    documents.each do |document|
-      MentionsFinderTask.perform(document.id)
-      pbar.increment
-    end
+    process(MentionsFinderTask)
   end
 
   desc 'Run all tasks for all documets'
