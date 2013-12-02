@@ -43,10 +43,10 @@ Mapa76::Application.routes.draw do
     end
     namespace :v2 do
       resources :people
-      # resources :organizations
       resources :documents do
         resources :people
         resources :organizations
+        resources :places
         member do
           post :flag
         end
