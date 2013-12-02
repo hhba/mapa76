@@ -7,7 +7,7 @@
   "stage": {
       "root": "http://staging.urdamales.com.ar"
     , "version": "v2"
-    , "poolingStatusTime": 5000
+    , "poolingStatusTime": false
     , "authKey": "9c92f1dba490a7b74f692a71a343379e"
   },
   "local": {

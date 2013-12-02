@@ -1,18 +1,6 @@
 
-var Mentions = require("./Mentions");
+var MentionedEntity = require("./MentionedEntity");
 
-module.exports = Backbone.Model.extend({
-
-  defaults: {
-    mentions: 0
-  },
-
-  parse: function(response){
-    if (response.hasOwnProperty("mentioned_in")){
-      response.mentioned_in = new Mentions(response.mentioned_in);
-    }
-
-    return response;
-  }
+module.exports = MentionedEntity.extend({
 
 });
