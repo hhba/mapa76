@@ -69,6 +69,14 @@ FactoryGirl.define do
     document
   end
 
+  factory :address_entity, class: NamedEntity do
+    text     'Territorio 2709'
+    form     'Territorio 2709'
+    lemma    'territorio_2709'
+    tag      'ADDRESS'
+    ne_class :addresses
+  end
+
   factory :fact_register do
     document
   end
