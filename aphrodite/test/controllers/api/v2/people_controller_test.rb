@@ -22,7 +22,7 @@ describe Api::V2::PeopleController do
 
     context 'For multiple documents' do
       it 'returns people for many documents' do
-        request.env['X-Document-Ids'] = document.id.to_s
+        request.env['HTTP_X_DOCUMENT_IDS'] = document.id.to_s
         get :index, format: 'json'
         json.first['name'].must_equal person.name
       end
