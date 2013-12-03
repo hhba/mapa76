@@ -2,12 +2,49 @@ require 'test_helper'
 
 describe Api::V2::DocumentsController do
   let(:user) { FactoryGirl.create :user }
+  let(:page) { FactoryGirl.create :page }
   let(:document) { FactoryGirl.create :document }
+  let(:named_entity) { FactoryGirl.create :named_entity }
 
   context 'Authorized' do
     before do
       user.documents << document
       authenticate_api(user.access_token)
+    end
+
+    describe 'GET #page' do
+      before do
+        page.named_entities << named_entity
+        page.text_lines.create({
+          text: 'this is a text',
+          from_pos: 0,
+          to_pos: 74,
+          _id: 1
+        })
+        document.pages << page
+      end
+
+      it 'returs first 5 pages' do
+        get :pages, id: document.id, format: 'json'
+        json.first['from_pos'].must_equal 0
+        json.first['to_pos'].must_equal 4020
+        json.first['text'].must_equal page.text
+        json.first['num'].must_equal 1
+      end
+
+      it 'returns selected pages' do
+        request.env['HTTP_X_PAGES'] = "2,4,5"
+        [1,2,9,8,7,3,4,5,6].each do |index|
+          document.pages << FactoryGirl.create(:page, num: index)
+        end
+        get :pages, id: document.id, format: 'json'
+
+        pages = json.map { |page| page['num'] }
+        pages.must_include 2
+        pages.must_include 4
+        pages.must_include 5
+        pages.length.must_equal 3
+      end
     end
 
     describe 'GET #search' do
