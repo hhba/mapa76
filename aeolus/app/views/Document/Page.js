@@ -21,7 +21,6 @@ module.exports = Backbone.Marionette.ItemView.extend({
       var entities = this.named_entities;
 
       if (formatted_text && entities){
-        formatted_text = formatted_text.replace(/"/g, "'");
         var template = Handlebars.compile('<a class="{{ne_class}}" data-eid="{{id}}">{{text}}</a>');
         
         for (var i=entities.length; i--;){
@@ -44,13 +43,33 @@ module.exports = Backbone.Marionette.ItemView.extend({
   //+ INHERITED / OVERRIDES
   //--------------------------------------
 
+  initialize: function(){
+    window.aeolus.app.document
+      .on("change:selected", this.updateVisibleEntities.bind(this));
+  },
+
   onDomRefresh: function(){
-    
-  }
+    this.updateVisibleEntities();
+  },
 
   //--------------------------------------
   //+ PUBLIC METHODS / GETTERS / SETTERS
   //--------------------------------------
+
+  updateVisibleEntities: function(){
+    var selected = window.aeolus.app.document.get("selected");
+
+    function toggleLinks(visible, name){
+      if (visible) {
+        $("a." + name, this.$el).removeClass("hide");
+      }
+      else {
+        $("a." + name, this.$el).addClass("hide");
+      }
+    }
+
+    _.each(selected, toggleLinks);
+  }
 
   //--------------------------------------
   //+ EVENT HANDLERS
@@ -59,5 +78,6 @@ module.exports = Backbone.Marionette.ItemView.extend({
   //--------------------------------------
   //+ PRIVATE AND PROTECTED METHODS
   //--------------------------------------
+
 
 });

@@ -1,18 +1,18 @@
 <ul>
-  <li class="people">
-    <input type="checkbox">
+  <li>
+    <input class="people" type="checkbox" {{#if selected.people}}checked{{/if}}>
     <label>People</label>
   </li>
-  <li class="oprganizations">
-    <input type="checkbox">
+  <li>
+    <input class="organizations" type="checkbox" {{#if selected.organizations}}checked{{/if}}>
     <label>Orgs</label>
   </li>
-  <li class="places">
-    <input type="checkbox">
+  <li>
+    <input class="places" type="checkbox" {{#if selected.places}}checked{{/if}}>
     <label>Places</label>
   </li>
-  <li class="dates">
-    <input type="checkbox">
+  <li>
+    <input class="dates" type="checkbox" {{#if selected.dates}}checked{{/if}}>
     <label>Dates</label>
   </li>
 </ul>
