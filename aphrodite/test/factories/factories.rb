@@ -62,6 +62,12 @@ FactoryGirl.define do
     sequence(:name) { |n| "name_#{ n }" }
   end
 
+  factory :page do
+    num 1
+    from_pos 0
+    to_pos 4020
+  end
+
   factory :invitation do
     name 'John'
     email 'email@email.com'

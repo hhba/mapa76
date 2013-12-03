@@ -59,11 +59,21 @@ class Api::V2::DocumentsController < Api::V2::BaseController
   end
 
   def pages
+    document = current_user.documents.find(params[:id])
+    @pages = document.pages.in(num: get_pages)
   end
 
 private
 
   def remove(document)
     JobsService.not_working_on?(document) && document.destroy
+  end
+
+  def get_pages
+    if request.headers.fetch('HTTP_X_PAGES', []).empty?
+      [1, 2, 3, 4, 5]
+    else
+      request.headers.fetch('HTTP_X_PAGES', []).split(',').map(&:to_i)
+    end
   end
 end
