@@ -9,7 +9,8 @@ module.exports = function() {
     , authKey: base.authKey
     , headers: {
       xDocumentIds: "X-Document-Ids",
-      authorization: "Authorization"
+      authorization: "Authorization",
+      xPages: "X-Pages"
     }
 
     // time delay in milliseconds for getting the documents status
