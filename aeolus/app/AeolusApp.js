@@ -61,9 +61,8 @@ module.exports = function(type){
       documentView: true
     }));
 
-    //TODO: get the page from URL
     app.document.fetch({
-      data: $.param({ page: 1 }),
+      parse: true
     });
   }
 

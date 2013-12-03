@@ -3,7 +3,8 @@ var
     People = require("./People")
   , Organizations = require("./Organizations")
   , Places = require("./Places")
-  , Dates = require("./Dates");
+  , Dates = require("./Dates")
+  , DocumentPages = require("./DocumentPages");
 
 module.exports = Backbone.Model.extend({
   
@@ -12,26 +13,23 @@ module.exports = Backbone.Model.extend({
   },
 
   parse: function(response){
-    var ctx = response.context_cache;
-
-    //TODO: Remove this when new API is built
-
-    response.counter = {
-      people: ctx.people.length,
-      organizations: ctx.organizations.length,
-      places: ctx.places.length,
-      dates: ctx.dates.length
-    };
-
-/*
-    response.people = new People(ctx.people);
-    response.organizations = new Organizations(ctx.organizations);
-    response.places = new Places(ctx.places);
-    response.dates = new Dates(ctx.dates);
-*/
-
-    delete response.context_cache;
+    response.counter = response.counters;
     return response;
+  },
+
+  loadPages: function(index, reset){
+
+    if (!this.get("documentPages")){
+      this.set("documentPages", new DocumentPages({
+        id: this.get("id")
+      }));
+    }
+
+    this.get("documentPages").fetch({
+      xPages: [index, index+1, index+2],
+      reset: reset || false
+    });
+
   },
 
   //TODO: Merge this method with Project:getListByTypes

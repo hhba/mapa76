@@ -18,5 +18,9 @@ Backbone.sync = function(method, model, options) {
     options.headers[aeolus.headers.xDocumentIds] = options.xDocumentIds.join(",");
   }
 
+  if (options.xPages){
+    options.headers[aeolus.headers.xPages] = options.xPages.join(",");
+  }
+
   return originalSync(method, model, options);
 };
