@@ -51,6 +51,7 @@ Mapa76::Application.routes.draw do
         resources :places
         member do
           post :flag
+          get  :pages
         end
 
         collection do
