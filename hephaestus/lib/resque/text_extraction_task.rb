@@ -17,6 +17,7 @@ class TextExtractionTask < Base
 
   def call
     text = ''
+
     Tempfile.open(document.original_filename) do |temp|
       document.file.each do |chunk|
         temp.write(chunk)
@@ -25,11 +26,15 @@ class TextExtractionTask < Base
       document.original_title = Docsplit.extract_title(temp.path)
       Dir.mktmpdir do |temp_dir|
         Docsplit.extract_text(temp.path, output: temp_dir)
-        text = File.open(File.join(temp_dir, document.original_filename)).read
+        text = File.open(File.join(temp_dir, build_txt(document.original_filename))).read
         text = text.force_encoding('UTF-8')
       end
     end
     store(text)
+  end
+
+  def build_txt(filename)
+    filename.split(".")[0..-2].join(".") + '.txt'
   end
 
   def store(text)
