@@ -8,6 +8,15 @@ var
 
 module.exports = Backbone.Model.extend({
   
+  defaults: {
+    selected: {
+      people: true,
+      organizations: true,
+      places: true,
+      dates: true
+    }
+  },
+
   urlRoot: function(){
     return aeolus.rootURL + "/documents"; 
   },

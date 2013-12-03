@@ -23,27 +23,25 @@ module.exports = Backbone.Marionette.Layout.extend({
     "content": ".content"
   },
 
-  modelEvents: {
-    "change": "render"
-  },
-
   //--------------------------------------
   //+ INHERITED / OVERRIDES
   //--------------------------------------
 
   onRender: function(){
-    this.visualizer.show(new Visualizer());
+    this.visualizer.show(new Visualizer({
+      model: this.model
+    }));
     
     this.pager.show(new Pager({
       model: this.model
     }));
 
+    this.model.loadPages(1, true);
+
     this.content.show(new Content({
       model: this.model,
       collection: this.model.get("documentPages")
-    }));
-
-    this.model.loadPages(1);
+    }));    
   }
 
   //--------------------------------------
