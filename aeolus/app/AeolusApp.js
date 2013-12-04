@@ -6,6 +6,7 @@
 var 
   Project = require("./models/Project"),
   DocumentFull = require("./models/DocumentFull"),
+  AeolusRouter = require("./AeolusRouter"),
 
   Toolbar = require("./views/Toolbar"),
   Menu = require("./views/Menu"),
@@ -52,17 +53,25 @@ module.exports = function(type){
       documentView: true
     }));
 
-    app.content.show(new DocumentLayout({
-      model: app.document
-    }));
-
     app.menu.show(new Menu({
       model: app.document,
       documentView: true
     }));
 
+    app.router = new AeolusRouter({
+      document: app.document      
+    });
+
     app.document.fetch({
-      parse: true
+      parse: true,
+      wait: true
+    }).done(function(){
+
+      app.content.show(new DocumentLayout({
+        model: app.document
+      }));
+
+      Backbone.history.start(); 
     });
   }
 
