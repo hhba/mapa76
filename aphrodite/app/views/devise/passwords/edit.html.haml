@@ -1,8 +1,10 @@
 .main-content.registration.clearfix
   .content.clearfix
-    %h1 Reinicia tu password
-    = form_for resource, ad: resource_name, url: password_path(resource_name), builder: PrettyFormBuilder, id: 'registration-form' do |f|
-      = f.pretty_text_field :email, placeholder: 'Email *'
+    %h1 Cambiá tu password
+    = form_for resource, ad: resource_name, url: password_path(resource_name), builder: PrettyFormBuilder, id: 'registration-form', method: :put do |f|
+      = f.hidden_field :reset_password_token
+      = f.pretty_password_field :password, placeholder: 'New password'
+      = f.pretty_password_field :password_confirmation, placeholder: 'Confirmá tu password'
       = f.submit 'Ingresar'
     = render "devise/shared/links"
 

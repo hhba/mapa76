@@ -8,6 +8,9 @@
       = f.pretty_password_field :password, placeholder: 'Contraseña *'
       = f.pretty_password_field :password_confirmation, placeholder: 'Confirmar contraseña *'
       = f.pretty_text_field :invitation_token, placeholder: 'Código de invitación *'
+      Si no tienes tu código de invitación, no dudes en pedirlo
+      = link_to 'aquí', new_invitation_path
+      %br
       = f.submit 'Ingresar'
     = render "devise/shared/links"
 
