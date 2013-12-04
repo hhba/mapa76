@@ -71,5 +71,13 @@ FactoryGirl.define do
   factory :invitation do
     name 'John'
     email 'email@email.com'
+    reason 'reason'
+  end
+
+  factory :contact do
+    name 'John'
+    email 'email@email.com'
+    organization 'Organization'
+    message 'This is a message'
   end
 end
