@@ -8,6 +8,7 @@
   <meta name="author" content="mausedar"/>
   <%= stylesheet_link_tag 'pretty', media: 'all' %>
   <%= javascript_include_tag "pretty" %>
+  <%= yield(:head) %>
   <title><%= content_for?(:title) ? yield(:title) : "Mapa76" %></title>
 
   <!-- IE placeholder function -->
