@@ -16,6 +16,7 @@ class WelcomeController < ApplicationController
   def save_contact
     @contact = Contact.new params[:contact]
     if @contact.valid? && @contact.save
+      NotificationMailer.contact(@contact).deliver
       redirect_to root_path, notice: 'Se ha notificado a nuestros administradores'
     else
       render :contact, error: "Se ha producido un error"
