@@ -12,11 +12,15 @@
 				background:$color-white;
 				padding:4px;
 				margin-bottom: 12px;
-				img{}
+				img{
+					width: 70px;
+					height: 70px;
+				}
 			}
 			.social-icon {
 				float:left;
 				margin-left:7px;
+				font-size: 21px;
 			}
 			.avatar+.social-icon {
 				margin-left: 0px;

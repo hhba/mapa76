@@ -1,3 +1,7 @@
+= content_for :head do
+  = stylesheet_link_tag 'general_foundicons'
+  = stylesheet_link_tag 'social_foundicons'
+
 .main-content.about-us.clearfix
   .content.clearfix
     %h1 Nosotros
@@ -8,16 +12,16 @@
       %li.people.clearfix
         .left-info.clearfix
           .avatar
-            %img{src: "images/avatar/avatar.png"}/
+            = image_tag 'avatars/mariano.jpg'
           .social-icon.linkedin
             = link_to 'http://ar.linkedin.com/in/marianoblejman/' do
-              %img{src: "http://dummyimage.com/21x20/dedade/000003.png"}/
+              %i.foundicon-social-linkedin
           .social-icon.twitter
             = link_to 'http://twitter.com/blejman' do
-              %img{src: "http://dummyimage.com/21x20/dedade/000003.png"}/
+              %i.foundicon-social-twitter.social
           .social-icon.mail
             = link_to 'mailto:marianet@he.net' do
-              %img{src: "http://dummyimage.com/21x20/dedade/000003.png"}/
+              %i.foundicon-mail.general
         .right-info.clearfix
           .name Mariano Blejman
           %p.info
@@ -27,16 +31,16 @@
       %li.people.clearfix
         .left-info.clearfix
           .avatar
-            %img{src: "images/avatar/avatar.png"}/
+            = image_tag 'avatars/malev.jpg'
           .social-icon.linkedin
             = link_to 'http://ar.linkedin.com/in/marcosvanetta/' do
-              %img{src: "http://dummyimage.com/21x20/dedade/000003.png"}/
+              %i.foundicon-social-linkedin
           .social-icon.twitter
             = link_to 'http://twitter.com/malev' do
-              %img{src: "http://dummyimage.com/21x20/dedade/000003.png"}/
+              %i.foundicon-social-twitter
           .social-icon.mail
-            = link_to 'mailto:marcosvanetta@gmail.com' do
-              %img{src: "http://dummyimage.com/21x20/dedade/000003.png"}/
+            = link_to 'https://github.com/malev' do
+              %i.foundicon-social-github
         .right-info.clearfix
           .name Marcos Vanetta
           /%div{lass: "mail"}
@@ -46,16 +50,16 @@
       %li.people.clearfix
         .left-info.clearfix
           .avatar
-            %img{src: "images/avatar/avatar.png"}/
+            = image_tag 'avatars/silvani.jpg'
           .social-icon.linkedin
             = link_to 'http://www.linkedin.com/in/dsilvani/es' do
-              %img{src: "http://dummyimage.com/21x20/dedade/000003.png"}/
+              %i.foundicon-social-linkedin
           .social-icon.twitter
             = link_to 'http://twitter.com/munshkr' do
-              %img{src: "http://dummyimage.com/21x20/dedade/000003.png"}/
+              %i.foundicon-social-twitter
           .social-icon.face
-            = link_to 'mailto:dsilvani@gmail.com' do
-              %img{src: "http://dummyimage.com/21x20/dedade/000003.png"}/
+            = link_to 'https://github.com/munshkr/' do
+              %i.foundicon-social-github
         .right-info.clearfix
           .name Damián Silvani
           %p.info
@@ -65,16 +69,16 @@
       %li.people.clearfix
         .left-info.clearfix
           .avatar
-            %img{src: "images/avatar/avatar.png"}/
+            = image_tag 'avatars/mariana.jpg'
           .social-icon.linkedin
             = link_to 'http://linkedin.com/pub/mariana-berruezo' do
-              %img{src: "http://dummyimage.com/21x20/dedade/000003.png"}/
+              %i.foundicon-social-linkedin
           .social-icon.twitter
             = link_to 'http://twitter.com/Myberru' do
-              %img{src: "http://dummyimage.com/21x20/dedade/000003.png"}/
+              %i.foundicon-social-twitter
           .social-icon.face
             = link_to 'mailto:berru33@gmail.com' do
-              %img{src: "http://dummyimage.com/21x20/dedade/000003.png"}/
+              %i.foundicon-mail
         .right-info.clearfix
           .name Mariana Berruezo
           %p.info
@@ -82,16 +86,16 @@
       %li.people.clearfix
         .left-info.clearfix
           .avatar
-            %img{src: "images/avatar/avatar.png"}/
+            = image_tag 'avatars/andres.jpg'
           .social-icon.linkedin
             = link_to 'http://www.linkedin.com/in/andresnit' do
-              %img{src: "http://dummyimage.com/21x20/dedade/000003.png"}/
+              %i.foundicon-social-linkedin
           .social-icon.twitter
             = link_to 'http://twitter.com/rusosnith' do
-              %img{src: "http://dummyimage.com/21x20/dedade/000003.png"}/
+              %i.foundicon-social-twitter
           .social-icon.face
             = link_to 'mailto:andres@soviet.com.ar' do
-              %img{src: "http://dummyimage.com/21x20/dedade/000003.png"}/
+              %i.foundicon-mail
         .right-info.clearfix
           .name Andrés Snitcofsky
           %p.info
