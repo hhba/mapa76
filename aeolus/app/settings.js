@@ -12,6 +12,7 @@ module.exports = function() {
       authorization: "Authorization",
       xPages: "X-Pages"
     }
+    , pagesRange: 4
 
     // time delay in milliseconds for getting the documents status
     // any falsy value to turn it off (i.e. 0, false, null, undefined)

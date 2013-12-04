@@ -36,8 +36,6 @@ module.exports = Backbone.Marionette.Layout.extend({
       model: this.model
     }));
 
-    this.model.loadPages(1, true);
-
     this.content.show(new Content({
       model: this.model,
       collection: this.model.get("documentPages")

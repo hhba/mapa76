@@ -23,20 +23,69 @@ module.exports = Backbone.Model.extend({
 
   parse: function(response){
     response.counter = response.counters;
+    
+    response.documentPages = new DocumentPages({
+      id: response.id
+    });
+
     return response;
   },
 
-  loadPages: function(index, reset){
-
-    if (!this.get("documentPages")){
-      this.set("documentPages", new DocumentPages({
-        id: this.get("id")
-      }));
+  moveToPage: function(index){
+    if (index < 1){
+      return;
     }
 
+    var pages = [];
+    var range = aeolus.pagesRange;
+    var total = this.get("pages");
+    var hRange = Math.ceil(range/2);
+
+    if (index > 0 && index < hRange){
+      pages = _.range(1, hRange+2);
+    }
+    else if (index >= total){
+      var ps = total - hRange;
+      index = total;
+
+      if (ps < 0){
+        ps = hRange;
+      }
+
+      pages = _.range(ps, total+1);
+    }
+    else {
+      pages = _.range(index - hRange, index + hRange + 1);
+    }
+
+    var pagesToLoad = this.getNeededPages(pages);
+
+    if (pagesToLoad.length > 0){
+      this.loadPages(index, pagesToLoad);
+    }
+    else {
+      this.set("currentPage", index);
+    } 
+  },
+
+  //Get pages which are not on the collection by an array of numbers
+  getNeededPages: function(pages){
+    return _.filter(pages, function(page){
+      var found = this.get("documentPages").where({ "num": page });
+      return found.length === 0;
+    }, this);
+  },
+
+  loadPages: function(index, pages){
+
+    var self = this;
+
     this.get("documentPages").fetch({
-      xPages: [index, index+1, index+2],
-      reset: reset || false
+      xPages: pages,
+      remove: false
+    }).done(function(){
+      self.get("documentPages").sort().trigger("reset");
+      self.set("currentPage", "index");
     });
 
   },
