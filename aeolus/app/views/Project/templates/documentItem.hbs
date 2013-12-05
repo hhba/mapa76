@@ -1,33 +1,35 @@
-<div style="float: left;">
+<div class="col1 checkbox">
   <input type="checkbox" class="selection" {{#if selected}}checked{{/if}}>
-  <label>{{title}}</label>
-  <br/>
-  <span>{{formatDate created_at}}</span>
-  <br/>
-  {{#if percentage}}
-  <span>[{{percentage}}%]</span>
+</div>
+<div class="col2">
+  <label class="doc-name">{{title}}</label>
+  <label class="doc-date">{{formatDate created_at}}</label>
+  {{#unless showProgress}}
+  <div class="tools">
+    <a class="tool tool-1 preview" href="{{urls.preview}}"></a>
+    <a class="tool tool-2 export" href="{{urls.export}}" target="_blank"></a>
+    <a class="tool tool-3 download" href="{{urls.file}}" target="_blank"></a>
+    <a class="tool tool-4 delete"></a>
+  </div>
+  {{/unless}}
+
+  {{#if showProgress}}
+  <div class="progress-bar {{progressType}}">
+    {{#if progressMessage}}
+    <label>{{progressMessage}}</label>
+    {{/if}}
+    <div class="wrapper-bar">
+      <div class="bar" style="width: {{percentage}}%;"></div>
+      {{#if showFlag}}
+      <div class="result">
+        <a class="flag">Reportar</a>
+      </div>
+      {{/if}}
+    </div>
+  </div>
   {{/if}}
+
   {{#if highlights}}
   <div class="highlights"></div>
   {{/if}}
-</div>
-
-<div class="item-menu">
-  <ul>
-    <li>
-      <a class="preview" href="{{urls.preview}}">V</a>
-    </li>
-    <li>
-      <a class="flag">F</a>
-    </li>
-    <li>
-      <a class="export" href="{{urls.export}}" target="_blank">E</a>
-    </li>
-    <li>
-      <a class="download" href="{{urls.file}}" target="_blank">D</a>
-    </li>
-    <li>
-      <a class="delete">R</a>
-    </li>
-  </ul>
 </div>

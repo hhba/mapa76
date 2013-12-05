@@ -4,7 +4,7 @@
  */
 
 var 
-    template = require("./templates/organization.tpl"),
+    template = require("./templates/genericItem.tpl"),
     BaseItem = require("./Item");
 
 module.exports = BaseItem.extend({

@@ -36,16 +36,21 @@ module.exports = Backbone.Marionette.Layout.extend({
   },
 
   events: {
-    "click .group-b a": "menuClicked",
-    "click .close": "closeModal"
+    "click .group-b a": "menuClicked"
   },
 
   //--------------------------------------
   //+ INHERITED / OVERRIDES
   //--------------------------------------
 
+  active: "people",
+
   initialize: function(options){
     this.documentView = options.documentView;
+  },
+
+  onRender: function(){
+    this.loadContent(this.active);
   },
 
   serializeData: function(){  
@@ -67,34 +72,41 @@ module.exports = Backbone.Marionette.Layout.extend({
       item = link.attr("data-menu");
 
     if (item && types.hasOwnProperty(item)){
-      this.ui.links.removeClass("active");
-      link.addClass("active");
-
-      this.ui.modal.show();
-
-      var header = new Header({
-        type: item
-      });
-
-      var content = new types[item]({
-        collection: this.model.getListByTypes(item)
-      });
-
-      this.header.show(header);
-      this.content.show(content);
-
-      header.on("filter", function(keyword){
-         $("li", content.$el)
-          .show()
-          .not(":icontains(" + keyword + ")")
-          .hide();
-      });
+      this.loadContent(item);
     }
   },
 
-  closeModal: function(){
-    this.ui.modal.hide();
-    this.ui.links.removeClass("active");
+  loadContent: function(item){
+    this.ui.links
+      .removeClass("active")
+      .filter("[data-menu=" + item + "]").addClass("active");
+
+    this.active = item;
+
+    this.ui.modal.show()
+      .removeClass("drawer-people")
+      .removeClass("drawer-dates")
+      .removeClass("drawer-places")
+      .removeClass("drawer-organizations")
+      .addClass("drawer-" + item);
+
+    var header = new Header({
+      type: item
+    });
+
+    var content = new types[item]({
+      collection: this.model.getListByTypes(item)
+    });
+
+    this.header.show(header);
+    this.content.show(content);
+
+    header.on("filter", function(keyword){
+       $("li", content.$el)
+        .show()
+        .not(":icontains(" + keyword + ")")
+        .hide();
+    });
   }
 
   //--------------------------------------

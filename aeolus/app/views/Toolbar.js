@@ -18,7 +18,6 @@ module.exports = Backbone.Marionette.ItemView.extend({
 
   ui: {
     multiOptions: ".multi",
-    subMenu: ".sub-menu",
     searchBox: "#search",
     clearSearch: ".clear-search"
   },
@@ -27,13 +26,15 @@ module.exports = Backbone.Marionette.ItemView.extend({
     "keyup #search": "onSearchKeyup",
     "click .clear-search": "clearSearch",
 
-    "click #upload": "showNewDocument",
+    "click #upload": "toggleNewDocument",
     "click #delete": "removeDocuments"
   },
 
   modelEvents: {
     "change:counter": "updateCounter"
   },
+
+  newDocVisible: false,
 
   //--------------------------------------
   //+ INHERITED / OVERRIDES
@@ -65,10 +66,21 @@ module.exports = Backbone.Marionette.ItemView.extend({
     this.model.get('documents').destroySelecteds();
   },
 
-  showNewDocument: function(){
-    var newDocForm = new DocumentNew();
-    newDocForm.render();
-    this.ui.subMenu.empty().append(newDocForm.$el);
+  toggleNewDocument: function(){
+    if (!this.newDocVisible){
+      var upload = new DocumentNew();
+      window.aeolus.app.modals.show(upload);
+
+      var self = this;
+      upload.on("close", function(){
+        self.newDocVisible = false;
+      });
+    }
+    else {
+      window.aeolus.app.modals.close(); 
+    }
+    
+    this.newDocVisible = !this.newDocVisible;
   },
 
   onSearchKeyup: function(e){

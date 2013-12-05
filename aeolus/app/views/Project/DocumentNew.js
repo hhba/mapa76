@@ -15,7 +15,11 @@ module.exports = Backbone.Marionette.ItemView.extend({
   template: template,
 
   ui: {
-    inputFile: "#file_upload"
+    inputFile: "#file-upload",
+    inputFileCtn: ".file-upload-container",
+    progressCtn: "#progress",
+    progressBar: "#progress .bar",
+    progressMsg: "#progress .result"
   },
 
   modelEvents: {
@@ -59,6 +63,7 @@ module.exports = Backbone.Marionette.ItemView.extend({
       singleFileUploads: false,
 
       add: function (e, data) {
+        self.ui.inputFileCtn.hide();
         data.submit()
           .done(self.onUploadDone.bind(self))
           .fail(self.onUploadError.bind(self));
@@ -66,21 +71,38 @@ module.exports = Backbone.Marionette.ItemView.extend({
 
       progressall: function (e, data) {
         var progress = parseInt(data.loaded / data.total * 100, 10);
-        $('#progress .bar').css('width', progress + '%');
+        self.ui.progressCtn.show().addClass("info");
+        self.ui.progressBar.css('width', progress + '%');
+        self.ui.progressMsg.text("Subiendo Archivos, un momento por favor.");
       }
     });
 
   },
 
   onUploadDone: function(docs){
+    this.resetUpload();
+
     aeolus.app.project.get("documents").add(docs);
     this.close();
   },
 
-  onUploadError: function(jqXHR, textStatus, errorThrown){
-    //TODO: send this error to view
-    console.error("UPLOAD ERROR: " + textStatus + " - " + errorThrown);
-    console.dir(jqXHR);
+  onUploadError: function(/*jqXHR, textStatus, errorThrown*/){
+    this.ui.progressCtn.removeClass("info").addClass("error");
+    
+    var aReset = $('<a class="important">Vuelva a intentarlo</a>');
+
+    this.ui.progressMsg
+      .text("Error al subir documento.")
+      .append(aReset);
+
+    aReset.on("click", this.resetUpload.bind(this));
+  },
+
+  resetUpload: function(){
+    this.ui.inputFileCtn.show();
+    this.ui.progressCtn.hide().removeClass("info").removeClass("error");
+    this.ui.progressBar.css('width', '0%');
+    this.ui.progressMsg.empty();
   }
 
 });
