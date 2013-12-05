@@ -447,9 +447,17 @@ textarea {
 				background: $color-bg;
 				height: 169px;
 			.footer {
-				background: url("#{$path-to-images}/footer_logo.png") no-repeat 32px 21px;
+				background: url("#{$path-to-images}/logo-analiceme-footer.png") no-repeat 32px 21px;
 				@include width-site (no-fluid, 0px, 29px, 0px, 29px);
 				height: 169px;
+				.footer-right{
+					float: left;
+					margin: 26px 0 0 115px;
+					width: 200px;
+					a{
+						font-size: 15px;
+					}
+				}
 				.footer-menu {
 					@include horizontal-list;
 					float: right;

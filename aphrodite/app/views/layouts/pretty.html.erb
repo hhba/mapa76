@@ -9,7 +9,7 @@
   <%= stylesheet_link_tag 'pretty', media: 'all' %>
   <%= javascript_include_tag "pretty" %>
   <%= yield(:head) %>
-  <title><%= content_for?(:title) ? yield(:title) : "Mapa76" %></title>
+  <title><%= content_for?(:title) ? yield(:title) : "Analice.me" %></title>
 
   <!-- IE placeholder function -->
   <script>
@@ -38,6 +38,14 @@
       <%= yield(:footer) %>
       <div class="wrapper-footer">
         <div class="footer">
+          <div class="footer-right">
+            <p>
+            <%= link_to 'https://github.com/hhba/mapa76' do %>
+              <i class="foundicon-social-github"></i>
+            <% end %>
+            GPL v2.0
+            </p>
+          </div>
           <ul class="footer-menu">
             <li><%= link_to 'Nosotros', about_path %></li>
             <li><%= link_to 'Términos de uso', terms_path %></li>
