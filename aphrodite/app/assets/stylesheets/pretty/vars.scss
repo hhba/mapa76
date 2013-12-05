@@ -12,20 +12,21 @@ $font-size-x-large: 	18px;
 $font-size-xx-large: 	25px;
 $font-size-xxx-large: 	35px;
 
-//colors                 
+//colors ===========================                
+//text =============================
 $color-primary-text: 		#808184;
 $color-secondary-text:		#254348;
-
-$color-primary-link: 		#008cc8;
-$color-secondary-link:		#959290;
-
+$color-darck-text:			#231f20;
+//heading ==========================
 $color-primary-heading: 	#254348;
 $color-secondary-heading: 	#008cc8;
-
+//links ============================
+$color-primary-link: 		#008cc8;
+$color-secondary-link:		#959290;
+//==================================
 $color-bg: 					#ebebec;
 $color-border: 				#d1d3d4;
 $color-white:               #ffffff;
-
 $color-button: 				#008cc8;
 $color-button-txt: 			#ffffff;
 $color-button-bigger: 		#668d9e;
@@ -34,16 +35,27 @@ $color-people: 				#f8a01e;
 $color-organizations: 		#306f74;
 $color-places: 				#8d201d;
 $color-dates: 				#458767;
-
-
-//Emphasis colors
+//==================================
+//Emphasis colors ==================
 $color-muted: 				#aaaaaa;
 $color-warning: 			#ff6600;
-$color-error: 				#ff0000;
-$color-info: 				#00a6fc;
-$color-success: 			#68c589;
-
+$color-error: 				#ed1c24;
+$color-info: 				#008bc7;
+$color-success: 			#8ac43f;
+//==================================
 $color-arrow: 				#a4a7aa;
+//==================================
+//APP tools color ==================
+$color-lines: 				#b7b7b7;
+$color-lines-light:			#e1e1e1;
+$color-bg-first-lvl:  		#cccccc;
+$color-bg-second-lvl:  		#e1e1e1;
+$color-bg-third-lvl: 		#ebebeb;
+$color-bg-fourth-lvl: 		#ffffff;
+$color-bg-fifth-lvl: 		#f3eee5;
+$color-txt-nav-bar:  		#acadae;
+$color-txt-nav-bar-active:  #5a5a5a;
+
 
 //Layout
 $max-width: 	1024px;

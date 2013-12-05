@@ -3,7 +3,7 @@
 	float: right;
 	padding-right: 19px;
 	cursor: pointer;
-	@include arrow-deco ( down, 6px, $color-arrow, 0px, 6px );
+	@include arrow-deco ( down, 6px, $color-arrow, 0px, 8px );
 	&.active .dropdown {
 	    opacity: 1;
 	    pointer-events: auto;
@@ -19,7 +19,7 @@
 	    position: absolute;
 		top: 113%;
 		left: -34px;
-		right: -13px;
+		right: -12px;
 	    z-index: 10;
 	 
 	    // Styles
@@ -35,8 +35,8 @@
 	    opacity: 0;
 	    pointer-events: none;
 
-	    //after
-	    @include arrow-deco (up, 5px);
+	    //After
+	    @include arrow-deco (up, 5px, $color-white, 13px, -5px);
 
 		li {
 			&:first-of-type a {}
