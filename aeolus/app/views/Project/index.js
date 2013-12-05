@@ -20,13 +20,15 @@ module.exports = Backbone.Marionette.CompositeView.extend({
   ui: {
     selectionAll: ".selection-all",
     sortTitle: ".sort-title",
-    sortDate: ".sort-date"
+    sortDate: ".sort-date",
+    sortMenu: "#order-for"
   },
 
   events: {
     "click .selection-all": "toggleAll",
     "click .sort-title": "toggleSortTitle",
-    "click .sort-date": "toggleSortDate"
+    "click .sort-date": "toggleSortDate",
+    "click #order-for": "toggleSortMenu"
   },
 
   collectionEvents: {
@@ -72,6 +74,14 @@ module.exports = Backbone.Marionette.CompositeView.extend({
   toggleAll: function(){
     var selected = this.ui.selectionAll.is(":checked");
     this.collection.toggleSelect(selected);
+  },
+
+  toggleSortMenu: function(e){
+    this.ui.sortMenu.toggleClass('active');
+    if (e){
+      e.preventDefault();
+      e.stopPropagation();
+    }
   },
 
   //--------------------------------------

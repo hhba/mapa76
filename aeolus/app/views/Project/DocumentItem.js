@@ -18,14 +18,22 @@ module.exports = Backbone.Marionette.ItemView.extend({
   template: template,
 
   templateHelpers: function(){
-    var baseUrl = aeolus.baseRoot + "/documents/" + this.model.get("id");
-    
+    var baseUrl = aeolus.baseRoot + "/documents/" + this.model.get("id"),
+      p = this.model.get("percentage"),
+      show = (p === -1 || (p >= 0 && p < 100)) ? true : false,
+      type = (p === -1) ? "error" : "info",
+      msg = (type === "error") ? "Error al analizar documento" : "Analizando documento";
+
     return {
       urls: {
         preview: baseUrl + "/comb",
         file: baseUrl + "/download",
         export: baseUrl + "/export"
-      }
+      },
+      showProgress: show,
+      progressType: type,
+      progressMessage: msg,
+      showFlag: (type === "error") ? true : false
     };
   },
 

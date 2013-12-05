@@ -19,7 +19,7 @@ module.exports = Backbone.Marionette.ItemView.extend({
   },
 
   events: {
-    "click .mentions": "showMentions"
+    "click .view-more": "showMentions"
   },
 
   //--------------------------------------
@@ -44,7 +44,12 @@ module.exports = Backbone.Marionette.ItemView.extend({
 
       mentions.render();
 
-      this.ui.mentions.empty().append(mentions.$el).show();
+      this.ui.mentions.empty().show().append(mentions.$el).show();
+
+      var self = this;
+      mentions.on("close", function(){
+        self.ui.mentions.hide().empty();
+      });
     }
   }
 

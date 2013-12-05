@@ -13,6 +13,7 @@ module.exports = Backbone.Marionette.ItemView.extend({
   //--------------------------------------
 
   tagName: "li",
+  className: "clearfix",
   template: template,
 
   //--------------------------------------

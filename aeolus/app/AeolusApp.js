@@ -21,7 +21,8 @@ module.exports = function(type){
   app.addRegions({
     toolbar: ".toolbar",
     content: ".box-content",
-    menu: ".vertical-toolbar"
+    menu: ".vertical-toolbar",
+    modals: "#modal-container"
   });
 
   function initializeProject() {
@@ -86,4 +87,9 @@ module.exports = function(type){
 
   window.aeolus.app = app;
   window.aeolus.app.start();
+
+  // hack to hide all menus 
+  $(window.document).on("click", function() {
+    $('.wrapper-dropdown').removeClass('active');
+  });
 };
