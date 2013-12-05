@@ -5,3 +5,7 @@
 
 //= require dropdown
 //= require home
+
+$(document).ready(function(){
+  $(".sys-success").fadeOut(4000);
+});

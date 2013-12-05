@@ -54,5 +54,10 @@
         </div>
       </div>
     </div>
+    <% if flash[:notice] %>
+      <div class="sys-success">
+        <p><%= flash[:notice] %></p>
+      </div>
+    <% end %>
   </body>
 </html>
