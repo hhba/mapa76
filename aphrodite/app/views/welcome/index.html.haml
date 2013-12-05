@@ -3,25 +3,27 @@
     .content-caroufredsel.carouse2
       %ul#content-caroufredsel.slides.clearfix
         %li
-          %img{src: "http://dummyimage.com/567x377/c9c7c9/fff.png"}/
+          = image_tag 'slider-01.png'
         %li
-          %img{src: "http://dummyimage.com/567x377/c9c7c9/fff.png"}/
+          = image_tag 'slider-02.png'
         %li
-          %img{src: "http://dummyimage.com/567x377/c9c7c9/fff.png"}/
+          = image_tag 'slider-03.png'
         %li
-          %img{src: "http://dummyimage.com/567x377/c9c7c9/fff.png"}/
+          = image_tag 'slider-04.png'
       #content-caroufredsel-pager.pager.clearfix
   .side-bar.clearfix
-    %h3 ¿Es la primera vez que ingresas?
+    %h3 ¿Es la primera vez que ingresa?
     %p
-      Analice.me es una plataforma de investigación periodística que detecta entidades automáticamente, realiza análisis semántico y estructura la información para mostrar relaciones de forma visual. 
+      %strong Analice.me
+      es una plataforma de investigación periodística que detecta entidades automáticamente, realiza análisis semántico y estructura la información para mostrar relaciones de forma visual. 
     .arrow-deco
     = link_to "Pedir Invitación", new_invitation_path, class: 'button-bigger'
     .infomation.clearfix
       .docs-upload.clearfix
         .ups
           = @documents
-        %label Documentos cargados
+        %label
+          Documentos cargados
       .deco
       .information-item.clearfix
         .people-number
@@ -50,28 +52,10 @@
         .prefooter-caroufredsel.carouse2
           %ul#prefooter-caroufredsel.slides.clearfix
             %li
-              %img{src: "http://dummyimage.com/115x63/c9c7c9/fff&text=Primero"}/
+              = image_tag 'partners/hhba.png'
             %li
-              %img{src: "http://dummyimage.com/115x63/c9c7c9/fff"}/
+              = image_tag 'partners/icfj.jpg'
             %li
-              %img{src: "http://dummyimage.com/115x63/c9c7c9/fff"}/
-            %li
-              %img{src: "http://dummyimage.com/115x63/c9c7c9/fff"}/
-            %li
-              %img{src: "http://dummyimage.com/115x63/c9c7c9/fff"}/
-            %li
-              %img{src: "http://dummyimage.com/115x63/c9c7c9/fff"}/
-            %li
-              %img{src: "http://dummyimage.com/115x63/c9c7c9/fff"}/
-            %li
-              %img{src: "http://dummyimage.com/115x63/c9c7c9/fff"}/
-            %li
-              %img{src: "http://dummyimage.com/115x63/c9c7c9/fff"}/
-            %li
-              %img{src: "http://dummyimage.com/115x63/c9c7c9/fff"}/
-            %li
-              %img{src: "http://dummyimage.com/115x63/c9c7c9/fff"}/
-            %li
-              %img{src: "http://dummyimage.com/115x63/c9c7c9/fff&text=Ultimo"}/
+              = image_tag 'partners/datospublicos.jpg'
           %a#prev2.prev{href: "#"} <
           %a#next2.next{href: "#"} >

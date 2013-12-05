@@ -1,4 +1,5 @@
 class WelcomeController < ApplicationController
+  before_filter :redirect_to_docs, only: :index
   layout 'pretty'
 
   def index
@@ -17,7 +18,7 @@ class WelcomeController < ApplicationController
     @contact = Contact.new params[:contact]
     if @contact.valid? && @contact.save
       NotificationMailer.contact(@contact).deliver
-      redirect_to root_path, notice: 'Se ha notificado a nuestros administradores'
+      redirect_to root_path, notice: 'Gracias por contactarse con Analice.me. Nos comunicaremos a la brevedad.'
     else
       render :contact, error: "Se ha producido un error"
     end
@@ -30,5 +31,14 @@ class WelcomeController < ApplicationController
   end
 
   def faq
+  end
+
+private
+
+  def redirect_to_docs
+    if current_user
+      redirect_to documents_path
+      false
+    end
   end
 end

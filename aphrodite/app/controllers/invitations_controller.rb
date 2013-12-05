@@ -12,6 +12,6 @@ class InvitationsController < ApplicationController
     @invitation = Invitation.new params[:invitation]
     @invitation.save
     NotificationMailer.invitation_request(@invitation).deliver
-    redirect_to root_path, notice: 'Se ha creado el pedido de invitación'
+    redirect_to root_path, notice: 'Ud. ha pedido una invitación para Analice.me. Le responderemos a la brevedad.'
   end
 end

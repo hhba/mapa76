@@ -1,240 +1,719 @@
+@import "vars";
+
 //Clearfix =================================
-@mixin clearfix {
-  &:after {
-    content: ".";
-    display: block;
-    height: 0;
-    clear: both;
-    visibility: hidden;
-  }
-  * html & { height: 1px }
-}
-//==========================================
-//@font-face mixin =========================
-//@include font-face('family', '../fonts/', 'myfontname');
-@mixin font-face($font-family, $font-url, $font-name) {
-	@font-face {
-    	font: {
-        	family: $font-family;
-        	style: normal;
-        	weight: normal;
-		}
-		src: url($font-url + '/' + $font-name + '.eot')  format('eot'), 
-			 url($font-url + '/' + $font-name + '.woff') format('woff'), 
-			 url($font-url + '/' + $font-name + '.ttf')  format('truetype'),
-			 url($font-url + '/' + $font-name + '.svg#' + $font-name) format('svg');
+	@mixin clearfix {
+	  &:after {
+	    content: ".";
+	    display: block;
+	    height: 0;
+	    clear: both;
+	    visibility: hidden;
+	  }
+	  * html & { height: 1px }
 	}
-}
-
-@mixin opensans-light {
-	font-family: "opensans-light";
-}
-@mixin opensans-semibold {
-	font-family: "opensans-semibold";
-}
-@mixin fopensans-italic {
-	font-family: "opensans-italic";
-}
-@mixin opensans-regular {
-	font-family: "opensans-regular";
-}
-@mixin montserrat-bold {
-	font-family: "montserrat-bold";
-}
-@mixin montserrat-regular {
-	font-family: "montserrat-regular";
-}
 //==========================================
+
+//@font-face mixin =========================
+	//@include font-face('family', '../fonts/', 'myfontname');
+	@mixin font-face($font-family, $font-url, $font-name) {
+		@font-face {
+	    	font: {
+	        	family: $font-family;
+	        	style: normal;
+	        	weight: normal;
+			}
+			src: url($font-url + '/' + $font-name + '.eot')  format('eot'), 
+				 url($font-url + '/' + $font-name + '.woff') format('woff'), 
+				 url($font-url + '/' + $font-name + '.ttf')  format('truetype'),
+				 url($font-url + '/' + $font-name + '.svg#' + $font-name) format('svg');
+		}
+	}
+
+	@mixin opensans-light {
+		font-family: "opensans-light";
+	}
+	@mixin opensans-semibold {
+		font-family: "opensans-semibold";
+	}
+	@mixin fopensans-italic {
+		font-family: "opensans-italic";
+	}
+	@mixin opensans-regular {
+		font-family: "opensans-regular";
+	}
+	@mixin montserrat-bold {
+		font-family: "montserrat-bold";
+	}
+	@mixin montserrat-regular {
+		font-family: "montserrat-regular";
+	}
+//==========================================
+
 //Layout ===================================
-@mixin center-layout {
-	margin: 0 auto;
-}
+	@mixin center-layout {
+		margin: 0 auto;
+	}
 
-@mixin max-width ($padding-top, $padding-left, $padding-buttom, $margin-right){
-	width: $max-width - ($padding-left + $margin-right);
-	padding: $padding-top $padding-left $padding-buttom $margin-right;
-}
+	@mixin max-width ($padding-top, $padding-left, $padding-buttom, $margin-right){
+		width: $max-width - ($padding-left + $margin-right);
+		padding: $padding-top $padding-left $padding-buttom $margin-right;
+	}
+
+	@mixin width-site ($width:no-fluid, $padding-top:0px, $padding-left:0px, $padding-buttom:0px, $margin-right:0px) {
+		padding: $padding-top $padding-left $padding-buttom $margin-right;
+
+		@if $width == "no-fluid" {
+			width: $max-width - ($padding-left + $margin-right);
+			margin: 0 auto;
+		} @else if $width == "fluid" {
+			min-width: $max-width - ($padding-left + $margin-right);
+		}
+	}
 //==========================================
+
 //Headings =================================
-@mixin font-headin-xxx-large {
-	@include opensans-light;
-	font-size: $font-size-xxx-large;
-	color: $color-primary-heading;
-	margin-bottom: 30px;
-	line-height: 35px;
-}
+	@mixin font-headin-xxx-large {
+		@include opensans-light;
+		font-size: $font-size-xxx-large;
+		color: $color-primary-heading;
+		margin-bottom: 30px;
+		line-height: 35px;
+	}
 
-@mixin font-headin-xx-large {
-	@include opensans-light;
-	font-size: $font-size-xx-large;
-	color: $color-secondary-heading;
-	margin-bottom: 15px;
-	line-height: 30px;
-}
+	@mixin font-headin-xx-large {
+		@include opensans-light;
+		font-size: $font-size-xx-large;
+		color: $color-secondary-heading;
+		margin-bottom: 15px;
+		line-height: 30px;
+	}
 
-@mixin font-headin-x-large {
-	@include opensans-semibold;
-	font-size: $font-size-x-large;
-	color: $color-secondary-heading;
-	margin-bottom: 10px;
-	margin-top: 10px;
-}
+	@mixin font-headin-x-large {
+		@include opensans-semibold;
+		font-size: $font-size-x-large;
+		color: $color-secondary-heading;
+		margin-bottom: 10px;
+		margin-top: 10px;
+	}
 
-@mixin font-headin-large {
-	@include fopensans-italic;
-	font-size: $font-size-large;
-	color: $color-secondary-heading;
-}
+	@mixin font-headin-large {
+		@include fopensans-italic;
+		font-size: $font-size-large;
+		color: $color-secondary-heading;
+	}
 //==========================================
+
 // Regular text ============================
-@mixin font-regular-text {
-	@include opensans-regular;
-	font-size: $font-size-regular;
-	color: $color-primary-text;
-	line-height: 20px;
-	margin-bottom: 20px;
-}
+	@mixin font-regular-text {
+		@include opensans-regular;
+		font-size: $font-size-regular;
+		color: $color-primary-text;
+		line-height: 20px;
+		margin-bottom: 20px;
+	}
 //==========================================
+
 // imputs ==================================
-@mixin inputs ($input-height: 22px){
-	height: $input-height;
-	border-radius: $global-border-radius;
-	border: 1px solid $color-border;
-	padding: 5px 9px;
-	font-size: $font-size-small;
-	margin-bottom: 12px;
-	@include opensans-regular;
-}
-@mixin input-width-small {
-	width: 200px;
-}
-@mixin input-width-full {
-	width: 547px;
-}
+	@mixin inputs ($input-height:22px, $margin-bottom:12px){
+		height: $input-height;
+		border-radius: $global-border-radius;
+		border: 1px solid $color-border;
+		padding: 5px 9px;
+		font-size: $font-size-small;
+		margin-bottom: $margin-bottom;
+		@include opensans-regular;
+	}
+	@mixin input-width-small {
+		width: 200px;
+	}
+	@mixin input-width-full {
+		width: 547px;
+	}
 //==========================================
 
 // buttons =================================
-@mixin buttons {
-	background-color: $color-button;
-	color: $color-button-txt;
-	border: 0px;
-	border-radius: $global-border-radius;
-	padding: 6px 17px;
-	font-size: $font-size-small;
-	cursor: pointer;
-	@include transition(all, 0.2s, ease-in-out);
-	outline-color: #ff0000;
-	&:hover {
-		background: lighten( $color-button, 10% );
+	@mixin buttons {
+		background-color: $color-button;
+		color: $color-button-txt;
+		border: 0px;
+		border-radius: $global-border-radius;
+		padding: 6px 17px;
+		font-size: $font-size-small;
+		cursor: pointer;
+		@include transition(all, 0.2s, ease-in-out);
+		outline-color: #ff0000;
+		&:hover {
+			background: lighten( $color-button, 10% );
+		}
 	}
-}
 //==========================================
 
-//Emphasis mixin ===========================
-@mixin imput-emphasis ($emphasis-color){
-	color: $emphasis-color;
-	border-color: $emphasis-color;
-	&::-webkit-input-placeholder { color: $emphasis-color; }
-	&:-moz-placeholder { color: $emphasis-color; }
-	&::-moz-placeholder { color: $emphasis-color; }
-	&:-ms-input-placeholder { color: $emphasis-color; }
-	&+.msj { 
-		@include fopensans-italic;
-		font-size: $font-size-small;
-		position: absolute;
-		top: 7px;
-		right: 10px;
-		z-index: 1; 
-		color: $emphasis-color;
+// Search 2 ================================
+	@mixin search-2 {
+		&.search-2 {
+			position: relative;
+			input[type="text"] {
+				padding: 1px 27px 1px 8px;
+				margin: 0;
+				width: 171px;
+			}
+			input[type="button"] {
+				background: $color-white url("#{$path-to-images}/icon_search.png") no-repeat center center;
+				padding: 0;
+				margin: -8px 0 0 0;
+				width: 17px;
+				height: 17px;
+				right: 6px;
+				top: 50%;
+				position: absolute;
+			}
+		}
 	}
-}
+//==========================================
+
+// Search 3 ================================
+	@mixin search-3xx {
+		&.search-3 {
+			position: relative;
+			input[type="text"] {
+				padding: 1px 27px 1px 8px;
+				margin: 0;
+				width: 171px;
+			}
+			input[type="button"] {
+				background: $color-white url("#{$path-to-images}/icon_search.png") no-repeat center center;
+				padding: 0;
+				margin: -8px 0 0 0;
+				width: 17px;
+				height: 17px;
+				right: 6px;
+				top: 50%;
+				position: absolute;
+			}
+		}
+	}
+//==========================================
+
+// seach bar colors ========================
+	@mixin search-col ($button-name:people) {
+		&.drawer-#{$button-name} {
+			margin-right: -1px;
+			.search-3 {
+				input[type="text"] {
+					padding: 1px 27px 1px 8px;
+					margin: 0;
+					width: 220px
+				}
+				input[type="button"]{
+					background-color: $color-white;
+					background-repeat: no-repeat;
+					background-position-x: center;
+					background-position-y: center;
+					padding: 0;
+					margin: -8px 0 0 0;
+					width: 17px;
+					height: 17px;
+					right: 9px;
+					top: 50%;
+					position: absolute;
+					@if $button-name == "people" {
+						background-image: url("#{$path-to-images}/icon_doc_1.png");
+					} @else if $button-name == "organizations" {
+						background-image: url("#{$path-to-images}/icon_doc_2.png");
+					} @else if $button-name == "places" {
+						background-image: url("#{$path-to-images}/icon_doc_3.png");
+					} @else if $button-name == "dates" {
+						background-image: url("#{$path-to-images}/icon_doc_4.png");
+					}
+				}
+			}
+			@if $button-name == "people" {
+				border-right: 1px solid $color-people;
+				 @include arrow-deco (left, 8px, $color-people, 0px, 192px);
+			} @else if $button-name == "organizations" {
+				 @include arrow-deco (left, 8px, $color-organizations, 0px, 257px);
+				border-right: 1px solid $color-organizations;
+			} @else if $button-name == "places" {
+				 @include arrow-deco (left, 8px, $color-places, 0px, 309px);
+				border-right: 1px solid $color-places;
+			} @else if $button-name == "dates" {
+				 @include arrow-deco (left, 8px, $color-dates, 0px, 369px);
+				border-right: 1px solid $color-dates;
+			}
+		}
+	}
+//==========================================
+
+//Emphasis imput ===========================
+	@mixin imput-emphasis ($emphasis-color){
+		color: $emphasis-color;
+		border-color: $emphasis-color;
+		&::-webkit-input-placeholder { color: $emphasis-color; }
+		&:-moz-placeholder { color: $emphasis-color; }
+		&::-moz-placeholder { color: $emphasis-color; }
+		&:-ms-input-placeholder { color: $emphasis-color; }
+		&+.msj { 
+			@include fopensans-italic;
+			font-size: $font-size-small;
+			position: absolute;
+			top: 7px;
+			right: 10px;
+			z-index: 1; 
+			color: $emphasis-color;
+		}
+	}
+//==========================================
+
+//Emphasis System ==========================
+	@mixin sys-msj ($emphasis){
+		position: absolute;
+		top: 100px;
+		padding: 2px 10px;
+		width: 520px;
+		left: 50%;
+		margin-left: -270px;
+		z-index: 1000;
+		@include box-shadow (0px, 0px, 6px, $color-shadow);
+		@include border-radius (4px);
+		p {
+			margin:0;
+			font-size: $font-size-small;
+			line-height: 17px;
+		}
+
+		@if $emphasis == "muted" {
+			background: lighten($color-muted, 30%);
+			p {	color: darken($color-muted, 20%);}
+			border: 1px solid lighten($color-muted, 10%);
+		} @else if $emphasis == "warning" {
+			background: lighten($color-warning, 30%);
+			p {	color: darken($color-warning, 20%);}
+			border: 1px solid lighten($color-warning, 10%);
+		} @else if $emphasis == "error" {
+			background: lighten($color-error, 30%);
+			p {	color: darken($color-error, 90%);}
+			border: 1px solid lighten($color-error, 10%);
+		} @else if $emphasis == "info" {
+			background: lighten($color-info, 30%);
+			p {	color: darken($color-info, 20%);}
+			border: 1px solid lighten($color-info, 10%);
+		} @else if $emphasis == "success" {
+			background: lighten($color-success, 30%);
+			p {	color: darken($color-success, 20%);}
+			border: 1px solid lighten($color-success, 10%);
+		}
+	}
 //==========================================
 
 // Transitions =============================
 // @include transition(all, 0.2s, ease-in-out);
-@mixin transition($transition-property:all, $transition-time:0.2s, $method:ease-in-out) {
-    -webkit-transition: $transition-property $transition-time $method;
-    -moz-transition: $transition-property $transition-time $method;
-    -ms-transition: $transition-property $transition-time $method;
-    -o-transition: $transition-property $transition-time $method;
-    transition: $transition-property $transition-time $method;
-}
+	@mixin transition($transition-property:all, $transition-time:0.2s, $method:ease-in-out) {
+	    -webkit-transition: $transition-property $transition-time $method;
+	    -moz-transition: $transition-property $transition-time $method;
+	    -ms-transition: $transition-property $transition-time $method;
+	    -o-transition: $transition-property $transition-time $method;
+	    transition: $transition-property $transition-time $method;
+	}
 //==========================================
 
-@mixin border-radius($radius:6px) {
-  -moz-border-radius: $radius;
-  -webkit-border-radius: $radius;
-  -ms-border-radius: $radius;
-  border-radius: $radius;
-}
-
-//Secondary link ==========================
-@mixin secondary-link {
-	color: $color-secondary-link;
-	@include transition(all, 0.2s, ease-in-out);
-	&:hover {
-		color: darken( $color-primary-link, 30% );
+// border radius ===========================
+	@mixin border-radius($radius:6px) {
+	  -moz-border-radius: $radius;
+	  -webkit-border-radius: $radius;
+	  -ms-border-radius: $radius;
+	  border-radius: $radius;
 	}
-}
+//==========================================
+
+// Secondary link ==========================
+	@mixin secondary-link {
+		color: $color-secondary-link;
+		@include transition(all, 0.2s, ease-in-out);
+		&:hover {
+			color: darken( $color-primary-link, 30% );
+		}
+	}
+//==========================================
 
 //Horizontal list ==========================
-@mixin horizontal-list {
-	li {
-		float: left;
-		margin-left: 43px;
-		&:first-child {
-			margin-left:0px;
-		}
-		a {
-			@include secondary-link;
+	@mixin horizontal-list {
+		li {
+			float: left;
+			margin-left: 43px;
+			&:first-child {
+				margin-left:0px;
+			}
+			a {
+				@include secondary-link;
+			}
 		}
 	}
-}
 //==========================================
 
 //Add img in text ==========================
 //Usar para agregar un icono a un texto.
-@mixin add-icon ($img-name, $img-x, $img-y, $add-icon-txt-margin-left, $add-icon-txt-margin-right ){
-	background: url("#{$path-to-images}/#{$img-name}.png") repeat $img-x $img-y;
-	margin-left: $add-icon-txt-margin-left;
-	margin-right: $add-icon-txt-margin-right;
-	display: block;
-}
-
-//==========================================
-
-// Decos Arrows ============================
-
-@mixin arrow-deco ( $direction:right, $size:8px, $color-arrow:$color-white, $x:13px, $y:100%) {
-	&:after {
-		content: "";
-		position: absolute;
-		bottom: $y;
-    	right: $x;
-		/* style */
-		border-width: $size;
-		border-color: transparent;
-		border-style: solid;
-		display: inline-block;
-		height: 0px;
-		width: 0px;
-
-
-		@if $direction == "right" {
-			border-left-color: $color-arrow;
-			border-right-width: 0px;
-		} @else if $direction == "left" {
-			border-right-color: $color-arrow;
-			border-left-width: 0px;
-		} @else if $direction == "up" {
-			border-bottom-color: $color-arrow;
-			border-top-width: 0px;
-		} @else if $direction == "down" {
-			border-top-color: $color-arrow;
-			border-bottom-width: 0px;
-
+	@mixin add-icon ($icon-name, $icon-position:left, $padding:20px) {
+		display: block;
+		background-image: url("#{$path-to-images}/#{$icon-name}.png");
+		background-repeat: no-repeat;
+		@if $icon-position == "left" {
+			padding-left: $padding;
+			background-position-x: left;
+			background-position-y: bottom;
+		} @else if $icon-position == "right" {
+			padding-right: $padding;
+			background-position-x: right;
+			background-position-y: bottom;
+		} @else if $icon-position == "none" {
+			padding-right: 0;
+			padding-left: 0;
+			background: none;
 		}
 	}
-}
+ //==========================================
+
+// Decos Arrows ============================
+	//ej: @include arrow-deco (down, 8px, $color-bg-second-lvl, 46%, -8px);
+	@mixin arrow-deco ( $direction:right, $size:8px, $color-arrow:$color-white, $x-r:13px, $y:100%,  $x-l:initial) {
+		&:after {
+			content: "";
+			position: absolute;
+			top: $y;
+	    	right: $x-r;
+	    	left: $x-l;
+			/* style */
+			border-width: $size;
+			border-color: transparent;
+			border-style: solid;
+			display: inline-block;
+			height: 0px;
+			width: 0px;
+			visibility: visible;
+
+
+			@if $direction == "right" {
+				border-left-color: $color-arrow;
+				border-right-width: 0px;
+			} @else if $direction == "left" {
+				border-right-color: $color-arrow;
+				border-left-width: 0px;
+			} @else if $direction == "up" {
+				border-bottom-color: $color-arrow;
+				border-top-width: 0px;
+			} @else if $direction == "down" {
+				border-top-color: $color-arrow;
+				border-bottom-width: 0px;
+			}
+		}
+	}
+	@mixin arrow-deco-line ( $direction:right, $size:10px, $color-arrow:$color-white, $x:13px, $y:100%, $x-l:none) {
+		&:before {
+			content: "";
+			position: absolute;
+			top: $y;
+	    	right: $x;
+	    	left: $x-l;
+			/* style */
+			border-width: $size;
+			border-color: transparent;
+			border-style: solid;
+			display: inline-block;
+			height: 0px;
+			width: 0px;
+
+
+			@if $direction == "right" {
+				border-left-color: $color-arrow;
+				border-right-width: 0px;
+			} @else if $direction == "left" {
+				border-right-color: $color-arrow;
+				border-left-width: 0px;
+			} @else if $direction == "up" {
+				border-bottom-color: $color-arrow;
+				border-top-width: 0px;
+			} @else if $direction == "down" {
+				border-top-color: $color-arrow;
+				border-bottom-width: 0px;
+			}
+		}
+	}
+//==========================================
+
+// box-shadow ==============================
+	@mixin box-shadow($top, $left, $blur, $color, $inset:"") {
+	    -webkit-box-shadow:$top $left $blur $color #{$inset};
+	    -moz-box-shadow:$top $left $blur $color #{$inset};
+	    box-shadow:$top $left $blur $color #{$inset};
+	}
+// =========================================
+
+// shadows deco ============================
+	@mixin shadows-deco ($direction:left) {	
+		content: "";
+		display: block;
+		z-index: 20;
+		position: absolute;
+
+		@if $direction == "left" {
+			background: url("#{$path-to-images}/shadow_vertical_left.png") repeat-y top right;
+			margin-left: -10px;
+			width: 10px;
+			height: 100%;
+			left: 0;
+		} @else if $direction == "right" {
+			background: url("#{$path-to-images}/shadow_vertical_right.png") repeat-y top right;
+			margin-right: -10px;
+			width: 10px;
+			height: 100%;
+			right: 0;
+		} @else if $direction == "up" {
+			background: url("#{$path-to-images}/shadow_horizontal_top.png") repeat-x top right;
+			margin-top: -10px;
+			width: 100%;
+			height: 10px;
+			top: 0;
+		} @else if $direction == "down" {
+			background: url("#{$path-to-images}/shadow_horizontal_bot.png") repeat-x top right;
+			margin-bottom: -10px;
+			width: 100%;
+			height: 10px;
+			bottom: 0px;
+		}
+	}
 //==========================================
    
+// LOGO ====================================
+	@mixin website-logo {
+		background: url("#{$path-to-images}/analice_me.png") no-repeat top left;
+		width: 128px;
+		height: 35px;
+		float: left;
+		margin: 15px 0px 15px 1px;
+		display: block;
+	}
+//==========================================
+
+// ICON Tool ===============================
+//Este mixin se usa para agregar un nuevo boton en la toolbar vertical.
+	@mixin icon-tool ($icon-img, $icon-width, $color-hover) {
+		width: 100%;
+		margin: 0px 0px 10px 0px;
+		text-align: center;
+		a {
+			color: $color-secondary-link;
+			.icon {
+				width: $icon-width;
+				height: 27px;
+				background-image: url("#{$path-to-images}/#{$icon-img}.png");
+				background-repeat: no-repeat;
+				background-position-x: left;
+				background-position-y: bottom;
+				margin: 0 auto 3px auto;
+			}
+			.value {
+				@include opensans-semibold;
+				font-size: 11px;
+				line-height: 17px;
+				background: $color-white;
+				border: 1px solid $color-border;
+				border-radius: 4px;
+				padding: 0px;
+				margin: 0 auto;
+				width: 30px;
+				height: 17px;
+				display: block;
+				clear: both;
+				cursor: pointer;
+			}
+			&.active,
+			&:hover {
+				color: $color-hover;
+				.icon {
+					background-position-x: right;
+				}
+				.value {
+					border-color: $color-hover;
+				}
+			}
+		}
+	}
+//==========================================
+
+//simple-icon ==============================
+	@mixin simple-icon ($icon-img) {
+		background: url("#{$path-to-images}/#{$icon-img}.png") no-repeat center;
+		width:20px;
+		height:20px;
+		padding: 5px;
+		float:left;
+		cursor:pointer;
+	}
+//==========================================
+
+// box-content-actions  ====================
+	@mixin box-content-actions ($type:list-actions){
+		padding: 10px;
+		border-bottom: 1px solid #b7b7b7;
+
+		@if $type == "list-actions" {
+			&.list-actions {
+				.select-all  {
+					margin-left: 18px;
+					float: left;
+					label {
+						margin-left: 6px;
+						font-style: italic;
+					}
+				}
+				.order-for {
+					float: left;
+					margin-left: 21px;
+					span a {
+						font-style: italic;
+					}
+				}
+			}
+		} @else if $type == "doc-options" {
+			&.doc-options {}
+		} 
+	}
+//==========================================
+
+// Progres Bar =============================
+	@mixin progress-bar () {
+		&{
+			width: 315px;
+			.wrapper-bar {
+				background: $color-bg-third-lvl;
+				border: 1px solid $color-lines;
+				@include border-radius (3px);
+				height: 11px;
+				width: 295px;
+				position: relative;
+				.bar {
+					@include border-radius (3px);
+					position: absolute;
+					top: 0px;
+					left: 0px;
+					height: 11px;
+				}
+			}
+			label {
+				font-style: italic;
+				font-size: $font-size-tiny;
+			}
+			.result {
+				width: 350px;
+				height: 10px;
+				position: absolute;
+				left: 300px;
+				top: 1px;
+				line-height: 10px;
+				@include fopensans-italic;
+				font-size: $font-size-tiny;
+				a.important {
+					@include montserrat-bold;
+					text-decoration: underline;
+					margin-left: 5px;
+					font-style: italic;
+
+				}
+			}
+
+			&.muted {
+				label {}
+				.wrapper-bar {
+					.bar {
+						background: $color-muted;
+					}
+				}
+				.result {
+					background: none;
+					color: $color-muted;
+					a, label {
+						color: $color-muted;
+					}
+					a:hover {
+						color: darken( $color-muted, 10% );
+					}
+				}
+			} 
+			&.warning {
+				label {}
+				.wrapper-bar {
+					.bar {
+						background: $color-warning;
+					}
+				}
+				.result {
+					background: none;
+					color: $color-warning;
+					a, label {
+						color: $color-warning;
+					}
+					a:hover {
+						color: darken( $color-warning, 10% );
+					}
+				}
+			} 
+			&.error {
+				label {}
+				.wrapper-bar {
+					.bar {
+						background: $color-error;
+					}
+				}
+				.result {
+					background: none;
+					color: $color-error;
+					a, label {
+						color: $color-error;
+					}
+					a:hover {
+						color: darken( $color-error, 10% );
+					}
+				}
+			}
+			&.info {
+				label {}
+				.wrapper-bar {
+					.bar {
+						background: $color-info;
+					}
+				}
+				.result {
+					background: none;
+					color: $color-info;
+					a, label {
+						color: $color-info;
+					}
+					a:hover {
+						color: darken( $color-info, 10% );
+					}
+				}
+			}
+			&.success {
+				label {}
+				.wrapper-bar {
+					.bar {
+						background: $color-success;
+					}
+				}
+				.result {
+					background: none;
+					color: $color-success;
+					a, label {
+						color: $color-success;
+					}
+					a:hover {
+						color: darken( $color-success, 10% );
+					}
+				}
+			}
+		}
+	}
+//==========================================
+
+@mixin txt-inspect ($color){
+	color: $color;
+}
