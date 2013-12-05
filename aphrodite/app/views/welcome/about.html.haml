@@ -1,6 +1,3 @@
-= content_for :head do
-  = stylesheet_link_tag 'foundicons'
-
 .main-content.about-us.clearfix
   .content.clearfix
     %h1 Nosotros
@@ -105,43 +102,28 @@
   .side-bar.clearfix
     %h2 Partners
     %ul.partners-list
+
       %li.partner.clearfix
         .left-part.clearfix
           .logo
-            %img{src: "http://dummyimage.com/119x73/dedade/000003.png"}/
+            = image_tag 'partners/hhba.png'
         .rigth-part.clearfix
-          .partner-name NOMBRE PARTNER
+          .partner-name Hacks/Hackers Buenos Aires
           .website
-            %a{href: "#"} www.urlpartner.org
+            %a{href: "http://hhba.info"} www.hhba.info
       %li.partner.clearfix
         .left-part.clearfix
           .logo
-            %img{src: "http://dummyimage.com/119x73/dedade/000003.png"}/
+            = image_tag 'partners/icfj.jpg'
         .rigth-part.clearfix
-          .partner-name NOMBRE PARTNER
+          .partner-name ICFJ
           .website
-            %a{href: "#"} www.urlpartner.org
+            %a{href: "http://www.icfj.org"} www.icfj.org
       %li.partner.clearfix
         .left-part.clearfix
           .logo
-            %img{src: "http://dummyimage.com/119x73/dedade/000003.png"}/
+            = image_tag 'partners/datospublicos.jpg'
         .rigth-part.clearfix
-          .partner-name NOMBRE PARTNER
+          .partner-name Portal de Datos Públicos
           .website
-            %a{href: "#"} www.urlpartner.org
-      %li.partner.clearfix
-        .left-part.clearfix
-          .logo
-            %img{src: "http://dummyimage.com/119x73/dedade/000003.png"}/
-        .rigth-part.clearfix
-          .partner-name NOMBRE PARTNER
-          .website
-            %a{href: "#"} www.urlpartner.org
-      %li.partner.clearfix
-        .left-part.clearfix
-          .logo
-            %img{src: "http://dummyimage.com/119x73/dedade/000003.png"}/
-        .rigth-part.clearfix
-          .partner-name NOMBRE PARTNER
-          .website
-            %a{href: "#"} www.urlpartner.org
+            %a{href: "http://datospublicos.gov.ar/"} www.datospublicos.gov.ar
