@@ -33,7 +33,7 @@ es:
       send_paranoid_instructions: 'Si su correo electrónico existe en nuestra base de datos, usted recibirá un correo con instrucciones sobre cómo confirmar su cuenta en unos minutos'
       confirmed: 'Su cuenta fue confirmada exitosamente, usted ha sido ingresado al sistema'
     registrations:
-      signed_up: '¡Bienvenido! Ha ingresado al sistema exitosamente'
+      signed_up: 'Usted ingresó a Analice.me exitosamente.'
       signed_up_but_unconfirmed: 'Un mensaje con instrucciones para confirmar su cuenta fue enviado a su correo electrónico. Abra el enlace para activar su cuenta'
       signed_up_but_inactive: 'Ha ingresado al sistema exitosamente. Pero, no ha podido ingresar porque no ha activado su cuenta'
       signed_up_but_locked: 'Ha ingresado al sistema exitosamente. Pero, no ha podido ingresar porque su cuenta está bloqueada'
