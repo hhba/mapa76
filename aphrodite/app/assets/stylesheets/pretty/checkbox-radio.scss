@@ -1,0 +1,50 @@
+@import "vars";
+@import "mixin";
+
+
+//iCheck plugin grey =========================
+
+.icheckbox_flat-grey.eye,
+.iradio_flat-grey.eye {
+    background: url("#{$path-to-images}/grey_eye.png") no-repeat;
+}
+.icheckbox_flat-grey,
+.iradio_flat-grey {
+    display: block;
+    margin: 0;
+    padding: 0;
+    width: 20px;
+    height: 20px;
+    background: url("#{$path-to-images}/grey.png") no-repeat;
+    border: none;
+    cursor: pointer;
+}
+
+.icheckbox_flat-grey {
+    background-position: 0 0;
+    &.checked {
+         background-position: -22px 0;
+        &.disabled{
+            background-position: -66px 0;
+        }
+    }
+    &.disabled {
+         background-position: -44px 0;
+        cursor: default;
+    }
+}
+
+.iradio_flat-grey {
+    background-position: -88px 0;
+    &.checked {
+        background-position: -110px 0;
+        &.disabled{
+           background-position: -154px 0;
+        }
+    }
+    &.disabled {
+        background-position: -132px 0;
+        cursor: default;
+    }
+}
+// =========================================

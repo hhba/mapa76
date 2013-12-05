@@ -1,9 +1,17 @@
+/* =========================================================================== */
+/* =========================================================================== */
+/* =========================================================================== */
+/* Archivos con extencion .css son derivados de archivos .scss! NO editar .css */
+/* Mas informacion http://sass-lang.com/ */
+/* =========================================================================== */
+/* =========================================================================== */
+/* =========================================================================== */
 @import "mixin";
 @import "vars";
 @import "slider";
 @import "list";
 @import "dropdown";
-
+@import "checkbox-radio";
 
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -40,6 +48,9 @@ time, mark, audio, video {
 .right {
 	float: right;
 }
+.strong {
+	font-weight: bold;
+}
 
 /*font family ============*/
 //font-family: "opensans-light";
@@ -65,7 +76,7 @@ body {
   line-height: 1;
   background: #fff url("#{$path-to-images}/bg-pattern.png") repeat 0 0;
   @include font-regular-text;
- }
+}
  
 ol, ul {
   list-style: none;
@@ -85,6 +96,38 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
 }
+
+span {
+	&.txt-people {
+		cursor: pointer;
+		@include opensans-semibold;
+		@include txt-inspect($color-people);
+		font-style: italic;
+	}
+	&.txt-org {
+		cursor: pointer;
+		@include opensans-semibold;
+		@include txt-inspect($color-organizations);
+		font-style: italic;
+	}
+	&.txt-places {
+		cursor: pointer;
+		@include opensans-semibold;
+		@include txt-inspect($color-places);
+		font-style: italic;
+	}
+	&.txt-dates {
+		cursor: pointer;
+		@include opensans-semibold;
+		@include txt-inspect($color-dates);
+		font-style: italic;
+	}
+}
+.em,
+em {
+	@include fopensans-italic;
+}
+
 
 h1 { @include font-headin-xxx-large; }
 h2 { @include font-headin-xx-large; }
@@ -159,6 +202,14 @@ textarea {
 	}
 }
 
+/*edit botton */
+.edit-bt {
+	background: $color-white url("#{$path-to-images}/icon_edit.png") no-repeat center center;
+	height:20px;
+	width:20px;
+	margin:5px;
+}
+
 /* header */
 .header input:not([type]), 
 .header input[type="color"], 
@@ -171,93 +222,116 @@ textarea {
 	@include inputs (15px);
 }
 
+.progress-bar {
+	@include progress-bar;
+}
+
 /* Emphasis class ================= */
-input {
-	&.input-muted {
-		@include imput-emphasis ($color-muted);
-		background: $color-bg;
+	input {
+		&.input-muted {
+			@include imput-emphasis ($color-muted);
+			background: $color-bg;
+		}
+		&.input-warning {
+			@include imput-emphasis ($color-warning);
+		}
+		&.input-error {
+			@include imput-emphasis ($color-error);
+		}
+		&.input-info {
+			@include imput-emphasis ($color-info);
+		}
+		&.input-success {
+			@include imput-emphasis ($color-success);
+		}
 	}
-	&.input-warning {
-		@include imput-emphasis ($color-warning);
-	}
-	&.input-error {
-		@include imput-emphasis ($color-error);
-	}
-	&.input-info {
-		@include imput-emphasis ($color-info);
-	}
-	&.input-success {
-		@include imput-emphasis ($color-success);
-	}
-}
 
-.text-muted {
-	color: $color-muted;
-}
-.text-warning {
-	color: $color-warning;
-}
-.text-error {
-	color: $color-error;
-}
-.text-info {
-	color: $color-info;
-}
-.text-success {
-	color: $color-success;
-}
+	.text-muted {
+		color: $color-muted;
+	}
+	.text-warning {
+		color: $color-warning;
+	}
+	.text-error {
+		color: $color-error;
+	}
+	.text-info {
+		color: $color-info;
+	}
+	.text-success {
+		color: $color-success;
+	}
 
-.input-item {
-	position: relative;
-}
+	.input-item {
+		position: relative;
+	}
+/* ================================ */
+
+/* Uploader ======================= */
+	.uploader {
+		position: relative;
+		margin: -5px 0px;
+		input[type="file"] {
+			overflow: hidden;
+			width: 350px;
+			text-align: left !important;
+			align-items: center;
+			float: left;
+			margin: 0;
+			padding: 0;
+			background: white;
+			border: 1px solid #b7b7b7;
+			color: #000;
+			border-radius: 0px 4px 4px 0px;
+			height: 21px;
+		}
+		input[type="submit"] {
+			margin: 0px 7px !important;
+		}
+	}
+/* ================================ */
 
 /*error 404 502 =================== */
-.error-wrapper {
-	float: right;
-	width: 260px;
-	position: absolute;
-	top: 20%;
-	left: 50%;
-	margin-left: -130px;
-	.text {
-		color: $color-secondary-text;
-		float: left;
-		font-size: 56px;
-		letter-spacing: -3px;
-		line-height: 44px;
-		margin-top: 14px;
+	.error-wrapper {
+		float: right;
+		width: 260px;
+		position: absolute;
+		top: 20%;
+		left: 50%;
+		margin-left: -130px;
+		.text {
+			color: $color-secondary-text;
+			float: left;
+			font-size: 56px;
+			letter-spacing: -3px;
+			line-height: 44px;
+			margin-top: 14px;
+		}
+		.number {
+			@include opensans-semibold;
+			color: darken( $color-error, 20% );
+			font-size: 70px;
+			line-height: 63px;
+			margin-right: 18px;
+		}
+		.text2 {
+			font-size: 35px;
+			margin-top: -4px;
+			text-align: left;
+			margin-left: 3px;
+			line-height: 42px;
+		}
 	}
-	.number {
-		@include opensans-semibold;
-		color: darken( $color-error, 20% );
-		font-size: 70px;
-		line-height: 63px;
-		margin-right: 18px;
-	}
-	.text2 {
-		font-size: 35px;
-		margin-top: -4px;
-		text-align: left;
-		margin-left: 3px;
-		line-height: 42px;
-	}
-}
+/* ================================ */
 
 /* header ========================= */
-.container {
-	.header-and-content {
+	.container {
 		.wrapper-header {
 			background: $color-bg;
 			.header {
-				@include max-width (0px, 29px, 0px, 29px);
-				@include center-layout;
+				@include width-site (no-fluid, 0px, 29px, 0px, 29px);
 				.logo a {
-					background: url("#{$path-to-images}/logo.png") no-repeat top left;
-					width: 93px;
-					height: 20px;
-					float: left;
-					margin: 24px 0px 20px 1px;
-					display: block;
+					@include website-logo;
 				}
 				.user-login {
 					float: right;
@@ -288,10 +362,24 @@ input {
 					}
 				}
 			}
+			//=========================================
+			//Header APP ==============================
+			//=========================================
+			.header-pp {
+				@include width-site (fluid, 0px, 29px, 0px, 29px);
+				.logo a {
+					@include website-logo;
+				}
+				.user-login {
+					float: right;
+					width: 577px;
+					margin: 17px 0px 0px 0px;
+				}
+			}
 		}
+		/*Main Content ====================== */
 		.main-content {
-			@include max-width (32px, 29px, 10px, 29px);
-			@include center-layout;
+			@include width-site (no-fluid, 32px, 29px, 10px, 29px);
 			.content {
 				width: $contet;
 				float: left;
@@ -303,12 +391,27 @@ input {
 			.side-bar {
 				width: $sidebar;
 				height: 300px;
-				float: left;	
+				float: left;
+			}
+		}
+		//=========================================
+		//Main Content APP ========================
+		//=========================================
+		.main-content-app {
+			@include width-site (fluid, 0px, 0px, 0px, 0px);
+			.content {
+				color: $color-darck-text;
+				.box-content {
+					.box-content-actions {
+						@include box-content-actions;
+					}
+				}
 			}
 		}
 	}
-}
-/* Footer section ===================== */
+/* ================================ */
+
+/* Footer section ================= */
 	// Sticky footer ======
 	html, body, .container { height: 100%; }
 	body > .container { height: auto; min-height: 100%; }
@@ -332,167 +435,594 @@ input {
 	.header-and-content { padding-bottom: $footer-no-partners; }
 	//=====================
 
-.footer-secction {
-	.wrapper-prefooter {
-		background: #fff url("#{$path-to-images}/shadow_deco.png") no-repeat top center;
-		.prefooter {
-			@include max-width (0px, 29px, 0px, 29px);
-			@include center-layout;
-			height: 172px;
+	.footer-secction {
+		.wrapper-prefooter {
+			background: #fff url("#{$path-to-images}/shadow_deco.png") no-repeat top center;
+			.prefooter {
+				@include width-site (no-fluid, 0px, 29px, 0px, 29px);
+				height: 172px;
+			}
 		}
-	}
-	.wrapper-footer {
-			background: $color-bg;
-			height: 169px;
-		.footer {
-			background: url("#{$path-to-images}/footer_logo.png") no-repeat 32px 21px;
-			@include max-width (0px, 29px, 0px, 29px);
-			@include center-layout;
-			height: 169px;
-			.footer-menu {
-				@include horizontal-list;
-				float: right;
-				font-size: $font-size-tiny;
-				margin-top: 22px;
+		.wrapper-footer {
+				background: $color-bg;
+				height: 169px;
+			.footer {
+				background: url("#{$path-to-images}/footer_logo.png") no-repeat 32px 21px;
+				@include width-site (no-fluid, 0px, 29px, 0px, 29px);
+				height: 169px;
+				.footer-menu {
+					@include horizontal-list;
+					float: right;
+					font-size: $font-size-tiny;
+					margin-top: 22px;
+				}
+			}
+			//=========================================
+			//Footer APP ==============================
+			//=========================================
+			.footer-app {
+				background: url("#{$path-to-images}/footer_logo.png") no-repeat 32px 21px;
+				@include width-site (fluid, 0px, 29px, 0px, 29px);
+				height: 169px;
+				.footer-menu {
+					@include horizontal-list;
+					float: right;
+					font-size: $font-size-tiny;
+					margin-top: 22px;
+				}
 			}
 		}
 	}
-}
+/* ================================ */
 
 /* prefooter section ============== */
-.prefooter {
-	.partner-title {
-		text-align: center;
-		padding-bottom: 8px;
-		padding-top: 26px;
-		margin: 0 12px;
-		h3 {
-			margin: 0px;
-			color: $color-primary-link;
-			border-bottom: 1px solid $color-border;
-			font-size: $font-size-small;
-			padding-bottom: 6px;
-		}
-		.deco {
-			background: url("#{$path-to-images}/prefooter_deco.png") no-repeat center bottom;
-			width: 20px;
-			height: 10px;
-			margin: -2px auto 0 auto;
-		}
-	}
-}
-
-/* ================================ */
-/* Home page ====================== */
-.home {
-	.side-bar {
-		h3 {
-			margin-top: -5px;
-			margin-left: -2px;
-		}
-		p {
-			line-height: 16px;
-		}
-		.arrow-deco {
-			background: url("#{$path-to-images}/deco_line.png") no-repeat center bottom;
-			height: 9px;
-			clear: both;
-			padding: 13px 0px 0px 0px;
-			margin-bottom: 23px;
-		}
-		.infomation {
-			.docs-upload {
-				background: #e1e1e1;
-				padding: 10px;
-				margin: 46px 0px 0px 0px;
-				color: $color-secondary-text;
-				.ups {
-					float: left;
-					background: url("#{$path-to-images}/icon_docs.png") no-repeat -3px -2px;
-					padding-left: 25px;
-					font-size: 26px;
-					font-family: arial;
-					font-weight: bold;
-				}
-				label {
-					margin: 0px 0px 0px 7px;
-					margin-top: 0px;
-					margin-right: 0px;
-					margin-bottom: 0px;
-					margin-left: 7px;
-					font-size: 11px;
-				}
+	.prefooter {
+		.partner-title {
+			text-align: center;
+			padding-bottom: 8px;
+			padding-top: 26px;
+			margin: 0 12px;
+			h3 {
+				margin: 0px;
+				color: $color-primary-link;
+				border-bottom: 1px solid $color-border;
+				font-size: $font-size-small;
+				padding-bottom: 6px;
 			}
 			.deco {
-				background: url("#{$path-to-images}/deco_arrow.png") no-repeat 10px 0px;
-				height: 26px;
-				width: 100%;
+				background: url("#{$path-to-images}/prefooter_deco.png") no-repeat center bottom;
+				width: 20px;
+				height: 10px;
+				margin: -2px auto 0 auto;
 			}
-			.information-item {
-				float: left;
-				width: 155px;
-				height: 56px;
-				.people-number {
-					@include montserrat-bold;
-					color: $color-people;
-					padding-left: 34px;
-					font-size: $font-size-xx-large;
-					background: url("#{$path-to-images}/icon_personas.png") no-repeat 10px 2px;
-					line-height: 22px;
+		}
+	}
+/* ================================ */
+
+/* Home page ====================== */
+	.home {
+		.side-bar {
+			h3 {
+				margin-top: -5px;
+				margin-left: -2px;
+			}
+			p {
+				line-height: 16px;
+			}
+			.arrow-deco {
+				background: url("#{$path-to-images}/deco_line.png") no-repeat center bottom;
+				height: 9px;
+				clear: both;
+				padding: 13px 0px 0px 0px;
+				margin-bottom: 23px;
+			}
+			.infomation {
+				.docs-upload {
+					background: #e1e1e1;
+					padding: 10px;
+					margin: 46px 0px 0px 0px;
+					color: $color-secondary-text;
+					.ups {
+						float: left;
+						background: url("#{$path-to-images}/icon_docs.png") no-repeat -3px -2px;
+						padding-left: 25px;
+						font-size: 26px;
+						font-family: arial;
+						font-weight: bold;
+					}
+					label {
+						margin: 0px 0px 0px 7px;
+						margin-top: 0px;
+						margin-right: 0px;
+						margin-bottom: 0px;
+						margin-left: 7px;
+						font-size: 11px;
+					}
 				}
-				.org-number {
-					@include montserrat-bold;
-					color: $color-organizations;
-					padding-left: 34px;
-					font-size: $font-size-xx-large;
-					background: url("#{$path-to-images}/icon_org.png") no-repeat 2px 0px;
-					line-height: 22px;
+				.deco {
+					background: url("#{$path-to-images}/deco_arrow.png") no-repeat 10px 0px;
+					height: 26px;
+					width: 100%;
 				}
-				.places-number {
-					@include montserrat-bold;
-					color: $color-places;
-					padding-left: 34px;
-					font-size: $font-size-xx-large;
-					background: url("#{$path-to-images}/icon_lugares.png") no-repeat 14px 0px;
-					line-height: 22px;
-				}
-				.dates-number {
-					@include montserrat-bold;
-					color: $color-dates;
-					padding-left: 34px;
-					font-size: $font-size-xx-large;
-					background: url("#{$path-to-images}/icon_fecha.png") no-repeat 11px 0px;
-					line-height: 22px;
-				}
-				label {
-					margin-left: 35px;
-					font-size: 11px;
+				.information-item {
+					float: left;
+					width: 155px;
+					height: 56px;
+					.people-number {
+						@include montserrat-bold;
+						color: $color-people;
+						padding-left: 34px;
+						font-size: $font-size-xx-large;
+						background: url("#{$path-to-images}/icon_personas.png") no-repeat 10px 2px;
+						line-height: 22px;
+					}
+					.org-number {
+						@include montserrat-bold;
+						color: $color-organizations;
+						padding-left: 34px;
+						font-size: $font-size-xx-large;
+						background: url("#{$path-to-images}/icon_org.png") no-repeat 2px 0px;
+						line-height: 22px;
+					}
+					.places-number {
+						@include montserrat-bold;
+						color: $color-places;
+						padding-left: 34px;
+						font-size: $font-size-xx-large;
+						background: url("#{$path-to-images}/icon_lugares.png") no-repeat 14px 0px;
+						line-height: 22px;
+					}
+					.dates-number {
+						@include montserrat-bold;
+						color: $color-dates;
+						padding-left: 34px;
+						font-size: $font-size-xx-large;
+						background: url("#{$path-to-images}/icon_fecha.png") no-repeat 11px 0px;
+						line-height: 22px;
+					}
+					label {
+						margin-left: 35px;
+						font-size: 11px;
+					}
 				}
 			}
 		}
 	}
-}
+/* ================================ */
 
 /* ================================ */
 /* Contact page =================== */
-.contact {
-	.content {
-		textarea,
-		input[type="text"] {
-			@include input-width-full;
+	.contact {
+		.content {
+			textarea,
+			input[type="text"] {
+				@include input-width-full;
+			}
 		}
 	}
-}
 /* ================================ */
 
 /* Registration page ============== */
-.registration {
-	.content {
-		textarea,
-		input[type="password"], 
-		input[type="text"] {
-			@include input-width-full;
+	.registration {
+		.content {
+			textarea,
+			input[type="password"], 
+			input[type="text"] {
+				@include input-width-full;
+			}
+			.icheckbox_flat-grey {
+				margin-right: 5px;
+			}
 		}
 	}
-}
 /* ================================ */
+
+/* APP layout ===================== */
+	.vertical-toolbar {
+		.subtraction-item {
+			min-height: 300px;
+		}
+		.toolbar {
+			width: 40px;
+			background: $color-bg-second-lvl;
+			.toolbar-content {
+				.menu-icon {
+					background: url("#{$path-to-images}/icon_menu.png") no-repeat 0px 0px;
+						width: 25px;
+						height: 20px;
+						margin: 5px auto 18px auto;
+				}
+				.group-a,
+				.group-b  {
+					border: 1px solid $color-lines;
+					width: 38px;
+					margin-bottom: -1px;
+					padding-bottom: 10px;
+					.tool {}
+				}
+				.group-a {}
+				.group-b {
+					padding-top: 10px;
+					background: $color-bg-third-lvl;
+				}
+			}
+		}
+		.drawer { //columna de busqueda
+			width: 289px;
+			background: $color-bg-fourth-lvl;
+			float: right;
+			&:before { @include shadows-deco (left); }
+			.drawer-header {
+				position: relative;
+				padding-bottom: 19px;
+				&:before { @include shadows-deco (down); }
+				.header-bar-actions{
+					padding: 8px 18px;
+					margin-bottom: 16px;
+					.action {
+						i {
+							font-size: 20px;
+						}
+					}
+				}
+				.search {
+					position: relative;
+					margin: 0 auto;
+					width: 260px;
+				}
+			}
+			@include search-col  ();//default:people 
+			@include search-col  (organizations);
+			@include search-col  (places);
+			@include search-col  (dates);
+		}
+	}
+	.index-mapa76 {
+		margin:0;
+		padding:0;
+	}
+	.index-mapa76 .content {
+		background: $color-bg-fourth-lvl;
+	}
+	.nav-bar {
+		width:100%;
+		background: $color-bg-first-lvl;
+		border-top: 1px solid $color-lines;
+		border-bottom: 1px solid $color-lines;
+		height: 28px;
+	}
+	.nav-bar-submenu {
+		width:100%;
+		background: $color-bg-third-lvl;
+		height: 55px;
+	}
+/* ================================ */
+
+/* app full width ================= */
+	body.index-mapa76 {
+		.wrapper-header {}
+		.header-and-content {
+			padding:0px;
+			position: absolute;
+			top: 64px;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			.main-content-app {
+				position: absolute;
+				bottom: 0;
+				top: 0;
+				left: 0;
+				right: 0;
+				min-height: 640px;
+				.vertical-toolbar {
+					position: absolute;
+					top: 0;
+					bottom: 0;
+					right: 0;
+					z-index: 30;
+					min-height: 640px;
+					.toolbar {
+						position: absolute;
+						right: 0px;
+						top: 0px;
+						bottom:0px;
+					}
+					.drawer {
+						position: absolute;
+						right: 40px;
+						top: 0;
+						bottom: 0;
+						.full-height-truecontent {
+							.drawer-header {position: absolute;
+								padding-bottom: 19px;
+								width: 100%;
+								top: 0;
+							}
+							.drawer-content {
+								margin-top: 97px;
+								overflow-y: auto;
+								position: absolute;
+								width: 100%;
+								top: 0;
+								bottom: 0;
+								ul.info-list {}
+							}
+						}
+					}
+				}
+				.content {
+					position: absolute;
+					top: 0;
+					bottom: 0;
+					left: 0;
+					right: 0;
+					z-index: 10;
+					min-height: 640px;	
+					.top-nav-bar {}
+					.box-content {
+						margin-right: 328px;
+						position: absolute;
+						left: 0;
+						right: 0;
+						top: 85px;
+						bottom: 0;
+						.documents-list {
+							overflow: auto;
+						}
+					}
+				}
+			}
+		}
+		.footer-secction {
+			display: none;
+		}
+	}
+/* ================================ */
+
+/* nav-bar ======================== */
+	.nav-bar {
+		.nav-bar-tools {
+			.tool {
+				float: left;
+				text-align: center;
+				background: $color-bg-first-lvl;
+				position: relative;
+				a {
+					color: $color-txt-nav-bar;
+					text-transform: uppercase;
+					@include montserrat-bold;
+					font-size: $font-size-regular;
+					display: block;
+					padding: 5px 28px 3px 28px;
+				}
+				&:hover,
+				&.active {
+					@include transition(all, 0.2s, ease-in-out);
+					background: $color-bg-second-lvl;
+					text-shadow: 0px 1px 1px #FFF;
+					color: $color-txt-nav-bar-active;
+				}
+				&.active {
+					@include arrow-deco (down, 8px, $color-bg-second-lvl, 46%, 28px);
+					@include arrow-deco-line(down, 8px, $color-lines, 46%, 29px);
+				}
+				&.inactive {
+					a {
+						cursor: default;
+						&:hover {
+							background: $color-bg-first-lvl;
+							transition: none;
+							text-shadow: none;
+						}
+					}
+				}
+			}
+		}
+	}
+/* ================================ */
+
+/* nav-bar-submenu ================ */
+	.nav-bar-submenu {
+		ul.submenu-tools {
+			padding: 13px 0 0 0;
+			li.tool {
+				float: left;
+				margin: 0 0px 0px 13px;
+				position: relative;
+				> a { 
+					@include secondary-link; 
+					margin: 2px 5px;
+				}
+			}
+			.search-doc {
+				@include search-2;
+			}
+			.upload-doc {
+				> a {@include add-icon (icon_doc_up_off);}
+			}
+			.export-doc {
+				> a {@include add-icon (icon_doc_export_on);}
+			}
+			.download-doc {
+				> a {@include add-icon (icon_download_off);}
+			}
+			.trash-doc {
+				> a {@include add-icon (icon_trash_off);}
+			}
+		}
+	}
+/* ================================ */
+
+/* nav-bar-submenu ================ */
+	.submenu-tools-options {
+		position: absolute;
+		background: $color-bg-fourth-lvl;
+		padding: 11px;
+		z-index: 20;
+		left: 0;
+		right: 0;
+		border-top:1px solid $color-info;
+		border-bottom:1px solid $color-info;
+		input[type="submit"] {
+			padding: 4px 17px;
+			margin: -2px 7px;
+		} 
+		&.upload-doc {
+			@include arrow-deco (up, 8px, $color-info, none, -8px, 295px);
+		}
+		&.export-doc {
+			@include arrow-deco (up, 8px, $color-info, none, -8px, 417px);
+			ul.check-list {
+				float: left;
+				margin: -1px 0;
+				.item-list {
+					float: left;
+					margin-right: 20px;
+					input[type="checkbox"]{}
+					label {
+						margin-left: 10px;
+					}
+				}
+				.name {
+					color: $color-people;
+				}
+				.org {
+					color: $color-organizations;
+				}
+				.place {
+					color: $color-places;
+				}
+				.date {
+					color: $color-dates;
+				}
+				.all {
+					color: $color-darck-text;
+				}
+			}
+		}
+	}
+/* ================================ */
+
+/* icons tools ==================== */
+	.tool-doc-online {
+		@include icon-tool (icon_docs_online, 22px, $color-lines );
+	}
+	.tool-doc-selected {
+		@include icon-tool (icon_docs_seleccionados, 22px, $color-lines );
+	}
+	.tool-people {
+		@include icon-tool (icon_toolbar_personas, 20px, $color-people );
+	}
+	.tool-organizations {
+		@include icon-tool (icon_toolbar_org, 28px, $color-organizations );
+	}
+	.tool-places {
+		@include icon-tool (icon_toolbar_ligares, 15px, $color-places );
+	}
+	.tool-dates {
+		@include icon-tool (icon_toolbar_fechas, 21px, $color-dates );
+	}
+/* ================================ */
+
+/* View Docs ====================== */
+ .view-doc {
+ 	.em {
+ 		margin-left: 24px;
+ 		margin-bottom: 3px;
+		font-size: 11px;
+ 	}
+ 	.eye-list {
+ 		float: left;
+ 	}
+ 	.doc {
+ 		margin: 33px;
+ 		.doc-info {
+ 			margin-bottom: 20px;
+ 			.doc-date {}
+ 			.file-name {}
+ 		}
+ 		p {
+ 			@include opensans-semibold;
+ 			font-size: $font-size-small;
+ 			text-align: justify;
+ 			color:$color-darck-text;
+ 		}
+ 	}
+ }
+/* ================================ */
+
+/* Pager ========================== */
+	.pager {
+		float: right;
+		font-size: $font-size-tiny;
+		a, span {
+			font-size: $font-size-tiny;
+		}
+		ul {
+			li{
+				position: relative;
+				float: left;
+			}
+			li.prev a{
+				display: block;
+				height: 20px;
+				width: 10px;
+				margin: 0px 5px;
+				@include arrow-deco (left, 8px, $color-bg-second-lvl, 5px, 2px);
+			}
+			li.current{
+				span{
+					color:$color-primary-text;
+					text-transform: uppercase;
+					&.page {
+						border: 1px solid $color-border;
+						@include border-radius(3px);
+						margin: 0 7px;
+						padding: 0px 3px 1px 3px;
+					}
+				}
+
+			}
+			li.total{
+				color:$color-primary-text;
+			}
+			li.next a{
+				display: block;
+				height: 20px;
+				width: 10px;
+				margin: 0px 5px;
+				@include arrow-deco (right, 8px, $color-bg-second-lvl, 5px, 2px);
+			}
+			li.go-page{
+				input {
+					margin: 0;
+					height: 8px;
+					width: 54px;
+					padding: 5px 12px 5px 5px;
+					@include border-radius(3px);
+					font-size: 11px;
+					line-height: 18px;
+				}
+				input[type="submit"] {
+					background: $color-bg-fourth-lvl;
+					margin: 0;
+					width: 12px;
+					height: 18px;
+					line-height: 15px;
+					padding: 0;
+					position: absolute;
+					top: 1px;
+					right: 2px;
+					color: $color-primary-text;
+					@include border-radius(0px);
+					border-left: 1px solid $color-border;
+				}
+			}
+		}
+	}
+/* ================================ */
+
+
+
+
