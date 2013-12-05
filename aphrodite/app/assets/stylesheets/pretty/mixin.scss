@@ -14,7 +14,7 @@
 //==========================================
 
 //@font-face mixin =========================
-//@include font-face('family', '../fonts/', 'myfontname');
+	//@include font-face('family', '../fonts/', 'myfontname');
 	@mixin font-face($font-family, $font-url, $font-name) {
 		@font-face {
 	    	font: {
@@ -244,7 +244,7 @@
 	}
 //==========================================
 
-//Emphasis mixin ===========================
+//Emphasis imput ===========================
 	@mixin imput-emphasis ($emphasis-color){
 		color: $emphasis-color;
 		border-color: $emphasis-color;
@@ -260,6 +260,47 @@
 			right: 10px;
 			z-index: 1; 
 			color: $emphasis-color;
+		}
+	}
+//==========================================
+
+//Emphasis System ==========================
+	@mixin sys-msj ($emphasis){
+		position: absolute;
+		top: 100px;
+		padding: 2px 10px;
+		width: 520px;
+		left: 50%;
+		margin-left: -270px;
+		z-index: 1000;
+		@include box-shadow (0px, 0px, 6px, $color-shadow);
+		@include border-radius (4px);
+		p {
+			margin:0;
+			font-size: $font-size-small;
+			line-height: 17px;
+		}
+
+		@if $emphasis == "muted" {
+			background: lighten($color-muted, 30%);
+			p {	color: darken($color-muted, 20%);}
+			border: 1px solid lighten($color-muted, 10%);
+		} @else if $emphasis == "warning" {
+			background: lighten($color-warning, 30%);
+			p {	color: darken($color-warning, 20%);}
+			border: 1px solid lighten($color-warning, 10%);
+		} @else if $emphasis == "error" {
+			background: lighten($color-error, 30%);
+			p {	color: darken($color-error, 90%);}
+			border: 1px solid lighten($color-error, 10%);
+		} @else if $emphasis == "info" {
+			background: lighten($color-info, 30%);
+			p {	color: darken($color-info, 20%);}
+			border: 1px solid lighten($color-info, 10%);
+		} @else if $emphasis == "success" {
+			background: lighten($color-success, 30%);
+			p {	color: darken($color-success, 20%);}
+			border: 1px solid lighten($color-success, 10%);
 		}
 	}
 //==========================================
@@ -332,7 +373,7 @@
  //==========================================
 
 // Decos Arrows ============================
-//ej: @include arrow-deco (down, 8px, $color-bg-second-lvl, 46%, -8px);
+	//ej: @include arrow-deco (down, 8px, $color-bg-second-lvl, 46%, -8px);
 	@mixin arrow-deco ( $direction:right, $size:8px, $color-arrow:$color-white, $x-r:13px, $y:100%,  $x-l:initial) {
 		&:after {
 			content: "";
@@ -499,14 +540,14 @@
 //==========================================
 
 //simple-icon ==============================
-@mixin simple-icon ($icon-img) {
-	background: url("#{$path-to-images}/#{$icon-img}.png") no-repeat center;
-	width:20px;
-	height:20px;
-	padding: 5px;
-	float:left;
-	cursor:pointer;
-}
+	@mixin simple-icon ($icon-img) {
+		background: url("#{$path-to-images}/#{$icon-img}.png") no-repeat center;
+		width:20px;
+		height:20px;
+		padding: 5px;
+		float:left;
+		cursor:pointer;
+	}
 //==========================================
 
 // box-content-actions  ====================
@@ -539,138 +580,138 @@
 //==========================================
 
 // Progres Bar =============================
-@mixin progress-bar () {
-	&{
-		width: 315px;
-		.wrapper-bar {
-			background: $color-bg-third-lvl;
-			border: 1px solid $color-lines;
-			@include border-radius (3px);
-			height: 11px;
-			width: 295px;
-			position: relative;
-			.bar {
+	@mixin progress-bar () {
+		&{
+			width: 315px;
+			.wrapper-bar {
+				background: $color-bg-third-lvl;
+				border: 1px solid $color-lines;
 				@include border-radius (3px);
-				position: absolute;
-				top: 0px;
-				left: 0px;
 				height: 11px;
+				width: 295px;
+				position: relative;
+				.bar {
+					@include border-radius (3px);
+					position: absolute;
+					top: 0px;
+					left: 0px;
+					height: 11px;
+				}
 			}
-		}
-		label {
-			font-style: italic;
-			font-size: $font-size-tiny;
-		}
-		.result {
-			width: 350px;
-			height: 10px;
-			position: absolute;
-			left: 300px;
-			top: 1px;
-			line-height: 10px;
-			@include fopensans-italic;
-			font-size: $font-size-tiny;
-			a.important {
-				@include montserrat-bold;
-				text-decoration: underline;
-				margin-left: 5px;
+			label {
 				font-style: italic;
-
-			}
-		}
-
-		&.muted {
-			label {}
-			.wrapper-bar {
-				.bar {
-					background: $color-muted;
-				}
+				font-size: $font-size-tiny;
 			}
 			.result {
-				background: none;
-				color: $color-muted;
-				a, label {
+				width: 350px;
+				height: 10px;
+				position: absolute;
+				left: 300px;
+				top: 1px;
+				line-height: 10px;
+				@include fopensans-italic;
+				font-size: $font-size-tiny;
+				a.important {
+					@include montserrat-bold;
+					text-decoration: underline;
+					margin-left: 5px;
+					font-style: italic;
+
+				}
+			}
+
+			&.muted {
+				label {}
+				.wrapper-bar {
+					.bar {
+						background: $color-muted;
+					}
+				}
+				.result {
+					background: none;
 					color: $color-muted;
+					a, label {
+						color: $color-muted;
+					}
+					a:hover {
+						color: darken( $color-muted, 10% );
+					}
 				}
-				a:hover {
-					color: darken( $color-muted, 10% );
+			} 
+			&.warning {
+				label {}
+				.wrapper-bar {
+					.bar {
+						background: $color-warning;
+					}
 				}
-			}
-		} 
-		&.warning {
-			label {}
-			.wrapper-bar {
-				.bar {
-					background: $color-warning;
-				}
-			}
-			.result {
-				background: none;
-				color: $color-warning;
-				a, label {
+				.result {
+					background: none;
 					color: $color-warning;
+					a, label {
+						color: $color-warning;
+					}
+					a:hover {
+						color: darken( $color-warning, 10% );
+					}
 				}
-				a:hover {
-					color: darken( $color-warning, 10% );
+			} 
+			&.error {
+				label {}
+				.wrapper-bar {
+					.bar {
+						background: $color-error;
+					}
 				}
-			}
-		} 
-		&.error {
-			label {}
-			.wrapper-bar {
-				.bar {
-					background: $color-error;
-				}
-			}
-			.result {
-				background: none;
-				color: $color-error;
-				a, label {
+				.result {
+					background: none;
 					color: $color-error;
-				}
-				a:hover {
-					color: darken( $color-error, 10% );
-				}
-			}
-		}
-		&.info {
-			label {}
-			.wrapper-bar {
-				.bar {
-					background: $color-info;
+					a, label {
+						color: $color-error;
+					}
+					a:hover {
+						color: darken( $color-error, 10% );
+					}
 				}
 			}
-			.result {
-				background: none;
-				color: $color-info;
-				a, label {
+			&.info {
+				label {}
+				.wrapper-bar {
+					.bar {
+						background: $color-info;
+					}
+				}
+				.result {
+					background: none;
 					color: $color-info;
-				}
-				a:hover {
-					color: darken( $color-info, 10% );
-				}
-			}
-		}
-		&.success {
-			label {}
-			.wrapper-bar {
-				.bar {
-					background: $color-success;
+					a, label {
+						color: $color-info;
+					}
+					a:hover {
+						color: darken( $color-info, 10% );
+					}
 				}
 			}
-			.result {
-				background: none;
-				color: $color-success;
-				a, label {
+			&.success {
+				label {}
+				.wrapper-bar {
+					.bar {
+						background: $color-success;
+					}
+				}
+				.result {
+					background: none;
 					color: $color-success;
-				}
-				a:hover {
-					color: darken( $color-success, 10% );
+					a, label {
+						color: $color-success;
+					}
+					a:hover {
+						color: darken( $color-success, 10% );
+					}
 				}
 			}
 		}
 	}
-}
 //==========================================
 
 @mixin txt-inspect ($color){
