@@ -8,11 +8,4 @@
       = f.check_box :remember_me if devise_mapping.rememberable?
       %br/
       = f.submit 'Ingresar'
-  .side-bar.clearfix
-    %h3 Nosotros
-    %p
-      %strong Analice.me
-      %br/
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque accumsan nisl lacus, et tincidunt eros pellentesque non. Vivamus libero enim, dictum nec consequat ut, elementum in eros. Maecenas metus nunc, iaculis vel posuere
-    %h4
-      %a{href: "#"} ver más.
+  = render 'shared/us_sidebar'

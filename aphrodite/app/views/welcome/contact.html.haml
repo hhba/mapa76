@@ -9,11 +9,4 @@
         = f.pretty_text_area :message, placeholder: 'Message'
       = f.submit "Ingresar"
 
-  .side-bar.clearfix
-    %h3 Nosotros
-    %p
-      %strong Analice.me
-      %br/
-      Somos un grupo de periodistas, programadores, diseñadores y productores apasionados por la intersección entre la tecnología y la forma de contar historias, y la capacidad de la tecnología para resolver problemas y mejorar la calidad de los medios.
-    %h4
-      = link_to "ver más.", about_path
+  = render 'shared/us_sidebar'
