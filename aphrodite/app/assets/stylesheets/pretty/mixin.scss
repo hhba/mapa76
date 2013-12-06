@@ -146,6 +146,15 @@
 			background: lighten( $color-button, 10% );
 		}
 	}
+
+	@mixin tiny-bt {
+		float: left;
+		background: $color-bg-third-lvl;
+		padding: 0px 5px;
+		@include border-radius(3px);
+		font-size: $font-size-tiny;
+		@include secondary-link;
+	}
 //==========================================
 
 // Search 2 ================================
@@ -484,7 +493,7 @@
    
 // LOGO ====================================
 	@mixin website-logo {
-		background: url("#{$path-to-images}/analice_me.png") no-repeat top left;
+		background: url("#{$path-to-images}/logo.png") no-repeat top left;
 		width: 128px;
 		height: 35px;
 		float: left;
@@ -571,6 +580,11 @@
 					span a {
 						font-style: italic;
 					}
+				}
+				.back-bt {
+					position: relative;
+					float: right;
+					margin: 0;
 				}
 			}
 		} @else if $type == "doc-options" {

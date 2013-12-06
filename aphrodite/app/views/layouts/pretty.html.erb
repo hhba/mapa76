@@ -18,7 +18,7 @@
 </head>
   <body>
     <div class="container">
-      <div class="header-and-content">
+      <div class="header-and-content <%= yield(:special_class) %>">
         <div class="wrapper-header clearfix">
           <div class="header clearfix">
             <div class="logo">
@@ -34,7 +34,7 @@
         <%= yield %>
       </div>
     </div>
-    <div class="footer-secction">
+    <div class="footer-secction <%= yield(:special_class) %>">
       <%= yield(:footer) %>
       <div class="wrapper-footer">
         <div class="footer">
