@@ -25,7 +25,6 @@ module.exports = Backbone.Marionette.CompositeView.extend({
   },
 
   events: {
-    "click .selection-all": "toggleAll",
     "click .sort-title": "toggleSortTitle",
     "click .sort-date": "toggleSortDate",
     "click #order-for": "toggleSortMenu"
@@ -39,17 +38,16 @@ module.exports = Backbone.Marionette.CompositeView.extend({
   //+ INHERITED / OVERRIDES
   //--------------------------------------
 
-  /*
-  Disabled iCheck cause blowup native events
-
   onDomRefresh: function(){
-    this.ui.selectionAll.iCheck({
-      checkboxClass: 'icheckbox_flat-grey left',
-      radioClass: 'iradio_flat-grey left',
-      increaseArea: '20%'
-    });
+    this.ui.selectionAll
+      .iCheck({
+        checkboxClass: 'icheckbox_flat-grey left',
+        radioClass: 'iradio_flat-grey left',
+        increaseArea: '20%'
+      })
+      .on('ifChecked', this.onCheck.bind(this))
+      .on('ifUnchecked', this.onUncheck.bind(this));
   },
-  */
 
   //--------------------------------------
   //+ PUBLIC METHODS / GETTERS / SETTERS
@@ -71,8 +69,15 @@ module.exports = Backbone.Marionette.CompositeView.extend({
     this.ui.sortDate.toggleClass("asc").toggleClass("desc");
   },
 
-  toggleAll: function(){
-    var selected = this.ui.selectionAll.is(":checked");
+  onCheck: function(){
+    this.collection.toggleSelect(true);
+  },
+
+  onUncheck: function(){
+    this.collection.toggleSelect(false);
+  },
+
+  toggleAll: function(selected){
     this.collection.toggleSelect(selected);
   },
 

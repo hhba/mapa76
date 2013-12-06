@@ -44,8 +44,7 @@ module.exports = Backbone.Marionette.ItemView.extend({
 
   events: {
     "click .delete": "deleteDocument",
-    "click .flag": "flagDocument",
-    "click .selection": "toggleSelectDocument"
+    "click .flag": "flagDocument"
   },
 
   modelEvents: {
@@ -71,17 +70,15 @@ module.exports = Backbone.Marionette.ItemView.extend({
     }
   },
 
-  /*
-  Disabled iCheck cause blowup native events
-  
   onDomRefresh: function(){
     this.ui.selection.iCheck({
-      checkboxClass: 'icheckbox_flat-grey left',
-      radioClass: 'iradio_flat-grey left',
-      increaseArea: '20%'
-    });
+        checkboxClass: 'icheckbox_flat-grey left',
+        radioClass: 'iradio_flat-grey left',
+        increaseArea: '20%'
+      })
+      .on('ifChecked', this.onCheck.bind(this))
+      .on('ifUnchecked', this.onUncheck.bind(this));
   },
-  */
 
   //--------------------------------------
   //+ PUBLIC METHODS / GETTERS / SETTERS
@@ -92,15 +89,24 @@ module.exports = Backbone.Marionette.ItemView.extend({
   //--------------------------------------
 
   deleteDocument: function(){
-    this.model.destroy();
+    if(window.confirm("Se eliminará el documento " + this.model.get("title") + ", está seguro?")){
+      this.model.destroy();
+    }
   },
 
   flagDocument: function(){
     this.model.flag();
   },
 
-  toggleSelectDocument: function(){
-    var checked = this.ui.selection.is(":checked");
+  onCheck: function(){
+    this.toggleSelectDocument(true);
+  },
+
+  onUncheck: function(){
+    this.toggleSelectDocument(false);
+  },
+
+  toggleSelectDocument: function(checked){
     this.model.set("selected", checked);
   }
 
