@@ -1,3 +1,6 @@
+= content_for(:content_header) do
+  partners
+
 .main-content.home.clearfix
   .content.clearfix
     .content-caroufredsel.carouse2
@@ -43,19 +46,18 @@
         %label Fechas
 
 = content_for :footer do
-  .footer-secction.partners
-    .wrapper-prefooter
-      .prefooter
-        .partner-title
-          %h3 PARTNERS
-          .deco
-        .prefooter-caroufredsel.carouse2
-          %ul#prefooter-caroufredsel.slides.clearfix
-            %li
-              = image_tag 'partners/hhba.png'
-            %li
-              = image_tag 'partners/icfj.jpg'
-            %li
-              = image_tag 'partners/datospublicos.jpg'
-          %a#prev2.prev{href: "#"} <
-          %a#next2.next{href: "#"} >
+  .wrapper-prefooter
+    .prefooter
+      .partner-title
+        %h3 PARTNERS
+        .deco
+      .prefooter-caroufredsel.carouse2
+        %ul#prefooter-caroufredsel.slides.clearfix
+          %li
+            = image_tag 'partners/hhba.png'
+          %li
+            = image_tag 'partners/icfj.jpg'
+          %li
+            = image_tag 'partners/datospublicos.jpg'
+        %a#prev2.prev{href: "#"} <
+        %a#next2.next{href: "#"} >
