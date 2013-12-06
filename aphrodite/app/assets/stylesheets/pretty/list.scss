@@ -9,12 +9,15 @@
 				float:left;
 				width: 79px;
 				margin-right: 21px;
+				font-size: 21px;
 				.avatar {
 					float:left;
 					background:$color-white;
 					padding:4px;
 					margin-bottom: 12px;
-					img{}
+					img{
+						width: 86px;
+					}
 				}
 				.social-icon {
 					float:left;
