@@ -6,7 +6,7 @@ module.exports = function() {
       baseRoot: base.root
     , rootURL: (base.rootURL || base.root + "/api/") + (base.version || "v1")
     , imagesURL: base.root + "/images/"
-    , authKey: base.authKey
+    , authKey: "" // taken from body[data-user-auth]
     , headers: {
       xDocumentIds: "X-Document-Ids",
       authorization: "Authorization",

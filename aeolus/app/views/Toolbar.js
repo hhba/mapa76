@@ -63,7 +63,9 @@ module.exports = Backbone.Marionette.ItemView.extend({
   //--------------------------------------
 
   removeDocuments: function(){
-    this.model.get('documents').destroySelecteds();
+    if(window.confirm("Se eliminarán todos los documentos seleccionados, está seguro?")){
+      this.model.get('documents').destroySelecteds();
+    }
   },
 
   toggleNewDocument: function(){
