@@ -5,7 +5,8 @@
 
 var 
     template = require("./templates/toolbar.tpl")
-  , DocumentNew = require("./Project/DocumentNew");
+  , DocumentNew = require("./Project/DocumentNew")
+  , ExportDocuments = require("./Project/ExportDocuments");
 
 module.exports = Backbone.Marionette.ItemView.extend({
 
@@ -27,6 +28,7 @@ module.exports = Backbone.Marionette.ItemView.extend({
     "click .clear-search": "clearSearch",
 
     "click #upload": "toggleNewDocument",
+    "click #export": "toggleExport",
     "click #delete": "removeDocuments"
   },
 
@@ -35,6 +37,7 @@ module.exports = Backbone.Marionette.ItemView.extend({
   },
 
   newDocVisible: false,
+  exportDocsVisible: false,
 
   //--------------------------------------
   //+ INHERITED / OVERRIDES
@@ -83,6 +86,26 @@ module.exports = Backbone.Marionette.ItemView.extend({
     }
     
     this.newDocVisible = !this.newDocVisible;
+  },
+
+  toggleExport: function(){
+    if (!this.exportDocsVisible){
+      var exportDocs = new ExportDocuments({
+        model: this.model
+      });
+      
+      window.aeolus.app.modals.show(exportDocs);
+
+      var self = this;
+      exportDocs.on("close", function(){
+        self.exportDocsVisible = false;
+      });
+    }
+    else {
+      window.aeolus.app.modals.close(); 
+    }
+    
+    this.exportDocsVisible = !this.exportDocsVisible;
   },
 
   onSearchKeyup: function(e){
