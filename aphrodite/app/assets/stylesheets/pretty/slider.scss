@@ -12,20 +12,20 @@
 	}
 	#content-caroufredsel-pager {
 		text-align: center;
-		margin: 24px auto 18px auto;
-		width: 49px;
+		margin: 2px auto 28px auto;
+		width: 570px;
 		a {
 			background-image: url("#{$path-to-images}/slider_control.png");
 			background-repeat: no-repeat;
 			background-position: right 0;
-			width: 8px;
-			height: 8px;
+			width: 147px;
+			height: 34px;
 			text-indent: -99999px;
 			display: block;
 			float: left;
-			margin: 2px 2px;
+			margin: 2px -7px 2px 2px;
 			&.selected {
-				background-position: left 0;
+				
 			}
 			span {
 			}
@@ -33,6 +33,30 @@
 	}
 }
 
+.content-caroufredsel #content-caroufredsel-pager a {
+	background-image: url("#{$path-to-images}/item_1_off.png");
+	&.selected {
+		background-image: url("#{$path-to-images}/item_1_on.png");
+	}
+}
+.content-caroufredsel #content-caroufredsel-pager a+a {
+	background-image: url("#{$path-to-images}/item_2_off.png");
+	&.selected {
+		background-image: url("#{$path-to-images}/item_2_on.png");
+	}
+}
+.content-caroufredsel #content-caroufredsel-pager a+a+a {
+	background-image: url("#{$path-to-images}/item_3_off.png");
+	&.selected {
+		background-image: url("#{$path-to-images}/item_3_on.png");
+	}
+}
+.content-caroufredsel #content-caroufredsel-pager a+a+a+a {
+	background-image: url("#{$path-to-images}/item_4_off.png");
+	&.selected {
+		background-image: url("#{$path-to-images}/item_4_on.png");
+	}
+}
 
 //Slider prefooter ================================ 
 .prefooter-caroufredsel {

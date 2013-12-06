@@ -2,128 +2,124 @@
 @import "mixin";
 //People-list ==============================
 //example /examples/people-list.jpg
-.people-list {
-	li {
-		margin-bottom: 20px;
-		.left-info {
-			float:left;
-			width: 79px;
-			margin-right: 21px;
-			.avatar {
+	.people-list {
+		li {
+			margin-bottom: 20px;
+			.left-info {
 				float:left;
-				background:$color-white;
-				padding:4px;
-				margin-bottom: 12px;
-				img{
-					width: 85px;
+				width: 79px;
+				margin-right: 21px;
+				.avatar {
+					float:left;
+					background:$color-white;
+					padding:4px;
+					margin-bottom: 12px;
+					img{}
+				}
+				.social-icon {
+					float:left;
+					margin-left:7px;
+				}
+				.avatar+.social-icon {
+					margin-left: 0px;
+					clear: left;
 				}
 			}
-			.social-icon {
-				float:left;
-				margin-left:7px;
-				font-size: 21px;
-			}
-			.avatar+.social-icon {
-				margin-left: 0px;
-				clear: left;
-			}
-		}
-		.right-info {
-			.name {
-				@include opensans-semibold;
-				font-size: $font-size-large;
-			}
-			.mail {
-				margin-top: -5px;
-				font-size: $font-size-small;
-				margin-bottom: 2px;
-			}
-			p {
-				margin-left: 100px;
+			.right-info {
+				.name {
+					@include opensans-semibold;
+					font-size: $font-size-large;
+				}
+				.mail {
+					margin-top: -5px;
+					font-size: $font-size-small;
+					margin-bottom: 2px;
+				}
+				p {
+					margin-left: 100px;
+				}
 			}
 		}
 	}
-}
 //=======================================
 //Partners-list =========================
 //example /examples/partners-list.jpg
-.partners-list {
-	.partner {
-		margin-bottom: 20px;
-		.left-part {
-			float: left;
-			margin-right: 14px;
-			.logo {
-				img{}
-			}
-		}
-		.rigth-part {
-			.partner-name {
-				font-size: $font-size-tiny;
-				text-transform: uppercase;
-				color: $color-secondary-text;
-			}
-			.website {
-				margin-top: -7px;
-				a {
-					@include secondary-link;
-					font-size: $font-size-tiny;
-				}
-			}
-		}
-	}
-}
-
-
-// info-list ============================
-//example /examples/info-list.jpg
-.info-list {
-	width: 100%;
-	li {
-		margin: 0 16px;
-		padding: 17px 0;
-		border-bottom: 1px dotted $color-lines;
-		@include opensans-semibold;
-		
-		.wrapper {
-			position: relative;
-			label{
-				font-size: $font-size-small;
-				margin-right: 54px;
+	.partners-list {
+		.partner {
+			margin-bottom: 20px;
+			.left-part {
 				float: left;
-			}
-			.result {
-				position: absolute;
-				right: 0px;
-				top: 0px;
-				float: right;
-				.value {
-					float: left;
-					background: $color-bg-third-lvl;
-					height: 17px;
-					padding: 0px 7px;
-					border-radius: 2px;
-					line-height: 18px;
+				margin-right: 14px;
+				.logo {
+					img{}
 				}
-				.view-more {
-					width: 18px;
-					height: 18px;
-					float: left;
-					background-image:  url("#{$path-to-images}/icon_add.png");
-					background-repeat: no-repeat;
-					background-position-x: right;
-					background-position-y: 0;
-					cursor: pointer;
-					&:hover {
-						background-position-x: left;
+			}
+			.rigth-part {
+				.partner-name {
+					font-size: $font-size-tiny;
+					text-transform: uppercase;
+					color: $color-secondary-text;
+				}
+				.website {
+					margin-top: -7px;
+					a {
+						@include secondary-link;
+						font-size: $font-size-tiny;
 					}
 				}
 			}
 		}
 	}
-}
 //=======================================
 
+// info-list ============================
+//example /examples/info-list.jpg
+	.info-list {
+		width: 100%;
+		li {
+			margin: 0 16px;
+			padding: 17px 0;
+			border-bottom: 1px dotted $color-lines;
+			@include opensans-semibold;
+			
+			.wrapper {
+				position: relative;
+				label{
+					font-size: $font-size-small;
+					margin-right: 54px;
+					float: left;
+				}
+				.result {
+					position: absolute;
+					right: 0px;
+					top: 0px;
+					float: right;
+					.value {
+						float: left;
+						background: $color-bg-third-lvl;
+						height: 17px;
+						padding: 0px 7px;
+						border-radius: 2px;
+						line-height: 18px;
+					}
+					.view-more {
+						width: 18px;
+						height: 18px;
+						float: left;
+						background-image:  url("#{$path-to-images}/icon_add.png");
+						background-repeat: no-repeat;
+						background-position-x: right;
+						background-position-y: 0;
+						cursor: pointer;
+						&:hover {
+							background-position-x: left;
+						}
+					}
+				}
+			}
+		}
+	}
+//=======================================
 
 // view-more-list =======================
 //example /examples/view-more-list.jpg
@@ -207,7 +203,6 @@
 			}
 		}
 	}
-
 //=======================================
 
 // view-more-list-lvl2 ==================
@@ -254,7 +249,7 @@
 //=======================================
 
 /* View more doc ================== */
-	//example /examples/view-more-doc.view-more-list.jpg
+//example /examples/view-more-doc.view-more-list.jpg
 	.view-more-doc.view-more-list {
 		@include border-radius (3px);
 		top: 375px;
@@ -396,6 +391,67 @@
 		}
 		li.selected {
 			background: $color-bg-fifth-lvl;
+		}
+	}
+//=======================================
+
+// search-result ==================
+//example /examples/documents-list.jpg
+	.search-result {
+		li.item-list {
+			border-bottom: 1px solid $color-lines;
+			padding: 15px 27px;
+			.col1 {
+				float: left;
+				position: absolute;
+			}
+			.col2 {
+				float: left;
+				padding-left: 27px;
+				width: 100%;
+				.doc-name {
+					@include montserrat-bold;
+					font-size: $font-size-large;
+					float: left;
+				}
+				.doc-date {
+					float: left;
+					clear: both;
+					font-size: $font-size-tiny;
+					line-height: 18px;
+				}
+				.progress-bar {
+					position: absolute;
+					right: -349px;
+				}
+			}
+			.results {
+				clear: both;
+				margin-left: 24px;
+				padding-top: 5px;
+				li {
+					border-bottom: 1px solid $color-lines;
+					&:last-child { border: 0px; }
+					label.doc-info {
+						font-family: "opensans-light";
+						font-style: italic;
+						margin: 0;
+						clear: both;
+						padding: 7px 0 0 0;
+						font-size: 12px;
+						float: left;
+					}
+					.go-doc {
+						a {
+							margin: 7px 0px 4px 10px;
+							@include tiny-bt;
+						}
+					}
+					p {
+						clear: both;
+					}
+				}
+			}
 		}
 	}
 //=======================================

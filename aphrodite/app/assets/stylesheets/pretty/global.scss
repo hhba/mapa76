@@ -210,6 +210,12 @@ textarea {
 	margin:5px;
 }
 
+//aplica a los <A>
+.back-bt {
+	font-size: 11px;
+text-transform: uppercase;
+	@include arrow-deco (left, 8px, $color-primary-link, initial, 2px, -14px);
+}
 /* header */
 .header input:not([type]), 
 .header input[type="color"], 
@@ -785,16 +791,25 @@ textarea {
 						top: 85px;
 						bottom: 0;
 						.box-content-actions {}
-						.doc {
-							margin: 33px 17px;
-							position: absolute;
-							top: 60px;
-							bottom: 0;
-							overflow-y: auto;
-							padding: 16px;
+							.wrapper-doc {
+								position: absolute;
+								top: 64px;
+								bottom: 0;
+								overflow-y: auto;
+								padding: 16px;
+								.doc {}
 						}
+						.search-result,
 						.documents-list {
-							overflow: auto;
+							overflow-y: auto;
+							overflow-x: hidden;
+							position: absolute;
+							margin-top: 41px;
+							min-height: 309px;
+							left: 0;
+							right: 0;
+							bottom: 0;
+							top: 0;
 						}
 					}
 				}
@@ -961,19 +976,26 @@ textarea {
  	.eye-list {
  		float: left;
  	}
- 	.doc {
- 		margin: 33px;
- 		.doc-info {
- 			margin-bottom: 20px;
- 			.doc-date {}
- 			.file-name {}
- 		}
- 		p {
- 			@include opensans-semibold;
- 			font-size: $font-size-small;
- 			text-align: justify;
- 			color:$color-darck-text;
- 		}
+ 	.wrapper-doc {
+ 		.margin: 17px;
+	 	.doc {
+	 		padding: 33px 33px 20px 33px;
+	 		border-bottom: 1px dotted $color-lines;
+	 		&:first-child {
+	 			padding-top: 15px;
+	 		}
+	 		.doc-info {
+	 			margin-bottom: 20px;
+	 			.doc-date {}
+	 			.file-name {}
+	 		}
+	 		p {
+	 			@include opensans-semibold;
+	 			font-size: $font-size-small;
+	 			text-align: justify;
+	 			color:$color-darck-text;
+	 		}
+	 	}
  	}
  }
 /* ================================ */
@@ -1010,7 +1032,7 @@ textarea {
 					@include transition(all, 0.2s, ease-in-out);
 					&:focus {
 						@include transition(all, 0.2s, ease-in-out);
-						height: 14px;
+						height: 10px;
 						margin-top: -4px;
 						width: 40px;
 						font-size: $font-size-large;
