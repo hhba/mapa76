@@ -35,4 +35,5 @@ $(document).ready(function(){
       pauseOnHover  : true
     }
   });
+  $('input, textarea').placeholder();
 });
