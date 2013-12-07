@@ -7,57 +7,22 @@
   <link rel="icon" href="/favicon.ico"/>
   <meta name="author" content="mausedar"/>
   <%= stylesheet_link_tag 'pretty', media: 'all' %>
-  <%= javascript_include_tag "pretty" %>
   <%= yield(:head) %>
   <title><%= content_for?(:title) ? yield(:title) : "Analice.me" %></title>
-
-  <!-- IE placeholder function -->
-  <script>
-    $(function() { $('input, textarea').placeholder();});
-  </script>
 </head>
-  <body>
-    <div class="container">
-      <div class="header-and-content <%= yield(:special_class) %>">
-        <div class="wrapper-header clearfix">
-          <div class="header clearfix">
-            <div class="logo">
-              <% if current_user %>
-                <%= link_to '', documents_path %>
-              <% else %>
-                <%= link_to '', root_path %>
-              <% end %>
-            </div>
-            <%= render 'shared/sign_in' %>
-          </div>
-        </div>
-        <%= yield %>
-      </div>
+<body>
+  <div class="container">
+    <div class="header-and-content <%= yield(:special_class) %>">
+      <%= render 'shared/header' %>
+      <%= yield %>
     </div>
-    <div class="footer-secction <%= yield(:special_class) %>">
-      <%= yield(:footer) %>
-      <div class="wrapper-footer">
-        <div class="footer">
-          <div class="footer-right">
-            <p>
-            <%= link_to 'https://github.com/hhba/mapa76' do %>
-              <i class="foundicon-social-github"></i>
-            <% end %>
-            GPL v2.0
-            </p>
-          </div>
-          <ul class="footer-menu">
-            <li><%= link_to 'Nosotros', about_path %></li>
-            <li><%= link_to 'Términos de uso', terms_path %></li>
-            <li><%= link_to 'Contacto', contact_path %></li>
-          </ul>
-        </div>
-      </div>
+  </div>
+  <%= render 'shared/footer' %>
+  <% if flash[:notice] %>
+    <div class="sys-success">
+      <p><%= flash[:notice] %></p>
     </div>
-    <% if flash[:notice] %>
-      <div class="sys-success">
-        <p><%= flash[:notice] %></p>
-      </div>
-    <% end %>
-  </body>
+  <% end %>
+  <%= javascript_include_tag "pretty" %>
+</body>
 </html>

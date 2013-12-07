@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+  <meta name="classification" content=""/>
+  <link rel="icon" href="/favicon.ico"/>
+  <meta name="author" content="malev"/>
+  <%= stylesheet_link_tag 'pretty', media: 'all' %>
+  <%= yield(:head) %>
+  <title><%= content_for?(:title) ? yield(:title) : "Analice.me" %></title>
+</head>
+<body class="index-mapa76" data-user-auth="<%= current_user.access_token %>">
+  <div class="container">
+    <div class="wrapper-header header-secction clearfix">
+      <div class="header-pp clearfix">
+        <div class="logo"><a href="index.html"></a></div>
+        <div class="user-login">
+          <div tabindex="1" class="xx wrapper-dropdown" id="dd">
+            <span><a href="#">Nombre de Usuario</a></span>
+            <ul class="dropdown">
+              <li><a href="#"><i class=""></i>Mi Perfil</a></li>
+              <li><a href="#"><i class=""></i>Serrar Sesión</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="header-and-content content-secction">
+      <%= yield %>
+    </div>
+  </div>
+  <%= render 'shared/footer' %>
+  <%= javascript_include_tag 'aeolus' %>
+  <%= yield(:outside) %>
+</body>
+</html>
+
+<div class="wrapper-header header-secction clearfix">
+        <div class="header-pp clearfix">
+          <div class="logo"><a href="index.html"></a></div>
+          <div class="user-login">
+            <div tabindex="1" class="xx wrapper-dropdown" id="dd">
+              <span><a href="#">Nombre de Usuario</a></span>
+              <ul class="dropdown">
+                <li><a href="#"><i class=""></i>Mi Perfil</a></li>
+                <li><a href="#"><i class=""></i>Serrar Sesión</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
