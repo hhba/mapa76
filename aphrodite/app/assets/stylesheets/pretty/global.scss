@@ -772,6 +772,11 @@ text-transform: uppercase;
 								ul.info-list {}
 							}
 						}
+						&.drawer-dates {
+							.drawer-content {
+								margin-top: 157px;
+							}
+						}
 					}
 				}
 				.content {
@@ -810,6 +815,22 @@ text-transform: uppercase;
 							right: 0;
 							bottom: 0;
 							top: 0;
+						}
+						.wrapper-doc-lis {
+							position: absolute;
+							top: 254px;
+							left: 0;
+							right: 0;
+							bottom: 0;
+							.documents-list-small {
+								overflow-y: auto;
+								position: absolute;
+								top: 41px;
+								bottom:0px;
+								left: 0px;
+								right: 0px;
+								min-height: 47px;
+							}
 						}
 					}
 				}
@@ -1059,6 +1080,75 @@ text-transform: uppercase;
 	}
 /* ================================ */
 
+/* Map ============================ */
+	.map {
+		border: 2px solid #8d201d;
+		padding: 0px;
+		margin: 0px 1px 0 0;
+	}
+/* ================================ */
 
+/* range-selector ================= */
+	.wrapper-range-selector {
+		margin: 19px 27px 0 23px;
+		.eyes-start-end {
+			margin: 10px 0 0 0;
+			.from,
+			.start {
+				float: left;
+			}
+			.to,
+			.end {
+				float: right;
+			}
+			.start,
+			.end {
+				width: 28px;
+				margin: 0;
+				padding: 0 5px;
+
+			}
+			.to,
+			.from {
+				margin-right: 5px;
+				margin-top: 1px;
+			}
+		}
+	}
+/* ================================ */
+
+/* qtip (tooltip) ================= */
+body .qtip-default {
+	@include arrow-deco 	 (right, 7px, #F8F8F8, -7px, 4px);
+	@include arrow-deco-line (right, 7px, #fff, -10px, 4px);
+	border-width: 3px;
+	border-style: solid;
+	border-color: #Fff;
+	background-color: #F8F8F8;
+	color: #555;
+	box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.22);
+	border-radius: 5px;
+}
+body .qtip {
+	position: absolute;
+	left: 0;
+	top: 0;
+	display: none;
+	max-width: 280px;
+	min-width: 50px;
+	font-size: 10.5px;
+	line-height: 12px;
+	direction: ltr;
+	padding: 0;
+	}
+
+body .qtip-content {
+	position: relative;
+	padding: 5px 9px;
+	overflow: hidden;
+	text-align: left;
+	word-wrap: break-word;
+}
+/* ================================ */
 
 
