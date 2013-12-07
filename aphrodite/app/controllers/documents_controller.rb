@@ -5,6 +5,10 @@ class DocumentsController < ApplicationController
   helper_method :sort_column, :sort_direction
 
   def index
+    render layout: 'aeolus'
+  end
+
+  def list
     @documents = Document.where(user_id: current_user.id).order_by(order)
   end
 

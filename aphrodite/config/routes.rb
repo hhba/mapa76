@@ -30,6 +30,7 @@ Mapa76::Application.routes.draw do
 
     collection do
       get 'search'
+      get 'list'
       post 'link'
     end
   end
