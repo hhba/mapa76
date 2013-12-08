@@ -31,22 +31,23 @@
     </div>
   </div>
   <%= render 'shared/footer' %>
+  <div class="wrapper-header header-secction clearfix">
+    <div class="header-pp clearfix">
+      <div class="logo"><a href="index.html"></a></div>
+      <div class="user-login">
+        <div tabindex="1" class="xx wrapper-dropdown" id="dd">
+          <span><a href="#">Nombre de Usuario</a></span>
+          <ul class="dropdown">
+            <li><a href="#"><i class=""></i>Mi Perfil</a></li>
+            <li><a href="#"><i class=""></i>Serrar Sesión</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
   <%= javascript_include_tag 'aeolus' %>
+  <script type="text/javascript" src="/js/vendor.js"></script>
+  <script type="text/javascript" src="/js/app.js"></script>
   <%= yield(:outside) %>
 </body>
 </html>
-
-<div class="wrapper-header header-secction clearfix">
-        <div class="header-pp clearfix">
-          <div class="logo"><a href="index.html"></a></div>
-          <div class="user-login">
-            <div tabindex="1" class="xx wrapper-dropdown" id="dd">
-              <span><a href="#">Nombre de Usuario</a></span>
-              <ul class="dropdown">
-                <li><a href="#"><i class=""></i>Mi Perfil</a></li>
-                <li><a href="#"><i class=""></i>Serrar Sesión</a></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
