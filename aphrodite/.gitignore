@@ -24,5 +24,4 @@ config/elasticsearch.yml
 
 # Ignore application configuration
 /config/application.yml
-/public/js/*
-
+/app/assets/javascripts/aeolus/*.js
