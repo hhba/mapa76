@@ -1,0 +1,23 @@
+require 'yaml'
+
+APP_ENV = ENV["APP_ENV"] ||= "stage"
+
+env = YAML.load(File.open('environments.yml').read)[APP_ENV]
+
+desc "Build the website from source"
+task :build do
+  puts "## Building website"
+  status = system("grunt #{APP_ENV}")
+  puts status ? "OK" : "FAILED"
+end
+
+desc "Deploy website via rsync"
+task :deploy do
+  puts "## Deploying website via rsync to #{env['host']}"
+  status = system("rsync -avze 'ssh' --delete dist/ #{env['user']}@#{env['host']}:#{env['host']}")
+  puts status ? "OK" : "FAILED"
+end
+
+desc "Build and deploy website"
+  task :gen_deploy => [:build, :deploy] do
+end

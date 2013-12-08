@@ -1,0 +1,4 @@
+stage:
+  user: youruser
+  host: example.org
+  dir:  /home/user/yourapp
