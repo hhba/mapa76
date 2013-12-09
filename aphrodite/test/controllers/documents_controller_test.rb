@@ -36,6 +36,17 @@ describe DocumentsController do
       sign_in user
     end
 
+    describe 'GET #export' do
+      it '' do
+        exporter = stub
+        exporter.expects(:public_send).with('export_organizations')
+        Document.expects(:find).with([document.id.to_s]).returns([document])
+        CSVExporterService.expects(:new).with([document], 'http://test.host/').
+          returns(exporter)
+        get :export, ids: document.id.to_s, class: 'organizations'
+      end
+    end
+
     describe 'POST #link' do
       context 'url as an argument' do
         it '' do
