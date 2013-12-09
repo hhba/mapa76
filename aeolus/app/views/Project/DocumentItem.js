@@ -26,7 +26,7 @@ module.exports = Backbone.Marionette.ItemView.extend({
 
     return {
       urls: {
-        preview: baseUrl + "/comb",
+        preview: baseUrl,
         file: baseUrl + "/download",
         export: baseUrl + "/export"
       },
