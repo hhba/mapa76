@@ -17,10 +17,24 @@
         <div class="logo"><a href="index.html"></a></div>
         <div class="user-login">
           <div tabindex="1" class="xx wrapper-dropdown" id="dd">
-            <span><a href="#">Nombre de Usuario</a></span>
+            <span><a href="#">Menú</a></span>
             <ul class="dropdown">
-              <li><a href="#"><i class=""></i>Mi Perfil</a></li>
-              <li><a href="#"><i class=""></i>Serrar Sesión</a></li>
+              <li>
+                <i class=""></i>
+                <%= link_to 'Nosotros', about_path %>
+              </li>
+              <li>
+                <i class=""></i>
+                <%= link_to 'Términos de uso', terms_path %>
+              </li>
+              <li>
+                <i class=""></i>
+                <%= link_to 'Contacto', contact_path %>
+              </li>
+              <li>
+                <i class=""></i>
+                <%= link_to 'Cerrar sesión', destroy_user_session_path, :method => :delete %>
+              </li>
             </ul>
           </div>
         </div>
@@ -31,20 +45,6 @@
     </div>
   </div>
   <%= render 'shared/footer' %>
-  <div class="wrapper-header header-secction clearfix">
-    <div class="header-pp clearfix">
-      <div class="logo"><a href="index.html"></a></div>
-      <div class="user-login">
-        <div tabindex="1" class="xx wrapper-dropdown" id="dd">
-          <span><a href="#">Nombre de Usuario</a></span>
-          <ul class="dropdown">
-            <li><a href="#"><i class=""></i>Mi Perfil</a></li>
-            <li><a href="#"><i class=""></i>Serrar Sesión</a></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
   <%= javascript_include_tag 'aeolus' %>
   <%= yield(:outside) %>
 </body>
