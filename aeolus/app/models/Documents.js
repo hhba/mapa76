@@ -86,11 +86,15 @@ module.exports = Backbone.Collection.extend({
       context: this
     }).done(function(foundDocs){
       this.reset(foundDocs, { parse: true });
+      this.isSearch = true;
+      this.trigger("searching");
     });
   },
 
   clearSearch: function(){
     this.fetch({ reset: true });
+    this.isSearch = false;
+    this.trigger("clearSearch");
   }
 
 });

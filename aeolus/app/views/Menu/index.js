@@ -23,7 +23,8 @@ module.exports = Backbone.Marionette.Layout.extend({
 
   ui: {
     modal: ".menu-modal",
-    links: ".group-b a"
+    links: ".group-b a",
+    content: ".menu-modal .content"
   },
 
   regions: {
@@ -77,6 +78,8 @@ module.exports = Backbone.Marionette.Layout.extend({
   },
 
   loadContent: function(item){
+    window.aeolus.app.modalMentions.close();
+    
     this.ui.links
       .removeClass("active")
       .filter("[data-menu=" + item + "]").addClass("active");
@@ -100,6 +103,10 @@ module.exports = Backbone.Marionette.Layout.extend({
 
     this.header.show(header);
     this.content.show(content);
+
+    this.ui.content.on("scroll", function(){
+      window.aeolus.app.modalMentions.close();
+    });
 
     header.on("filter", function(keyword){
        $("li", content.$el)

@@ -21,17 +21,22 @@ module.exports = Backbone.Marionette.CompositeView.extend({
     selectionAll: ".selection-all",
     sortTitle: ".sort-title",
     sortDate: ".sort-date",
-    sortMenu: "#order-for"
+    sortMenu: "#order-for",
+    docsList: "ul.documents",
+    backButton: ".back-bt",
+    clearSearch: ".clear-search"
   },
 
   events: {
     "click .sort-title": "toggleSortTitle",
     "click .sort-date": "toggleSortDate",
-    "click #order-for": "toggleSortMenu"
+    "click #order-for": "toggleSortMenu",
+    "click .clear-search": "clearSearch"
   },
 
   collectionEvents: {
-    "add": "scrollBottom"
+    "add": "scrollBottom",
+    "searching": "updateCSSClass searching"
   },
 
   //--------------------------------------
@@ -56,6 +61,15 @@ module.exports = Backbone.Marionette.CompositeView.extend({
   //--------------------------------------
   //+ EVENT HANDLERS
   //--------------------------------------
+
+  clearSearch: function(){
+    this.ui.backButton.hide();
+    this.collection.clearSearch();
+  },
+
+  searching: function(){
+    this.ui.backButton.show();
+  },
 
   toggleSortTitle: function(){
     var order = this.ui.sortTitle.hasClass("desc") ? "asc" : "desc";
@@ -92,6 +106,15 @@ module.exports = Backbone.Marionette.CompositeView.extend({
   //--------------------------------------
   //+ PRIVATE AND PROTECTED METHODS
   //--------------------------------------
+
+  updateCSSClass: function(){
+    if (this.collection.isSearch){
+      this.ui.docsList.addClass("search-result");
+    }
+    else {
+      this.ui.docsList.removeClass("search-result");
+    }
+  },
 
   scrollBottom: function(){
     //TODO: send UL scroll to bottom to reflect the new documents added.

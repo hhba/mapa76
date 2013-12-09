@@ -22,7 +22,8 @@ module.exports = function(type){
     toolbar: ".toolbar",
     content: ".box-content",
     menu: ".vertical-toolbar",
-    modals: "#modal-container"
+    modals: "#modal-container",
+    modalMentions: "#mentions-modal-container"
   });
 
   function initializeProject() {
