@@ -14,12 +14,13 @@ module.exports = Backbone.Marionette.CompositeView.extend({
   //--------------------------------------
 
   template: template,
+  className: "view-more-list",
   itemViewContainer: ".mentions",
   itemView: Mention,
 
   events: {
     "click .more-list-close": "close"
-  }
+  },
 
   //--------------------------------------
   //+ INHERITED / OVERRIDES

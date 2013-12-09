@@ -12,6 +12,7 @@ module.exports = Backbone.Marionette.CollectionView.extend({
   //--------------------------------------
 
   tagName: "ul",
+  className: "results",
   itemView: DocumentHighlight,
 
   itemViewOptions: function(){

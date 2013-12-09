@@ -229,6 +229,7 @@ module.exports = function(grunt) {
     "copy:dist"
   ]);
 
+  grunt.registerTask("local", ["default"]);
   grunt.registerTask("w", ["default", "watch:local"]);
   grunt.registerTask("ws", ["stage", "watch:stage"]);
 };

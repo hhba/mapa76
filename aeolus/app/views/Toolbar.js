@@ -19,14 +19,11 @@ module.exports = Backbone.Marionette.ItemView.extend({
 
   ui: {
     multiOptions: ".multi",
-    searchBox: "#search",
-    clearSearch: ".clear-search"
+    searchBox: "#search"
   },
 
   events: {
     "keyup #search": "onSearchKeyup",
-    "click .clear-search": "clearSearch",
-
     "click #upload": "toggleNewDocument",
     "click #export": "toggleExport",
     "click #delete": "removeDocuments"
@@ -45,6 +42,10 @@ module.exports = Backbone.Marionette.ItemView.extend({
 
   initialize: function(options){
     this.documentView = options.documentView;
+
+    if (!this.documentView){
+      this.model.get('documents').on("clearSearch", this.clearSearch.bind(this));
+    }
   },
 
   onDomRefresh: function(){
@@ -117,8 +118,6 @@ module.exports = Backbone.Marionette.ItemView.extend({
 
   clearSearch: function(){
     this.ui.searchBox.val("");
-    this.ui.clearSearch.hide();
-    this.model.get('documents').clearSearch();
   },
 
   //--------------------------------------
@@ -141,7 +140,6 @@ module.exports = Backbone.Marionette.ItemView.extend({
   searchDocuments: function(){
     var query = this.ui.searchBox.val();
     if (query){
-      this.ui.clearSearch.show();
       this.model.get('documents').search(query);
     }
   }

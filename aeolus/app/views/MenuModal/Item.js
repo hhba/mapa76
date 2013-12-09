@@ -15,7 +15,7 @@ module.exports = Backbone.Marionette.ItemView.extend({
   tagName: "li",
   
   ui: {
-    mentions: ".mentions-ctn"
+    viewMoreLink: ".view-more"
   },
 
   events: {
@@ -42,13 +42,14 @@ module.exports = Backbone.Marionette.ItemView.extend({
         collection: this.model.get("mentioned_in")
       });
 
-      mentions.render();
+      window.aeolus.app.modalMentions.show(mentions);
 
-      this.ui.mentions.empty().show().append(mentions.$el).show();
+      var pos = this.ui.viewMoreLink.offset();
+      var pad = (this.$el.outerHeight() - this.$el.height() )/2;
 
-      var self = this;
-      mentions.on("close", function(){
-        self.ui.mentions.hide().empty();
+      mentions.$el.css({
+        top: pos.top + pad,
+        right: 73
       });
     }
   }
