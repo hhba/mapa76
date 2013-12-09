@@ -111,7 +111,7 @@ class DocumentsController < ApplicationController
     if %w{ people dates places organizations }.include?(cls)
       send_data exporter.public_send("export_#{cls}"),
                 type: 'text/csv',
-                filename: "#{exporter.original_filename}__#{cls}.csv"
+                filename: "analiceme_#{cls}_#{Time.now.to_i}.csv"
     end
   rescue Mongoid::Errors::DocumentNotFound
     render text: nil, status: 404
