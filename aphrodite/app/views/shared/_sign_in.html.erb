@@ -12,16 +12,7 @@
   <% else %>
     <div id="dd" class="xx wrapper-dropdown">
       <span><a href="#" class='menu'><%= current_user.email %></a></span>
-      <ul class="dropdown">
-        <li>
-          <i class=""></i>
-          <%= link_to 'Mis documentos', documents_path %>
-        </li>
-        <li>
-          <i class=""></i>
-          <%= link_to 'Cerrar sesión', destroy_user_session_path, :method => :delete %>
-        </li>
-      </ul>
+      <%= render 'shared/user_dropdown' %>
     </div>
   <% end -%>
 </div>
