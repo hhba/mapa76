@@ -2,46 +2,6 @@ require 'test_helper'
 
 describe DocumentsController do
   describe 'GET #index' do
-    context 'Sorting' do
-      let(:user){ FactoryGirl.create :user }
-      let(:relation) { mock() }
-
-      before do
-        # Don't render views on this tests
-        @controller.expects(:render)
-
-        sign_in user
-      end
-
-      it 'sorts by created_at desc by default' do
-        relation.expects(:order_by).with("created_at desc")
-        Document.expects(:where).returns(relation)
-
-        get :index
-      end
-
-      it 'sorts by created_at asc' do
-        relation.expects(:order_by).with("created_at asc")
-        Document.expects(:where).returns(relation)
-
-        get :index, direction: 'asc'
-      end
-
-      it 'sorts by title desc' do
-        relation.expects(:order_by).with("title desc")
-        Document.expects(:where).returns(relation)
-
-        get :index, sort: 'title'
-      end
-
-      it 'handles wrong parameters' do
-        relation.expects(:order_by).with("created_at desc")
-        Document.expects(:where).returns(relation)
-
-        get :index, sort: 'something', direct: 'wrong'
-      end
-    end
-
     context 'List documents' do
       let(:user) { FactoryGirl.create :user }
       let(:document) { FactoryGirl.create :document }
@@ -127,7 +87,6 @@ describe DocumentsController do
         assert_response :success
         assert_template :show
         assert_not_nil assigns(:document)
-        assert_select 'h1.title', document.title
       end
     end
 

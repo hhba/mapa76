@@ -1,24 +1,47 @@
 require 'csv'
 
 class CSVExporterService
-  attr_reader :document
+  attr_reader :documents
 
-  def initialize(document, hostname='')
-    @hostname = hostname.blank? ? 'http://mapa76.info/' : hostname
-    @document = document
+  def initialize(documents = [], hostname='')
+    @hostname = hostname.blank? ? 'http://analice.me/' : hostname
+    @documents = documents
   end
 
   def export_people
     CSV.generate do |csv|
-      csv << %w[PersonID Name Mentions].concat(document_info_str)
-      document.people.each do |person|
-        csv << [person.id, person.name, mentions(person)].concat(document_info)
+      documents.each do |document|
+        csv << %w[PersonID Name Mentions].concat(document_info_str)
+        document.people.each do |person|
+          csv << [person.id, person.name, mentions_for(person, document)].
+            concat(info_for(document))
+        end
       end
     end
   end
 
-  def mentions(person)
-    person.mentions.fetch(document.id.to_s, 0)
+  def export_places
+    CSV.generate do |csv|
+      documents.each do |document|
+        csv << %w[PlaceID Name Mentions].concat(document_info_str)
+        (document.addresses + document.places).each do |place|
+          csv << [place.id, place.name, mentions_for(place, document)].
+            concat(info_for(document))
+        end
+      end
+    end
+  end
+
+  def export_organizations
+    CSV.generate do |csv|
+      documents.each do |document|
+        csv << %w(OrganizationId Name Mentions).concat(document_info_str)
+        document.organizations.each do |org|
+          csv << [org.id, org.name, mentions_for(org, document)].
+            concat(info_for(document))
+        end
+      end
+    end
   end
 
   def export_dates
@@ -26,69 +49,28 @@ class CSVExporterService
       %w{ document_id text lemma tag prob pos sentence_pos page_num time })
   end
 
-  def export_places
-    places_groups = (document.places_found + document.addresses_found).group_by(&:text)
-    CSV.generate do |csv|
-      csv << %w[Place Mentions].concat(document_info_str)
-      places_groups.each do |group|
-        place = group.first
-        csv << [place, group.count].concat(document_info)
-      end
-    end
+  def mentions_for(entity, document)
+    entity.mentions.fetch(document.id.to_s, 0)
   end
 
-  def export_organizations
-    organization_groups = document.organizations_found.group_by(&:text)
-    CSV.generate do |csv|
-      csv << %w(Name Mentions).concat(document_info_str)
-      organization_groups.each do |group|
-        org = group.first
-        csv << [org, group.count].concat(document_info)
-      end
-    end
+  def created_at(document)
+    document.created_at.strftime("%m/%d/%Y - %H:%M")
   end
 
-  def original_filename
-    @original_filename ||= document.original_filename
+  def link_to(document)
+    "#{@hostname}documents/#{document._id}/"
   end
 
-  def title
-    @title ||= document.title
-  end
-
-  def date
-    @date ||= document.created_at.strftime("%m/%d/%Y - %H:%M")
-  end
-
-  def link_to_doc
-    "#{@hostname}documents/#{@document._id}/comb"
-  end
-
-  def document_info
-    [document.title, original_filename, date, link_to_doc]
+  def info_for(document)
+    [
+      document.title,
+      document.original_filename,
+      created_at(document),
+      link_to(document)
+    ]
   end
 
   def document_info_str
     %w[Title Filename Date DocumentId link_to_doc]
-  end
-
-private
-
-  def export(finders, keys)
-    finders = Array(finders)
-    CSV.generate do |csv|
-      csv << keys + ['Title', 'Filename', 'Date', 'link_to_doc']
-      finders.each do |finder|
-        document.public_send(finder).each do |ne|
-          row = keys.map { |k| ne.respond_to?(k) ? ne.public_send(k) : nil }
-          row << title
-          row << original_filename
-          row << date
-          row << link_to_doc
-
-          csv << row
-        end
-      end
-    end
   end
 end

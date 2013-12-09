@@ -24,13 +24,13 @@ Mapa76::Application.routes.draw do
       get  'context'
       get  'comb'
       get  'download'
-      get  'export'
       post 'flag'
     end
 
     collection do
-      get 'search'
-      get 'list'
+      get  'search'
+      get  'export'
+      get  'list'
       post 'link'
     end
   end
@@ -56,8 +56,8 @@ Mapa76::Application.routes.draw do
         end
 
         collection do
-          get    :status
-          get    :search
+          get :status
+          get :search
         end
       end
       delete 'documents' => 'documents#destroy'
