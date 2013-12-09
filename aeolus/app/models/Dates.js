@@ -6,7 +6,7 @@ module.exports = Backbone.Collection.extend({
   model: DateModel,
 
   url: function(){
-    return aeolus.rootURL + "/dates"; 
+    return aeolus.rootURL + "/date_entities"; 
   }
 
 });

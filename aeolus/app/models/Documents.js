@@ -35,7 +35,6 @@ module.exports = Backbone.Collection.extend({
       context: this
     }).done(function(docs){
       this.set(docs, { remove: false });
-      this.trigger("reset");
     });
   },
 
