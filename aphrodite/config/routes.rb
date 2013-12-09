@@ -46,10 +46,12 @@ Mapa76::Application.routes.draw do
       resources :people
       resources :organizations
       resources :places
+      resources :date_entities
       resources :documents do
         resources :people
         resources :organizations
         resources :places
+        resources :date_entities
         member do
           post :flag
           get  :pages
