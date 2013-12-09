@@ -87,9 +87,17 @@ namespace :deploy do
     run 'sed -i "s/..\/chaos/' + new_chaos_dir + '/" ' + gemfile_lock
   end
 
+  desc "Link aeolus app"
+  task :link_aeolus do
+    run "mkdir -p #{current_release}/app/assets/javascripts/aeolus/"
+    run "ln -s /home/deployer/apps/mapa76.info/aeolus/js/vendor.js #{current_release}/app/assets/javascripts/aeolus/vendor.js"
+    run "ln -s /home/deployer/apps/mapa76.info/aeolus/js/app.js #{current_release}/app/assets/javascripts/aeolus/app.js"
+  end
+
   before "deploy", "deploy:check_revision"
   before "deploy:finalize_update", "deploy:checkout_subdir"
   before "deploy:finalize_update", "deploy:change_chaos_dependency"
+  before "deploy:assets:precompile", "deploy:link_aeolus"
   after "deploy:update_code", "deploy:create_symlink_shared"
   after "deploy:setup", "deploy:setup_config"
   after "deploy", "deploy:cleanup" # keep only the last 5 releases

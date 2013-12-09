@@ -1,0 +1,17 @@
+{
+  "prod": {
+      "root": "http://analice.me"
+    , "version": "v2"
+    , "poolingStatusTime": 6000
+  },
+  "stage": {
+      "root": "http://analiceme.urdamales.com.ar"
+    , "version": "v2"
+    , "poolingStatusTime": 6000
+  },
+  "local": {
+      "root": "http://localhost:3000"
+    , "version": "v2"
+    , "poolingStatusTime": false
+  }
+}

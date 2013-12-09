@@ -61,7 +61,7 @@ module.exports = Backbone.Marionette.ItemView.extend({
   //--------------------------------------
 
   updateLinkURL: function(type){
-    var url = aeolus.rootURL + "/documents/export?";
+    var url = "/documents/export?";
 
     var ids = aeolus.app.project.get("documents").getSelectedIds();
     url += "ids=" + ids.join(",");

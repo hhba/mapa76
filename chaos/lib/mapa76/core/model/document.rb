@@ -31,6 +31,7 @@ class Document
   has_and_belongs_to_many :organizations, index: true
   has_and_belongs_to_many :addresses,     index: true
   has_and_belongs_to_many :places,        index: true
+  has_and_belongs_to_many :date_entities
   has_and_belongs_to_many :project
 
   validates_presence_of :file_id

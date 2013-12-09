@@ -1,5 +1,5 @@
 
-var envs = require('./enviroments.json');
+var envs = require('./environments.json');
 
 module.exports = function(grunt) {
 

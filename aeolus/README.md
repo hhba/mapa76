@@ -30,19 +30,19 @@ npm install
 
 Run the following command at root of project
 
-### Develop Enviroment
+### Develop Environment
 
 ```bash
 grunt
 ```
 
-### Stagging Enviroment
+### Stagging Environment
 
 ```bash
 grunt stage
 ```
 
-### Production Enviroment (Stagging and minified)
+### Production Environment (Stagging and minified)
 
 ```bash
 grunt prod
@@ -52,7 +52,7 @@ grunt prod
 
 ### FileSystem Watcher
 
-> Only for Develop Enviroment
+> Only for Develop Environment
 
 To set a watcher, so you wont need to be running `grunt` every time a change is made, run:
 

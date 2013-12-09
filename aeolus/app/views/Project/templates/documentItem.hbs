@@ -4,9 +4,20 @@
 <div class="col2">
   <label class="doc-name">{{title}}</label>
   <label class="doc-date">{{formatDate created_at}}</label>
+<<<<<<< HEAD
   {{#if highlights}}
   <div class="highlights"></div>
   {{else}}
+=======
+  {{#unless showProgress}}
+  <div class="tools">
+    <a class="tool tool-1 preview" href="{{urls.preview}}"></a>
+    <!--<a class="tool tool-2 export" href="{{urls.export}}" target="_blank"></a>-->
+    <a class="tool tool-3 download" href="{{urls.file}}" target="_blank"></a>
+    <a class="tool tool-4 delete"></a>
+  </div>
+  {{/unless}}
+>>>>>>> a80325765ad531421b592792ca424382ff43bab7
 
     {{#unless showProgress}}
     <div class="tools">

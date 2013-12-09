@@ -4,3 +4,4 @@ npm-debug.log
 .project
 /tournaments
 .DS_Store
+environments.yml

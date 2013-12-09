@@ -5,6 +5,10 @@ class DocumentsController < ApplicationController
   helper_method :sort_column, :sort_direction
 
   def index
+    render layout: 'aeolus'
+  end
+
+  def list
     @documents = Document.where(user_id: current_user.id).order_by(order)
   end
 
@@ -45,6 +49,7 @@ class DocumentsController < ApplicationController
 
   def show
     @document = Document.find(params[:id])
+    render layout: 'aeolus'
   end
 
   def status
@@ -99,12 +104,14 @@ class DocumentsController < ApplicationController
   end
 
   def export
-    exporter = CSVExporterService.new Document.find(params[:id]), hostname
+    ids = params.fetch(:ids, []).split(',')
+    documents = Document.find(ids)
+    exporter = CSVExporterService.new documents, hostname
     cls = params[:class]
     if %w{ people dates places organizations }.include?(cls)
       send_data exporter.public_send("export_#{cls}"),
                 type: 'text/csv',
-                filename: "#{exporter.original_filename}__#{cls}.csv"
+                filename: "analiceme_#{cls}_#{Time.now.to_i}.csv"
     end
   rescue Mongoid::Errors::DocumentNotFound
     render text: nil, status: 404

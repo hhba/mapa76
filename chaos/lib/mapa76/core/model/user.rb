@@ -41,6 +41,7 @@ class User
   has_many :organizations
   has_many :addresses
   has_many :places
+  has_many :date_entities
   has_and_belongs_to_many :projects
 
   def username
