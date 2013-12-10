@@ -4,7 +4,7 @@ class ExtractionTask < Base
   attr_reader :document, :progress_handler
 
   def self.perform(document_id)
-    new(document_id).call
+    new(document_id).call.to_a
   end
 
   def initialize(id)

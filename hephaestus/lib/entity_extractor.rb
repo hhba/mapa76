@@ -16,10 +16,12 @@ class EntityExtractor
       analyze(content).each do |token|
         ne_text = token['form'].dup
         ne_regexp = build_regexp(ne_text)
-        pos = pos + (content[pos..-1] =~ ne_regexp)
-        token.pos = pos
-        yielder << token
-        pos = pos + ne_text.length
+        token_pos = content.index(ne_regexp, pos)
+        if token_pos
+          token.pos = token_pos
+          yielder << token
+          pos = token_pos + ne_text.length
+        end
       end
     end
   end
