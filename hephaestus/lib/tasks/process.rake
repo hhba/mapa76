@@ -21,7 +21,7 @@ namespace :process do
 
   desc 'Run coreference task for all the documents available'
   task coreference: :environment do
-    process(CoreferenceTask)
+    process(CoreferenceResolutionTask)
   end
 
   desc 'Run mentions task for all documents available'
