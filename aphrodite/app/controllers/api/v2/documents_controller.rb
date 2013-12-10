@@ -51,8 +51,7 @@ class Api::V2::DocumentsController < Api::V2::BaseController
   def search
     if params[:q].present?
       params[:ids] = document_ids unless document_ids.empty?
-      results = SearcherService.new(current_user).where(params)
-      @results = results.map { |r| r.first }
+      @results = SearcherService.new(current_user).where(params)
     else
       render nothing: true, status: :bad_request
     end
