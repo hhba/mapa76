@@ -45,7 +45,7 @@ class TaskFinder
     if document.status == ''
       false
     else
-      document.status.split('-')[1] == 'end'
+      document.status.split('-')[-1] == 'end'
     end
   end
 
