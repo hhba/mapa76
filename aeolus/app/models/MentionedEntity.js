@@ -12,12 +12,15 @@ module.exports = Backbone.Model.extend({
     mentions: 0
   },
 
-  parse: function(response){
+  parse: function(response, options){
     var mentioned_in = response.mentions,
+      docIds = (options && options.xDocumentIds) || [], 
       mentions = 0;
 
     _.each(response.mentions, function(mention){
-      mentions += mention.mentions;
+      if (docIds.indexOf(mention.id) >= 0){
+        mentions += mention.mentions;
+      }
     });
 
     response.mentioned_in = new Mentions(mentioned_in);
