@@ -31,5 +31,6 @@ class Base
 
   def self.store_status(msg, document_id)
     Document.find(document_id).update_attribute :status, "#{@queue}-#{msg}"
+    logging("Current status for #{document_id}: #{@queue}-#{msg}")
   end
 end
