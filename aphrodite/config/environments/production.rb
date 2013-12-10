@@ -53,7 +53,7 @@ Mapa76::Application.configure do
   )
 
   # ActionMailer Config
-  config.action_mailer.default_url_options = { :host => 'staging.urdamales.com.ar' }
+  config.action_mailer.default_url_options = { :host => 'analice.me' }
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
     :address   => "smtp.mandrillapp.com",
