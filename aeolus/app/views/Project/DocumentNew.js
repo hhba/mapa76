@@ -61,6 +61,9 @@ module.exports = Backbone.Marionette.ItemView.extend({
       paramName: "document[files][]",
       formAcceptCharset: "utf-8",
       singleFileUploads: false,
+      formData: [
+        { name: 'authenticity_token', value: $('meta[name="csrf-token"]').attr('content') }
+      ],
 
       add: function (e, data) {
         self.ui.inputFileCtn.hide();
