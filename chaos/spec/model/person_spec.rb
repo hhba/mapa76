@@ -18,17 +18,4 @@ describe Person do
       assert_equal 2, @p2.tags.length
     end
   end
-
-  describe "Blacklist" do
-    before do
-      @person = create :person, name: "Policia Federal"
-      @person.blacklist
-    end
-
-    it "should not find the user once it was marked as blacklist" do
-      assert_raises(Mongoid::Errors::DocumentNotFound) do
-        Person.find(@person.id)
-      end
-    end
-  end
 end

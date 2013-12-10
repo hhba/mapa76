@@ -72,9 +72,9 @@ class Document
       user_id: user_id,
       project_ids: project_ids,
     }
-    pages.each do |page|
-      fields[:pages][page.num] = page.text.gsub(/<[^<]+?>/, "")
-    end
+    # pages.each do |page|
+    #   fields[:pages][page.num] = page.text.gsub(/<[^<]+?>/, "")
+    # end
     fields.to_json
   end
 

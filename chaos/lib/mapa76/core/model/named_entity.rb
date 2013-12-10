@@ -12,8 +12,6 @@ class NamedEntity < Citation
   field :tokens,   type: Array
 
   belongs_to :person, index: true
-  belongs_to :blacklist, index: true
-
 
   CLASSES_PER_TAG = {
     'NP00O00' => :organizations,

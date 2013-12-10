@@ -49,12 +49,6 @@ class Person
     self.named_entities.select { |ne| ne.document_id == doc.id }.count
   end
 
-  def blacklist
-    # TODO: here we will store who mark this person as blacklisted
-    self.delete
-    Blacklist.find_or_create_by text: self.full_name
-  end
-
   def metainfo
     docs = self.documents.map { |doc| {id: doc._id, name: doc.title }}
     {"_id" => _id, "created_at" => created_at, :documents => docs, :full_name => full_name, :tags => tags}
