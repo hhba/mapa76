@@ -48,7 +48,8 @@ module.exports = Backbone.Marionette.ItemView.extend({
   },
 
   modelEvents: {
-    "change:selection": "render"
+    "change:selection": "render",
+    "change:percentage": "render"
   },
 
   //--------------------------------------
