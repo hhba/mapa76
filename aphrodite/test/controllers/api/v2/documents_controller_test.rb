@@ -54,7 +54,7 @@ describe Api::V2::DocumentsController do
           title: document.title,
           original_filename: '',
           highlight: [])
-        SearcherService.any_instance.stubs(:where).returns([[result]])
+        SearcherService.any_instance.stubs(:where).returns([[result, document]])
 
         get :search, q: 'text', format: 'json'
         json.first['title'] = document.title
