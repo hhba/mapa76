@@ -29,14 +29,6 @@ class TestCoreference < Test::Unit::TestCase
       assert_equal 3, Coreference.resolve(document, @named_entities).count
     end
 
-    should "test_remove_blacklisted" do
-      named_entities = [@patty2, @patty3, @videla1, @pomulo1, @patty4, @wrong]
-      result = [@patty2, @patty3, @videla1, @pomulo1, @patty4]
-      Person.create(name: "policia federal").blacklist
-
-      assert_equal result, Coreference.remove_blacklisted(named_entities)
-    end
-
     should "find named entities with one word" do
       named_entities = [@patty1, @patty2, @one]
       assert_equal [@patty1, @patty2], Coreference.remove_one_word(named_entities)

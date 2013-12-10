@@ -7,7 +7,6 @@ module Coreference
   MIN_SIMILARITY = 0.92
 
   def resolve(document, named_entities)
-    named_entities = remove_blacklisted(named_entities)
     named_entities = remove_one_word(named_entities)
 
     progress_handler = ProgressHandler.new(document, bound: named_entities.length)
@@ -52,11 +51,6 @@ module Coreference
       scores.max
     end
     scores.sum / shortest.size
-  end
-
-  def remove_blacklisted(named_entities)
-    blacklisted = Blacklist.all.map(&:text)
-    named_entities.reject { |ne| blacklisted.include?(ne.text) }
   end
 
   def remove_one_word(named_entities)
