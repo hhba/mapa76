@@ -74,8 +74,6 @@ RailsAdmin.config do |config|
   #     configure :created_at, :datetime 
   #     configure :updated_at, :datetime 
   #     configure :title, :string 
-  #     configure :published_at, :date 
-  #     configure :description, :text 
   #     configure :original_title, :text 
   #     configure :original_filename, :text 
   #     configure :context_cache, :serialized 

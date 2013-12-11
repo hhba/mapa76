@@ -2,10 +2,9 @@
 var DocumentHighlights = require("./DocumentHighlights");
 
 module.exports = Backbone.Model.extend({
- 
+
   defaults: {
     title: "Untitle",
-    description: "None",
 
     people: 0,
     dates: 0,

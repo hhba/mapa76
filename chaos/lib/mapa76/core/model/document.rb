@@ -5,8 +5,6 @@ class Document
   include Finder
 
   field :title,             type: String
-  field :published_at,      type: Date
-  field :description,       type: String
   field :original_title,    type: String
   field :original_filename, type: String
   field :context_cache,     type: Hash,    default: {}
