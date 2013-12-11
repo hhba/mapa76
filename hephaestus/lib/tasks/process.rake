@@ -1,5 +1,6 @@
 require "resque/tasks"
 require 'ruby-progressbar'
+require 'active_support/all'
 
 task "resque:setup" => :environment
 
@@ -10,6 +11,7 @@ def process(task)
   documents.each do |document|
     task.perform(document.id)
     pbar.increment
+    document.update_attribute :status, task.to_s.underscore + '-end'
   end
 end
 
