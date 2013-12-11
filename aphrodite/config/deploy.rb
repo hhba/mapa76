@@ -90,8 +90,8 @@ namespace :deploy do
   desc "Link aeolus app"
   task :link_aeolus do
     run "mkdir -p #{current_release}/app/assets/javascripts/aeolus/"
-    run "ln -s /home/deployer/apps/mapa76.info/aeolus/js/vendor.js #{current_release}/app/assets/javascripts/aeolus/vendor.js"
-    run "ln -s /home/deployer/apps/mapa76.info/aeolus/js/app.js #{current_release}/app/assets/javascripts/aeolus/app.js"
+    run "ln -sf /home/deployer/apps/mapa76.info/aeolus/js/vendor.js #{current_release}/app/assets/javascripts/aeolus/vendor.js"
+    run "ln -sf /home/deployer/apps/mapa76.info/aeolus/js/app.js #{current_release}/app/assets/javascripts/aeolus/app.js"
   end
 
   before "deploy", "deploy:check_revision"
