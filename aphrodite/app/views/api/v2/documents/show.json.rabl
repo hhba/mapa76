@@ -1,5 +1,5 @@
 object @document
-attributes :id, :title, :description, :published_at, :created_at, :status, :percentage, :original_filename
+attributes :id, :title, :created_at, :status, :percentage, :original_filename
 
 node :counters do |document|
   {

@@ -48,8 +48,6 @@ This should have an array of files in: `document[files]`.
 {
   "id":"52704be53ea2af7657000009",
   "title":"scioli.txt",
-  "description":null,
-  "published_at":null,
   "created_at":"2013-10-29T23:59:33Z",
   "context_cache":{
     "id":"52704be53ea2af7657000009",
