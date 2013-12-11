@@ -6,4 +6,15 @@ class Document
   def flagged?
     !!flagger_id
   end
+
+  rails_admin do
+    list do
+      field :id
+      field :title
+      field :created_at do
+        date_format :short
+      end
+      field :status
+    end
+  end
 end
