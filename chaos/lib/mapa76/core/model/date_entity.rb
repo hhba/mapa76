@@ -3,6 +3,7 @@ class DateEntity
   include Mongoid::Timestamps
 
   field :name,            type: String
+  field :lemma,           type: String
   field :mentions,        type: Hash, default: {}
 
   belongs_to :user

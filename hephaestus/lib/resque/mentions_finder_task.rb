@@ -29,7 +29,7 @@ class MentionsFinderTask < Base
         entity.mentions = entity.mentions.merge({document.id.to_s => dup[:size]})
         entity.save
       else
-        entity = klass.create name: dup[:name], mentions: { document.id.to_s => dup[:size]}
+        entity = klass.create name: dup[:name], mentions: { document.id.to_s => dup[:size]}, lemma: dup[:lemma]
         user.send(entity_cls) << entity
       end
       document.send(entity_cls) << entity
@@ -44,7 +44,8 @@ class MentionsFinderTask < Base
       same_lemma_named_entities = named_entities.select { |ne| ne.lemma == entity_lemma }
       {
         size: same_lemma_named_entities.count,
-        name: same_lemma_named_entities.first.form
+        name: same_lemma_named_entities.first.form,
+        lemma: same_lemma_named_entities.first.lemma,
       }
     end
   end

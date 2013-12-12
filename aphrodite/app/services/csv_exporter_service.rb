@@ -47,9 +47,9 @@ class CSVExporterService
   def export_dates
     CSV.generate do |csv|
       documents.each do |document|
-        csv << %w(DateEntityId Name Mentions).concat(document_info_str)
+        csv << %w(DateEntityId Name Lemma Mentions).concat(document_info_str)
         document.date_entities.each do |date|
-          csv << [date.id, date.name, mentions_for(date, document)].
+          csv << [date.id, date.name, date.lemma, mentions_for(date, document)].
             concat(info_for(document))
         end
       end

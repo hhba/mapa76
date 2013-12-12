@@ -3,6 +3,7 @@ class Person
   include Mongoid::Timestamps
 
   field :name,            type: String
+  field :lemma,           type: String
   field :surname_father,  type: String
   field :searchable_name, type: String
   field :jurisdiction,    type: String
