@@ -45,8 +45,15 @@ class CSVExporterService
   end
 
   def export_dates
-    export(:dates_found,
-      %w{ document_id text lemma tag prob pos sentence_pos page_num time })
+    CSV.generate do |csv|
+      documents.each do |document|
+        csv << %w(DateEntityId Name Mentions).concat(document_info_str)
+        document.date_entities.each do |date|
+          csv << [date.id, date.name, mentions_for(date, document)].
+            concat(info_for(document))
+        end
+      end
+    end
   end
 
   def mentions_for(entity, document)
