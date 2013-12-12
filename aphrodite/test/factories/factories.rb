@@ -62,6 +62,10 @@ FactoryGirl.define do
     sequence(:name) { |n| "name_#{ n }" }
   end
 
+  factory :date, class: DateEntity do
+    sequence(:name) { |n| "name_#{ n }" }
+  end
+
   factory :page do
     num 1
     from_pos 0

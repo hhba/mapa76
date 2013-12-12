@@ -6,12 +6,16 @@ describe CSVExporterService do
   let(:organization) { FactoryGirl.create :organization }
   let(:person) { FactoryGirl.create :person }
   let(:address) { FactoryGirl.create :address }
+  let(:date) { FactoryGirl.create :date }
   let(:exporter) { CSVExporterService.new [document]}
+
 
   before do
     document.organizations << organization
     document.people << person
     document.addresses << address
+    document.date_entities << date
+    date.update_attribute :mentions, {document.id.to_s => 7}
     organization.update_attribute :mentions, {document.id.to_s => 2}
     person.update_attribute :mentions, {document.id.to_s => 4}
     address.update_attribute :mentions, {document.id.to_s => 1}
@@ -70,6 +74,15 @@ describe CSVExporterService do
       csv[-1].must_include address.name
       csv[-1].must_include document.title
       csv[-1].must_include '1'
+    end
+  end
+
+  describe '#export_dates' do
+    it '' do
+      csv = CSV.parse(exporter.export_dates)
+      csv[-1].must_include address.name
+      csv[-1].must_include document.title
+      csv[-1].must_include '7'
     end
   end
 
