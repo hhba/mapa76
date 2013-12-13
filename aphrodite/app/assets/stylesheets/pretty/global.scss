@@ -673,7 +673,8 @@ text-transform: uppercase;
 			width: 289px;
 			background: $color-bg-fourth-lvl;
 			float: right;
-			&:before { @include shadows-deco (left); }
+			border-left: solid 1px $color-lines;
+			//&:before { @include shadows-deco (left); }
 			.drawer-header {
 				position: relative;
 				padding-bottom: 19px;
