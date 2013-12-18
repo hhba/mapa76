@@ -7,6 +7,7 @@ class Base
   def self.after_perform(*args)
     logging('end', args)
     store_status('end', args.first)
+    update_history(args.first)
     Resque.enqueue(DocumentProcessBootstrapTask, *args)
   end
 
@@ -15,6 +16,7 @@ class Base
     begin
       document = Document.find(id)
       document.update_attribute :status, "FAILED"
+      document.update_attribute :percentage, -1
       store_failure(e, args)
     rescue Mongoid::Errors::DocumentNotFound
       logging("Document not found. #{id}")
@@ -38,5 +40,11 @@ class Base
   def self.store_failure(e, args=[])
     id = args[0]
     DocumentFailure.create document_id: id, message: e.message, backtrace: e.backtrace.join("\n")
+  end
+
+  def self.update_history(document_id)
+    document = Document.find(document_id)
+    document.status_history << @queue
+    document.save
   end
 end
