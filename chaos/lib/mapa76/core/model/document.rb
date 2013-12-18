@@ -13,6 +13,7 @@ class Document
   field :last_analysis_at,  type: Time
   field :processed_text,    type: String
   field :status,            type: String,  default: ''
+  field :status_history,    type: Array,   default: []
   field :tasks,             type: Array,   default: []
   field :public,            type: Boolean, default: true
   field :percentage,        type: Float,   default: 0
