@@ -580,6 +580,22 @@
 					span a {
 						font-style: italic;
 					}
+					a.asc {
+						.arrow-asc{
+							display: block;
+						}
+						.arrow-desc{
+							display: none;
+						}
+					}
+					a.desc {
+						.arrow-asc{
+							display: none;
+						}
+						.arrow-desc{
+							display: block;
+						}
+					}
 				}
 				.back-bt {
 					position: relative;
