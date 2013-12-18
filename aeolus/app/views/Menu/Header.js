@@ -18,7 +18,9 @@ module.exports = Backbone.Marionette.ItemView.extend({
   },
 
   events: {
-    "keyup .search-box": "filter"
+    "keyup .search-box": "filter",
+    "click .sort-name": "sortByName",
+    "click .sort-mentions": "sortByMentions"
   },
 
   //--------------------------------------
@@ -35,10 +37,27 @@ module.exports = Backbone.Marionette.ItemView.extend({
 
   filter: function(){
     this.trigger("filter", this.ui.searchBox.val());
-  }
+  },
+
+  sortByName: function(e){
+    var target = $(e.target),
+        order = this._getOrder(target);
+    this.trigger("changeSort", {by: 'name', order: order});
+    target.toggleClass("asc").toggleClass("desc");
+  },
+
+  sortByMentions: function(e){
+    var target = $(e.target),
+        order = this._getOrder(target);
+    this.trigger("changeSort", {by: 'mentions', order: order});
+    target.toggleClass("asc").toggleClass("desc");
+  },
 
   //--------------------------------------
   //+ PRIVATE AND PROTECTED METHODS
   //--------------------------------------
 
+  _getOrder: function(target){
+    return (target.hasClass("asc") ? "asc" : "desc");
+  }
 });

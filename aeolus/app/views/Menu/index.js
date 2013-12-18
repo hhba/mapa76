@@ -78,8 +78,9 @@ module.exports = Backbone.Marionette.Layout.extend({
   },
 
   loadContent: function(item){
+    var self = this;
     window.aeolus.app.modalMentions.close();
-    
+
     this.ui.links
       .removeClass("active")
       .filter("[data-menu=" + item + "]").addClass("active");
@@ -97,8 +98,10 @@ module.exports = Backbone.Marionette.Layout.extend({
       type: item
     });
 
+    this.itemsCollection = this.model.getListByTypes(item);
+
     var content = new types[item]({
-      collection: this.model.getListByTypes(item)
+      collection: this.itemsCollection
     });
 
     this.header.show(header);
@@ -113,6 +116,10 @@ module.exports = Backbone.Marionette.Layout.extend({
         .show()
         .not(":icontains(" + keyword + ")")
         .hide();
+    });
+
+    header.on("changeSort", function(opt){
+      self.itemsCollection.changeSort(opt.by, opt.order);
     });
   }
 

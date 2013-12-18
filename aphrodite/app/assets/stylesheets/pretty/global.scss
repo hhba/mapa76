@@ -693,6 +693,27 @@ text-transform: uppercase;
 					margin: 0 auto;
 					width: 260px;
 				}
+				.list-actions{
+					font-size: 12px;
+					margin-top: 5px;
+					padding-left: 15px;
+					a.asc{
+						i.arrow-desc{
+							display: none;
+						}
+						i.arrow-asc{
+							display: inline;
+						}
+					}
+					a.desc{
+						i.arrow-desc{
+							display: inline;
+						}
+						i.arrow-asc{
+							display: none;
+						}
+					}	
+				}
 			}
 			@include search-col  ();//default:people 
 			@include search-col  (organizations);
@@ -775,7 +796,7 @@ text-transform: uppercase;
 						}
 						&.drawer-dates {
 							.drawer-content {
-								margin-top: 157px;
+								margin-top: 99px;
 							}
 						}
 					}
