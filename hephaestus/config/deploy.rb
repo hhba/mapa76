@@ -9,7 +9,6 @@ set :user, "deployer"
 
 set :scm, :git
 set :repository, "git://github.com/hhba/mapa76.git"
-set :branch, "master"
 
 set :deploy_to, "/home/deployer/apps/mapa76.info/#{application}"
 set :app_env, 'production'
