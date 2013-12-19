@@ -15,7 +15,6 @@ set :use_sudo, false
 
 set :scm, "git"
 set :repository, "git://github.com/hhba/mapa76.git"
-set :branch, "master"
 set :scm_verbose, true
 set :ssh_options, :forward_agent => true
 
