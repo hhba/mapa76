@@ -4,7 +4,7 @@ require "hashie/mash"
 require "tempfile"
 
 class AnalyzerClient
-  class ExtractionError < StandardError  
+  class ExtractionError < StandardError
   end
 
   attr_reader :text, :opt, :port
@@ -21,21 +21,20 @@ class AnalyzerClient
     file = Tempfile.new('foo', encoding: 'utf-8')
     begin
       file.write(text)
+      file.close
       stdin, stdout, stderr = Open3.popen3(command(file.path))
-      begin
-        status = Timeout::timeout(180) {
-          until (line = stdout.gets).nil?
-            output << line.chomp
-          end
+      Timeout::timeout(180) {
+        until (line = stdout.gets).nil?
+          output << line.chomp
+        end
 
-          message = stderr.readlines
-          unless message.empty?
-            raise ExtractionError, message.join("\n")
-          end
-        }
-      rescue Timeout::Error
-        raise ExtractionError, "Timeout"
-      end
+        message = stderr.readlines
+        unless message.empty?
+          raise ExtractionError, message.join("\n")
+        end
+      }
+    rescue Timeout::Error
+      raise ExtractionError, "Timeout"
     ensure
       file.close
       file.unlink
