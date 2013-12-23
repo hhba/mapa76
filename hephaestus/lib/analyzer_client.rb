@@ -40,17 +40,6 @@ class AnalyzerClient
       file.close
       file.unlink
     end
-    # Open3.popen3(command) do |stdin, stdout, stderr, wait_thr|
-    #   stdin.close
-    #   until (line = stdout.gets).nil?
-    #     output << line.chomp
-    #   end
-
-    #   message = stderr.readlines
-    #   unless message.empty?
-    #     raise ExtractionError, message.join("\n")
-    #   end
-    # end
     output
   end
 
@@ -104,9 +93,3 @@ class AnalyzerClient
     "analyzer_client #{port} < #{file_path}"
   end
 end
-
-
-__END__
-FREELINGSHARE=/usr/local/Cellar/freeling/3.1/share/freeling analyzer -f es.cfg --server --port 50005 --workers 2 --queue 1
-FREELINGSHARE=/usr/local/Cellar/freeling/3.1/share/freeling analyzer -f /usr/local/Cellar/freeling/3.1/share/freeling/config/es.cfg --server --port 50005 --workers 2 --queue 1
-analyzer_client 50005 < rayuela2.txt
