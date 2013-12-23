@@ -14,7 +14,7 @@ SCRIPTNAME=/etc/init.d/$NAME
 QUEUE=2
 WORKERS=2
 PORT=50005
-CMD="/usr/local/bin/analyzer -f /usr/share/freeling/config/es.cfg --server --port $PORT --workers $WORKERS --queue $QUEUE"
+CMD="/usr/local/bin/analyzer -f /usr/share/freeling/config/es.cfg --server --port $PORT --workers $WORKERS --queue $QUEUE  --outf tagged --nec --noflush"
 
 case "$1" in
 start)
