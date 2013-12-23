@@ -34,6 +34,18 @@ class Base
 
   def self.store_status(msg, document_id)
     Document.find(document_id).update_attribute :status, "#{@queue}-#{msg}"
+    logging("Current status for #{document_id}: #{@queue}-#{msg}")
+  end
+
+  def self.store_failure(e, args=[])
+    id = args[0]
+    DocumentFailure.create document_id: id, message: e.message, backtrace: e.backtrace.join("\n")
+  end
+
+  def self.update_history(document_id)
+    document = Document.find(document_id)
+    document.status_history << @queue
+    document.save
   end
 
   def self.store_failure(e, args=[])
