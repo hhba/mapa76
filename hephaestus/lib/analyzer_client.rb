@@ -89,6 +89,6 @@ class AnalyzerClient
   end
 
   def command(file_path)
-    "analyzer_client #{port} < #{file_path}"
+    "/usr/local/bin/analyzer_client #{port} < #{file_path}"
   end
 end
