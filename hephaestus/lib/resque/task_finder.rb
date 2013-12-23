@@ -3,7 +3,7 @@ class TaskFinder
 
   DEFAULT_TASKS = %w(
     text_extraction_task
-    extraction_task
+    entities_extraction_task
     coreference_resolution_task
     mentions_finder_task
   )
