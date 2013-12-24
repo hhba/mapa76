@@ -28,11 +28,11 @@ class EntitiesExtractionTask < Base
     pos = token.pos
     page = find_page(token.pos)
     named_entity = NamedEntity.create({
-      form:  token.form,
+      form:  token.form.gsub("_", " "),
       lemma: token.lemma,
       tag:   token.tag,
       prob:  token.prob,
-      text:  token.form,
+      text:  token.form.gsub("_", " "),
       pos:   pos,
       inner_pos: { pid: page.id, from_pos: pos, to_pos: pos + token.form.length }
     })
