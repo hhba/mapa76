@@ -142,12 +142,19 @@ class Document
     restart_variables
     Resque.enqueue(DocumentProcessBootstrapTask, id)
   end
+  
+  def process_text!
+    update_attribute :status, 'text_extraction_task-end'
+    update_attribute :status_history, ['text_extraction_task']
+    Resque.enqueue(DocumentProcessBootstrapTask, id)
+  end
 
 protected
 
   def restart_variables
     update_attribute :percentage, 0
     update_attribute :status, ''
+    update_attribute :status_history, []
   end
 
   def context_generator
