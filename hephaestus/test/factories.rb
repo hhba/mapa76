@@ -17,7 +17,7 @@ FactoryGirl.define do
   factory :organization do
     sequence(:name) { |n| "name_#{ n }" }
   end
- 
+
   factory :document do
     sequence(:title)             { |n| "text_#{ n }" }
     sequence(:original_filename) { |n| "text_#{ n }" }
@@ -29,6 +29,15 @@ FactoryGirl.define do
     ne_class :people
     form     "Elias_Seman"
     lemma    "elias_seman"
+    tag      "NP00SP0"
+    document
+  end
+
+  factory :person_entity, class: NamedEntity do
+    text     "Ernesto Guevara"
+    ne_class :people
+    form     "Ernesto_Guevara"
+    lemma    "ernesto_guevara"
     tag      "NP00SP0"
     document
   end

@@ -1,9 +1,80 @@
+require 'amatch'
+
 class CoreferenceResolutionTask < Base
   @queue = :coreference_resolution_task
 
+  attr_reader :document, :user
+
+  TWO_WORDS_SIMILARITY = 0.92
+  ONE_WORD_SIMILARITY  = 0.95
+
   def self.perform(document_id)
-    document = Document.find(document_id)
-    Coreference.resolve(document, document.people_found)
-    document.context force: true
+    self.new(document_id).call
+  end
+
+  def initialize(document_id)
+    @document = Document.find(document_id)
+    @user = @document.user
+  end
+
+  def call
+    named_entities = document.people_found.to_a
+    find_duplicates(named_entities).each do |group|
+      named_entity = group.first
+      store(named_entity, group.length)
+    end
+  end
+
+  def store(named_entity, mentions=1)
+    person = user.people.where(name: named_entity.text).first
+    if person
+      person.mentions = person.mentions.merge({document.id.to_s => mentions})
+      person.save
+    else
+      person = Person.create name: named_entity.text,
+                             mentions: { document.id.to_s => mentions},
+                             lemma: named_entity.lemma
+      user.people << person
+    end
+    document.people << person
+  end
+
+  def find_duplicates(named_entities)
+    @duplicates ||= []
+    if @duplicates.empty?
+      while !named_entities.empty?
+        named_entity = named_entities.shift
+
+        group = named_entities.select do |ne|
+          if named_entity.text.split(' ').length > 1
+            jarowinkler_distance(named_entity.text, ne.text)
+          else
+            branting_distance(named_entity.text, ne.text)
+          end
+        end
+
+        named_entities.reject! { |ne| group.include?(ne) }
+        @duplicates << group.append(named_entity)
+      end
+      @duplicates
+    else
+      @duplicates
+    end
+  end
+
+  def jarowinkler_distance(a, b)
+    jw = Amatch::JaroWinkler.new(a)
+    jw.match(b) > ONE_WORD_SIMILARITY
+  end
+
+  def branting_distance(a, b)
+    as, bs = [a, b].map { |w| w.split(" ") }
+    shortest, longest = [as, bs].sort_by(&:size)
+    scores = shortest.map do |a|
+      jw = Amatch::JaroWinkler.new(a)
+      scores = longest.map { |b| jw.match(b) }
+      scores.max
+    end
+    scores.sum / shortest.size > TWO_WORDS_SIMILARITY 
   end
 end
