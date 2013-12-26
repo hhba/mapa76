@@ -3,10 +3,6 @@ Mapa76::Application.routes.draw do
 
   devise_for :users
 
-  resources :people do
-    post "blacklist", :on => :member
-  end
-
   resources :invitations, only: [:new, :create]
 
   resources :projects, :except => [:edit, :update, :delete] do
