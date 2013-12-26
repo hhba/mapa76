@@ -7,13 +7,14 @@ class AnalyzerClient
   class ExtractionError < StandardError
   end
 
-  attr_reader :text, :opt, :port
+  attr_reader :text, :opt, :port, :timeout
 
   Token = Class.new(Hashie::Mash)
 
   def initialize(text, opt={})
     @text = text
     @port = opt.fetch(:port, 50005)
+    @timeout = opt.fetch(:timeout, 600)
   end
 
   def call
@@ -23,7 +24,7 @@ class AnalyzerClient
       file.write(text)
       file.close
       stdin, stdout, stderr = Open3.popen3(command(file.path))
-      Timeout::timeout(180) {
+      Timeout::timeout(timeout) {
         until (line = stdout.gets).nil?
           output << line.chomp
         end
