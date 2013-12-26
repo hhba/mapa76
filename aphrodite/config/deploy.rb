@@ -50,15 +50,6 @@ namespace :deploy do
     run "mkdir -p #{shared_path}/pids/unicorn"
   end
 
-  desc "Make sure local git is in sync with remote."
-  task :check_revision, roles: :web do
-    unless `git rev-parse HEAD` == `git rev-parse origin/master`
-      puts "WARNING: HEAD is not the same as origin/master"
-      puts "Run `git push` to sync changes."
-      exit
-    end
-  end
-
   desc "Symlink config files"
   task :create_symlink_shared do
     config_files.each do |filename|
