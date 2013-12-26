@@ -22,7 +22,7 @@ class AddressExtractor
       start_pos = 0
       loop do
         break if not content.match(ADDRESS_RE, start_pos) do |match|
-          yielder << Token.new({form: match[0].strip, tag: :addresses, pos: match.begin(0)})
+          yielder << Token.new({form: match[0].strip, tag: 'ADDRESS', pos: match.begin(0)})
           start_pos = match.end(0)
         end
       end

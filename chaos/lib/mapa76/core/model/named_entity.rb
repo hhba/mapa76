@@ -20,6 +20,7 @@ class NamedEntity < Citation
     'NP00G00' => :places,
     'NP00000' => :unknown,
     'W'       => :dates,
+    'ADDRESS' => :addresses
   }
   
   def self.valid_token?(token)
