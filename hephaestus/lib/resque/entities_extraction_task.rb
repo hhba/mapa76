@@ -13,7 +13,6 @@ class EntitiesExtractionTask < Base
   end
 
   def call
-    pos = 0
     analyzer_client = AnalyzerClient.new(document.processed_text)
     address_extractor = AddressExtractor.new(document.processed_text)
     analyzer_client.tokens.each do |token|
@@ -28,7 +27,7 @@ class EntitiesExtractionTask < Base
     pos = token.pos
     page = find_page(token.pos)
     named_entity = NamedEntity.create({
-      form:  token.form.gsub("_", " "),
+      form:  token.form,
       lemma: token.lemma,
       tag:   token.tag,
       prob:  token.prob,
