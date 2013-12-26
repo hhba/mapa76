@@ -1,5 +1,5 @@
 class Person
-  after_save :update_mentions
+  #after_save :update_mentions
 
   def self.conadep
     Person.all.select { |person| person.tags.include?("conadep")}
@@ -52,14 +52,5 @@ class Person
     else
       [self.name.downcase]
     end
-  end
-
-  def update_mentions
-    output = Hash.new(0)
-    self.named_entities.map(&:document_id).each do |document_id|
-      output[document_id] += 1
-    end
-    set :mentions, output
-    output
   end
 end
