@@ -27,7 +27,7 @@ module.exports = Backbone.Marionette.ItemView.extend({
         for (var i=entities.length; i--;){
           var ent = entities[i];
 
-          var p = ent.pos+1;
+          var p = ent.pos;
 
           var begin = formatted_text.substr(0, p);
           var tail = formatted_text.substr(p + ent.text.length);
