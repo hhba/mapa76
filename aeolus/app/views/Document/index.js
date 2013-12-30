@@ -7,6 +7,7 @@ var
     template = require('./templates/layout.tpl')
   , Visualizer = require("./Visualizer")
   , Pager = require("./Pager")
+  , DocumentInfo = require("./DocumentInfo")
   , Content = require("./Content");
 
 module.exports = Backbone.Marionette.Layout.extend({
@@ -18,9 +19,10 @@ module.exports = Backbone.Marionette.Layout.extend({
   template: template,
 
   regions: {
+    "documentInfo": ".header .documentInfo",
     "visualizer": ".header .visualizer",
     "pager": ".header .pager",
-    "content": ".content"
+    "content": ".content-wrapper-doc"
   },
 
   //--------------------------------------
@@ -28,6 +30,10 @@ module.exports = Backbone.Marionette.Layout.extend({
   //--------------------------------------
 
   onRender: function(){
+    this.documentInfo.show(new DocumentInfo({
+      model: this.model
+    }));
+
     this.visualizer.show(new Visualizer({
       model: this.model
     }));
@@ -39,7 +45,7 @@ module.exports = Backbone.Marionette.Layout.extend({
     this.content.show(new Content({
       model: this.model,
       collection: this.model.get("documentPages")
-    }));    
+    }));
   }
 
   //--------------------------------------

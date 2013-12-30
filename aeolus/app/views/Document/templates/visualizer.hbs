@@ -1,18 +1,16 @@
-<ul>
-  <li>
-    <input class="people" type="checkbox" {{#if selected.people}}checked{{/if}}>
-    <label>People</label>
-  </li>
-  <li>
-    <input class="organizations" type="checkbox" {{#if selected.organizations}}checked{{/if}}>
-    <label>Orgs</label>
-  </li>
-  <li>
-    <input class="places" type="checkbox" {{#if selected.places}}checked{{/if}}>
-    <label>Places</label>
-  </li>
-  <li>
-    <input class="dates" type="checkbox" {{#if selected.dates}}checked{{/if}}>
-    <label>Dates</label>
-  </li>
-</ul>
+<div class="em">Visualizar Entidades en el documento</div>
+<li class="clearfix">
+  <input class="people" type="checkbox" {{#if selected.people}}checked{{/if}}>
+  <div class="icon icon-peoples"></div>
+</li>
+<li class="clearfix">
+  <input class="organizations" type="checkbox" {{#if selected.organizations}}checked{{/if}}>
+  <div class="icon icon-orgs"></div>
+</li>
+<li class="clearfix">
+  <input class="places" type="checkbox" {{#if selected.places}}checked{{/if}}>
+  <div class="icon icon-places"></div>
+<li class="clearfix">
+  <input class="dates" type="checkbox" {{#if selected.dates}}checked{{/if}}>
+  <div class="icon icon-dates"></div>
+</li>

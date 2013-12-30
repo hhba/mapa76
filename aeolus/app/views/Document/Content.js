@@ -14,12 +14,31 @@ module.exports = Backbone.Marionette.CompositeView.extend({
   //--------------------------------------
 
   template: template,
-  itemViewContainer: "ul.pages",
-  itemView: Page
+  //itemViewContainer: "ul.pages",
+  itemView: Page,
+  tagName: 'ol',
+  className: 'wrapper-doc',
+
+  ui: {
+    pages: 'ul.pages'
+  },
+
+  modelEvents: {
+    'change:currentPage': 'changePage'
+  },
 
   //--------------------------------------
   //+ INHERITED / OVERRIDES
   //--------------------------------------
+
+  onRender: function(){
+    this.ui.pages.on('scroll', function(){
+      // calculo de las paginas
+      // aeolus.app.router.navigate('#5', {trigger: true});
+    });
+
+  },
+
 
   //--------------------------------------
   //+ PUBLIC METHODS / GETTERS / SETTERS
@@ -28,6 +47,12 @@ module.exports = Backbone.Marionette.CompositeView.extend({
   //--------------------------------------
   //+ EVENT HANDLERS
   //--------------------------------------
+
+  changePage: function(){
+    // scroll to page
+    //this.ui.pages
+    // this.model.get('currentPage')
+  }
 
   //--------------------------------------
   //+ PRIVATE AND PROTECTED METHODS

@@ -14,6 +14,8 @@ module.exports = Backbone.Marionette.ItemView.extend({
   //--------------------------------------
 
   template: template,
+  tagName: 'ul',
+  className: 'eye-list clearfix',
 
   ui: {
     people: ".people",

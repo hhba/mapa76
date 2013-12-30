@@ -14,6 +14,7 @@ module.exports = Backbone.Marionette.ItemView.extend({
   //--------------------------------------
 
   tagName: "li",
+  className: "doc",
   template: template,
 
   templateHelpers: {
@@ -22,7 +23,7 @@ module.exports = Backbone.Marionette.ItemView.extend({
       var entities = this.named_entities;
 
       if (formatted_text && entities){
-        var template = Handlebars.compile('<a class="{{ne_class}}" data-eid="{{id}}">{{text}}</a>');
+        var template = Handlebars.compile('<span class="{{ne_class}}" data-eid="{{id}}">{{text}}</span>');
         
         for (var i=entities.length; i--;){
           var ent = entities[i];
@@ -62,10 +63,10 @@ module.exports = Backbone.Marionette.ItemView.extend({
 
     function toggleLinks(visible, name){
       if (visible) {
-        $("a." + name, this.$el).removeClass("hide");
+        $("span." + name, this.$el).removeClass("hide");
       }
       else {
-        $("a." + name, this.$el).addClass("hide");
+        $("span." + name, this.$el).addClass("hide");
       }
     }
 
