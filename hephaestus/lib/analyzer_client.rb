@@ -14,7 +14,7 @@ class AnalyzerClient
   def initialize(text, opt={})
     @text = text
     @port = opt.fetch(:port, 50005)
-    @timeout = opt.fetch(:timeout, 600)
+    @timeout = opt.fetch(:timeout, 3600) # One hour
   end
 
   def call
