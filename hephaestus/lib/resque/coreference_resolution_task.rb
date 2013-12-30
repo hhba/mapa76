@@ -18,11 +18,13 @@ class CoreferenceResolutionTask < Base
   end
 
   def call
+    document.people.destroy_all
     named_entities = document.people_found.to_a
     find_duplicates(named_entities).each do |group|
       named_entity = group.first
       store(named_entity, group.length)
     end
+    document.context(force: true)
   end
 
   def store(named_entity, mentions=1)

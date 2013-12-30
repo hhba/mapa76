@@ -9,10 +9,10 @@ class EntitiesExtractionTask < Base
 
   def initialize(id)
     @document = Document.find(id)
-    @document.named_entities.destroy_all
   end
 
   def call
+    document.named_entities.destroy_all
     analyzer_client = AnalyzerClient.new(document.processed_text)
     address_extractor = AddressExtractor.new(document.processed_text)
     analyzer_client.tokens.each do |token|

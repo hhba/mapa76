@@ -17,8 +17,10 @@ class MentionsFinderTask < Base
 
   def call
     ENTITY_CLASSES.each do |entity_cls|
+      document.send(entity_cls).destroy_all
       find_and_store(entity_cls)
     end
+    document.context(force: true)
   end
 
   def find_and_store(entity_cls)
