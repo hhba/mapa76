@@ -50,7 +50,7 @@ class TextExtractionTask < Base
       document.pages << page
       pos = pos + text_page.length
     end
-    pages = Page.where(document_id: document.id)
+    pages = Page.where(document_id: document.id).asc(:num)
     document.processed_text = pages.map { |p| p.text }.join#(' ')
     document.save!
   end
