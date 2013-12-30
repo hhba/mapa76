@@ -14,13 +14,14 @@ SCRIPTNAME=/etc/init.d/$NAME
 QUEUE=2
 WORKERS=2
 PORT=50005
-CMD="/usr/local/bin/analyzer -f /usr/share/freeling/config/es.cfg --server --port $PORT --workers $WORKERS --queue $QUEUE  --outf tagged --nec --noflush"
+CMD="/usr/local/bin/analyzer -f /home/deployer/apps/mapa76.info/hephaestus/current/config/freeling/config/es.cfg /usr/share/freeling/config/es.cfg --server --port $PORT --workers $WORKERS --queue $QUEUE  --outf tagged --nec --noflush"
 
 case "$1" in
 start)
     printf "%-50s" "Starting $NAME ES..."
 #    cd $DAEMON_PATH
     export FREELINGSHARE=/usr/share/freeling
+    export FREELINGCUSTOM=/home/deployer/apps/mapa76.info/hephaestus/current/config/freeling
     PID_ES=`$CMD > /var/log/freeling.log 2>&1 & echo $!`
     echo "Saving PID" $PID " to " $PIDFILE
         if [ -z $PID_ES ]; then
