@@ -40,7 +40,7 @@ class TextExtractionTask < Base
   def store(text)
     pos = 0
     text.split("\f").each_with_index do |text_page, index|
-      text_page = text_page.gsub("\n", " ").gsub("  ", " ")
+      text_page = text_page.gsub("  ", " ")
       page = Page.create({
         num:      index + 1,
         text:     text_page,
