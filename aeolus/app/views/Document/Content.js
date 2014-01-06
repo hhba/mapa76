@@ -14,7 +14,6 @@ module.exports = Backbone.Marionette.CompositeView.extend({
   //--------------------------------------
 
   template: template,
-  //itemViewContainer: "ul.pages",
   itemView: Page,
   tagName: 'ol',
   className: 'wrapper-doc',
