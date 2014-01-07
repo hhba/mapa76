@@ -85,7 +85,7 @@ module.exports = Backbone.Model.extend({
       remove: false
     }).done(function(){
       self.get("documentPages").sort().trigger("reset");
-      self.set("currentPage", "index");
+      self.set("currentPage", index);
     });
 
   },
