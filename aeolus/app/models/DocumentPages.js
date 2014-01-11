@@ -12,7 +12,7 @@ module.exports = Backbone.Collection.extend({
     return page.get("num");
   },
 
-  initialize: function(options){
+  initialize: function(models, options){
     this.id = options.id;
   }
 

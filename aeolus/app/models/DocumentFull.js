@@ -14,7 +14,8 @@ module.exports = Backbone.Model.extend({
       organizations: true,
       places: true,
       dates: true
-    }
+    },
+    currentPage: 1
   },
 
   urlRoot: function(){
@@ -24,7 +25,7 @@ module.exports = Backbone.Model.extend({
   parse: function(response){
     response.counter = response.counters;
     
-    response.documentPages = new DocumentPages({
+    response.documentPages = new DocumentPages([], {
       id: response.id
     });
 
