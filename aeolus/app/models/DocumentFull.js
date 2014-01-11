@@ -66,7 +66,7 @@ module.exports = Backbone.Model.extend({
     }
     else {
       this.set("currentPage", index);
-    } 
+    }
   },
 
   //Get pages which are not on the collection by an array of numbers

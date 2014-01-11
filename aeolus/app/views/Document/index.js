@@ -46,6 +46,7 @@ module.exports = Backbone.Marionette.Layout.extend({
       model: this.model,
       collection: this.model.get("documentPages")
     }));
+    window.model = this.model;
   }
 
   //--------------------------------------

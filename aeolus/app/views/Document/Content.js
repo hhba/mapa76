@@ -17,31 +17,18 @@ module.exports = Backbone.Marionette.CompositeView.extend({
   itemView: Page,
   tagName: 'ol',
   className: 'wrapper-doc',
+  modelEvents: {
+    'change:currentPage': 'changeCurrentPage'
+  },
 
   //--------------------------------------
   //+ INHERITED / OVERRIDES
   //--------------------------------------
 
   onRender: function(){
-    var
-      self = this,
-      currentPage = 1,
-      $li = '',
-      currentLi = '',
-      scrollLevel = 0;
-
+    var self = this;
     this.$el.on('scroll', function(){
-      scrollLevel = self.$el.scrollTop();
-      currentLi = _.find(self.$el.find('li'), function(pageLi){
-        $li = $(pageLi);
-        return $li.position().top + $li.outerHeight() > 0;
-      });
-
-      currentPage = $(currentLi).data("num");
-
-      if(self.model.get("currentPage") !== currentPage){
-        self.model.moveToPage(currentPage);
-      }
+      self._changePageOnScrolling();
     });
   },
 
@@ -53,21 +40,53 @@ module.exports = Backbone.Marionette.CompositeView.extend({
   //+ EVENT HANDLERS
   //--------------------------------------
 
+  changeCurrentPage: function(){
+    if(!this._isCurrentPage()){
+      this.dontUpdateScroll = true;
+      this.scrollToPage();
+    }
+  },
+
   scrollToPage: function(){
-     var
-       prevHeight = 0,
-       currentPage = this.model.get('currentPage');
+    var
+      prevHeight = 0,
+      currentPage = this.model.get('currentPage');
 
     _.each($('#page_' + currentPage).prevAll(), function(pageLi){
       prevHeight = prevHeight + $(pageLi).outerHeight();
     });
 
     this.$el.scrollTop(prevHeight);
-    //aeolus.app.router.navigate('#' + currentPage, {trigger: true});
+    aeolus.app.router.navigate('#' + currentPage, {trigger: true});
   },
 
   //--------------------------------------
   //+ PRIVATE AND PROTECTED METHODS
   //--------------------------------------
 
+  _changePageOnScrolling: function(){
+    var currentPage = this._currentScrollingPage();
+
+    if(!this.dontUpdateScroll && !this._isCurrentPage()){
+      this.model.moveToPage(currentPage);
+      aeolus.app.router.navigate('#' + currentPage, {trigger: true});
+    }
+    this.dontUpdateScroll = false;
+  },
+
+  _currentScrollingPage: function(){
+    var
+      $li,
+      currentLi;
+    currentLi = _.find(this.$el.find('li'), function(pageLi){
+      $li = $(pageLi);
+      return $li.position().top + $li.outerHeight() > 0;
+    });
+
+    return $(currentLi).data('num');
+  },
+
+  _isCurrentPage: function(){
+    return this._currentScrollingPage() === this.model.get('currentPage');
+  },
 });
