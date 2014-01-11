@@ -61,7 +61,7 @@ module.exports = function(type){
     }));
 
     app.router = new AeolusRouter({
-      document: app.document      
+      document: app.document
     });
 
     app.document.fetch({
@@ -73,7 +73,7 @@ module.exports = function(type){
         model: app.document
       }));
 
-      Backbone.history.start(); 
+      Backbone.history.start();
     });
   }
 
