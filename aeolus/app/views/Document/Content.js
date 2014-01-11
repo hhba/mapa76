@@ -18,26 +18,32 @@ module.exports = Backbone.Marionette.CompositeView.extend({
   tagName: 'ol',
   className: 'wrapper-doc',
 
-  ui: {
-    pages: 'ul.pages'
-  },
-
-  modelEvents: {
-    'change:currentPage': 'changePage'
-  },
-
   //--------------------------------------
   //+ INHERITED / OVERRIDES
   //--------------------------------------
 
   onRender: function(){
-    this.ui.pages.on('scroll', function(){
-      // calculo de las paginas
-      // aeolus.app.router.navigate('#5', {trigger: true});
+    var
+      self = this,
+      currentPage = 1,
+      $li = '',
+      currentLi = '',
+      scrollLevel = 0;
+
+    this.$el.on('scroll', function(){
+      scrollLevel = self.$el.scrollTop();
+      currentLi = _.find(self.$el.find('li'), function(pageLi){
+        $li = $(pageLi);
+        return $li.position().top + $li.outerHeight() > 0;
+      });
+
+      currentPage = $(currentLi).data("num");
+
+      if(self.model.get("currentPage") !== currentPage){
+        self.model.moveToPage(currentPage);
+      }
     });
-
   },
-
 
   //--------------------------------------
   //+ PUBLIC METHODS / GETTERS / SETTERS
@@ -47,11 +53,18 @@ module.exports = Backbone.Marionette.CompositeView.extend({
   //+ EVENT HANDLERS
   //--------------------------------------
 
-  changePage: function(){
-    // scroll to page
-    //this.ui.pages
-    // this.model.get('currentPage')
-  }
+  scrollToPage: function(){
+     var
+       prevHeight = 0,
+       currentPage = this.model.get('currentPage');
+
+    _.each($('#page_' + currentPage).prevAll(), function(pageLi){
+      prevHeight = prevHeight + $(pageLi).outerHeight();
+    });
+
+    this.$el.scrollTop(prevHeight);
+    //aeolus.app.router.navigate('#' + currentPage, {trigger: true});
+  },
 
   //--------------------------------------
   //+ PRIVATE AND PROTECTED METHODS

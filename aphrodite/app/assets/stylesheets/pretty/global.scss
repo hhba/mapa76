@@ -1058,8 +1058,14 @@ text-transform: uppercase;
 	 			font-size: $font-size-small;
 	 			text-align: justify;
 	 			color:$color-darck-text;
+				margin: 0;
 	 		}
 	 	}
+		.page{
+			 float: right;
+			 color: #999999;
+			 margin: 0 0 10px 15px;
+		}
  	}
  }
 /* ================================ */

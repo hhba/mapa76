@@ -1,4 +1,3 @@
-
 /**
  * VIEW: Document Page
  * 
@@ -16,10 +15,18 @@ module.exports = Backbone.Marionette.ItemView.extend({
   tagName: "li",
   className: "doc",
   template: template,
+  attributes: function(){
+    return { 'data-num': this.model.get('num')};
+  },
+
+  id: function(){
+    return 'page_' + this.model.get('num');
+  },
 
   templateHelpers: {
     formatted_text: function(){
       var formatted_text = this.text || "";
+      var from_pos = this.from_pos;
       var entities = this.named_entities;
 
       if (formatted_text && entities){
@@ -30,14 +37,14 @@ module.exports = Backbone.Marionette.ItemView.extend({
 
           var p = ent.pos;
 
-          var begin = formatted_text.substr(0, p);
-          var tail = formatted_text.substr(p + ent.text.length);
+          var begin = formatted_text.substr(0, p - from_pos);
+          var tail = formatted_text.substr(p - from_pos + ent.text.length);
 
           formatted_text = begin + template(ent) + tail;
         }
       }
 
-      return formatted_text;
+      return formatted_text.split("\n").join("</p><p>");
     }
   },
 
