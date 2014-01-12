@@ -26,6 +26,12 @@ module.exports = Backbone.Marionette.ItemView.extend({
   modelEvents: {
     'change:currentPage': 'render'
   },
+  templateHelpers: function(){
+    return {
+      firstPage: this.model.get('currentPage') === 1,
+      lastPage: this.model.get('currentPage') === this.model.get('pages')
+    };
+  },
 
   //--------------------------------------
   //+ INHERITED / OVERRIDES

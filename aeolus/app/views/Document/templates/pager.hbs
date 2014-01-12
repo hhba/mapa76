@@ -1,4 +1,12 @@
+{{#unless firstPage}}
 <li class="prev"><a href="#"></a></li>
+{{else}}
+<li class="empty"></li>
+{{/unless}}
 <li class="current"><span>pag</span><input type="text" name="go-to-page" value="{{currentPage}}"></li>
 <li class="total">/ {{pages}}</li>
+{{#unless lastPage}}
 <li class="next"><a href="#"></a></li>
+{{else}}
+<li class="empty"></li>
+{{/unless}}

@@ -1116,6 +1116,10 @@ text-transform: uppercase;
 				margin: 0px 5px;
 				@include arrow-deco (right, 8px, $color-bg-second-lvl, 5px, 2px);
 			}
+			li.empty{
+				display: block;
+				width: 10px;
+			}
 		}
 	}
 /* ================================ */
