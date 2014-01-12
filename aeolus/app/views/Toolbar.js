@@ -26,7 +26,8 @@ module.exports = Backbone.Marionette.ItemView.extend({
     "keyup #search": "onSearchKeyup",
     "click #upload": "toggleNewDocument",
     "click #export": "toggleExport",
-    "click #delete": "removeDocuments"
+    "click #delete": "removeDocuments",
+    "click #seachButton": "searchDocuments"
   },
 
   modelEvents: {
