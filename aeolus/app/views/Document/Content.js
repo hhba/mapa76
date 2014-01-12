@@ -56,7 +56,7 @@ module.exports = Backbone.Marionette.CompositeView.extend({
       prevHeight = prevHeight + $(pageLi).outerHeight();
     });
 
-    this.$el.scrollTop(prevHeight);
+    this.$el.scrollTop(prevHeight + 16);
     aeolus.app.router.navigate('#' + currentPage, {trigger: true});
   },
 
