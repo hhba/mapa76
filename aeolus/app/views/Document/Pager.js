@@ -41,12 +41,14 @@ module.exports = Backbone.Marionette.ItemView.extend({
   //+ PUBLIC METHODS / GETTERS / SETTERS
   //--------------------------------------
 
-  nextPage: function(){
+  nextPage: function(event){
     this.model.moveToPage(this.model.get('currentPage') + 1);
+    event.preventDefault();
   },
 
-  prevPage: function(){
+  prevPage: function(event){
     this.model.moveToPage(this.model.get('currentPage') - 1);
+    event.preventDefault();
   },
 
   changePage: function(event){
