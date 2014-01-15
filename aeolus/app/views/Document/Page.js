@@ -40,6 +40,8 @@ module.exports = Backbone.Marionette.ItemView.extend({
           var begin = formatted_text.substr(0, p - from_pos);
           var tail = formatted_text.substr(p - from_pos + ent.text.length);
 
+          ent.text = ent.text.replace(/_/gi, " ");
+
           formatted_text = begin + template(ent) + tail;
         }
       }
