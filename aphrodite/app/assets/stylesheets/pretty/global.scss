@@ -106,31 +106,26 @@ span {
 		cursor: pointer;
 		@include opensans-semibold;
 		@include txt-inspect($color-people);
-		font-style: italic;
 	}
 	&.organizations {
 		cursor: pointer;
 		@include opensans-semibold;
 		@include txt-inspect($color-organizations);
-		font-style: italic;
 	}
 	&.places, &.addresses {
 		cursor: pointer;
 		@include opensans-semibold;
 		@include txt-inspect($color-places);
-		font-style: italic;
 	}
 	&.dates {
 		cursor: pointer;
 		@include opensans-semibold;
 		@include txt-inspect($color-dates);
-		font-style: italic;
 	}
 	&.others {
 		cursor: pointer;
 		@include opensans-semibold;
 		@include txt-inspect($color-others);
-		font-style: italic;
 	}
 	&.hide {
 		@include txt-inspect($color-darck-text);
