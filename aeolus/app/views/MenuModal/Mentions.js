@@ -26,6 +26,25 @@ module.exports = Backbone.Marionette.CompositeView.extend({
   //+ INHERITED / OVERRIDES
   //--------------------------------------
 
+  initialize: function(options){
+    this.hideClose = (options && options.hideClose) || false;
+    this.newClassNames = (options && options.newClassNames) || "";
+  },
+
+  onRender: function(){
+    if (this.newClassNames){
+      this.$el
+        .removeClass("view-more-list")
+        .addClass(this.newClassNames);
+    }
+  },
+
+  serializeData: function(){  
+    return _.extend({
+      hideClose: this.hideClose
+    }, ((this.model && this.model.toJSON()) || {}));
+  }
+
   //--------------------------------------
   //+ PUBLIC METHODS / GETTERS / SETTERS
   //--------------------------------------

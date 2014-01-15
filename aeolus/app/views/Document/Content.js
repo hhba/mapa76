@@ -27,9 +27,14 @@ module.exports = Backbone.Marionette.CompositeView.extend({
 
   onRender: function(){
     var self = this;
-    this.$el.on('scroll', function(){
-      self._changePageOnScrolling();
-    });
+    this.$el
+      .on('scroll', function(){
+        window.aeolus.app.modalMentions.close();
+        self._changePageOnScrolling();
+      })
+      .on('click', function(){
+        window.aeolus.app.modalMentions.close();
+      });
   },
 
   //--------------------------------------

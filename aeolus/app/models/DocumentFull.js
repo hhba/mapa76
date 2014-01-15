@@ -56,7 +56,7 @@ module.exports = Backbone.Model.extend({
       pages = _.range(ps, total+1);
     }
     else {
-      pages = _.range(index - hRange, index + hRange + 1);
+      pages = _.range(index - hRange, index + hRange);
     }
 
     var pagesToLoad = this.getNeededPages(pages);
@@ -72,6 +72,10 @@ module.exports = Backbone.Model.extend({
   //Get pages which are not on the collection by an array of numbers
   getNeededPages: function(pages){
     return _.filter(pages, function(page){
+      if (page === 0){
+        return false;
+      }
+
       var found = this.get("documentPages").where({ "num": page });
       return found.length === 0;
     }, this);
