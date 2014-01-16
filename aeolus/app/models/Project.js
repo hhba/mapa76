@@ -75,7 +75,9 @@ module.exports = Backbone.Model.extend({
       var self = this;
       
       this.timer = window.setTimeout(function(){
-        self.get("documents").getStatus();
+        if (!self.get("documents").isSearch){
+          self.get("documents").getStatus();
+        }
         self.checkStatus();
       }, aeolus.poolingStatusTime);
     }
