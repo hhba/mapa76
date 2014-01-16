@@ -3371,10 +3371,17 @@ body.index-mapa76 .footer-secction {
   margin-bottom: 3px;
   font-size: 11px;
 }
+
+.show-doc .visualizer {
+  float:right;
+}
 /* line 1032, ../../app/assets/stylesheets/pretty/global.scss */
 .show-doc .documentInfo {
-  width: 20%;
   float: left;
+  width: 30%; 
+  margin-left: 40px; 
+  overflow: hidden; 
+  height: 40px;
 }
 /* line 1035, ../../app/assets/stylesheets/pretty/global.scss */
 .show-doc .documentInfo h3 {

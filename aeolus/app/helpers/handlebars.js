@@ -34,3 +34,11 @@ Handlebars.registerHelper('formatDateTextAndTime', function(date) {
   
   return "";
 });
+
+Handlebars.registerHelper('cutText', function(text, size) {
+  if (text.length > size){
+    return text.substring(0, size) + "...";
+  }
+
+  return text;
+});
