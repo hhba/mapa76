@@ -767,6 +767,7 @@
 /* line 435, ../../app/assets/stylesheets/pretty/list.scss */
 .search-result li.item-list .results li {
   border-bottom: 1px solid #b7b7b7;
+  padding-bottom: 3px;
 }
 /* line 437, ../../app/assets/stylesheets/pretty/list.scss */
 .search-result li.item-list .results li:last-child {
@@ -807,6 +808,7 @@
 /* line 453, ../../app/assets/stylesheets/pretty/list.scss */
 .search-result li.item-list .results li p {
   clear: both;
+  margin-bottom: 3px;
 }
 
 /* line 464, ../../app/assets/stylesheets/pretty/list.scss */

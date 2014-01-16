@@ -84,8 +84,15 @@ module.exports = Backbone.Collection.extend({
       headers: headers,
       context: this
     }).done(function(foundDocs){
-      this.reset(foundDocs, { parse: true });
       this.isSearch = true;
+
+      if (foundDocs && foundDocs.length > 0 ){
+        this.reset(foundDocs, { parse: true });
+      }
+      else {
+        this.reset();
+      }
+
       this.trigger("searching");
     });
   },
