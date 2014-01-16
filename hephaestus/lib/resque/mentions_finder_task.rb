@@ -35,6 +35,13 @@ class MentionsFinderTask < Base
         user.send(entity_cls) << entity
       end
       document.send(entity_cls) << entity
+      update_named_entities(entity, entity_cls)
+    end
+  end
+
+  def update_named_entities(entity, entity_cls)
+    NamedEntity.where(lemma: entity.lemma).each do |named_entity|
+      named_entity.update_attribute :entity_id, entity.id
     end
   end
 

@@ -38,6 +38,7 @@ class CoreferenceResolutionTask < Base
                              lemma: named_entity.lemma
       user.people << person
     end
+    named_entity.update_attribute :entity_id, person.id
     document.people << person
   end
 

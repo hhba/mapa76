@@ -9,7 +9,8 @@ node :named_entities do |page|
       ne_class: ne.ne_class,
       form: ne.form,
       pos: ne.pos,
-      inner_pos: ne.inner_pos
+      inner_pos: ne.inner_pos,
+      entity_id: ne.entity_id
     }
   end
 end
