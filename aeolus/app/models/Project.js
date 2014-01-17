@@ -26,11 +26,11 @@ module.exports = Backbone.Model.extend({
   initialize: function(){
     var documents = new Documents();
     this.set("documents", documents);
-    
+   
     documents
       .on("reset add remove change:selected", this.updateCounter.bind(this))
       .fetch({ reset: true })
-      .done(this.checkStatus.bind(this));
+      .done(this.checkStatus.bind(this)); 
   },
 
   updateCounter: function(){

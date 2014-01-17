@@ -5,7 +5,8 @@
 
 var 
   template = require('./templates/documentList.tpl'),
-  Document = require('./DocumentItem');
+  Document = require('./DocumentItem'),
+  LoadingView = require("../Loading");
 
 module.exports = Backbone.Marionette.CompositeView.extend({
 
@@ -35,6 +36,9 @@ module.exports = Backbone.Marionette.CompositeView.extend({
   },
 
   collectionEvents: {
+    'request': 'showLoading',
+    'sync': 'hideLoading',
+
     "add": "scrollBottom",
     "searching": "updateCSSClass searching"
   },
@@ -44,6 +48,8 @@ module.exports = Backbone.Marionette.CompositeView.extend({
   //--------------------------------------
 
   onDomRefresh: function(){
+    this.showLoading();
+
     this.ui.selectionAll
       .iCheck({
         checkboxClass: 'icheckbox_flat-grey left',
@@ -52,6 +58,16 @@ module.exports = Backbone.Marionette.CompositeView.extend({
       })
       .on('ifChecked', this.onCheck.bind(this))
       .on('ifUnchecked', this.onUncheck.bind(this));
+  },
+
+  showLoading: function(){
+    var loading = new LoadingView();
+    loading.render();
+    this.ui.docsList.append(loading.$el);
+  },
+
+  hideLoading: function(){
+    this.ui.docsList.children(".loading").remove();
   },
 
   //--------------------------------------

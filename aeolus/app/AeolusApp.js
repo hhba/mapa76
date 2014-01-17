@@ -77,6 +77,9 @@ module.exports = function(type){
     });
   }
 
+  // Creates Spinner for Loadings
+  app.spinner = new window.Spinner(window.aeolus.spinnerOptions);
+
   switch(type){
     case "project": 
       app.addInitializer(initializeProject);
