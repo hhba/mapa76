@@ -43,7 +43,7 @@ module.exports = Backbone.Marionette.ItemView.extend({
       var entities = this.named_entities;
 
       if (formatted_text && entities){
-        var template = Handlebars.compile('<span class="{{ne_class}}" data-eid="{{id}}">{{text}}</span>');
+        var template = Handlebars.compile('<span class="{{ne_class}}" data-eid="{{entity_id}}">{{text}}</span>');
         
         for (var i=entities.length; i--;){
           var ent = entities[i];
