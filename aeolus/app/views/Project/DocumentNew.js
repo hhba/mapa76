@@ -86,6 +86,7 @@ module.exports = Backbone.Marionette.ItemView.extend({
     this.resetUpload();
 
     aeolus.app.project.get("documents").add(docs);
+    aeolus.app.project.get("documents").changeSort('created_at', 'desc');
     this.close();
   },
 
