@@ -3,10 +3,6 @@ attributes :id, :name
 
 node :mentions do |entity|
   entity.mentions.map do |id, val|
-    begin
-      {id: id, title: document_title(id, @documents), mentions: val}
-    rescue Mongoid::Errors::DocumentNotFound
-      nil
-    end
+    build_mention(id, val, @documents)
   end.compact
 end
