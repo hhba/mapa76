@@ -2,7 +2,7 @@ class Api::V2::DocumentsController < Api::V2::BaseController
   skip_before_filter :verfy_authenticity_token, only: [:create]
 
   def index
-    @documents = current_user.documents
+    @documents = current_user.documents.desc(:created_at)
   end
 
   def create
