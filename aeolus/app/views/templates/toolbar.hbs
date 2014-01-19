@@ -8,6 +8,8 @@
   <li class="tool upload-doc"><a id="upload" href="#">Subir Documento</a></li>
   {{/unless}}
   <li class="multi tool export-doc"><a id="export" href="#">Exportar</a></li>
-  <!--<li class="multi tool download-doc"><a id="download" href="#">Descargar</a></li>-->
+  {{#if singleDocument}}
+  <li class="multi tool download-doc"><a target="_blank" id="download" href="/documents/{{id}}/download">Descargar</a></li>
+  {{/if}}
   <li class="multi tool last trash-doc"><a id="delete" href="#">Eliminar</a></li>
 </ul>
