@@ -2,7 +2,7 @@ collection @pages
 attributes :id, :num, :from_pos, :to_pos, :text
 
 node :named_entities do |page|
-  page.named_entities.ne(collisioned: true).asc(:pos).map do |ne|
+  page.named_entities.ne(collisioned: true).ne(ne_class: :others).asc(:pos).map do |ne|
     {
       id: ne.id,
       text: ne.text,
