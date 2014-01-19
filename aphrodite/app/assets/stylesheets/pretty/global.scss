@@ -394,7 +394,7 @@ text-transform: uppercase;
 				}
 				.user-login {
 					float: right;
-					width: 577px;
+					width: 200px;
 					margin: 17px 0px 0px 0px;
 				}
 			}
@@ -668,6 +668,10 @@ text-transform: uppercase;
 					width: 38px;
 					margin-bottom: -1px;
 					padding-bottom: 10px;
+					.help-list{
+						padding: 3px;
+						position: relative;
+					}
 					.tool {}
 				}
 				.group-a {}
@@ -756,7 +760,7 @@ text-transform: uppercase;
 		.header-and-content {
 			padding:0px;
 			position: absolute;
-			top: 64px;
+			top: 0px;
 			bottom: 0;
 			left: 0;
 			right: 0;
@@ -1197,5 +1201,67 @@ body .qtip-content {
 	word-wrap: break-word;
 }
 /* ================================ */
-
-
+.header-pp .help-list.wrapper-dropdown {
+  padding: 0px;
+}
+.help-list.wrapper-dropdown:after {
+  content: "";
+  position: absolute;
+  top: -5px;
+  right: 13px;
+  left: initial;
+  /* style */
+  border-width: 0px;
+  border-color: transparent;
+  border-style: solid;
+  display: inline-block;
+  height: 0px;
+  width: 0px;
+  visibility: visible;
+  border-bottom-color: white;
+  border-top-width: 0px;
+}
+.help-list.wrapper-dropdown span a {
+  background-image: url("/images/header_menu.png");
+  background-repeat: no-repeat;
+  background-position-y: top;
+  background-position-x: left;
+  display: block;
+  width: 31px;
+  height: 27px;
+  -webkit-transition: all 0s ease-in-out;
+  -moz-transition: all 0s ease-in-out;
+  -ms-transition: all 0s ease-in-out;
+  -o-transition: all 0s ease-in-out;
+  transition: all 0s ease-in-out;
+}
+.help-list.wrapper-dropdown span a:hover {
+  background-position-x: right;
+  -webkit-transition: all 0s ease-in-out;
+  -moz-transition: all 0s ease-in-out;
+  -ms-transition: all 0s ease-in-out;
+  -o-transition: all 0s ease-in-out;
+  transition: all 0s ease-in-out;
+}
+.help-list.wrapper-dropdown .dropdown {
+  width: 130px;
+  left: -95px;
+  top: 38px;
+  padding:0;
+}
+.help .wrapper-dropdown{
+  padding: 0;
+}
+#bar-logo{
+	float: left;
+	background: white url("/images/bg-pattern.png") repeat 0 0;
+}
+#bar-logo a{
+	background: url("#{$path-to-images}/analice_me.png") no-repeat top left;
+	background-size: 68px;
+	background-position-y: 2px;
+	background-position-x: 5px;
+	width: 80px;
+	height: 28px;
+	display: block;
+}

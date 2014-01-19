@@ -51,6 +51,8 @@ module.exports = Backbone.Marionette.Layout.extend({
   },
 
   onRender: function(){
+    var dd2 = new window.DropDown($('#help-list'));
+    console.log(dd2);
     this.loadContent(this.active);
   },
 
