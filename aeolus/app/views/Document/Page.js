@@ -25,7 +25,8 @@ module.exports = Backbone.Marionette.ItemView.extend({
     "click span.people": "clickPerson",
     "click span.organizations": "clickOrganization",
     "click span.dates": "clickDate",
-    "click span.places": "clickPlace"
+    "click span.places": "clickPlace",
+    "click span.addresses": "clickPlace"
   },
 
   attributes: function(){
