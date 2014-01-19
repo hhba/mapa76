@@ -5,11 +5,12 @@ class NamedEntity < Citation
 
   field :ne_class, type: Symbol, default: lambda { tag ? CLASSES_PER_TAG[tag] : nil }
 
-  field :form,      type: String
-  field :lemma,     type: String
-  field :tag,       type: String
-  field :prob,      type: Float
-  field :tokens,    type: Array
+  field :form,        type: String
+  field :lemma,       type: String
+  field :tag,         type: String
+  field :prob,        type: Float
+  field :tokens,      type: Array
+  field :collisioned, type: Boolean, default: false
   field :entity_id, type: Moped::BSON::ObjectId
 
   CLASSES_PER_TAG = {
