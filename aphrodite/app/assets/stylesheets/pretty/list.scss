@@ -79,6 +79,9 @@
 //example /examples/info-list.jpg
 	.info-list {
 		width: 100%;
+		.loading{
+			margin: 34%;
+		}
 		li {
 			margin: 0 16px;
 			padding: 17px 0;
