@@ -22,7 +22,8 @@ module.exports = Backbone.Marionette.ItemView.extend({
       p = this.model.get("percentage"),
       show = (p === -1 || (p >= 0 && p < 100)) ? true : false,
       type = (p === -1) ? "error" : "info",
-      msg = (type === "error") ? "Error al analizar documento" : "Analizando documento";
+      msg = this.model.get("status_msg") || "Cargando...",
+      showSpinner = (p >= 0);
 
     return {
       urls: {
@@ -30,9 +31,10 @@ module.exports = Backbone.Marionette.ItemView.extend({
         file: baseUrl + "/download",
         export: baseUrl + "/export"
       },
+      showSpinner: showSpinner,
+      status_msg: msg,
       showProgress: show,
       progressType: type,
-      progressMessage: msg,
       showFlag: (type === "error") ? true : false
     };
   },
@@ -49,7 +51,8 @@ module.exports = Backbone.Marionette.ItemView.extend({
 
   modelEvents: {
     "change:selection": "render",
-    "change:percentage": "render"
+    "change:percentage": "render",
+    "change:status_msg": "render"
   },
 
   //--------------------------------------
@@ -58,7 +61,7 @@ module.exports = Backbone.Marionette.ItemView.extend({
 
   onRender: function(){
     var sums = this.model.get("highlights");
-    
+
     if (sums && sums.length > 0){
       var highlights = new DocumentHighlights({
         model: this.model,

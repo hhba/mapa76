@@ -1,5 +1,6 @@
 class CollisionsDetectorTask < Base
   @queue = :collisions_detector_task
+  @msg = "Normalizando direcciones"
 
   attr_reader :document
 

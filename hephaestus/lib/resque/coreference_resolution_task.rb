@@ -2,6 +2,7 @@ require 'amatch'
 
 class CoreferenceResolutionTask < Base
   @queue = :coreference_resolution_task
+  @msg = "Resolviendo coreferencias"
 
   attr_reader :document, :user
 

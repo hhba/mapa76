@@ -27,9 +27,18 @@
 
     {{#if showProgress}}
     <div class="progress-bar {{progressType}}">
-      {{#if progressMessage}}
-      <label>{{progressMessage}}</label>
+      <label>{{status_msg}}</label>
+      {{#if showSpinner}}
+      <div class="docs-loader">
+        <img src="/images/docs-loader.gif">
+      </div>
       {{/if}}
+      {{#if showFlag}}
+      <div class="result">
+        <a class="flag">Reportar</a>
+      </div>
+      {{/if}}
+      <!--
       <div class="wrapper-bar">
         <div class="bar" style="width: {{percentage}}%;"></div>
         {{#if showFlag}}
@@ -38,6 +47,7 @@
         </div>
         {{/if}}
       </div>
+      -->
     </div>
     {{/if}}
   

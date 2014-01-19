@@ -1,2 +1,2 @@
 collection @documents
-attributes :id, :percentage
+attributes :id, :percentage, :status_msg

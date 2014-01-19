@@ -646,10 +646,11 @@
 					text-decoration: underline;
 					margin-left: 5px;
 					font-style: italic;
-
 				}
 			}
-
+			.docs-loader{
+				margin-left: -6px;
+			}
 			&.muted {
 				label {}
 				.wrapper-bar {

@@ -1,6 +1,7 @@
 class Base
   def self.before_perform(*args)
     logging('start', args)
+    begin_task(args.first)
     store_status('start', args.first)
   end
 
@@ -30,6 +31,10 @@ class Base
     else
       logger.info "[#{msg}] #{@queue} without args"
     end
+  end
+
+  def self.begin_task(document_id)
+    Document.find(document_id).update_attribute :status_msg, "#{@msg}"
   end
 
   def self.store_status(msg, document_id)

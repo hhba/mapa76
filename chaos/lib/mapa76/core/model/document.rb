@@ -11,6 +11,7 @@ class Document
   field :fontspecs,         type: Hash,    default: {}
   field :processed_text,    type: String
   field :status,            type: String,  default: ''
+  field :status_msg,        type: String,  default: ''
   field :status_history,    type: Array,   default: []
   field :tasks,             type: Array,   default: []
   field :public,            type: Boolean, default: true

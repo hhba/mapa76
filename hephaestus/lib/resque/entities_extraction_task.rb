@@ -1,5 +1,6 @@
 class EntitiesExtractionTask < Base
   @queue = :entities_extraction_task
+  @msg = "Extrayendo entidades"
 
   attr_reader :document
 

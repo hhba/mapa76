@@ -3,6 +3,7 @@ require 'tmpdir'
 
 class TextExtractionTask < Base
   @queue = :text_extraction_task
+  @msg = "Extrayendo texto"
   attr_reader :document
 
   def self.perform(document_id)
