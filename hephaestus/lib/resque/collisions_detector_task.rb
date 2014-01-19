@@ -3,7 +3,7 @@ class CollisionsDetectorTask < Base
 
   attr_reader :document
 
-  def perform(id)
+  def self.perform(id)
     self.new(id).call
   end
 
