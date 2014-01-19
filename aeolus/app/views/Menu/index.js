@@ -99,6 +99,7 @@ module.exports = Backbone.Marionette.Layout.extend({
     });
 
     this.itemsCollection = this.model.getListByTypes(item);
+    this.itemsCollection.changeSort('mentions', 'desc');
 
     var content = new types[item]({
       collection: this.itemsCollection
