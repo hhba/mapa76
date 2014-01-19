@@ -8,6 +8,6 @@ class EntitiesProvider
 
   def for(list=[])
     documents = user.documents.find(list)
-    documents.map(&type).flatten
+    documents.map(&type).flatten.sort_by { |entity| -1 * entity.mentions.values.inject(:+) }
   end
 end
