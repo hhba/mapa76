@@ -53,7 +53,7 @@ class MentionsFinderTask < Base
       same_lemma_named_entities = named_entities.select { |ne| ne.lemma == entity_lemma }
       {
         size: same_lemma_named_entities.count,
-        name: same_lemma_named_entities.first.form,
+        name: same_lemma_named_entities.first.text,
         lemma: same_lemma_named_entities.first.lemma,
       }
     end
