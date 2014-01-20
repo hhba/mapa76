@@ -8,6 +8,7 @@ class DocumentProcessBootstrapTask
     task_finder = TaskFinder.new(document)
 
     if task_finder.last_task? and task_finder.current_task_ended?
+      document.update_attribute :status_msg, 'Completado'
       document.update_attribute :percentage, 100
       document.update_attribute :flagger_id, nil
     else
