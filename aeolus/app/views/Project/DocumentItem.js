@@ -20,7 +20,7 @@ module.exports = Backbone.Marionette.ItemView.extend({
   templateHelpers: function(){
     var baseUrl = aeolus.baseRoot + "/documents/" + this.model.get("id"),
       p = this.model.get("percentage"),
-      show = (p === -1 || (p >= 0 && p < 100)) ? true : false,
+      show = (p !== 100),
       type = (p === -1) ? "error" : "info",
       msg = this.model.get("status_msg") || "Cargando...",
       showSpinner = (p >= 0);

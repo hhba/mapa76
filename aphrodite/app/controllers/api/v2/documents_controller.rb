@@ -35,7 +35,7 @@ class Api::V2::DocumentsController < Api::V2::BaseController
   end
 
   def status
-    @documents = current_user.documents.reject { |d| d.percentage == 100.0 }
+    @documents = current_user.documents
   end
 
   def show
