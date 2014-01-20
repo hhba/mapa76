@@ -44,7 +44,7 @@ class Document
   scope :without, ->(documents){ not_in(_id: documents.map(&:id)) }
 
   include Tire::Model::Search
-  include Tire::Model::Callbacks
+  # include Tire::Model::Callbacks
 
   tire do
     mapping do
