@@ -651,6 +651,14 @@
 			.docs-loader{
 				margin-left: -6px;
 			}
+			a.flag{
+				font-style: italic;
+				color: $color-error;
+			}
+			a.flag:hover{
+				font-style: italic;
+				color: darken( $color-error, 10% );
+			}
 			&.muted {
 				label {}
 				.wrapper-bar {

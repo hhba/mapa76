@@ -16,8 +16,10 @@ class Base
     id = args[0]
     begin
       document = Document.find(id)
-      document.update_attribute :status, "FAILED"
-      document.update_attribute :percentage, -1
+      document.status_msg = "Error"
+      document.status = "FAILED"
+      document.percentage = -1
+      document.save
       store_failure(e, args)
     rescue Mongoid::Errors::DocumentNotFound
       logging("Document not found. #{id}")
@@ -39,11 +41,6 @@ class Base
 
   def self.store_status(msg, document_id)
     Document.find(document_id).update_attribute :status, "#{@queue}-#{msg}"
-  end
-
-  def self.store_failure(e, args=[])
-    id = args[0]
-    DocumentFailure.create document_id: id, message: e.message, backtrace: e.backtrace.join("\n")
   end
 
   def self.update_history(document_id)
