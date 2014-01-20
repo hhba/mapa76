@@ -50,10 +50,14 @@ class CoreferenceResolutionTask < Base
         named_entity = named_entities.shift
 
         group = named_entities.select do |ne|
-          if named_entity.text.split(' ').length > 1
-            jarowinkler_distance(named_entity.text, ne.text)
-          else
-            branting_distance(named_entity.text, ne.text)
+          if APP_ENV == "development"
+            named_entity.text.downcase == ne.text.downcase
+          else 
+            if named_entity.text.split(' ').length > 1
+              jarowinkler_distance(named_entity.text, ne.text)
+            else
+              branting_distance(named_entity.text, ne.text)
+            end
           end
         end
 
