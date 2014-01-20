@@ -7,12 +7,13 @@ class AnalyzerClient
   class ExtractionError < StandardError
   end
 
-  attr_reader :text, :opt, :port, :timeout
+  attr_reader :text, :opt, :port, :timeout, :size
 
   Token = Class.new(Hashie::Mash)
 
   def initialize(text, opt={})
     @text = text
+    @size = text.size
     @port = opt.fetch(:port, 50005)
     @timeout = opt.fetch(:timeout, 3600) # One hour
   end
@@ -48,13 +49,17 @@ class AnalyzerClient
       pos = 0
       pre_tokens.each do |token|
         ne_text = token['form'].dup
+
         ne_regexp = build_regexp(ne_text)
         token_pos = text.index(ne_regexp, pos)
+
         if token_pos
           token.pos = token_pos
           yielder << token
-          pos = token_pos + ne_text.length
         end
+
+        pos = pos + ne_text.length
+        logger.debug "#{pos}/#{size} | #{ne_text} | #{token_pos} | #{ne_regexp.inspect}"
       end
     end
   end
@@ -80,9 +85,9 @@ class AnalyzerClient
   def build_regexp(ne_text)
     begin
       if ne_text =~ /\_/
-         /#{ne_text.split('_').join('\W')}/
+         /#{ne_text.split('_').join('\W')}/i
       else
-        /#{ne_text}/
+        /#{ne_text}/i
       end
     rescue RegexpError => e
       /./
@@ -90,6 +95,7 @@ class AnalyzerClient
   end
 
   def command(file_path)
+    logger.debug("[COMMAND] /usr/local/bin/analyzer_client #{port} < #{file_path}")
     "/usr/local/bin/analyzer_client #{port} < #{file_path}"
   end
 end
