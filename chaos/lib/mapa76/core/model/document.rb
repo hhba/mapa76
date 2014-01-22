@@ -10,6 +10,7 @@ class Document
   field :context_cache,     type: Hash,    default: {}
   field :fontspecs,         type: Hash,    default: {}
   field :processed_text,    type: String
+  field :process_attemps,   type: Integer, default: 0
   field :status,            type: String,  default: ''
   field :status_msg,        type: String,  default: ''
   field :status_history,    type: Array,   default: []
