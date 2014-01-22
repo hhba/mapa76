@@ -15,7 +15,7 @@ class AnalyzerClient
     @text = text
     @size = text.size
     @port = opt.fetch(:port, 50005)
-    @timeout = opt.fetch(:timeout, 3600) # One hour
+    @timeout = opt.fetch(:timeout, 10800) # Three hours
   end
 
   def call
