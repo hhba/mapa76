@@ -5,10 +5,8 @@ class Document
   include Finder
 
   field :title,             type: String
-  field :original_title,    type: String
   field :original_filename, type: String
   field :context_cache,     type: Hash,    default: {}
-  field :fontspecs,         type: Hash,    default: {}
   field :processed_text,    type: String
   field :process_attemps,   type: Integer, default: 0
   field :status,            type: String,  default: ''
@@ -19,7 +17,6 @@ class Document
   field :percentage,        type: Float,   default: 0
   field :flagger_id,        type: Moped::BSON::ObjectId
   field :file_id,           type: Moped::BSON::ObjectId
-  field :thumbnail_file_id, type: Moped::BSON::ObjectId
 
   belongs_to :user
 
