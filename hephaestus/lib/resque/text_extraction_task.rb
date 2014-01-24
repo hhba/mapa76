@@ -24,7 +24,6 @@ class TextExtractionTask < Base
         temp.write(chunk)
       end
       temp.close
-      document.original_title = Docsplit.extract_title(temp.path)
       Dir.mktmpdir do |temp_dir|
         Docsplit.extract_text(temp.path, output: temp_dir)
         text = File.open(File.join(temp_dir, build_txt(document.original_filename))).read

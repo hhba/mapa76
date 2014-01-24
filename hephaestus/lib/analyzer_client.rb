@@ -1,7 +1,10 @@
+# encoding: utf-8
+
 require 'open3'
 require "enumerator"
 require "hashie/mash"
 require "tempfile"
+require 'timeout'
 
 class AnalyzerClient
   class ExtractionError < StandardError
@@ -56,10 +59,11 @@ class AnalyzerClient
         if token_pos
           token.pos = token_pos
           yielder << token
-        end
 
-        pos = pos + ne_text.length
-        logger.debug "#{pos}/#{size} | #{ne_text} | #{token_pos} | #{ne_regexp.inspect}"
+          pos = token_pos + ne_text.length
+        else
+          pos = pos + ne_text.length
+        end
       end
     end
   end
@@ -85,7 +89,7 @@ class AnalyzerClient
   def build_regexp(ne_text)
     begin
       if ne_text =~ /\_/
-         /#{ne_text.split('_').join('\W')}/i
+         /#{ne_text.split('_').join('\W+')}/i
       else
         /#{ne_text}/i
       end
@@ -95,7 +99,6 @@ class AnalyzerClient
   end
 
   def command(file_path)
-    logger.debug("[COMMAND] /usr/local/bin/analyzer_client #{port} < #{file_path}")
     "/usr/local/bin/analyzer_client #{port} < #{file_path}"
   end
 end
