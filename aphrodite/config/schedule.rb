@@ -22,3 +22,7 @@
 every 10.minutes do
   rake 'index:drop'
 end
+
+every 1.hour do
+  rake 'documents:process'
+end

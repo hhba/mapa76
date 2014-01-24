@@ -5,11 +5,10 @@ class Document
   include Finder
 
   field :title,             type: String
-  field :original_title,    type: String
   field :original_filename, type: String
   field :context_cache,     type: Hash,    default: {}
-  field :fontspecs,         type: Hash,    default: {}
   field :processed_text,    type: String
+  field :process_attemps,   type: Integer, default: 0
   field :status,            type: String,  default: ''
   field :status_msg,        type: String,  default: ''
   field :status_history,    type: Array,   default: []
@@ -18,7 +17,6 @@ class Document
   field :percentage,        type: Float,   default: 0
   field :flagger_id,        type: Moped::BSON::ObjectId
   field :file_id,           type: Moped::BSON::ObjectId
-  field :thumbnail_file_id, type: Moped::BSON::ObjectId
 
   belongs_to :user
 
@@ -152,6 +150,16 @@ class Document
 
 protected
 
+  def inspect_fields
+    non_visible = %w(_id processed_text person_ids people context_cache organization_ids address_ids place_ids date_entity_ids)
+    fields.map do |name, field|
+      unless non_visible.include?(name)
+        as = field.options[:as]
+        "#{name}#{as ? "(#{as})" : nil}: #{@attributes[name].inspect}"
+      end
+    end.compact + ["content_length: #{processed_text.size}", "processed_text: #{processed_text[0..100].inspect}"]
+  end
+
   def restart_variables
     update_attribute :percentage, 0
     update_attribute :status, ''
@@ -177,7 +185,6 @@ protected
 
   def destroy_gridfs_files
     file.destroy if file
-    thumbnail_file.destroy if thumbnail_file
   end
 
   def failed_ids(opts={})
