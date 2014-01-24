@@ -185,7 +185,6 @@ protected
 
   def destroy_gridfs_files
     file.destroy if file
-    thumbnail_file.destroy if thumbnail_file
   end
 
   def failed_ids(opts={})
