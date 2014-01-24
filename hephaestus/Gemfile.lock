@@ -176,4 +176,5 @@ DEPENDENCIES
   ruby-progressbar
   rvm-capistrano
   shoulda-context
+  tire
   turn

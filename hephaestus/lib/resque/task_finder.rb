@@ -7,6 +7,7 @@ class TaskFinder
     collisions_detector_task
     coreference_resolution_task
     mentions_finder_task
+    indexer_task
   )
 
   def initialize(document)
