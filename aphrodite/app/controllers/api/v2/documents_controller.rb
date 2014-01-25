@@ -62,6 +62,11 @@ class Api::V2::DocumentsController < Api::V2::BaseController
     @pages = document.pages.in(num: get_pages)
   end
 
+  def search2
+    @results = SearcherService.new(current_user).search(params[:q])
+    #render json: SearcherService.new(current_user).search(params[:q])
+  end
+
 private
 
   def remove(document)

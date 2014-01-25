@@ -33,6 +33,7 @@ class SearcherService
   end
 
   def search(str)
+    output = []
     user_id = user.id
     documents_search = Tire.search(documents_index) do
       query do
@@ -52,16 +53,21 @@ class SearcherService
       end
     end
     
-    entities_search = Tire.search(entities_index) do
-      query do
-        boolean do
-          must { string str }
-          must { term :user_id, user_id}
-        end
+    # entities_search = Tire.search(entities_index) do
+    #   query do
+    #     boolean do
+    #       must { string str }
+    #       must { term :user_id, user_id}
+    #     end
+    #   end
+    # end
+
+    [documents_search, pages_search].each do |search|
+      search.results.each do |result|
+        output << result
       end
     end
-    
-    [documents_search, pages_search, entities_search]
+    output.sort(&:_score)
   end
 
   def store(query)
