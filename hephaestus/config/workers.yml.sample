@@ -1,11 +1,14 @@
 default:
   queues:
-    - normalization
-    - extraction
-    - coreference_resolution
-    - geocoding
+    - text_extraction_task
+    - entities_extraction_task
+    - collisions_detector_task
+    - coreference_resolution_task
+    - mentions_finder_task
+    - indexer_task
   num: 1
 misc:
   queues:
+    - document_process_bootstrap_task
     - misc
   num: 1
