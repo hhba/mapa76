@@ -20,7 +20,7 @@ class CollisionsDetectorTask < Base
         collision = (ne.inner_pos['from_pos']...ne.inner_pos['to_pos']).to_a &
         (ae.inner_pos['from_pos']...ae.inner_pos['to_pos']).to_a
         unless collision.empty?
-          logger.debug "[COLLISION] #{ne.text}"
+          logger.info "[COLLISION] #{ne.text}"
           ne.update_attribute :collisioned, true
         end
       end

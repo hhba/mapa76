@@ -106,7 +106,6 @@ class IndexerTask < Base
       entity_type = entity_group.singularize
       output << document.send(entity_group.to_sym).map { |entity| {id: entity.id, name: entity.name, entity_type: entity_type} }
     end
-    puts output.flatten
     output.flatten
   end
 
