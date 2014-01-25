@@ -29,7 +29,6 @@ EOM
   describe "#tokens" do
     it 'normal' do
       analyzer_client = AnalyzerClient.new @str
-      analyzer_client.expects(:call).returns(@analyzed_str.split)
       tokens = analyzer_client.tokens.to_a
       tokens[0].pos.must_equal 0
       tokens[1].pos.must_equal 16
