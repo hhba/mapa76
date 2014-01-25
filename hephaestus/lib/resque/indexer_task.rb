@@ -78,7 +78,7 @@ class IndexerTask < Base
 
   def call
     pages = build_pages
-    document_info = {title: document.title, original_title: document.original_title, user_id: user_id, document_id: document.id}
+    document_info = {title: document.title, original_filename: document.original_filename, user_id: user_id, document_id: document.id}
     entities = build_entities
     Tire.index self.class.documents_index do
       store document_info
