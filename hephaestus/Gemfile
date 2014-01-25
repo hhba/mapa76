@@ -7,8 +7,6 @@ gem "amatch"
 gem "bson_ext"
 gem "docsplit"
 gem "hashie", :require => false
-gem "freeling-analyzer"
-gem "geokit"
 gem "httpi"
 gem "log4r"
 gem "mongoid"
