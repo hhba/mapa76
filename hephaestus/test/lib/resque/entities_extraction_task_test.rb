@@ -1,7 +1,7 @@
 require 'test_helper'
 
 describe EntitiesExtractionTask do
-  let(:document){ FactoryGirl.create :document }
+  let(:document){ FactoryGirl.create :document, processed_text: '' }
   let(:page) {FactoryGirl.create :page, from_pos: 0, to_pos: 100}
   let(:entities_extractor) { EntitiesExtractionTask.new(document.id) }
   let(:token) do stub(form: "form", lemma: "lemma", tag: "NP00SP0",
@@ -10,15 +10,6 @@ describe EntitiesExtractionTask do
 
   before do
     document.pages << page
-  end
-
-  describe '#new' do
-    it 'destroy all preexisting named_entities' do
-      document.named_entities << FactoryGirl.create(:named_entity)
-      document.reload
-      entities_extractor
-      document.named_entities.length.must_equal 0
-    end
   end
 
   describe '#call' do
