@@ -3,7 +3,7 @@ require 'active_support/all'
 
 class IndexerTask < Base
   attr_accessor :pages, :document, :user_id
-  @queue = :idexer_task
+  @queue = :indexer_task
   @msg = "Indexando documento"
 
   def self.perform(document_id)
