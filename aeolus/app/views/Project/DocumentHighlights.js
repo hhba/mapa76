@@ -17,7 +17,7 @@ module.exports = Backbone.Marionette.CollectionView.extend({
 
   itemViewOptions: function(){
     return {
-      documentId: this.model.get("id")
+      documentId: this.model.get("document_id")
     };
   }
 

@@ -27,7 +27,7 @@ module.exports = function(type){
   });
 
   function initializeProject() {
-    
+
     app.project = new Project();
 
     app.toolbar.show(new Toolbar({

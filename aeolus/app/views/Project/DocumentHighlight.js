@@ -17,9 +17,9 @@ module.exports = Backbone.Marionette.ItemView.extend({
 
   templateHelpers: function(){
     var baseUrl = aeolus.baseRoot + "/documents/" + this.docId;
-    
+
     return {
-      pageURL: baseUrl + "/comb"
+      pageURL: baseUrl
     };
   },
 
