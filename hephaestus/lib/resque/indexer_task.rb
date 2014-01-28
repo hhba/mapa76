@@ -41,20 +41,20 @@ class IndexerTask < Base
       logger.debug "[INDEX] #{index.name} | #{index.response}"
     end
 
-    if force || !Tire::Index.new(entities_index).exists?
-      index = Tire.index entities_index do
-        delete
-        create
-        mapping do
-          indexes :name,        analyzer: 'snowball', boost: 70
-          indexes :entity_type, index: :not_analyzed
-          indexes :user_id,     index: :not_analyzed
-          indexes :entity_id,   index: :not_analyzed
-          indexes :type,        index: :not_analyzed
-        end
-      end
-      logger.debug "[INDEX] #{index.name} | #{index.response}"
-    end
+    # if force || !Tire::Index.new(entities_index).exists?
+    #   index = Tire.index entities_index do
+    #     delete
+    #     create
+    #     mapping do
+    #       indexes :name,        analyzer: 'snowball', boost: 70
+    #       indexes :entity_type, index: :not_analyzed
+    #       indexes :user_id,     index: :not_analyzed
+    #       indexes :entity_id,   index: :not_analyzed
+    #       indexes :type,        index: :not_analyzed
+    #     end
+    #   end
+    #   logger.debug "[INDEX] #{index.name} | #{index.response}"
+    # end
   end
 
   def self.documents_index
