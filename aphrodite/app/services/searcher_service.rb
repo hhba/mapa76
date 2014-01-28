@@ -28,6 +28,7 @@ class SearcherService
           must { term :user_id, user_id}
         end
       end
+      highlight :text
     end
 
     output = []
@@ -39,10 +40,7 @@ class SearcherService
       begin
         document = Document.find(document_id)
         highlights = {}
-        pages.group_by(&:num).each do |num, page_groups|
-          text_groups = page_groups.map(&:text)
-          highlights[num] = {text: "<p>" + text_groups.join("</p><p>") + "</p>"}
-        end
+        pages.each { |page| highlights[page.num] = page.highlight}
         output << OpenStruct.new(title: document.title,
                                  document_id: document.id,
                                  original_filename: document.original_filename,
