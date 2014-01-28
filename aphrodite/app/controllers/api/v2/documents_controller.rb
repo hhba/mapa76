@@ -48,23 +48,17 @@ class Api::V2::DocumentsController < Api::V2::BaseController
     render nothing: true, status: :no_content
   end
 
-  def search
-    if params[:q].present?
-      params[:ids] = document_ids unless document_ids.empty?
-      @results = SearcherService.new(current_user).where(params)
-    else
-      render nothing: true, status: :bad_request
-    end
-  end
-
   def pages
     document = current_user.documents.find(params[:id])
     @pages = document.pages.in(num: get_pages)
   end
 
-  def search2
-    @results = SearcherService.new(current_user).search(params[:q])
-    #render json: SearcherService.new(current_user).search(params[:q])
+  def search
+    if params[:q].present?
+      @results = SearcherService.new(current_user).where(params[:q])
+    else
+      render nothing: true, status: :bad_request
+    end
   end
 
 private
