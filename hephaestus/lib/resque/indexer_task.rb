@@ -21,6 +21,7 @@ class IndexerTask < Base
           indexes :original_filename, analyzer: "snowball", boost: 90
           indexes :document_id,       index: :not_analyzed
           indexes :user_id,           index: :not_analyzed
+          indexes :created_at,        index: :not_analyzed
         end
       end
       logger.debug "[INDEX] #{index.name} | #{index.response}"
@@ -78,7 +79,13 @@ class IndexerTask < Base
 
   def call
     pages = build_pages
-    document_info = {title: document.title, original_filename: document.original_filename, user_id: user_id, document_id: document.id}
+    document_info = {
+      title: document.title,
+      original_filename: document.original_filename,
+      user_id: user_id,
+      document_id: document.id,
+      created_at: document.created_at
+    }
     entities = build_entities
     Tire.index self.class.documents_index do
       store document_info
@@ -116,6 +123,4 @@ class IndexerTask < Base
       end
     end
   end
-
-
 end
