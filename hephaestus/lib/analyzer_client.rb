@@ -56,7 +56,7 @@ class AnalyzerClient
         ne_regexp = build_regexp(ne_text)
         token_pos = text.index(ne_regexp, pos)
 
-        if token_pos
+        if token_pos && token_pos < (pos + 5)
           token.pos = token_pos
           yielder << token
 
