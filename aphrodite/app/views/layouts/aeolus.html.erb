@@ -13,34 +13,11 @@
 </head>
 <body class="index-mapa76" data-user-auth="<%= current_user.access_token %>" data-document-id="<%= @document.try(:id)%>">
   <div class="container">
-    <div class="wrapper-header header-secction clearfix">
+    <!--<div class="wrapper-header header-secction clearfix">
       <div class="header-pp clearfix">
         <div class="logo"><%= link_to '', documents_path %></div>
-        <div class="user-login">
-          <div tabindex="1" class="xx wrapper-dropdown" id="dd">
-            <span><a href="#">Menú</a></span>
-            <ul class="dropdown">
-              <li>
-                <i class=""></i>
-                <%= link_to 'Nosotros', about_path %>
-              </li>
-              <li>
-                <i class=""></i>
-                <%= link_to 'Términos de uso', terms_path %>
-              </li>
-              <li>
-                <i class=""></i>
-                <%= link_to 'Contacto', contact_path %>
-              </li>
-              <li>
-                <i class=""></i>
-                <%= link_to 'Cerrar sesión', destroy_user_session_path, :method => :delete %>
-              </li>
-            </ul>
-          </div>
-        </div>
       </div>
-    </div>
+    </div>-->
     <div class="header-and-content content-secction <%= controller.action_name %>-doc">
       <%= yield %>
     </div>
