@@ -9,6 +9,11 @@ class IndexerTask < Base
   def self.perform(document_id)
     self.new(document_id).call
   end
+  
+  def self.reset!
+    create_index(force: true)
+    Document.all.each { |d| self.perform(d.id) }
+  end
 
   def self.create_index(opt={})
     force = opt.fetch(:force, false)

@@ -64,7 +64,8 @@ class Api::V2::DocumentsController < Api::V2::BaseController
 private
 
   def remove(document)
-    JobsService.not_working_on?(document) && document.destroy
+    searcher = SearcherService.new(current_user)
+    JobsService.not_working_on?(document) && document.destroy && searcher.destroy_for(document)
   end
 
   def get_pages
