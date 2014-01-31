@@ -75,6 +75,11 @@ namespace :monit do
       start program "/bin/bash -c 'export HOME=<%= HOME_PATH %>; export PATH=$HOME/.rbenv/bin:$HOME/.rbenv/shims:$PATH; export LANG="en_US.UTF-8"; export LC_ALL="en_US.UTF-8"; cd <%= APP_ROOT %>; APP_ENV=production QUEUE=<%= worker[:queues].join(',') %> BACKGROUND=yes PIDFILE=<%= worker[:pidfile] %> LOG=<%= worker[:log] %> LD_LIBRARY_PATH=/usr/local/lib  bundle exec rake resque:work  >> <%= worker[:log] %>  2>> <%= worker[:err_log] %>'" with timeout 180 seconds
       stop program  "/bin/kill `cat <%= worker[:pidfile] %>`" with timeout 60 seconds
     <% end %>
+    
+    check process elasticsearch with pidfile /var/run/elasticsearch.pid
+    start program="/etc/init.d/elasticsearch start"
+    stop program="/etc/init.id/elasticsearch stop"
+
   ERB
 
   def parse_monit_settings
