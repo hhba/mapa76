@@ -9,7 +9,7 @@ class SearcherService
     @user = user
   end
 
-  def where(str)
+  def where(str, document_id=nil)
     store(str)
     this = self
     documents_search = Tire.search(documents_index) do
@@ -17,6 +17,7 @@ class SearcherService
         boolean do
           must { string str }
           must { term :user_id, this.user.id }
+          must { term :document_id, document_id} if document_id
         end
       end
     end
@@ -26,6 +27,7 @@ class SearcherService
         boolean do
           must { string str }
           must { term :user_id, this.user.id}
+          must { term :document_id, document_id} if document_id
         end
       end
       highlight :text
