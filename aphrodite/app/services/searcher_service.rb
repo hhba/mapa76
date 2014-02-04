@@ -11,12 +11,12 @@ class SearcherService
 
   def where(str)
     store(str)
-    user_id = user.id
+    this = self
     documents_search = Tire.search(documents_index) do
       query do
         boolean do
           must { string str }
-          must { term :user_id, user_id}
+          must { term :user_id, this.user.id }
         end
       end
     end
@@ -25,16 +25,13 @@ class SearcherService
       query do
         boolean do
           must { string str }
-          must { term :user_id, user_id}
+          must { term :user_id, this.user.id}
         end
       end
       highlight :text
     end
 
     output = []
-    documents_search.results.each do |result|
-      output << result
-    end
 
     pages_search.results.group_by(&:document_id).each do |document_id, pages|
       begin
@@ -48,6 +45,12 @@ class SearcherService
                                  highlight: highlights)
       rescue Mongoid::Errors::DocumentNotFound
         nil
+      end
+    end
+
+    documents_search.results.each do |doc_result|
+      unless output.detect { |doc| doc.title == doc_result.title }
+        output << doc_result
       end
     end
 
