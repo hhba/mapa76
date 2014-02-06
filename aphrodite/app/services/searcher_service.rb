@@ -44,6 +44,7 @@ class SearcherService
                                  document_id: document.id,
                                  original_filename: document.original_filename,
                                  created_at: document.created_at,
+                                 counters: build_counters(document),
                                  highlight: highlights)
       rescue Mongoid::Errors::DocumentNotFound
         nil
@@ -57,6 +58,15 @@ class SearcherService
     end
 
     output
+  end
+
+  def build_counters(document)
+    {
+      people: document.context_cache.fetch('people', []).count,
+      organizations: document.context_cache.fetch('organizations', []).count,
+      places: document.context_cache.fetch('places', []).count,
+      dates: document.context_cache.fetch('dates', []).count
+    }
   end
 
   def destroy_for(document)
