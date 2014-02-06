@@ -70,7 +70,7 @@ module.exports = Backbone.Collection.extend({
     });
   },
 
-  search: function(query){
+  search: function(query, id){
     var ids = this.getSelectedIds();
     var headers = {};
     
@@ -79,7 +79,7 @@ module.exports = Backbone.Collection.extend({
     }
 
     $.ajax({
-      url: this.url() + "/search",
+      url: this._buildSearchURL(id),
       data: $.param({ q: query }),
       headers: headers,
       context: this
@@ -101,6 +101,14 @@ module.exports = Backbone.Collection.extend({
     this.fetch({ reset: true });
     this.isSearch = false;
     this.trigger("clearSearch");
+  },
+
+  _buildSearchURL: function(id){
+    if(typeof id === "undefined"){
+      return this.url() + "/search";
+    } else {
+      return this.url() + "/" + id + "/search";
+    }
   }
 
 });
