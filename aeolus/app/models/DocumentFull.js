@@ -4,7 +4,8 @@ var
   , Organizations = require("./Organizations")
   , Places = require("./Places")
   , Dates = require("./Dates")
-  , DocumentPages = require("./DocumentPages");
+  , DocumentPages = require("./DocumentPages")
+  , Documents = require("./Documents");
 
 module.exports = Backbone.Model.extend({
   
@@ -122,6 +123,40 @@ module.exports = Backbone.Model.extend({
     });
 
     return collection;
+  },
+
+  search: function(query, done){ 
+
+    //creates a Collection of Documents with this doc as an item
+    var docs = new Documents([{
+      id: this.get("id"),
+      selected: true
+    }]);
+
+    docs.on("add", function(doc){
+      done(doc);
+    });
+
+    /* FOR TEST */
+    var Document = require("./Document");
+    var doc = new Document({
+        "id":"524d6cb3d8eba363ff000013",
+        "title":"Alderete, Julia (2010.12.09).doc",
+        "counters":{"people":0,"organizations":14,"places":16,"dates":2},
+        "highlight":{"3":[" haya estado presente en ese lugar?\n<em>Alderete</em>: No, la verdad es que no sé."],"1":["TESTIMONIO DE <em>ALDERETE</em> JULIA FRANCISCA (A)\nO: Sra. ¿me puede decir su nombre completo, por favor","?\nA: <em>Alderete</em>, Julia Francisca.\nO: Aclaraciones, advertencias y penalidades. ¿presta juramento o"," padre y de su madre.\nA: Mi papá,  Bartolomé <em>Alderete</em>  y mi mamá, Petrona Isabel Alvarenga.\nO: ¿Cuál es"," días, Julia <em>Alderete</em>. Mencionó que era enfermera jubilada.\n¿Desde cuándo trabajaba como enfermera y"],"title":["<em>Alderete</em>, Julia (2010.12.09).doc"]}
+      }, { parse: true });
+
+    done(doc);
+    /* END TEST */
+
+    // call search for the collection getting the same result 
+    // as Project view but for only this doc.
+    docs.search(query);
+  },
+
+  clearSearch: function(){
+    this.isSearch = false;
+    this.trigger("clearSearch");
   }
 
 });

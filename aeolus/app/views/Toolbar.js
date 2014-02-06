@@ -6,7 +6,9 @@
 var 
     template = require("./templates/toolbar.tpl")
   , DocumentNew = require("./Project/DocumentNew")
-  , ExportDocuments = require("./Project/ExportDocuments");
+  , ExportDocuments = require("./Project/ExportDocuments")
+  , DocumentLayout = require("./Document")
+  , DocumentHighlights = require("./Project/DocumentHighlights");
 
 module.exports = Backbone.Marionette.ItemView.extend({
 
@@ -44,7 +46,10 @@ module.exports = Backbone.Marionette.ItemView.extend({
   initialize: function(options){
     this.documentView = options.documentView;
 
-    if (!this.documentView){
+    if (this.documentView){
+      this.model.on("clearSearch", this.clearSearch.bind(this));
+    }
+    else {
       this.model.get('documents').on("clearSearch", this.clearSearch.bind(this));
     }
   },
@@ -119,6 +124,12 @@ module.exports = Backbone.Marionette.ItemView.extend({
 
   clearSearch: function(){
     this.ui.searchBox.val("");
+
+    if (this.documentView){
+      window.aeolus.app.content.show(new DocumentLayout({
+        model: window.aeolus.app.document
+      }));
+    }
   },
 
   //--------------------------------------
@@ -141,7 +152,18 @@ module.exports = Backbone.Marionette.ItemView.extend({
   searchDocuments: function(){
     var query = this.ui.searchBox.val();
     if (query){
-      this.model.get('documents').search(query);
+
+      if (this.documentView){
+        this.model.search(query, function(doc){
+          window.aeolus.app.content.show(new DocumentHighlights({
+            model: doc,
+            collection: doc.get("highlights")
+          }));
+        });
+      }
+      else {
+        this.model.get('documents').search(query);
+      }
     }
   }
 
