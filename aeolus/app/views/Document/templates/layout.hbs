@@ -2,5 +2,8 @@
   <div class="documentInfo"></div>
   <div class="pager"></div>
   <div class="visualizer"></div>
+  {{#if searching}}
+  <a href="/documents/{{document_id}}">Volver al documento</a>
+  {{/if}}
 </div>
-<div class='content-wrapper-doc'></div>
+<div class='content-wrapper-doc {{#if searching}}search{{/if}}'></div>

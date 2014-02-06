@@ -8,7 +8,7 @@ var
   , DocumentNew = require("./Project/DocumentNew")
   , ExportDocuments = require("./Project/ExportDocuments")
   , DocumentLayout = require("./Document")
-  , DocumentHighlights = require("./Project/DocumentHighlights");
+  , Results = require("./Document/Results");
 
 module.exports = Backbone.Marionette.ItemView.extend({
 
@@ -151,20 +151,18 @@ module.exports = Backbone.Marionette.ItemView.extend({
 
   searchDocuments: function(){
     var query = this.ui.searchBox.val();
-    if (query){
 
+    if (query){
       if (this.documentView){
         this.model.search(query, function(doc){
-          window.aeolus.app.content.show(new DocumentHighlights({
+          window.aeolus.app.content.show(new Results({
             model: doc,
             collection: doc.get("highlights")
           }));
         });
-      }
-      else {
+      } else {
         this.model.get('documents').search(query);
       }
     }
   }
-
 });
