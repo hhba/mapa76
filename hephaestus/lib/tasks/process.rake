@@ -31,6 +31,12 @@ namespace :process do
     process(MentionsFinderTask)
   end
 
+  desc 'Run indexer task for all documents available'
+  task indexer: :environment do
+    IndexerTask.create_index force: true
+    process(IndexerTask)
+  end
+
   desc 'Run all tasks for all documets'
   task all: :environment do
     Rake::Task["process:extraction"].invoke
