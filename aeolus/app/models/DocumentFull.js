@@ -135,7 +135,7 @@ module.exports = Backbone.Model.extend({
 
     docs.on("searching", function(){
       done(docs.at(0));
-    })
+    });
 
     docs.search(query, this.get("id"));
   },

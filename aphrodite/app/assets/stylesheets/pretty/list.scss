@@ -405,6 +405,35 @@
 
 // search-result ==================
 //example /examples/documents-list.jpg
+	.results .search {
+		ul.results{
+			padding: 10px 50px;
+			li{
+				padding-bottom: 3px;
+				border-bottom: 1px solid $color-lines;
+				&:last-child { border: 0px; }
+				label.doc-info {
+					font-family: "opensans-light";
+					font-style: italic;
+					margin: 0;
+					clear: both;
+					padding: 7px 0 0 0;
+					font-size: 12px;
+					float: left;
+				}
+				.go-doc {
+					a {
+						margin: 7px 0px 4px 10px;
+						@include tiny-bt;
+					}
+				}
+				p {
+					clear: both;
+					margin-bottom: 3px;
+				}
+			}
+		}
+	}
 	.search-result {
 		li.item-list {
 			border-bottom: 1px solid $color-lines;
