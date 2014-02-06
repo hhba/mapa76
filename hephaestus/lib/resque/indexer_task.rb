@@ -27,6 +27,7 @@ class IndexerTask < Base
           indexes :document_id,       index: :not_analyzed
           indexes :user_id,           index: :not_analyzed
           indexes :created_at,        index: :not_analyzed
+          indexes :counters,          index: :not_analyzed
         end
       end
       logger.debug "[INDEX] #{index.name} | #{index.response}"
@@ -41,6 +42,7 @@ class IndexerTask < Base
           indexes :num,         index: :not_analyzed
           indexes :user_id,     index: :not_analyzed
           indexes :document_id, index: :not_analyzed
+          indexes :counters,    index: :not_analyzed
         end
       end
       logger.debug "[INDEX] #{index.name} | #{index.response}"
@@ -108,8 +110,22 @@ class IndexerTask < Base
 
   def build_pages
     pages.map do |page|
-      { text: page.text, num: page.num, user_id: user_id, document_id: document.id }
+      {
+        text: page.text,
+        num: page.num,
+        user_id: user_id,
+        document_id: document.id,
+      }
     end
+  end
+
+  def build_counters(document)
+    {
+      people: document.context_cache.fetch('people', []).count,
+      organizations: document.context_cache.fetch('organizations', []).count,
+      places: document.context_cache.fetch('places', []).count,
+      dates: document.context_cache.fetch('dates', []).count
+    }
   end
 
   def build_entities
