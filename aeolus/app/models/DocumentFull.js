@@ -1,4 +1,4 @@
-
+/*jslint unparam: true */
 var 
     People = require("./People")
   , Organizations = require("./Organizations")
@@ -133,25 +133,11 @@ module.exports = Backbone.Model.extend({
       selected: true
     }]);
 
-    docs.on("add", function(doc){
-      done(doc);
-    });
+    docs.on("searching", function(){
+      done(docs.at(0));
+    })
 
-    /* FOR TEST */
-    var Document = require("./Document");
-    var doc = new Document({
-        "id":"524d6cb3d8eba363ff000013",
-        "title":"Alderete, Julia (2010.12.09).doc",
-        "counters":{"people":0,"organizations":14,"places":16,"dates":2},
-        "highlight":{"3":[" haya estado presente en ese lugar?\n<em>Alderete</em>: No, la verdad es que no sé."],"1":["TESTIMONIO DE <em>ALDERETE</em> JULIA FRANCISCA (A)\nO: Sra. ¿me puede decir su nombre completo, por favor","?\nA: <em>Alderete</em>, Julia Francisca.\nO: Aclaraciones, advertencias y penalidades. ¿presta juramento o"," padre y de su madre.\nA: Mi papá,  Bartolomé <em>Alderete</em>  y mi mamá, Petrona Isabel Alvarenga.\nO: ¿Cuál es"," días, Julia <em>Alderete</em>. Mencionó que era enfermera jubilada.\n¿Desde cuándo trabajaba como enfermera y"],"title":["<em>Alderete</em>, Julia (2010.12.09).doc"]}
-      }, { parse: true });
-
-    done(doc);
-    /* END TEST */
-
-    // call search for the collection getting the same result 
-    // as Project view but for only this doc.
-    docs.search(query);
+    docs.search(query, this.get("id"));
   },
 
   clearSearch: function(){
