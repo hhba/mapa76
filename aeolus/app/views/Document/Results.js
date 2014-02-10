@@ -21,7 +21,6 @@ module.exports = Backbone.Marionette.Layout.extend({
   },
 
   templateHelpers: function(){
-    console.log(this.model);
     return {
       searching: true
     };
