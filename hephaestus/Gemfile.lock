@@ -131,8 +131,6 @@ GEM
       multi_json (~> 1.3)
       rake
       rest-client (~> 1.6)
-    turn (0.9.6)
-      ansi
     tzinfo (0.3.38)
     vegas (0.1.11)
       rack (>= 1.0.0)
@@ -157,7 +155,7 @@ DEPENDENCIES
   json (~> 1.7.7)
   log4r
   mapa76-core!
-  minitest (~> 2.6.0)
+  minitest
   minitest-spec-context
   mocha
   mongoid
@@ -171,4 +169,3 @@ DEPENDENCIES
   rvm-capistrano
   shoulda-context
   tire
-  turn
