@@ -30,7 +30,6 @@ class IndexerTask < Base
           indexes :counters,          index: :not_analyzed
         end
       end
-      logger.debug "[INDEX] #{index.name} | #{index.response}"
     end
 
     if force || !Tire::Index.new(pages_index).exists?
@@ -45,7 +44,6 @@ class IndexerTask < Base
           indexes :counters,    index: :not_analyzed
         end
       end
-      logger.debug "[INDEX] #{index.name} | #{index.response}"
     end
 
     # if force || !Tire::Index.new(entities_index).exists?
@@ -132,7 +130,9 @@ class IndexerTask < Base
     output =[]
     %w(organizations people date_entities places addresses).each do |entity_group|
       entity_type = entity_group.singularize
-      output << document.send(entity_group.to_sym).map { |entity| {id: entity.id, name: entity.name, entity_type: entity_type} }
+      output << document.send(entity_group.to_sym).map do |entity|
+        { id: entity.id, name: entity.name, entity_type: entity_type }
+      end
     end
     output.flatten
   end
