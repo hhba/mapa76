@@ -18,7 +18,7 @@ end
 namespace :process do
   desc 'Run extraction task for all the documents available'
   task extraction: :environment do
-    process(ExtractionTask)
+    process(EntitiesExtractionTask)
   end
 
   desc 'Run coreference task for all the documents available'
@@ -42,5 +42,6 @@ namespace :process do
     Rake::Task["process:extraction"].invoke
     Rake::Task["process:coreference"].invoke
     Rake::Task["process:mentions"].invoke
+    Rake::Task["process:indexer"].invoke
   end
 end
