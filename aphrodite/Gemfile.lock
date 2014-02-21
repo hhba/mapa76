@@ -101,6 +101,14 @@ GEM
       execjs
     eco-source (1.1.0.rc.1)
     ejs (1.1.1)
+    elasticsearch (0.4.7)
+      elasticsearch-api (= 0.4.7)
+      elasticsearch-transport (= 0.4.7)
+    elasticsearch-api (0.4.7)
+      multi_json
+    elasticsearch-transport (0.4.7)
+      faraday
+      multi_json
     erubis (2.7.0)
     execjs (2.0.2)
     factory_girl (4.2.0)
@@ -108,6 +116,8 @@ GEM
     factory_girl_rails (4.2.1)
       factory_girl (~> 4.2.0)
       railties (>= 3.0.0)
+    faraday (0.9.0)
+      multipart-post (>= 1.2, < 3)
     figaro (0.7.0)
       bundler (~> 1.0)
       rails (>= 3, < 5)
@@ -168,6 +178,7 @@ GEM
     mono_logger (1.1.0)
     moped (1.5.1)
     multi_json (1.8.2)
+    multipart-post (2.0.0)
     nested_form (0.3.2)
     net-scp (1.1.2)
       net-ssh (>= 2.6.5)
@@ -313,6 +324,7 @@ DEPENDENCIES
   debugger
   devise
   ejs
+  elasticsearch
   factory_girl_rails
   figaro
   haml

@@ -37,6 +37,7 @@ group :development, :test do
 end
 
 gem 'devise'
+gem 'elasticsearch'
 gem 'haml'
 gem 'figaro'
 gem 'sass'
