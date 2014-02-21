@@ -1,4 +1,5 @@
 require 'ostruct'
+require 'set'
 
 class SearcherService
   include ActionView::Helpers::TextHelper
@@ -11,52 +12,75 @@ class SearcherService
 
   def where(str, document_id=nil)
     store(str)
-    this = self
-    documents_search = Tire.search(documents_index) do
-      query do
-        boolean do
-          must { string str }
-          must { term :user_id, this.user.id }
-          must { term :document_id, document_id} if document_id
-        end
-      end
-    end
+    client = Rails.application.config.elasticsearch_client
 
-    pages_search = Tire.search(pages_index) do
-      query do
-        boolean do
-          must { string str }
-          must { term :user_id, this.user.id}
-          must { term :document_id, document_id} if document_id
-        end
-      end
-      highlight :text
-    end
+    query = {
+      bool: {
+        must:[
+          {
+            query_string: { query: str }
+          },
+          {
+            term: {
+              user_id: { term: user.id}
+            }
+          }
+        ]
+      }
+    }
+    query[:bool][:must] << { term: {document_id: {term: document_id }}} if document_id
 
+    puts query.inspect
+
+    highlight = {
+      fields: { text:{}}
+    }
+
+    response = client.search index: 'documents_development,pages_development', body: { from: 0, size: 50, query: query, highlight: highlight }
+    process_response(response)
+  end
+
+  def process_response(response)
     output = []
 
-    pages_search.results.group_by(&:document_id).each do |document_id, pages|
-      begin
-        document = Document.find(document_id)
-        highlights = {}
-        pages.each { |page| highlights[page.num] = page.highlight}
-        output << OpenStruct.new(title: document.title,
-                                 document_id: document.id,
-                                 original_filename: document.original_filename,
-                                 created_at: document.created_at,
-                                 counters: build_counters(document),
-                                 highlight: highlights)
-      rescue Mongoid::Errors::DocumentNotFound
-        nil
+    Document.find(get_document_ids(response)).each do |document|
+      page_results = response.fetch('hits', {})['hits'].select do |result|
+        result['_index'] == 'pages_development' && result['_source']['document_id'] == document.id.to_s
+      end
+      output << if page_results.empty?
+        build_document_result(document)
+      else
+        build_document_with_pages_result(document, page_results)
       end
     end
+    output
+  end
 
-    documents_search.results.each do |doc_result|
-      unless output.detect { |doc| doc.title == doc_result.title }
-        output << doc_result
-      end
+  def get_document_ids(response)
+    output = Set.new
+    response.fetch('hits', {})['hits'].each do |result|
+      output.add(result['_source']['document_id'])
     end
+    output.to_a
+  end
 
+  def build_document_result(document)
+    {
+      title: document.title,
+      original_filename: document.original_filename,
+      document_id: document.id,
+      created_at: document.created_at,
+      counters: build_counters(document)
+    }
+  end
+
+  def build_document_with_pages_result(document, page_results)
+    output = build_document_result(document)
+    highlight = {}
+    page_results.each do |result|
+      highlight[result['_source']['num']] = result['highlight']
+    end
+    output['highlight'] = highlight
     output
   end
 
