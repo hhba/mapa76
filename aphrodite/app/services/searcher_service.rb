@@ -45,7 +45,7 @@ class SearcherService
 
     Document.find(get_document_ids(response)).each do |document|
       page_results = response.fetch('hits', {})['hits'].select do |result|
-        result['_index'] == 'pages_development' && result['_source']['document_id'] == document.id.to_s
+        result['_index'] == pages_index && result['_source']['document_id'] == document.id.to_s
       end
       output << if page_results.empty?
         build_document_result(document)
