@@ -66,6 +66,7 @@ class SearcherService
 
   def build_document_result(document)
     {
+      id: document.id,
       title: document.title,
       original_filename: document.original_filename,
       document_id: document.id,
