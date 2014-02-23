@@ -100,10 +100,6 @@ class IndexerTask < Base
       import pages
       refresh
     end
-    Tire.index self.class.entities_index do
-      import entities
-      refresh
-    end
   end
 
   def build_pages
