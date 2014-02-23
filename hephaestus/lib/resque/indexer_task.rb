@@ -63,15 +63,15 @@ class IndexerTask < Base
   end
 
   def self.documents_index
-    "documents_#{APP_ENV}"
+    Tire::Model::Search.index_prefix + "_documents"
   end
 
   def self.pages_index
-    "pages_#{APP_ENV}"
+    Tire::Model::Search.index_prefix + "_pages"
   end
 
   def self.entities_index
-    "entities_#{APP_ENV}"
+    Tire::Model::Search.index_prefix + "_entities"
   end
 
   def initialize(document_id)

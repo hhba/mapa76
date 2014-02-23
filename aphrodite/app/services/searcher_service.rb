@@ -120,14 +120,10 @@ class SearcherService
   end
 
   def documents_index
-    "documents_#{Rails.env}"
+    Rails.application.config.elasticsearch_prefix + "_documents"
   end
 
   def pages_index
-    "pages_#{Rails.env}"
-  end
-
-  def entities_index
-    "entities_#{Rails.env}"
+    Rails.application.config.elasticsearch_prefix + "_pages"
   end
 end
