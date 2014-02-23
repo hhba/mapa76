@@ -5,10 +5,9 @@ require 'active_support/all'
 task "resque:setup" => :environment
 
 def process(task)
-  documents = Document.all
-  pbar = ProgressBar.create(:title => task.to_s, :total => documents.count)
+  pbar = ProgressBar.create(:title => task.to_s, :total => Document.count)
 
-  documents.each do |document|
+  Document.batch_size(20).no_timeout.each do |document|
     task.perform(document.id)
     pbar.increment
     document.update_attribute :status, task.to_s.underscore + '-end'
