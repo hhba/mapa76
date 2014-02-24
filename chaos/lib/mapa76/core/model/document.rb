@@ -39,23 +39,6 @@ class Document
 
   scope :private_for, ->(user){ where(:user_id => user.id, :public => false) }
 
-  include Tire::Model::Search
-  # include Tire::Model::Callbacks
-
-  tire do
-    mapping do
-      indexes :title,          analyzer: "snowball", boost: 100
-      indexes :original_title, analyzer: "snowball", boost: 90
-      indexes :pages,          analyzer: "snowball"
-      indexes :user_id,        index: :not_analyzed
-    end
-  end
-
-  def self.reindex
-    Document.tire.index.delete
-    Document.tire.import
-  end
-
   def flagger
     if flagger_id
       User.find(flagger_id)
