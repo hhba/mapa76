@@ -30,8 +30,6 @@ class SearcherService
     }
     query[:bool][:must] << { term: {document_id: {term: document_id }}} if document_id
 
-    puts query.inspect
-
     highlight = {
       fields: { text:{}}
     }
