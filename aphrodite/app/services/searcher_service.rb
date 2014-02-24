@@ -34,7 +34,7 @@ class SearcherService
       fields: { text:{}}
     }
 
-    response = client.search index: "#{documents_index},#{pages_index}", body: { from: 0, size: 50, query: query, highlight: highlight }
+    response = client.search index: "#{documents_index},#{pages_index}", body: { from: 0, size: 200, query: query, highlight: highlight }
     process_response(response)
   end
 
