@@ -6,6 +6,8 @@
 var 
     template = require("./templates/layout.tpl")
   , Header = require("./Header")
+  , UserMenu = require("./UserMenu")
+  , User = require("../../models/User")
   , types = {
         people: require("../MenuModal/People")
       , organizations: require("../MenuModal/Organizations")
@@ -29,7 +31,8 @@ module.exports = Backbone.Marionette.Layout.extend({
 
   regions: {
     "header": ".menu-modal .header",
-    "content": ".menu-modal .content"
+    "content": ".menu-modal .content",
+    "userMenu": ".help"
   },
 
   modelEvents: {
@@ -51,8 +54,13 @@ module.exports = Backbone.Marionette.Layout.extend({
   },
 
   onRender: function(){
-    var dd2 = new window.DropDown($('#help-list'));
-    console.log(dd2);
+    var userData = $("body").data();
+    var user = new User({id: userData.userId, name: userData.userName});
+    this.userMenu.show(new UserMenu({
+      model: user
+    }));
+
+    this.dd2 = new window.DropDown($('#help-list'));
     this.loadContent(this.active);
   },
 

@@ -21,7 +21,7 @@ module.exports = Backbone.Marionette.ItemView.extend({
 
   ui: {
     multiOptions: ".multi",
-    searchBox: "#search"
+    searchBox: "#search",
   },
 
   events: {
