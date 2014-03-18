@@ -1,7 +1,7 @@
 require 'active_support/all'
 
 class DocumentProcessBootstrapTask
-  @queue = :document_process_bootstrap
+  @queue = :document_process_bootstrap_task
 
   def self.perform(document_id)
     document = Document.find(document_id)
