@@ -1,11 +1,11 @@
 default:
   queues:
-    - text_extraction_task
-    - entities_extraction_task
-    - collisions_detector_task
-    - coreference_resolution_task
-    - mentions_finder_task
     - indexer_task
+    - mentions_finder_task
+    - coreference_resolution_task
+    - collisions_detector_task
+    - entities_extraction_task
+    - text_extraction_task
   num: 1
 misc:
   queues:
