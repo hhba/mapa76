@@ -41,7 +41,7 @@ class MentionsFinderTask < Base
   end
 
   def update_named_entities(entity, entity_cls)
-    NamedEntity.where(lemma: entity.lemma).each do |named_entity|
+    NamedEntity.where(lemma: entity.lemma, ne_class: entity_cls).each do |named_entity|
       named_entity.update_attribute :entity_id, entity.id
     end
   end

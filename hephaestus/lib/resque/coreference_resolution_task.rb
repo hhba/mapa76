@@ -52,7 +52,7 @@ class CoreferenceResolutionTask < Base
         group = named_entities.select do |ne|
           if APP_ENV == "development"
             named_entity.text.downcase == ne.text.downcase
-          else 
+          else
             if named_entity.text.split(' ').length > 1
               jarowinkler_distance(named_entity.text, ne.text)
             else
@@ -83,6 +83,6 @@ class CoreferenceResolutionTask < Base
       scores = longest.map { |b| jw.match(b) }
       scores.max
     end
-    scores.sum / shortest.size > TWO_WORDS_SIMILARITY 
+    scores.sum / shortest.size > TWO_WORDS_SIMILARITY
   end
 end
