@@ -22,7 +22,10 @@ class CoreferenceResolutionTask < Base
     document.people.destroy_all
     named_entities = document.people_found.to_a
     find_duplicates(named_entities).each do |group|
-      group.each { |named_entity| store(named_entity, group.length) }
+      named_entity = group.first
+      person = store(named_entity, group.length)
+      # Store entity information in the rest of the named entities
+      group[1..-1].each { |ne| ne.update_attribute :entity_id, person.id}
     end
     document.context(force: true)
   end
@@ -40,6 +43,7 @@ class CoreferenceResolutionTask < Base
     end
     named_entity.update_attribute :entity_id, person.id
     document.people << person
+    person
   end
 
   def find_duplicates(named_entities)
