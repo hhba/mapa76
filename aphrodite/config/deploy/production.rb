@@ -1,4 +1,4 @@
-server "184.173.160.186", :web, :app, :db, primary: true
+server "162.243.4.112", :web, :app, :db, primary: true
 set :branch, "master"
 
 namespace :deploy do

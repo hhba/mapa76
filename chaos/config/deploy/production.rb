@@ -1,2 +1,2 @@
-server "184.173.160.186", :app, primary: true
+server "162.243.4.112", :app, primary: true
 set :branch, "master"
