@@ -19,9 +19,9 @@ class EntitiesExtractionTask < Base
     analyzer_client.tokens.each do |token|
       store(token) if NamedEntity.valid_token?(token.tag)
     end
-    address_extractor.call.each do |token|
-      store(token)
-    end
+    # address_extractor.call.each do |token|
+    #   store(token)
+    # end
   end
 
   def store(token)
