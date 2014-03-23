@@ -21,8 +21,19 @@ module.exports = Backbone.Marionette.Layout.extend({
   },
 
   templateHelpers: function(){
+    var $projectData = $('body').data(),
+        documentUrl;
+
+    if ($projectData.editable){
+      documentUrl = $projectData.documentId;
+    } else {
+      documentUrl = 'comb?document_id=' + $projectData.documentId;
+    }
+
     return {
-      searching: true
+      searching: true,
+      loggedIn: $projectData.editable,
+      documentUrl: documentUrl
     };
   },
 

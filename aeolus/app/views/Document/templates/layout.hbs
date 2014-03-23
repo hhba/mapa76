@@ -3,7 +3,13 @@
   <div class="pager"></div>
   <div class="visualizer"></div>
   {{#if searching}}
-  <a href="/documents/{{document_id}}">Volver al documento</a>
+    <div class="back-bt">
+      {{#if loggedIn}}
+        <a class="clear-search" href="{{ documentUrl }}">Volver al documento</a>
+      {{else}}
+        <a class="clear-search" href="{{ documentUrl }}">Volver al documento</a>
+      {{/if}}
+    </div>
   {{/if}}
 </div>
 <div class='content-wrapper-doc {{#if searching}}search{{/if}}'></div>
