@@ -55,7 +55,11 @@ module.exports = Backbone.Marionette.Layout.extend({
 
   onRender: function(){
     var userData = $("body").data();
-    var user = new User({id: userData.userId, name: userData.userName});
+    var user = new User({
+      id: userData.userId,
+      name: userData.userName,
+      loggedIn: userData.projectEditable
+    });
     this.userMenu.show(new UserMenu({
       model: user
     }));
