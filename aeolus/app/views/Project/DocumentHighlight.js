@@ -16,7 +16,14 @@ module.exports = Backbone.Marionette.ItemView.extend({
   template: template,
 
   templateHelpers: function(){
-    var baseUrl = aeolus.baseRoot + "/documents/" + this.docId;
+    var $projectData = $('body').data(),
+        baseUrl;
+
+    if ($projectData.editable){
+      baseUrl = aeolus.baseRoot + "/documents/" + this.docId;
+    } else {
+      baseUrl = aeolus.baseRoot + "/projects/" + $projectData.slug + "/comb?document_id=" + this.docId;
+    }
 
     return {
       pageURL: baseUrl
