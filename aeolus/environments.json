@@ -5,7 +5,7 @@
     , "poolingStatusTime": 6000
   },
   "stage": {
-      "root": "http://analiceme.urdamales.com.ar"
+      "root": "http://analice.me"
     , "version": "v2"
     , "poolingStatusTime": 6000
   },
