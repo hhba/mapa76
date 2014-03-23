@@ -4,56 +4,35 @@
 <div class="col2">
   <label class="doc-name">{{title}}</label>
   <label class="doc-date">{{formatDate created_at}}</label>
-  {{#unless showProgress}}
-  <div class="tools">
-    <a class="tool tool-1 preview" href="{{urls.preview}}"></a>
-    <!--<a class="tool tool-2 export" href="{{urls.export}}" target="_blank"></a>-->
-    <a class="tool tool-3 download" href="{{urls.file}}" target="_blank"></a>
-    <a class="tool tool-4 delete"></a>
-  </div>
-  {{/unless}}
   {{#if highlights}}
-  <div class="highlights"></div>
+    <div class="highlights"></div>
   {{else}}
-
     {{#unless showProgress}}
-    <div class="tools">
-      <a class="tool tool-1 preview" href="{{urls.preview}}"></a>
-      <!--<a class="tool tool-2 export" href="{{urls.export}}" target="_blank"></a>-->
-      <a class="tool tool-3 download" href="{{urls.file}}" target="_blank"></a>
-      <a class="tool tool-4 delete"></a>
-    </div>
-    {{/unless}}
-
-    {{#if showProgress}}
-    <div class="progress-bar {{progressType}}">
-      <label>{{status_msg}}</label>
-      {{#if showSpinner}}
-      <div class="docs-loader">
-        <img src="/images/docs-loader.gif">
-      </div>
-      {{/if}}
-      {{#if showFlag}}
-      <br>
-      <a class="flag">Reportar</a>
-      {{/if}}
-      {{#if showErrorMessage}}
-      <br>
-      <i>Este documento no pudo ser procesado</i>
-      {{/if}}
-      <!--
-      <div class="wrapper-bar">
-        <div class="bar" style="width: {{percentage}}%;"></div>
-        {{#if showFlag}}
-        <div class="result">
-          <a class="flag">Reportar</a>
-        </div>
+      <div class="tools">
+        <a class="tool tool-1 preview" href="{{urls.preview}}"></a>
+        <a class="tool tool-3 download" href="{{urls.file}}" target="_blank"></a>
+        {{#if deleteable}}
+        <a class="tool tool-4 delete"></a>
         {{/if}}
       </div>
-      -->
-    </div>
+    {{/unless}}
+    {{#if showProgress}}
+      <div class="progress-bar {{progressType}}">
+        <label>{{status_msg}}</label>
+        {{#if showSpinner}}
+          <div class="docs-loader">
+            <img src="/images/docs-loader.gif">
+          </div>
+        {{/if}}
+      {{#if showFlag}}
+        <br>
+        <a class="flag">Reportar</a>
+      {{/if}}
+      {{#if showErrorMessage}}
+        <br>
+        <i>Este documento no pudo ser procesado</i>
+      {{/if}}
+      </div>
     {{/if}}
-  
   {{/if}}
-  
 </div>

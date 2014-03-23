@@ -80,7 +80,7 @@ module.exports = Backbone.Marionette.ItemView.extend({
   //--------------------------------------
 
   removeDocuments: function(){
-    if(window.confirm("Se eliminarán todos los documentos seleccionados, está seguro?")){
+    if(window.confirm("Se eliminarán todos los documentos seleccionados. ¿Está seguro?")){
       this.model.get('documents').destroySelecteds();
     }
   },

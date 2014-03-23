@@ -41,8 +41,8 @@ module.exports = Backbone.Marionette.ItemView.extend({
       status_msg: msg,
       showProgress: show,
       progressType: type,
-      showFlag: ((type === "error") ? true : false) && false,
-      deleteable: false,
+      showFlag: ((type === "error") ? true : false) && $projectData.editable,
+      deleteable: $projectData.editable,
       showErrorMessage: true
     };
   },
@@ -101,7 +101,7 @@ module.exports = Backbone.Marionette.ItemView.extend({
   //--------------------------------------
 
   deleteDocument: function(){
-    if(window.confirm("Se eliminará el documento " + this.model.get("title") + ", está seguro?")){
+    if(window.confirm("Se eliminará el documento " + this.model.get("title") + ". ¿Está seguro?")){
       this.model.destroy();
     }
   },
