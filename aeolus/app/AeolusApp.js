@@ -28,7 +28,10 @@ module.exports = function(type){
 
   function initializeProject() {
 
-    app.project = new Project();
+    app.project = new Project({
+      name: $("body").data("project-name"),
+      editable: $("body").data("project-editable")
+    });
 
     app.toolbar.show(new Toolbar({
       model: app.project
