@@ -1,4 +1,12 @@
 module ApplicationHelper
+  def project_token(project)
+    if project
+      project.project_token
+    else
+      current_user.access_token
+    end
+  end
+
   def current_project
     require 'ostruct'
     project = OpenStruct.new

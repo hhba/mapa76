@@ -1,0 +1,32 @@
+<%= content_for :header do %>
+  <div class="toolbar"></div>
+<% end %>
+
+<div class="main-content-app mapa76 clearfix">
+  <div class="vertical-toolbar clearfix"></div>
+  <div class="box-content clearfix"></div>
+  <div class="content clearfix">
+    <div class="top-nav-bar">
+      <div class="nav-bar">
+        <div id="bar-logo"><%= link_to '', documents_path %></div>
+        <ul class="nav-bar-tools clearfix">
+          <li class="tool first active"><%=link_to 'Documentos', documents_path %></li>
+          <li class="tool inactive"><a href="#">Hechos</a></li>
+          <li class="tool inactive"><a href="#">Relaciones</a></li>
+          <li class="tool last inactive"><a href="#">Proyectos</a></li>
+        </ul>
+      </div>
+      <div class="toolbar"></div>
+    </div>
+    <div class="box-content clearfix"></div>
+  </div>
+</div>
+
+<%= content_for :outside do %>
+  <div id="modal-container"></div>
+  <script type="text/javascript">
+    $(document).ready(function(){
+      window.aeolus.startApp("project");
+    });
+  </script>
+<% end %>
