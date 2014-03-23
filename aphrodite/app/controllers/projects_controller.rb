@@ -1,17 +1,16 @@
 class ProjectsController < ApplicationController
-  before_filter :authenticate_user!
+  before_filter :authenticate_user!, except: :show
 
   def index
     @projects = current_user.projects
   end
 
   def show
-    @project = current_user.projects.find params[:id]
-    @documents = @project.documents
-
-    respond_to do |format|
-      format.html
-      format.json { render json: @documents.to_json(:only => [ :_id, :title ]) }
+    @project = Project.where(slug: params[:id]).first
+    if @project
+      render layout: 'aeolus'
+    else
+      raise ActionController::RoutingError.new('Not Found')
     end
   end
 
