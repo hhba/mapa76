@@ -18,16 +18,22 @@ module.exports = Backbone.Marionette.ItemView.extend({
   template: template,
 
   templateHelpers: function(){
-    var baseUrl = aeolus.baseRoot + "/documents/" + this.model.get("id"),
+    var $projectData = $('body').data(),
+      baseUrl = aeolus.baseRoot + "/documents/" + this.model.get("id"),
+      previewUrl = baseUrl,
       p = this.model.get("percentage"),
       show = (p !== 100),
       type = (p === -1) ? "error" : "info",
       msg = this.model.get("status_msg") || "Cargando...",
       showSpinner = (p >= 0);
 
+      if(!$projectData.editable){
+        previewUrl = $projectData.slug + "/comb?document_id=" + this.model.get("id");
+      }
+
     return {
       urls: {
-        preview: baseUrl + "/",
+        preview: previewUrl,
         file: baseUrl + "/download",
         export: baseUrl + "/export"
       },

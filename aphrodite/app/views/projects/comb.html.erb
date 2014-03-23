@@ -1,10 +1,66 @@
+<%= content_for :head do %>
+  <style>
+    .vertical-toolbar {
+      z-index: 1000;
+    }
+
+    .visualizer{
+      width: 28%;
+      float: left;
+    }
+
+    .visualizer ul li {
+      float: left;
+    }
+
+    .content {
+      display: block;
+      clear: both;
+    }
+
+    .pages {
+      height: auto;
+      height: 100%;
+      min-height: 100%;
+      position: absolute;
+      overflow: auto;
+      width: 100%;
+    }
+
+    .pages li {
+      border: 1px solid silver;
+      padding: 100px 50px;
+      text-align: justify;
+    }
+
+    .pages .people {
+      color: #f8a01e;
+    }
+    .pages .organizations {
+      color: #306f74;
+    }
+    .pages .places {
+      color: #8d201d;
+    }
+    .pages .dates {
+      color: #458767;
+    }
+
+    .pages .people.hide.hide,
+    .pages .organizations.hide,
+    .pages .places.hide,
+    .pages .dates.hide {
+      color: #808184;
+    }
+</style>
+
+<% end %>
 <%= content_for :header do %>
   <div class="toolbar"></div>
 <% end %>
 
 <div class="main-content-app mapa76 clearfix">
   <div class="vertical-toolbar clearfix"></div>
-  <div class="box-content clearfix"></div>
   <div class="content clearfix">
     <div class="top-nav-bar">
       <div class="nav-bar">
@@ -25,8 +81,8 @@
 <%= content_for :outside do %>
   <div id="modal-container"></div>
   <script type="text/javascript">
-    $(document).ready(function(){
-      window.aeolus.startApp("project");
+    $(function() {
+      window.aeolus.startApp("document");
     });
   </script>
 <% end %>

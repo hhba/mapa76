@@ -1,17 +1,24 @@
 class ProjectsController < ApplicationController
-  before_filter :authenticate_user!, except: :show
+  before_filter :authenticate_user!, except: [:show, :comb]
 
   def index
     @projects = current_user.projects
   end
 
   def show
-    @project = Project.where(slug: params[:id]).first
+    @project = Project.find_by_slug(params[:id])
     if @project
       render layout: 'aeolus'
     else
       raise ActionController::RoutingError.new('Not Found')
     end
+  end
+
+  def comb
+    @project = Project.find_by_slug(params[:id])
+    user = @project.users.first
+    @document = user.documents.find(params[:document_id])
+    render layout: 'aeolus'
   end
 
   def new
