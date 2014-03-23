@@ -821,6 +821,10 @@ text-transform: uppercase;
 						right: 0;
 						top: 85px;
 						bottom: 0;
+            .results{
+              overflow: auto;
+              height: 100%;
+            }
 						.box-content-actions {}
 							.wrapper-doc {
 								position: absolute;
