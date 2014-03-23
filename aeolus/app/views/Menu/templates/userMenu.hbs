@@ -1,12 +1,12 @@
 <div tabindex="1" class="help-list wrapper-dropdown" id="help-list">
   <span><a href="#"></a></span>
   <ul class="dropdown">
-    <!--
+    {{#if loggedIn}}
     <li>
       <i class=""></i>
-      <a href='/users/{{id}}'>{{name}}</a>
+      <a href='/users/{{userId}}'>{{userName}}</a>
     </li>
-    -->
+    {{/if}}
     <li>
       <i class=""></i>
       <a href='/about'>Nosotros</a>
@@ -22,7 +22,12 @@
     {{#if loggedIn}}
     <li>
       <i class=""></i>
-      <a rel="nofollow" data-method="delete" href="/users/sign_out">Cerrar sesión</a>
+      <a rel="nofollow"  data-method="delete" href="/users/sign_out">Cerrar sesión</a>
+    </li>
+    {{else}}
+    <li>
+      <i class=""></i>
+      <a rel="nofollow" data-method="delete" href="/users//users/sign_in">Iniciar sesión</a>
     </li>
     {{/if}}
   </ul>

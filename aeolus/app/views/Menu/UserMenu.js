@@ -11,7 +11,9 @@ module.exports = Backbone.Marionette.ItemView.extend({
   templateHelpers: function(){
     var $projectData = $('body').data();
     return {
-      loggedIn: $projectData.editable
+      loggedIn: $projectData.editable,
+      userId: $projectData.userId,
+      userName: $projectData.userName
     };
   }
 });

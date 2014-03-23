@@ -4,7 +4,7 @@ class User
   field :name,         type: String
   field :organization, type: String
   field :admin,        type: Boolean
-  field :access_token,        :type => String
+  field :access_token, :type => String
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
