@@ -36,6 +36,13 @@ module.exports = Backbone.Marionette.ItemView.extend({
     "change:counter": "updateCounter"
   },
 
+  templateHelpers: function(){
+    return {
+      canUploadDocument: this.model.get('singleDocument') && this.model.get('editable'),
+      canDeleteDocuments: this.model.get('editable')
+    };
+  },
+
   newDocVisible: false,
   exportDocsVisible: false,
 
