@@ -35,8 +35,9 @@ module.exports = Backbone.Marionette.ItemView.extend({
       status_msg: msg,
       showProgress: show,
       progressType: type,
-      showFlag: (type === "error") ? true : false,
-      deleteable: false
+      showFlag: ((type === "error") ? true : false) && false,
+      deleteable: false,
+      showErrorMessage: true
     };
   },
 

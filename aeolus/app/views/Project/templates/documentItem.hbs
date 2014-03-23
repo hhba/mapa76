@@ -37,6 +37,10 @@
       <br>
       <a class="flag">Reportar</a>
       {{/if}}
+      {{#if showErrorMessage}}
+      <br>
+      <i>Este documento no pudo ser procesado</i>
+      {{/if}}
       <!--
       <div class="wrapper-bar">
         <div class="bar" style="width: {{percentage}}%;"></div>
