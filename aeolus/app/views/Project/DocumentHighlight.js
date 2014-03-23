@@ -30,13 +30,17 @@ module.exports = Backbone.Marionette.ItemView.extend({
     };
   },
 
+  events: {
+    "click .go-to-result": "goToResult"
+  },
+
   //--------------------------------------
   //+ INHERITED / OVERRIDES
   //--------------------------------------
 
   initialize: function(options){
     this.docId = options.documentId;
-  }
+  },
 
   //--------------------------------------
   //+ PUBLIC METHODS / GETTERS / SETTERS
@@ -45,6 +49,12 @@ module.exports = Backbone.Marionette.ItemView.extend({
   //--------------------------------------
   //+ EVENT HANDLERS
   //--------------------------------------
+
+  goToResult: function(event){
+    event.preventDefault();
+    window.location = event.currentTarget.href;
+    window.location.reload();
+  }
 
   //--------------------------------------
   //+ PRIVATE AND PROTECTED METHODS
