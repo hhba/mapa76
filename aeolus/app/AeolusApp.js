@@ -16,7 +16,8 @@ var
 
 module.exports = function(type){
 
-  var app = module.exports = new Backbone.Marionette.Application();
+  var projectData = $('body').data(),
+      app = module.exports = new Backbone.Marionette.Application();
 
   app.addRegions({
     toolbar: ".toolbar",
@@ -29,8 +30,8 @@ module.exports = function(type){
   function initializeProject() {
 
     app.project = new Project({
-      name: $("body").data("project-name"),
-      editable: $("body").data("project-editable")
+      name: projectData.name,
+      editable: projectData.editable
     });
 
     app.toolbar.show(new Toolbar({
@@ -40,6 +41,7 @@ module.exports = function(type){
     app.content.show(new DocumentList({
       collection: app.project.get('documents')
     }));
+    app.content.editable = projectData.editable;
 
     app.menu.show(new Menu({
       model: app.project,
