@@ -38,7 +38,7 @@ module.exports = Backbone.Marionette.ItemView.extend({
 
   templateHelpers: function(){
     return {
-      canUploadDocument: this.model.get('singleDocument') && this.model.get('editable'),
+      canUploadDocument: !this.model.get('singleDocument') && this.model.get('editable'),
       canDeleteDocuments: this.model.get('editable')
     };
   },
