@@ -14,8 +14,8 @@ b, u, i, center,
 dl, dt, dd, ol, ul, li,
 fieldset, form, label, legend,
 table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed, 
-figure, figcaption, footer, header, hgroup, 
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
 menu, nav, output, ruby, section, summary,
 time, mark, audio, video {
   margin: 0;
@@ -26,7 +26,7 @@ time, mark, audio, video {
   vertical-align: baseline;
   outline: none;
 }
- 
+
 .clearfix {
 	@include clearfix;
 }
@@ -60,7 +60,7 @@ time, mark, audio, video {
 /* ====================== */
 
 /* HTML5 display-role reset for older browsers */
-article, aside, details, figcaption, figure, 
+article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
   display: block;
  }
@@ -69,21 +69,21 @@ body {
   background: #fff url("#{$path-to-images}/bg-pattern.png") repeat 0 0;
   @include font-regular-text;
 }
- 
+
 ol, ul {
   list-style: none;
 }
- 
+
 blockquote, q {
   quotes: none;
 }
- 
+
 blockquote:before, blockquote:after,
 q:before, q:after {
-  content: '';	
+  content: '';
   content: none;
 }
- 
+
 table {
   border-collapse: collapse;
   border-spacing: 0;
@@ -151,13 +151,13 @@ a {
 
 
 /*global*/
-input:not([type]), 
-input[type="color"], 
-input[type="email"], 
-input[type="number"], 
-input[type="password"], 
-input[type="tel"], 
-input[type="url"], 
+input:not([type]),
+input[type="color"],
+input[type="email"],
+input[type="number"],
+input[type="password"],
+input[type="tel"],
+input[type="url"],
 input[type="text"] {
 	@include inputs;
 	&:focus {
@@ -168,10 +168,10 @@ input[type="text"] {
 		outline: none;
 	}
 }
-input[type="button"], 
-input[type="submit"], 
-input[type="reset"], 
-input[type="file"], 
+input[type="button"],
+input[type="submit"],
+input[type="reset"],
+input[type="file"],
 button {
 	@include buttons;
 }
@@ -217,13 +217,13 @@ text-transform: uppercase;
 	@include arrow-deco (left, 8px, $color-primary-link, initial, 2px, -14px);
 }
 /* header */
-.header input:not([type]), 
-.header input[type="color"], 
-.header input[type="email"], 
-.header input[type="number"], 
-.header input[type="password"], 
-.header input[type="tel"], 
-.header input[type="url"], 
+.header input:not([type]),
+.header input[type="color"],
+.header input[type="email"],
+.header input[type="number"],
+.header input[type="password"],
+.header input[type="tel"],
+.header input[type="url"],
 .header input[type="text"] {
 	@include inputs (15px);
 }
@@ -361,7 +361,7 @@ text-transform: uppercase;
 					}
 					.user-options {
 						float: right;
-						width: 111px;	
+						width: 111px;
 						font-size: $font-size-tiny;
 						a {
 							display: block;
@@ -628,7 +628,7 @@ text-transform: uppercase;
 	.registration {
 		.content {
 			textarea,
-			input[type="password"], 
+			input[type="password"],
 			input[type="text"] {
 				@include input-width-full;
 			}
@@ -716,10 +716,10 @@ text-transform: uppercase;
 						i.arrow-asc{
 							display: none;
 						}
-					}	
+					}
 				}
 			}
-			@include search-col  ();//default:people 
+			@include search-col  ();//default:people
 			@include search-col  (organizations);
 			@include search-col  (places);
 			@include search-col  (dates);
@@ -812,7 +812,7 @@ text-transform: uppercase;
 					left: 0;
 					right: 0;
 					z-index: 10;
-					min-height: $min-height;	
+					min-height: $min-height;
 					.top-nav-bar {}
 					.box-content {
 						margin-right: 328px;
@@ -918,8 +918,8 @@ text-transform: uppercase;
 				float: left;
 				margin: 0 0px 0px 13px;
 				position: relative;
-				> a { 
-					@include secondary-link; 
+				> a {
+					@include secondary-link;
 					margin: 2px 5px;
 				}
 			}
@@ -955,7 +955,7 @@ text-transform: uppercase;
 		input[type="submit"] {
 			padding: 4px 17px;
 			margin: -2px 7px;
-		} 
+		}
 		&.upload-doc {
 			@include arrow-deco (up, 8px, $color-info, none, -8px, 295px);
 		}
@@ -1014,7 +1014,7 @@ text-transform: uppercase;
 /* ================================ */
 
 /* View Docs ====================== */
- .show-doc {
+ .show-doc, .comb-doc {
  	.em {
  		margin-left: 10px;
  		margin-bottom: 3px;
@@ -1022,15 +1022,15 @@ text-transform: uppercase;
  	}
 	.documentInfo{
 		float: left;
-		width: 50%; 
-	  margin-left: 40px; 
-	  overflow: hidden; 
+		width: 50%;
+	  margin-left: 40px;
+	  overflow: hidden;
 	  height: 40px;
 
 		h3{
 			margin: 0;
 		}
-		
+
 	}
 	.visualizer {
 		float:right;
