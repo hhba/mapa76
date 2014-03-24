@@ -1,4 +1,12 @@
 module ApplicationHelper
+  def ga_page(project, document)
+    if @document
+      @document.title
+    elsif @project
+      @project.name
+    end
+  end
+
   def project_token(project)
     if project
       project.project_token
