@@ -9,12 +9,15 @@
     <div class="top-nav-bar">
       <div class="nav-bar">
         <div id="bar-logo"><%= link_to '', project_path(@project.slug) %></div>
-        <ul class="nav-bar-tools clearfix">
+        <ul class="nav-bar-tools">
           <li class="tool first active"><%=link_to 'Documentos', project_path(@project.slug) %></li>
           <li class="tool inactive"><a href="#">Hechos</a></li>
           <li class="tool inactive"><a href="#">Relaciones</a></li>
           <li class="tool last inactive"><a href="#">Proyectos</a></li>
         </ul>
+        <div class="nav-bar-instructions">
+          <%= link_to 'Instrucciones', 'https://www.youtube.com/watch?v=byg9b7401e8&feature=youtu.be&hd=1' %> | <%= link_to 'Pedir invitación', new_invitation_path %>
+        </div>
       </div>
       <div class="toolbar"></div>
     </div>

@@ -23,6 +23,13 @@ module.exports = Backbone.Marionette.ItemView.extend({
     "click .sort-mentions": "sortByMentions"
   },
 
+  templateHelpers: function(){
+    var $projectData = $('body').data();
+    return {
+      projectName: $projectData.name
+    };
+  },
+
   //--------------------------------------
   //+ INHERITED / OVERRIDES
   //--------------------------------------
