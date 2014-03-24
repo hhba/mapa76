@@ -31,7 +31,7 @@
     })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
     ga('create', 'UA-48089932-1', 'analice.me');
-    ga('send', 'pageview');
+    ga('send', 'pageview', '<%= controller.controller_name + '_' + controller.action_name %>');
   </script>
 </body>
 </html>
