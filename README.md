@@ -14,7 +14,7 @@ Dependencies
   * Bundler (`bundler` gem)
   * MongoDB server
   * Redis server
-  * [Docsplit dependencies](http://documentcloud.github.com/docsplit/#installation)
+  * Docsplit
   * FreeLing 3.0
   * Poppler 0.20+
 
