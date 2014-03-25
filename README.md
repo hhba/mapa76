@@ -86,6 +86,10 @@ change anything.
     
 ### Docsplit ###
 
+Install Docsplit dependencies
+
+    # apt-get install graphicsmagick poppler-utils poppler-data ghostscript pdftk libreoffice
+
 You should also install most of the
 [dependencies](http://documentcloud.github.com/docsplit/#installation) listed
 in Docsplit documentation.
