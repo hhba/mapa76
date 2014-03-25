@@ -10,7 +10,7 @@ This proyect is composed of three applications:
 Dependencies
 ------------
 
-  * Ruby 1.9+
+  * Ruby 1.9.3
   * Bundler (`bundler` gem)
   * MongoDB server
   * Redis server
@@ -21,11 +21,11 @@ Dependencies
 Install: Hephaestus
 -------------------
 
-### Ruby 1.9 ###
+### Ruby 1.9.3 ###
 
 We recommend [rvm](https://rvm.io/rvm/install/) for installing and managing the
 Ruby interpreter and environment. Refer to the [installation
-page](https://rvm.io/rvm/install/) for instructions on installing Ruby 1.9+.
+page](https://rvm.io/rvm/install/) for instructions on installing Ruby 1.9.3
 with `rvm`.
 
 ### MongoDB and Redis servers ###
