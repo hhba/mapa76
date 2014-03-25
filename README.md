@@ -53,12 +53,16 @@ First, run `bundle install` to install all gem dependencies.
     $ cd aphrodite
     $ bundle install
 
+
+### Setup your config files ###
+
 Create your MongoDB and Resque configuration files based on the sample files,
 and modify the connection options to suit your needs:
 
     $ cp config/mongoid.yml.sample config/mongoid.yml
     $ cp config/resque.yml.sample config/resque.yml
     $ cp config/elasticsearch.yml.sample config/elasticsearch.yml
+    $ cp config/application.yml.sample config/application.yml
 
 If the servers will be running on the same machine as Mapa76, you don't need to
 change anything.
