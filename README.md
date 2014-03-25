@@ -23,6 +23,12 @@ Install: Hephaestus
 
 ### Ruby 1.9.3 ###
 
+    
+    $ \curl -sSL https://get.rvm.io | bash -s stable --ruby
+    $ source ~/.bashrc
+    $ rvm install ruby-1.9.3
+    $ rvm use 1.9.3 --default
+
 We recommend [rvm](https://rvm.io/rvm/install/) for installing and managing the
 Ruby interpreter and environment. Refer to the [installation
 page](https://rvm.io/rvm/install/) for instructions on installing Ruby 1.9.3
