@@ -77,6 +77,13 @@ change anything.
 ### Test web engine ###
     $ rails s
 
+### Install Hephaestus(workers) ###
+
+    # apt-get install libxml2-dev
+    # apt-get install libxslt1-dev
+    $ cd ../hephaestus
+    $ bundle install
+    
 ### Docsplit ###
 
 You should also install most of the
