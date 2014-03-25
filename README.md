@@ -67,6 +67,13 @@ and modify the connection options to suit your needs:
 If the servers will be running on the same machine as Mapa76, you don't need to
 change anything.
 
+### Install Node.js ###
+
+    $ curl https://raw.github.com/creationix/nvm/v0.3.0/install.sh | sh
+    $ source ~/.bashrc
+    $ nvm install 0.10
+    $ nvm alias default 0.10
+
 ### Docsplit ###
 
 You should also install most of the
