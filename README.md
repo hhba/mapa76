@@ -49,6 +49,8 @@ On Debian / Ubuntu machines, install from the package manager:
 
 First, run `bundle install` to install all gem dependencies.
 
+    $ cd mapa76
+    $ cd aphrodite
     $ bundle install
 
 Create your MongoDB and Resque configuration files based on the sample files,
