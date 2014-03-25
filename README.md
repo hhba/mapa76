@@ -42,7 +42,8 @@ On Debian / Ubuntu machines, install from the package manager:
 
 ### Clone the repository
 
-    $ git Clone git@github.com:hhba/mapa76.git
+    # apt-get install git
+    $ git clone git@github.com:hhba/mapa76.git
 
 ### Gems ###
 
