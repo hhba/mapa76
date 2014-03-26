@@ -65,7 +65,7 @@ private
 
   def remove(document)
     searcher = SearcherService.new(current_user)
-    JobsService.not_working_on?(document) && document.destroy && searcher.destroy_for(document)
+    document.destroy && searcher.destroy_for(document)
   end
 
   def get_pages

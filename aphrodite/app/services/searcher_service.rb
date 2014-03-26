@@ -12,7 +12,6 @@ class SearcherService
 
   def where(str, document_id=nil)
     store(str)
-    client = Rails.application.config.elasticsearch_client
 
     query = {
       bool: {
@@ -93,25 +92,10 @@ class SearcherService
   end
 
   def destroy_for(document)
-    user_id = user.id
-    document_id = document.id
-    index = Tire::Index.new(documents_index)
-    search = Tire.search(documents_index) do
-      query do
-        boolean do
-          must { term :document_id, document_id}
-        end
-      end
-    end.results.each { |result| index.remove result.id }
-
-    index = Tire::Index.new(pages_index)
-    Tire.search(pages_index) do
-      query do
-        boolean do
-          must { term :document_id, document_id}
-        end
-      end
-    end.results.each { |result| puts index.remove result.id }
+    # Delete from documents_index
+    client.delete_by_query index: documents_index, q:"document_id:#{document.id}"
+    # Delete from pages_index
+    client.delete_by_query index: pages_index, q:"document_id:#{document.id}"
   end
 
   def store(query)
@@ -124,5 +108,9 @@ class SearcherService
 
   def pages_index
     Rails.application.config.elasticsearch_prefix + "_pages"
+  end
+
+  def client
+    Rails.application.config.elasticsearch_client
   end
 end
