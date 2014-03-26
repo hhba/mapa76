@@ -2,37 +2,43 @@
   <input type="checkbox" class="selection" {{#if selected}}checked{{/if}}>
 </div>
 <div class="col2">
-  <label class="doc-name">{{title}}</label>
-  <label class="doc-date">{{formatDate created_at}}</label>
+  {{#if persisted}}
+    <label class="doc-name">{{title}}</label>
+    <label class="doc-date">{{formatDate created_at}}</label>
+  {{else}}
+    <label class="doc-name error">No se pudo guardar el documento</label>
+  {{/if}}
   {{#if highlights}}
     <div class="highlights"></div>
   {{else}}
-    {{#unless showProgress}}
-      <div class="tools">
-        <a class="tool tool-1 preview" href="{{urls.preview}}"></a>
-        <a class="tool tool-3 download" href="{{urls.file}}" target="_blank"></a>
-        {{#if deleteable}}
-        <a class="tool tool-4 delete"></a>
+    {{#if persisted}}
+      {{#unless showProgress}}
+        <div class="tools">
+          <a class="tool tool-1 preview" href="{{urls.preview}}"></a>
+          <a class="tool tool-3 download" href="{{urls.file}}" target="_blank"></a>
+          {{#if deleteable}}
+          <a class="tool tool-4 delete"></a>
+          {{/if}}
+        </div>
+      {{/unless}}
+      {{#if showProgress}}
+        <div class="progress-bar {{progressType}}">
+          <label>{{status_msg}}</label>
+          {{#if showSpinner}}
+            <div class="docs-loader">
+              <img src="/images/docs-loader.gif">
+            </div>
+          {{/if}}
+        {{#if showFlag}}
+          <br>
+          <a class="flag">Reportar</a>
         {{/if}}
-      </div>
-    {{/unless}}
-    {{#if showProgress}}
-      <div class="progress-bar {{progressType}}">
-        <label>{{status_msg}}</label>
-        {{#if showSpinner}}
-          <div class="docs-loader">
-            <img src="/images/docs-loader.gif">
-          </div>
+        {{#if showErrorMessage}}
+          <br>
+          <i>Este documento no pudo ser procesado</i>
         {{/if}}
-      {{#if showFlag}}
-        <br>
-        <a class="flag">Reportar</a>
+        </div>
       {{/if}}
-      {{#if showErrorMessage}}
-        <br>
-        <i>Este documento no pudo ser procesado</i>
-      {{/if}}
-      </div>
     {{/if}}
   {{/if}}
 </div>
