@@ -9,3 +9,11 @@ node :counters do  |document|
     dates: document.context_cache.fetch('dates', []).count
   }
 end
+
+node :persisted do |document|
+  document.persisted?
+end
+
+node :error_messages do |document|
+  document.errors.messages
+end

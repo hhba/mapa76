@@ -12,6 +12,7 @@ class Api::V2::DocumentsController < Api::V2::BaseController
       document.original_filename = file.original_filename
       document.file = file.path
       current_user.documents << document
+      document.user = current_user
       document.save
       document
     end
