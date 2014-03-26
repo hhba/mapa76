@@ -24,12 +24,23 @@ class ActiveSupport::TestCase
   def setup
     DatabaseCleaner[:mongoid].strategy = :truncation
     DatabaseCleaner.clean
-    Document.tire.index.delete
     @routes = Rails.application.routes
+    Tire.index pages_index { delete }
+    Tire.index documents_index { delete }
   end
 
   def teardown
     # Add code that need to be executed after each test
+  end
+
+private
+
+  def documents_index
+    Rails.application.config.elasticsearch_prefix + "_documents"
+  end
+
+  def pages_index
+    Rails.application.config.elasticsearch_prefix + "_pages"
   end
 end
 
