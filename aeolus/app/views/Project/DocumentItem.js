@@ -43,7 +43,7 @@ module.exports = Backbone.Marionette.ItemView.extend({
       progressType: type,
       showFlag: ((type === "error") ? true : false) && $projectData.editable,
       deleteable: $projectData.editable,
-      showErrorMessage: true
+      showErrorMessage: ((type === "error") ? true : false)
     };
   },
 
