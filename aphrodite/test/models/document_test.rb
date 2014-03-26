@@ -38,8 +38,21 @@ describe Document do
     person = FactoryGirl.create :person
     @document.people << person
 
-    assert_equal register.people.first.text, @document.context[:registers].first[:who].first
     assert_equal @document.title, @document.context[:title]
     assert_equal person.name, @document.context[:people].first[:name]
+  end
+
+  describe "validate number of documents" do
+    it "does not allow you to create more than 50 documents" do
+      user = FactoryGirl.create :user
+      50.times { FactoryGirl.create(:document, user: user) }
+
+      doc = Document.new
+      doc.user = user
+
+      doc.valid?.must_equal false
+      puts doc.errors.messages
+      doc.errors.messages[:documents_count].wont_be_nil
+    end
   end
 end

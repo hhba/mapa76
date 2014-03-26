@@ -1,4 +1,7 @@
 class Document
+  DOCUMENTS_LIMIT = 50
+  validate :do_not_exceed_documents_limit
+
   def flag!(user)
     update_attribute :flagger_id, user.id
   end
@@ -15,6 +18,14 @@ class Document
         date_format :short
       end
       field :status
+    end
+  end
+
+private
+
+  def do_not_exceed_documents_limit
+    if self.user && !self.user.admin? && (self.user.documents.count >= DOCUMENTS_LIMIT)
+      errors.add(:documents_count, "Demasiados documentos")
     end
   end
 end
