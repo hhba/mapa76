@@ -88,7 +88,10 @@ describe DocumentsController do
 
         assert_response :success
         assert_equal document.title, status["title"]
-        assert_instance_of Array, status["registers"]
+        assert_instance_of Array, status["people"]
+        assert_instance_of Array, status["dates"]
+        assert_instance_of Array, status["organizations"]
+        assert_instance_of Array, status["places"]
       end
     end
 
@@ -116,14 +119,6 @@ describe DocumentsController do
 
         assert_response :success
         assert_equal "empty content", @response.body
-      end
-    end
-
-    describe 'GET #comb' do
-      it "Show comb page" do
-        get :comb, :id => document.id
-
-        assert_response :success
       end
     end
 
