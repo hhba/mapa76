@@ -52,8 +52,7 @@ module.exports = Backbone.Marionette.ItemView.extend({
 
   goToResult: function(event){
     event.preventDefault();
-    window.location = event.currentTarget.href;
-    window.location.reload();
+    window.location = eventst.currentTarget.href;
   }
 
   //--------------------------------------
