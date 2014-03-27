@@ -12,7 +12,7 @@
   {{#if highlights}}
     <div class="highlights"></div>
   {{else}}
-    {{#if persisted}}
+    {{#unless failed}}
       {{#unless showProgress}}
         <div class="tools">
           <a class="tool tool-1 preview" href="{{urls.preview}}"></a>
@@ -40,6 +40,6 @@
         {{/if}}
         </div>
       {{/if}}
-    {{/if}}
+    {{/unless}}
   {{/if}}
 </div>
