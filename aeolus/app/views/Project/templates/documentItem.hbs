@@ -2,12 +2,13 @@
   <input type="checkbox" class="selection" {{#if selected}}checked{{/if}}>
 </div>
 <div class="col2">
-  {{#if persisted}}
+  {{#unless failed}}
     <label class="doc-name">{{title}}</label>
     <label class="doc-date">{{formatDate created_at}}</label>
   {{else}}
     <label class="doc-name error">No se pudo guardar el documento</label>
-  {{/if}}
+    <label class="doc-date error">Probablemente haya superrado el límite de documentos</label>
+  {{/unless}}
   {{#if highlights}}
     <div class="highlights"></div>
   {{else}}

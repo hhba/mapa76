@@ -10,8 +10,8 @@ node :counters do  |document|
   }
 end
 
-node :persisted do |document|
-  document.persisted?
+node :failed do |document|
+  !document.valid?
 end
 
 node :error_messages do |document|
