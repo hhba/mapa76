@@ -1,0 +1,20 @@
+.main-content.contact.clearfix
+  .content.contact.clearfix
+    %h1 Bienvenido #{@user.name}
+
+    / %h2 Cambiar información del usuario
+    / = simple_form_for @user do |f|
+    /   = f.input :name
+    /   = f.button :submit, 'Grabar'
+    %br
+    %h2 Crear un proyecto
+    %p
+      Recuerde que al crear un proyecto, que si selecciona un proyecto como
+      público, cualquier persona tendrá acceso a el (en modo lectura).
+      Ninguna persona podrá agregar o borrar documentos de su proyecto.
+    = simple_form_for @project, url: user_path(current_user) do |f|
+      = f.input :name
+      = f.input :slug, hint: 'http://analice.me/projects/TUPROYECTO'
+      = f.input :description, as: :text
+      = f.input :public, as: :boolean
+      = f.button :submit, 'Grabar'

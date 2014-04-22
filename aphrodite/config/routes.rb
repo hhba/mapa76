@@ -5,6 +5,7 @@ Mapa76::Application.routes.draw do
 
   resources :invitations, only: [:new, :create]
 
+  resources :users, only: [:show, :edit, :update]
   resources :projects, :except => [:edit, :update, :delete] do
     member do
       get    'comb'
