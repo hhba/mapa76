@@ -18,6 +18,10 @@ class User
     !!admin
   end
 
+  def name
+    self.email.split('@').first
+  end
+
 private
 
   def has_invitation_token
