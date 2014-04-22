@@ -5,6 +5,7 @@ class Project
 
   field :name, :type => String
   field :slug, :type => String
+  field :public, type: Boolean, default: false
   field :description, :type => String
 
   has_and_belongs_to_many :documents
