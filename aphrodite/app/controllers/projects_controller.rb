@@ -7,7 +7,7 @@ class ProjectsController < ApplicationController
 
   def show
     @project = Project.find_by_slug(params[:id])
-    if @project
+    if @project && @project.public?
       render layout: 'aeolus'
     else
       raise ActionController::RoutingError.new('Not Found')
