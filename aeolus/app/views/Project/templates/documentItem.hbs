@@ -7,7 +7,7 @@
     <label class="doc-date">{{formatDate created_at}}</label>
   {{else}}
     <label class="doc-name error">No se pudo guardar el documento</label>
-    <label class="doc-date error">Probablemente haya superrado el límite de documentos</label>
+    <label class="doc-date error">Probablemente exceda el tamaño máximo permitido</label>
   {{/unless}}
   {{#if highlights}}
     <div class="highlights"></div>

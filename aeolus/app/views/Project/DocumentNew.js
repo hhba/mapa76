@@ -90,13 +90,13 @@ module.exports = Backbone.Marionette.ItemView.extend({
     this.close();
   },
 
-  onUploadError: function(/*jqXHR, textStatus, errorThrown*/){
-    this.ui.progressCtn.removeClass("info").addClass("error");
-    
-    var aReset = $('<a class="important">Vuelva a intentarlo</a>');
+  onUploadError: function(jqXHR/*, textStatus, errorThrown*/){
+    var aReset = $('<a class="important">Vuelva a intentarlo</a>'),
+        error_message = jqXHR.responseJSON.error_messages.files_limit;
 
+    this.ui.progressCtn.removeClass("info").addClass("error");
     this.ui.progressMsg
-      .text("Error al subir documento.")
+      .text(error_message)
       .append(aReset);
 
     aReset.on("click", this.resetUpload.bind(this));
