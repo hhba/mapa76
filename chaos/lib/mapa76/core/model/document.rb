@@ -4,6 +4,8 @@ class Document
   include Mongoid::Pagination
   include Finder
 
+  DOCUMENT_SIZE_LIMIT = 1048576 # Bytes
+
   field :title,             type: String
   field :original_filename, type: String
   field :context_cache,     type: Hash,    default: {}
@@ -32,6 +34,7 @@ class Document
 
   validates_presence_of :file_id
   validates_presence_of :original_filename
+  validate :file_size_limit
 
   before_save   :set_default_title
   after_create  :process!
@@ -180,5 +183,15 @@ protected
       :limit => Resque::Failure.count
     })
     [Resque::Failure.all(opts[:offset], opts[:limit])].flatten.compact
+  end
+
+  def file_size_limit
+    if !owner_is_admin? && file.length > Document::DOCUMENT_SIZE_LIMIT
+      errors.add(:file_size, "File exceeds maximum file size")
+    end
+  end
+
+  def owner_is_admin?
+    user && user.admin?
   end
 end

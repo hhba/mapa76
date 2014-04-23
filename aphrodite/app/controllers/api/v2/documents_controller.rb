@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class Api::V2::DocumentsController < Api::V2::BaseController
   skip_before_filter :verfy_authenticity_token, only: [:create]
 
@@ -7,17 +9,13 @@ class Api::V2::DocumentsController < Api::V2::BaseController
 
   def create
     files = params[:document].fetch(:files, [])
-    @documents = files.map do |file|
-      document = Document.new
-      document.original_filename = file.original_filename
-      document.file = file.path
-      current_user.documents << document
-      document.user = current_user
-      document.save
-      document
+    uploader = DocumentUploaderService.new(files, current_user)
+    if uploader.valid?
+      @documents = uploader.call
+      render :index
+    else
+      render json: {error_messages: { files_limit: "Ha excedido el límite de documentos"}}, status: 403
     end
-
-    render :index
   end
 
   def destroy
