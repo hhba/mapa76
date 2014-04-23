@@ -24,7 +24,6 @@ class Project
   end
   
   def escape_slug
-    puts "escaping"
     self.slug = URI.escape(read_attribute(:slug).strip())
   end
 end
