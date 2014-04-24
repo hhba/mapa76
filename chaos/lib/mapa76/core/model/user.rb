@@ -3,6 +3,7 @@ class User
 
   ## Database authenticatable
   field :email,              :type => String, :default => ""
+  field :username,           :type => String, :default => ""
   field :encrypted_password, :type => String, :default => ""
 
   validates_presence_of :email
@@ -43,8 +44,4 @@ class User
   has_many :places
   has_many :date_entities
   has_and_belongs_to_many :projects
-
-  def username
-    email.split("@")[0]
-  end
 end

@@ -1,11 +1,12 @@
 .main-content.contact.clearfix
   .content.contact.clearfix
-    %h1 Bienvenido #{@user.name}
+    %h1 Bienvenido #{@user.username}
 
-    / %h2 Cambiar información del usuario
-    / = simple_form_for @user do |f|
-    /   = f.input :name
-    /   = f.button :submit, 'Grabar'
+    %h2 Cambiar información del usuario
+    = simple_form_for @user do |f|
+      = f.input :username
+      = f.input :organization
+      = f.button :submit, 'Grabar'
     %br
     %h2 Crear un proyecto
     %p
