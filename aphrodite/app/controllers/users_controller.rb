@@ -15,12 +15,11 @@ class UsersController < ApplicationController
     @user = current_user
     @project = current_user.projects.first
     if params[:user]
-      @user.name = params[:user][:name]
-      @user.save if current_user.changed?
+      @user.update_attributes(params[:user])
     else
       @project.update_attributes(params[:project])
     end
 
-    render :edit
+    redirect_to edit_user_path(current_user)
   end
 end
