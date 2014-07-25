@@ -20,10 +20,6 @@ group :development do
   gem 'binding_of_caller'
   gem 'capistrano'
   gem 'capistrano-unicorn', :require => false
-<<<<<<< HEAD
-=======
-  # gem 'debugger'
->>>>>>> Move to Ruby 2.1.2
   gem 'rvm-capistrano'
   gem 'ruby-prof'
 end
@@ -54,3 +50,4 @@ gem 'rails_admin'
 gem 'unicorn'
 gem 'will_paginate-bootstrap', :require => "will_paginate-bootstrap"
 gem 'whenever', require: false
+
