@@ -1,6 +1,7 @@
 set :application, 'aeolus'
 set :stages, %w(production staging)
 set :default_stage, 'staging'
+set :user, 'deploy'
 require 'capistrano/ext/multistage'
 
 set :repository, './dist'
@@ -8,7 +9,6 @@ set :scm, :none
 set :deploy_via, :copy
 set :use_sudo, false
 set :copy_compression, :gzip
-set :user, 'deployer'
 set :deploy_to, "/home/#{user}/apps/mapa76.info/#{application}"
 set :copy_remote_dir, "/home/#{user}/apps/mapa76.info/#{application}"
 
