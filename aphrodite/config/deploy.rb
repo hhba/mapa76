@@ -2,12 +2,12 @@ require "capistrano-unicorn"
 
 set :stages, %w(production staging)
 set :default_stage, "staging"
+set :user, "deploy"
 require 'capistrano/ext/multistage'
 
 set :bundle_flags, "--deployment --quiet --binstubs"
 
 set :application, "aphrodite"
-set :user, "deployer"
 set :deploy_to, "/home/#{user}/apps/mapa76.info/#{application}"
 set :subdir, "aphrodite"
 set :deploy_via, :remote_cache
@@ -70,7 +70,7 @@ namespace :deploy do
 
   desc "Add Chaos as a dependency on Gemfile"
   task :change_chaos_dependency do
-    new_chaos_dir = '/home/deployer/apps/mapa76.info/chaos/current'.gsub("/", "\\/")
+    new_chaos_dir = "/home/#{user}/apps/mapa76.info/chaos/current".gsub("/", "\\/")
     gemfile = "#{current_release}/Gemfile"
     gemfile_lock = "#{current_release}/Gemfile.lock"
     run 'sed -i "s/..\/chaos/' + new_chaos_dir + '/" ' + gemfile
