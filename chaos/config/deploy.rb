@@ -1,9 +1,9 @@
 set :stages, %w(production staging)
 set :default_stage, "staging"
+set :user, "deployer"
 require 'capistrano/ext/multistage'
 
 set :application, "chaos"
-set :user, "deployer"
 set :deploy_to, "/home/#{user}/apps/mapa76.info/#{application}"
 set :subdir, "chaos"
 set :deploy_via, :remote_cache
