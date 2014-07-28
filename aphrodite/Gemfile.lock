@@ -247,8 +247,6 @@ GEM
     rest-client (1.6.7)
       mime-types (>= 1.16)
     ruby-prof (0.13.0)
-    rvm-capistrano (1.2.7)
-      capistrano (>= 2.0.0)
     safe_yaml (0.9.7)
     sass (3.2.12)
     sass-rails (3.2.6)
@@ -336,7 +334,6 @@ DEPENDENCIES
   rails (~> 3.2.8)
   rails_admin
   ruby-prof
-  rvm-capistrano
   sass
   sass-rails (~> 3.2.3)
   simple_form
