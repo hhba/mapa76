@@ -19,7 +19,6 @@ set :scm_verbose, true
 set :ssh_options, :forward_agent => true
 
 set :keep_releases, 5
-
 set :config_files, %w{ application mongoid resque elasticsearch }
 
 default_run_options[:pty] = true
@@ -80,14 +79,20 @@ namespace :deploy do
   desc "Link aeolus app"
   task :link_aeolus do
     run "mkdir -p #{current_release}/app/assets/javascripts/aeolus/"
-    run "ln -sf /home/deployer/apps/mapa76.info/aeolus/current/js/vendor.js #{current_release}/app/assets/javascripts/aeolus/vendor.js"
-    run "ln -sf /home/deployer/apps/mapa76.info/aeolus/current/js/app.js #{current_release}/app/assets/javascripts/aeolus/app.js"
+    run "ln -sf /home/#{user}/apps/mapa76.info/aeolus/current/js/vendor.js #{current_release}/app/assets/javascripts/aeolus/vendor.js"
+    run "ln -sf /home/#{user}/apps/mapa76.info/aeolus/current/js/app.js #{current_release}/app/assets/javascripts/aeolus/app.js"
+  end
+
+  desc "Adding emtpy manifest.yml"
+  task :setup_manifest do
+    run "mkdir #{shared_path}/assets && touch #{shared_path}/assets/manifest.yml"
   end
 
   before "deploy", "deploy:check_revision"
   before "deploy:finalize_update", "deploy:checkout_subdir"
   before "deploy:finalize_update", "deploy:change_chaos_dependency"
   before "deploy:assets:precompile", "deploy:link_aeolus"
+  after "deploy:setup", "deploy:setup_manifest"
   after "deploy:update_code", "deploy:create_symlink_shared"
   after "deploy:setup", "deploy:setup_config"
   after "deploy", "deploy:cleanup" # keep only the last 5 releases
