@@ -1,4 +1,4 @@
-root = "/home/deployer/apps/mapa76.info/aphrodite/current"
+root = "/home/deploy/apps/mapa76.info/aphrodite/current"
 working_directory root
 pid "#{root}/tmp/pids/unicorn/pid"
 stderr_path "#{root}/log/unicorn.log"
