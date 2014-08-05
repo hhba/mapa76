@@ -1,16 +1,16 @@
 load "deploy"
 set :stages, %w(production staging)
-set :default_stage, "staging"
+set :default_stage, "production"
 require 'capistrano/ext/multistage'
 set :environment, "production"
 
 set :application, "hephaestus"
-set :user, "deployer"
+set :user, "deploy"
 
 set :scm, :git
 set :repository, "git://github.com/hhba/mapa76.git"
 
-set :deploy_to, "/home/deployer/apps/mapa76.info/#{application}"
+set :deploy_to, "/home/#{user}/apps/mapa76.info/#{application}"
 set :app_env, 'production'
 
 set :subdir, "hephaestus"
@@ -47,7 +47,7 @@ namespace :deploy do
 
   desc "Add Chaos as a dependency on Gemfile"
   task :change_chaos_dependency do
-    new_chaos_dir = '/home/deployer/apps/mapa76.info/chaos/current'.gsub("/", "\\/")
+    new_chaos_dir = "/home/#{user}/apps/mapa76.info/chaos/current".gsub("/", "\\/")
     gemfile = "#{current_release}/Gemfile"
     gemfile_lock = "#{current_release}/Gemfile.lock"
     run 'sed -i "s/..\/chaos/' + new_chaos_dir + '/" ' + gemfile
