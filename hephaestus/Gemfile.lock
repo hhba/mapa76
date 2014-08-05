@@ -112,8 +112,6 @@ GEM
     rest-client (1.6.7)
       mime-types (>= 1.16)
     ruby-progressbar (1.2.0)
-    rvm-capistrano (1.2.2)
-      capistrano (>= 2.0.0)
     shoulda-context (1.0.0)
     sinatra (1.4.3)
       rack (~> 1.4)
@@ -166,6 +164,5 @@ DEPENDENCIES
   pry
   rake
   ruby-progressbar
-  rvm-capistrano
   shoulda-context
   tire
