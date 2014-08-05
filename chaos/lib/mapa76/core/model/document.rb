@@ -34,7 +34,7 @@ class Document
 
   validates_presence_of :file_id
   validates_presence_of :original_filename
-  validate :file_size_limit
+  validate :file_size_limit, on: :create
 
   before_save   :set_default_title
   after_create  :process!
@@ -125,7 +125,7 @@ class Document
     restart_variables
     Resque.enqueue(DocumentProcessBootstrapTask, id)
   end
-  
+
   def process_text!
     update_attribute :status, 'text_extraction_task-end'
     update_attribute :status_history, ['text_extraction_task']
