@@ -1,6 +1,6 @@
 set :application, 'aeolus'
 set :stages, %w(production staging)
-set :default_stage, 'staging'
+set :default_stage, 'production'
 set :user, 'deploy'
 require 'capistrano/ext/multistage'
 
