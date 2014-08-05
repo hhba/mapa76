@@ -5,7 +5,7 @@ upstream unicorn {
 server {
   listen 80 default deferred;
   server_name mapa76.info www.mapa76.info;
-  root /home/deployer/apps/mapa76.info/aphrodite/current/public;
+  root /home/deploy/apps/mapa76.info/aphrodite/current/public;
 
   location ^~ /assets/ {
     gzip_static on;
@@ -25,5 +25,5 @@ server {
   client_max_body_size 4G;
   keepalive_timeout 10;
 
-  error_log /home/deployer/apps/mapa76.info/log/aphrodite-error.log;
+  error_log /home/deploy/apps/mapa76.info/log/aphrodite-error.log;
 }
