@@ -18,6 +18,7 @@ gem "rake"
 gem "tire"
 gem "pry", :require => false
 gem "json", "~> 1.7.7"
+gem "httparty"
 gem "ruby-progressbar", require: false
 
 group :development do
