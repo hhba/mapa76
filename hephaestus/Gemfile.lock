@@ -47,6 +47,9 @@ GEM
     hashie (2.0.5)
     hashr (0.0.22)
     highline (1.6.16)
+    httparty (0.11.0)
+      multi_json (~> 1.0)
+      multi_xml (>= 0.5.2)
     httpi (1.1.1)
       rack
     i18n (0.6.5)
@@ -77,6 +80,7 @@ GEM
     mono_logger (1.1.0)
     moped (1.5.1)
     multi_json (1.8.2)
+    multi_xml (0.5.5)
     net-scp (1.1.0)
       net-ssh (>= 2.6.5)
     net-sftp (2.1.1)
@@ -149,6 +153,7 @@ DEPENDENCIES
   guard
   guard-minitest
   hashie
+  httparty
   httpi
   json (~> 1.7.7)
   log4r
