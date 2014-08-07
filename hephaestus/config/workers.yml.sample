@@ -6,6 +6,7 @@ default:
     - collisions_detector_task
     - entities_extraction_task
     - text_extraction_task
+    - links_processor_task
   num: 1
 misc:
   queues:
