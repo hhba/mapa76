@@ -7,6 +7,7 @@ class Document
   DOCUMENT_SIZE_LIMIT = 1048576 # Bytes
 
   field :title,             type: String
+  field :url,               type: String
   field :original_filename, type: String
   field :context_cache,     type: Hash,    default: {}
   field :processed_text,    type: String
