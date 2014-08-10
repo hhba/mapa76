@@ -133,17 +133,11 @@ class Document
     Resque.enqueue(DocumentProcessBootstrapTask, id)
   end
 
-protected
-
-  def inspect_fields
-    non_visible = %w(_id processed_text person_ids people context_cache organization_ids address_ids place_ids date_entity_ids)
-    fields.map do |name, field|
-      unless non_visible.include?(name)
-        as = field.options[:as]
-        "#{name}#{as ? "(#{as})" : nil}: #{@attributes[name].inspect}"
-      end
-    end.compact + ["content_length: #{processed_text.size}", "processed_text: #{processed_text[0..100].inspect}"]
+  def link_document?
+    !!(self.url && self.url != "")
   end
+
+protected
 
   def restart_variables
     update_attribute :percentage, 0
