@@ -35,6 +35,7 @@ class Document
 
   validates_presence_of :file_id, unless: :link_document?
   validates_presence_of :original_filename, unless: :link_document?
+  validates :url, :format => URI::regexp(%w(http https)), if: :link_document?
   validate :file_size_limit, on: :create
 
   before_save :set_default_title, unless: :link_document?
