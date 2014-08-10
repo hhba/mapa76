@@ -33,11 +33,11 @@ class Document
   has_and_belongs_to_many :date_entities
   has_and_belongs_to_many :project
 
-  validates_presence_of :file_id
-  validates_presence_of :original_filename
+  validates_presence_of :file_id, unless: :link_document?
+  validates_presence_of :original_filename, unless: :link_document?
   validate :file_size_limit, on: :create
 
-  before_save   :set_default_title
+  before_save :set_default_title, unless: :link_document?
   after_create  :process!
   after_destroy :destroy_gridfs_files
 
@@ -124,7 +124,11 @@ class Document
 
   def process!
     restart_variables
-    Resque.enqueue(DocumentProcessBootstrapTask, id)
+    if link_document?
+      Resque.enqueue(LinksProcessorTask, id)
+    else
+      Resque.enqueue(DocumentProcessBootstrapTask, id)
+    end
   end
 
   def process_text!
