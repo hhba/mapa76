@@ -962,6 +962,19 @@ text-transform: uppercase;
 		right: 0;
 		border-top:1px solid $color-info;
 		border-bottom:1px solid $color-info;
+		.upload-links {
+			width: 60%;
+			height: 400px;
+		}
+		textarea {
+			margin-bottom: 10px;
+		}
+		.error-message {
+			margin-bottom: 5px;
+		}
+		.hide {
+			display: none;
+		}
 		input[type="submit"] {
 			padding: 4px 17px;
 			margin: -2px 7px;
