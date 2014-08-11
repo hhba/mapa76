@@ -2,7 +2,6 @@ require 'open-uri'
 require 'httparty'
 require 'nokogiri'
 
-
 class LinksProcessorTask < Base
   @queue = :links_processor_task
   @msg = "Procesando enlaces"
