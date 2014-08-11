@@ -125,11 +125,7 @@ class Document
 
   def process!
     restart_variables
-    if link_document?
-      Resque.enqueue(LinksProcessorTask, id)
-    else
-      Resque.enqueue(DocumentProcessBootstrapTask, id)
-    end
+    Resque.enqueue(DocumentProcessBootstrapTask, id)
   end
 
   def process_text!
