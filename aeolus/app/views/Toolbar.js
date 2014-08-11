@@ -1,11 +1,12 @@
 /**
  * VIEW: Toolbar
- * 
+ *
  */
 
-var 
+var
     template = require("./templates/toolbar.tpl")
   , DocumentNew = require("./Project/DocumentNew")
+  , UploadLinks = require("./Project/UploadLinks")
   , ExportDocuments = require("./Project/ExportDocuments")
   , DocumentLayout = require("./Document")
   , Results = require("./Document/Results");
@@ -27,6 +28,7 @@ module.exports = Backbone.Marionette.ItemView.extend({
   events: {
     "keyup #search": "onSearchKeyup",
     "click #upload": "toggleNewDocument",
+    "click #links": "toggleNewLinks",
     "click #export": "toggleExport",
     "click #delete": "removeDocuments",
     "click #seachButton": "searchDocuments"
@@ -45,6 +47,7 @@ module.exports = Backbone.Marionette.ItemView.extend({
 
   newDocVisible: false,
   exportDocsVisible: false,
+  uploadLinksVisible: false,
 
   //--------------------------------------
   //+ INHERITED / OVERRIDES
@@ -65,7 +68,7 @@ module.exports = Backbone.Marionette.ItemView.extend({
     this.updateCounter();
   },
 
-  serializeData: function(){  
+  serializeData: function(){
     return _.extend({
       singleDocument: this.documentView ? true : false
     }, ((this.model && this.model.toJSON()) || {}));
@@ -96,10 +99,26 @@ module.exports = Backbone.Marionette.ItemView.extend({
       });
     }
     else {
-      window.aeolus.app.modals.close(); 
+      window.aeolus.app.modals.close();
     }
-    
+
     this.newDocVisible = !this.newDocVisible;
+  },
+
+  toggleNewLinks: function() {
+    if (!this.uploadLinksVisible) {
+      var uploadLinks = new UploadLinks(),
+          self = this;
+
+      window.aeolus.app.modals.show(uploadLinks);
+      uploadLinks.on("close", function() {
+        self.uploadLinksVisible = false;
+      });
+    } else {
+      window.aeolus.app.modals.close();
+    }
+
+    this.uploadLinksVisible = !this.uploadLinksVisible;
   },
 
   toggleExport: function(){
@@ -107,7 +126,7 @@ module.exports = Backbone.Marionette.ItemView.extend({
       var exportDocs = new ExportDocuments({
         model: this.model
       });
-      
+
       window.aeolus.app.modals.show(exportDocs);
 
       var self = this;
@@ -116,9 +135,9 @@ module.exports = Backbone.Marionette.ItemView.extend({
       });
     }
     else {
-      window.aeolus.app.modals.close(); 
+      window.aeolus.app.modals.close();
     }
-    
+
     this.exportDocsVisible = !this.exportDocsVisible;
   },
 
@@ -147,12 +166,12 @@ module.exports = Backbone.Marionette.ItemView.extend({
     if (this.documentView){
       return;
     }
-    
+
     if (this.model.get("counter").selected > 0){
       this.ui.multiOptions.show();
     }
     else {
-      this.ui.multiOptions.hide(); 
+      this.ui.multiOptions.hide();
     }
   },
 
