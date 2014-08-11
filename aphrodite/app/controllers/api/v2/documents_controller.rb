@@ -7,6 +7,18 @@ class Api::V2::DocumentsController < Api::V2::BaseController
     @documents = current_user.documents.desc(:created_at)
   end
 
+  def links
+    uploader = LinksUploaderService.new(params[:bucket], current_user)
+    if uploader.valid?
+      @documents = uploader.call
+      render :index
+    else
+      render json: {
+        error_messages: { files_limit: "Ha excedido el límite de documentos"}
+        }, status: 403
+    end
+  end
+
   def create
     files = params[:document].fetch(:files, [])
     uploader = DocumentUploaderService.new(files, current_user)
