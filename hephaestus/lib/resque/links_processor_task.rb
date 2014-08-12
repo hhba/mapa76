@@ -66,7 +66,7 @@ class LinksProcessorTask < Base
       person.save
     else
       person = Person.create name: entity['text'],
-                              mentions: { @document.id.to_s => entity['count']},
+                              mentions: { @document.id.to_s => entity['count'].to_i},
                               lemma: entity['text'].parameterize
       @user.people << person
     end
