@@ -30,6 +30,13 @@ class LinksProcessorTask < Base
   def call
     @document.title = extract_title
     @document.processed_text = extract_text
+    page = Page.create({
+      num: 1,
+      text: @document.processed_text,
+      form_pos: 0,
+      to_pos: @document.processed_text.length
+    })
+    @document.pages << page
     extract_entities.each do |entity|
       store(entity)
     end
