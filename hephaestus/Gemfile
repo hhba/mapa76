@@ -3,6 +3,7 @@ source 'https://rubygems.org'
 gem "mapa76-core", path: "../chaos"
 
 gem "activesupport", :require => false
+gem 'dotenv'
 gem "amatch"
 gem "bson_ext"
 gem "docsplit"

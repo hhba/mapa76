@@ -23,6 +23,7 @@ set :ssh_options, :forward_agent => true
 set :keep_releases, 5
 
 set :config_files, %w{ mongoid elasticsearch resque monit workers }
+require "dotenv/deployment/capistrano"
 
 set :bundle_flags, "--quiet --binstubs"
 

@@ -19,3 +19,4 @@ tmp
 .rvm*
 config/*.yml
 log/*
+.env

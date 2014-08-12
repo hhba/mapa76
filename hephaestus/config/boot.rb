@@ -9,6 +9,7 @@ require "rubygems" unless defined?(Gem)
 require "bundler/setup"
 Bundler.require(:default, APP_ENV)
 
+Dotenv.load
 require "config/logger"
 require "config/database"
 require "config/resque"

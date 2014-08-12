@@ -36,6 +36,9 @@ GEM
     coderay (1.0.8)
     database_cleaner (0.8.0)
     docsplit (0.7.5)
+    dotenv (0.11.1)
+      dotenv-deployment (~> 0.0.2)
+    dotenv-deployment (0.0.2)
     factory_girl (4.0.0)
       activesupport (>= 3.0.0)
     ffi (1.9.3)
@@ -149,6 +152,7 @@ DEPENDENCIES
   capistrano-ext
   database_cleaner
   docsplit
+  dotenv
   factory_girl
   guard
   guard-minitest
