@@ -40,6 +40,7 @@ class LinksProcessorTask < Base
     extract_entities.each do |entity|
       store(entity)
     end
+    @document.context(force: true)
     @document.save
   end
 
@@ -76,12 +77,12 @@ class LinksProcessorTask < Base
   def store_organization(entity)
     organization = @user.organizations.where(name: entity['text']).first
     if organization
-      organization.mentions.merge({@document.id.to_s => entity['count']})
+      organization.mentions.merge({@document.id.to_s => entity['count'].to_i})
       organization.save
     else
       organization = Organization.create(name: entity['text'],
         lemma: entity['text'].parameterize,
-        mentions: { @document.id.to_s => entity['count']}
+        mentions: { @document.id.to_s => entity['count'].to_i}
       )
       @user.organizations << organization
     end
@@ -91,12 +92,12 @@ class LinksProcessorTask < Base
   def store_place(entity)
     place = @user.places.where(name: entity['text']).first
     if place
-      place.mentions.merge({@document.id.to_s => entity['count']})
+      place.mentions.merge({@document.id.to_s => entity['count'].to_i})
       place.save
     else
       place = Place.create(name: entity['text'],
         lemma: entity['text'].parameterize,
-        mentions: { @document.id.to_s => entity['count']}
+        mentions: { @document.id.to_s => entity['count'].to_i}
       )
       @user.places << place
     end
