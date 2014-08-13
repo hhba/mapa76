@@ -1,6 +1,5 @@
 class WelcomeController < ApplicationController
   before_filter :redirect_to_docs, only: :index
-  layout 'pretty'
 
   def index
     @documents = Document.count

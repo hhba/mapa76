@@ -6,7 +6,7 @@
   <meta name="classification" content=""/>
   <link rel="icon" href="/favicon.ico"/>
   <meta name="author" content="malev"/>
-  <%= stylesheet_link_tag 'pretty', media: 'all' %>
+  <%= stylesheet_link_tag 'application', media: 'all' %>
   <%= yield(:head) %>
   <title><%= content_for?(:title) ? yield(:title) : "Analice.me" %></title>
   <%= csrf_meta_tags %>

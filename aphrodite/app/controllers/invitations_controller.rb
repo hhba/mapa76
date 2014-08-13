@@ -1,7 +1,6 @@
 # encoding: utf-8
 
 class InvitationsController < ApplicationController
-  layout 'pretty'
   before_filter :only_signed_off
 
   def new
