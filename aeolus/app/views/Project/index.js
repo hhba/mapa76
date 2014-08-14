@@ -1,9 +1,9 @@
 /**
  * VIEW: Document List (Project)
- * 
+ *
  */
 
-var 
+var
   template = require('./templates/documentList.tpl'),
   Document = require('./DocumentItem'),
   LoadingView = require("../Loading");
@@ -32,7 +32,8 @@ module.exports = Backbone.Marionette.CompositeView.extend({
     "click .sort-title": "toggleSortTitle",
     "click .sort-date": "toggleSortDate",
     "click #order-for": "toggleSortMenu",
-    "click .clear-search": "clearSearch"
+    "click .clear-search": "clearSearch",
+    "change .selection-all": "toggleSelectAll"
   },
 
   collectionEvents: {
@@ -49,15 +50,14 @@ module.exports = Backbone.Marionette.CompositeView.extend({
 
   onDomRefresh: function(){
     this.showLoading();
+  },
 
-    this.ui.selectionAll
-      .iCheck({
-        checkboxClass: 'icheckbox_flat-grey left',
-        radioClass: 'iradio_flat-grey left',
-        increaseArea: '20%'
-      })
-      .on('ifChecked', this.onCheck.bind(this))
-      .on('ifUnchecked', this.onUncheck.bind(this));
+  toggleSelectAll: function() {
+    if (this.ui.selectionAll.is(':checked')) {
+      this.onCheck();
+    } else {
+      this.onUncheck();
+    }
   },
 
   showLoading: function(){

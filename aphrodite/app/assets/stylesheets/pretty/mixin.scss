@@ -22,8 +22,8 @@
 	        	style: normal;
 	        	weight: normal;
 			}
-			src: url($font-url + '/' + $font-name + '.eot')  format('eot'), 
-				 url($font-url + '/' + $font-name + '.woff') format('woff'), 
+			src: url($font-url + '/' + $font-name + '.eot')  format('eot'),
+				 url($font-url + '/' + $font-name + '.woff') format('woff'),
 				 url($font-url + '/' + $font-name + '.ttf')  format('truetype'),
 				 url($font-url + '/' + $font-name + '.svg#' + $font-name) format('svg');
 		}
@@ -261,13 +261,13 @@
 		&:-moz-placeholder { color: $emphasis-color; }
 		&::-moz-placeholder { color: $emphasis-color; }
 		&:-ms-input-placeholder { color: $emphasis-color; }
-		&+.msj { 
+		&+.msj {
 			@include fopensans-italic;
 			font-size: $font-size-small;
 			position: absolute;
 			top: 7px;
 			right: 10px;
-			z-index: 1; 
+			z-index: 1;
 			color: $emphasis-color;
 		}
 	}
@@ -457,7 +457,7 @@
 // =========================================
 
 // shadows deco ============================
-	@mixin shadows-deco ($direction:left) {	
+	@mixin shadows-deco ($direction:left) {
 		content: "";
 		display: block;
 		z-index: 20;
@@ -490,7 +490,7 @@
 		}
 	}
 //==========================================
-   
+
 // LOGO ====================================
 	@mixin website-logo {
 		background: url("#{$path-to-images}/analice_me.png") no-repeat top left;
@@ -570,7 +570,6 @@
 					margin-left: 18px;
 					float: left;
 					label {
-						margin-left: 6px;
 						font-style: italic;
 					}
 				}
@@ -605,7 +604,7 @@
 			}
 		} @else if $type == "doc-options" {
 			&.doc-options {}
-		} 
+		}
 	}
 //==========================================
 
@@ -676,7 +675,7 @@
 						color: darken( $color-muted, 10% );
 					}
 				}
-			} 
+			}
 			&.warning {
 				label {}
 				.wrapper-bar {
@@ -694,7 +693,7 @@
 						color: darken( $color-warning, 10% );
 					}
 				}
-			} 
+			}
 			&.error {
 				label {}
 				.wrapper-bar {
