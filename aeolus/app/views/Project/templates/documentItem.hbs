@@ -1,45 +1,12 @@
-<div class="col1 checkbox" data-id="{{id}}">
+<label class="doc-name">
   <input type="checkbox" class="selection" {{#if selected}}checked{{/if}}>
-</div>
-<div class="col2">
-  {{#unless failed}}
-    <label class="doc-name">{{title}}</label>
-    <label class="doc-date">{{formatDate created_at}}</label>
-  {{else}}
-    <label class="doc-name error">No se pudo guardar el documento</label>
-    <label class="doc-date error">Probablemente exceda el tamaño máximo permitido</label>
-  {{/unless}}
-  {{#if highlights}}
-    <div class="highlights"></div>
-  {{else}}
-    {{#unless failed}}
-      {{#unless showProgress}}
-        <div class="tools">
-          <a class="tool tool-1 preview" href="{{urls.preview}}"></a>
-          <a class="tool tool-3 download" href="{{urls.file}}" target="_blank"></a>
-          {{#if deleteable}}
-          <a class="tool tool-4 delete"></a>
-          {{/if}}
-        </div>
-      {{/unless}}
-      {{#if showProgress}}
-        <div class="progress-bar {{progressType}}">
-          <label>{{status_msg}}</label>
-          {{#if showSpinner}}
-            <div class="docs-loader">
-              <img src="/images/docs-loader.gif">
-            </div>
-          {{/if}}
-        {{#if showFlag}}
-          <br>
-          <a class="flag">Reportar</a>
-        {{/if}}
-        {{#if showErrorMessage}}
-          <br>
-          <i>Este documento no pudo ser procesado</i>
-        {{/if}}
-        </div>
-      {{/if}}
-    {{/unless}}
+  {{title}}
+</label>
+<label class="doc-date">{{formatDate created_at}}</label>
+<div class="tools">
+  <a class="tool tool-1 preview" href="{{urls.preview}}"></a>
+  <a class="tool tool-3 download" href="{{urls.file}}" target="_blank"></a>
+  {{#if deleteable}}
+  <a class="tool tool-4 delete"></a>
   {{/if}}
 </div>
