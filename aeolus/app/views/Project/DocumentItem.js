@@ -1,9 +1,9 @@
 /**
  * VIEW: Document Item List
- * 
+ *
  */
 
-var 
+var
     template = require('./templates/documentItem.tpl')
   , DocumentHighlights = require("./DocumentHighlights");
 
@@ -54,7 +54,8 @@ module.exports = Backbone.Marionette.ItemView.extend({
 
   events: {
     "click .delete": "deleteDocument",
-    "click .flag": "flagDocument"
+    "click .flag": "flagDocument",
+    "change .selection": 'checkboxClicked'
   },
 
   modelEvents: {
@@ -82,14 +83,12 @@ module.exports = Backbone.Marionette.ItemView.extend({
     }
   },
 
-  onDomRefresh: function(){
-    this.ui.selection.iCheck({
-        checkboxClass: 'icheckbox_flat-grey left',
-        radioClass: 'iradio_flat-grey left',
-        increaseArea: '20%'
-      })
-      .on('ifChecked', this.onCheck.bind(this))
-      .on('ifUnchecked', this.onUncheck.bind(this));
+  checkboxClicked: function() {
+    if (this.ui.selection.is(':checked')) {
+      this.onCheck();
+    } else {
+      this.onUncheck();
+    }
   },
 
   //--------------------------------------

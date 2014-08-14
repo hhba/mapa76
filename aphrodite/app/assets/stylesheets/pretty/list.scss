@@ -87,7 +87,7 @@
 			padding: 17px 0;
 			border-bottom: 1px dotted $color-lines;
 			@include opensans-semibold;
-			
+
 			.wrapper {
 				position: relative;
 				label{
@@ -284,15 +284,15 @@
 			border-bottom: 1px solid $color-lines;
 			padding: 5px 0;
 		}
-		&.left-position { 
+		&.left-position {
 			@include arrow-deco (up, 8px, $color-bg-fourth-lvl, initial, -8px, 11px);
 			@include arrow-deco-line  (up, 9px, $color-people, initial, -9px, 10px);
 		}
-		&.center-position { 
+		&.center-position {
 			@include arrow-deco (up, 8px, $color-bg-fourth-lvl, 149px, -8px, initial);
 			@include arrow-deco-line  (up, 9px, $color-people, 148px, -9px, initial);
 		}
-		&.righ-position { 
+		&.righ-position {
 			@include arrow-deco (up, 8px, $color-bg-fourth-lvl, 11px, -8px, initial);
 			@include arrow-deco-line  (up, 9px, $color-people, 10px, -9px, initial);
 			ul li {
@@ -345,6 +345,46 @@
 		li.item-list {
 			border-bottom: 1px solid $color-lines;
 			padding: 15px 27px;
+			.checkbox-title{
+				height: 25px;
+				overflow: hidden;
+				.doc-name {
+					@include montserrat-bold;
+					white-space: nowrap;
+					overflow: hidden;
+					text-overflow: ellipsis;
+					font-size: $font-size-large;
+					width: 600px;
+					float: left;
+				}
+			}
+			.date-and-controls{
+				height: 30px;
+				.doc-date{
+					float:left;
+					margin: 5px 0 0 25px;
+				}
+				.tools{
+					display: none;
+					float:left;
+					margin: 0 0 0 10px;
+					.tool {
+						margin-right: 5px;
+					}
+					.tool-1 {
+						@include simple-icon (icon_analizar_doc);
+					}
+					.tool-2 {
+						@include simple-icon (icon_doc_export_2);
+					}
+					.tool-3 {
+						@include simple-icon (icon_download_2);
+					}
+					.tool-4 {
+						@include simple-icon (icon_trash_2);
+					}
+				}
+			}
 			.col1,
 			.col2{}
 			.col1 {
@@ -354,11 +394,6 @@
 				float: left;
 				padding-left: 11px;
 				position: relative;
-				.doc-name {
-					@include montserrat-bold;
-					font-size: $font-size-large;
-					float: left;
-				}
 				.doc-date {
 					float: left;
 					clear: both;
@@ -372,28 +407,8 @@
 			}
 			&:hover {
 				background: $color-bg-third-lvl;
-				.col2 {
-					.tools {
-						position: absolute;
-						right: -165px;
-						top: -4px;
-						.tool { 
-							margin-right: 5px;
-						}
-						.tool-1 {
-							@include simple-icon (icon_analizar_doc); 
-							
-						}
-						.tool-2 {
-							@include simple-icon (icon_doc_export_2);
-						}
-						.tool-3 {
-							@include simple-icon (icon_download_2);
-						}
-						.tool-4 {
-							@include simple-icon (icon_trash_2);
-						}
-					}
+				.tools{
+					display:block;
 				}
 			}
 		}

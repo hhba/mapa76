@@ -1,12 +1,37 @@
-<label class="doc-name">
-  <input type="checkbox" class="selection" {{#if selected}}checked{{/if}}>
-  {{title}}
-</label>
-<label class="doc-date">{{formatDate created_at}}</label>
-<div class="tools">
-  <a class="tool tool-1 preview" href="{{urls.preview}}"></a>
-  <a class="tool tool-3 download" href="{{urls.file}}" target="_blank"></a>
-  {{#if deleteable}}
-  <a class="tool tool-4 delete"></a>
+<div class="checkbox-title">
+  <label class="doc-name {{#if failed}}error{{/if}}">
+    <input type="checkbox" class="selection" {{#if selected}}checked{{/if}}>
+    {{#if failed}}
+      No se pudo guardar el documento. Puede haber excedido el límite.
+    {{else}}
+      {{title}}
+    {{/if}}
+  </label>
+</div>
+<div class="date-and-controls">
+  <div class="doc-date">{{formatDate created_at}}</div>
+  {{#if showProgress}}
+    <div class="progress-bar {{progressType}}">
+      <label>{{status_msg}}</label>
+      {{#if showSpinner}}
+        <div class="docs-loader">
+          <img src="/images/docs-loader.gif">
+        </div>
+      {{/if}}
+    </div>
+    {{#if showFlag}}
+      <a class="flag">Reportar</a>
+    {{/if}}
+    {{#if showErrorMessage}}
+      <i>Este documento no pudo ser procesado</i>
+    {{/if}}
+  {{else}}
+    <div class="tools">
+      <a class="tool tool-1 preview" href="{{urls.preview}}"></a>
+      <a class="tool tool-3 download" href="{{urls.file}}" target="_blank"></a>
+      {{#if deleteable}}
+      <a class="tool tool-4 delete"></a>
+      {{/if}}
+    </div>
   {{/if}}
 </div>
