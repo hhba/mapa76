@@ -25,13 +25,15 @@ module.exports = Backbone.Marionette.ItemView.extend({
       show = (p !== 100),
       type = (p === -1) ? "error" : "info",
       msg = this.model.get("status_msg") || "Cargando...",
+      downloadable = this.model.get('url') === null,
       showSpinner = (p >= 0);
 
-      if(!$projectData.editable){
-        previewUrl = $projectData.slug + "/comb?document_id=" + this.model.get("id");
-      }
+    if(!$projectData.editable){
+      previewUrl = $projectData.slug + "/comb?document_id=" + this.model.get("id");
+    }
 
     return {
+      downloadable: downloadable,
       urls: {
         preview: previewUrl,
         file: baseUrl + "/download",

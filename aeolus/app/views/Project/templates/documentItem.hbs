@@ -28,7 +28,9 @@
   {{else}}
     <div class="tools">
       <a class="tool tool-1 preview" href="{{urls.preview}}"></a>
+      {{#if downloadable}}
       <a class="tool tool-3 download" href="{{urls.file}}" target="_blank"></a>
+      {{/if}}
       {{#if deleteable}}
       <a class="tool tool-4 delete"></a>
       {{/if}}

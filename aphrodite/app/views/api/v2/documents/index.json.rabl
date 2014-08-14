@@ -1,5 +1,5 @@
 collection @documents
-attributes :id, :title, :created_at, :percentage
+attributes :id, :title, :created_at, :percentage, :url
 
 node :counters do  |document|
   {
