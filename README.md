@@ -141,19 +141,19 @@ Just follow the instructions [here](https://github.com/hhba/mapa76/blob/master/a
 
 You will need to run the aeolus file watcher:
 
-  $ cd aeolus
-  $ gurnt w
+    $ cd aeolus
+    $ grunt w
 
 Fire Rails app:
 
-  $ cd aphrodite
-  $ rails s
+    $ cd aphrodite
+    $ rails s
 
 To start workers for document processing, you need to run at least one Resque
 worker:
 
-  $ cd hephaestus
-  $ QUEUE=* bundle exec rake resque:work
+    $ cd hephaestus
+    $ QUEUE=* bundle exec rake resque:work
 
 you can run multiple workers with the `resque:workers` task:
 
@@ -161,8 +161,8 @@ you can run multiple workers with the `resque:workers` task:
 
 And you also need to `freeling` as a server. The `.sh` file only works in OSX, but it shouldn't be hard to make it work on Ubuntu:
 
-  $ cd hephaestus
-  $ sh ./start-freeling.sh
+    $ cd hephaestus
+    $ sh ./start-freeling.sh
 
 ## TODO
 
