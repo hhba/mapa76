@@ -27,12 +27,12 @@
     {{/if}}
   {{else}}
     <div class="tools">
-      <a class="tool tool-1 preview" href="{{urls.preview}}"></a>
+      <a class="tool tool-1 preview" href="{{urls.preview}}" title="Abrir documento"></a>
       {{#if downloadable}}
-      <a class="tool tool-3 download" href="{{urls.file}}" target="_blank"></a>
+      <a class="tool tool-3 download" href="{{urls.file}}" target="_blank" title="Bajar documento"></a>
       {{/if}}
       {{#if deleteable}}
-      <a class="tool tool-4 delete"></a>
+      <a class="tool tool-4 delete" title="Borrar documento"></a>
       {{/if}}
     </div>
   {{/if}}
