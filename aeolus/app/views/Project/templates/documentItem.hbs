@@ -27,12 +27,27 @@
     {{/if}}
   {{else}}
     <div class="tools">
-      <a class="tool tool-1 preview" href="{{urls.preview}}" title="Abrir documento"></a>
+      <div class="tool-container">
+        <a class="tool" href="{{urls.preview}}"  title="Abrir documento y ver sus entidades">
+          <i class="tool-1"></i>
+          Abrir documento
+        </a>
+      </div>
       {{#if downloadable}}
-      <a class="tool tool-3 download" href="{{urls.file}}" target="_blank" title="Bajar documento"></a>
+     <div class="tool-container">
+        <a class="tool download" href="{{urls.file}}" target="_blank" title="Bajar documento">
+          <i class="tool-3"></i>
+          Bajar documento
+        </a>
+      </div>
       {{/if}}
       {{#if deleteable}}
-      <a class="tool tool-4 delete" title="Borrar documento"></a>
+      <div class="tool-container">
+        <a class="tool delete" title="Borrar documento y sus entidades">
+          <i class="tool-4"></i>
+          Borrar documento
+        </a>
+      </div>
       {{/if}}
     </div>
   {{/if}}

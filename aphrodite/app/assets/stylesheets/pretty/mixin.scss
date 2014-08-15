@@ -551,11 +551,10 @@
 //simple-icon ==============================
 	@mixin simple-icon ($icon-img) {
 		background: url("#{$path-to-images}/#{$icon-img}.png") no-repeat center;
-		width:20px;
-		height:20px;
-		padding: 5px;
-		float:left;
-		cursor:pointer;
+		width: 15px;
+		height: 18px;
+		float: left;
+		margin: 1px 5px 0 0;
 	}
 //==========================================
 

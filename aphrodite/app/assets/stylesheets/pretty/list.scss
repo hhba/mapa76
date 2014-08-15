@@ -369,6 +369,11 @@
 					display: none;
 					float:left;
 					margin: 0 0 0 10px;
+					.tool-container {
+						float: left;
+						margin-top: 5px;
+						width: 140px;
+					}
 					.tool {
 						margin-right: 5px;
 					}
