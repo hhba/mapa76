@@ -8,15 +8,15 @@ class ApplicationController < ActionController::Base
 
   def not_found_page
     respond_to do |type|
-      type.html { render template: 'errors/404', status: 404, layout: 'pretty' }
-      type.all  { render :nothing => true, :status => 404 } 
+      type.html { render template: 'errors/404', status: 404 }
+      type.all  { render :nothing => true, :status => 404 }
     end
   end
 
   def error_page
     respond_to do |type|
-      type.html { render template: 'errors/500', status: 500, layout: 'pretty' }
-      type.all  { render :nothing => true, :status => 404 } 
+      type.html { render template: 'errors/500', status: 500 }
+      type.all  { render :nothing => true, :status => 404 }
     end
   end
 
