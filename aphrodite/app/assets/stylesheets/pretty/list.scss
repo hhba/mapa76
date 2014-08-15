@@ -350,6 +350,7 @@
 				overflow: hidden;
 				.doc-name {
 					@include montserrat-bold;
+					cursor: pointer;
 					white-space: nowrap;
 					overflow: hidden;
 					text-overflow: ellipsis;
