@@ -17,7 +17,7 @@ class Person
 
   belongs_to :user
   has_many :named_entities
-  has_and_belongs_to_many :documents
+  has_and_belongs_to_many :documents, index: true
 
   scope :searchable_with, lambda { |name| where(searchable_name: normalize_name(name)) }
 
