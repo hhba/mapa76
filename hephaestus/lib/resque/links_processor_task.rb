@@ -115,7 +115,7 @@ class LinksProcessorTask < Base
     if response.parsed_response['status'] = 'OK'
       response.parsed_response['text']
     else
-      logging 'TEXT EXTRACTION FAILED'
+      logger 'TEXT EXTRACTION FAILED'
       raise ApiError
     end
   end
