@@ -391,26 +391,6 @@
 					}
 				}
 			}
-			.col1,
-			.col2{}
-			.col1 {
-				float: left;
-			}
-			.col2 {
-				float: left;
-				padding-left: 11px;
-				position: relative;
-				.doc-date {
-					float: left;
-					clear: both;
-					font-size: $font-size-tiny;
-					line-height: 18px;
-				}
-				.progress-bar {
-					position: absolute;
-					right: -349px;
-				}
-			}
 			&:hover {
 				background: $color-bg-third-lvl;
 				.tools{
