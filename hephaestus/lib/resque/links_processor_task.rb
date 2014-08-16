@@ -42,6 +42,7 @@ class LinksProcessorTask < Base
     end
     @document.context(force: true)
     @document.save
+    IndexerTask.perform(@document.id)
   end
 
   def store(entity)
