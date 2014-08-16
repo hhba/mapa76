@@ -609,8 +609,8 @@
 
 // Progres Bar =============================
 	@mixin progress-bar () {
+		padding: 5px 0 0 0;
 		&{
-			width: 315px;
 			.wrapper-bar {
 				background: $color-bg-third-lvl;
 				border: 1px solid $color-lines;
@@ -647,7 +647,8 @@
 				}
 			}
 			.docs-loader{
-				margin-left: -6px;
+				float:left;
+				margin-left:10px;
 			}
 			a.flag{
 				font-style: italic;

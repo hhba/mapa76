@@ -15,12 +15,12 @@
     <div class="doc-date">{{formatDate created_at}}</div>
     {{#if showProgress}}
       <div class="progress-bar {{progressType}}">
-        <label>{{status_msg}}</label>
         {{#if showSpinner}}
           <div class="docs-loader">
             <img src="/images/docs-loader.gif">
           </div>
         {{/if}}
+        <label>{{status_msg}}</label>
       </div>
       {{#if showFlag}}
         <a class="flag">Reportar</a>
