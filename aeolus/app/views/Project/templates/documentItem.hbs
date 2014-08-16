@@ -8,47 +8,51 @@
     {{/if}}
   </label>
 </div>
-<div class="date-and-controls">
-  <div class="doc-date">{{formatDate created_at}}</div>
-  {{#if showProgress}}
-    <div class="progress-bar {{progressType}}">
-      <label>{{status_msg}}</label>
-      {{#if showSpinner}}
-        <div class="docs-loader">
-          <img src="/images/docs-loader.gif">
+ {{#if highlights}}
+<div class="highlights"></div>
+{{else}}
+  <div class="date-and-controls">
+    <div class="doc-date">{{formatDate created_at}}</div>
+    {{#if showProgress}}
+      <div class="progress-bar {{progressType}}">
+        <label>{{status_msg}}</label>
+        {{#if showSpinner}}
+          <div class="docs-loader">
+            <img src="/images/docs-loader.gif">
+          </div>
+        {{/if}}
+      </div>
+      {{#if showFlag}}
+        <a class="flag">Reportar</a>
+      {{/if}}
+      {{#if showErrorMessage}}
+        <i>Este documento no pudo ser procesado</i>
+      {{/if}}
+    {{else}}
+      <div class="tools">
+        <div class="tool-container">
+          <a class="tool" href="{{urls.preview}}"  title="Abrir documento y ver sus entidades">
+            <i class="tool-1"></i>
+            Abrir
+          </a>
         </div>
-      {{/if}}
-    </div>
-    {{#if showFlag}}
-      <a class="flag">Reportar</a>
+        {{#if downloadable}}
+       <div class="tool-container">
+          <a class="tool download" href="{{urls.file}}" target="_blank" title="Bajar documento">
+            <i class="tool-3"></i>
+            Bajar
+          </a>
+        </div>
+        {{/if}}
+        {{#if deleteable}}
+        <div class="tool-container">
+          <a class="tool delete" title="Borrar documento y sus entidades">
+            <i class="tool-4"></i>
+            Borrar
+          </a>
+        </div>
+        {{/if}}
+      </div>
     {{/if}}
-    {{#if showErrorMessage}}
-      <i>Este documento no pudo ser procesado</i>
-    {{/if}}
-  {{else}}
-    <div class="tools">
-      <div class="tool-container">
-        <a class="tool" href="{{urls.preview}}"  title="Abrir documento y ver sus entidades">
-          <i class="tool-1"></i>
-          Abrir
-        </a>
-      </div>
-      {{#if downloadable}}
-     <div class="tool-container">
-        <a class="tool download" href="{{urls.file}}" target="_blank" title="Bajar documento">
-          <i class="tool-3"></i>
-          Bajar
-        </a>
-      </div>
-      {{/if}}
-      {{#if deleteable}}
-      <div class="tool-container">
-        <a class="tool delete" title="Borrar documento y sus entidades">
-          <i class="tool-4"></i>
-          Borrar
-        </a>
-      </div>
-      {{/if}}
-    </div>
-  {{/if}}
-</div>
+  </div>
+{{/if}}
