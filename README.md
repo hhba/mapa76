@@ -37,7 +37,7 @@ with `rvm`.
 
 ### Nokogiri dependencies ###
 
-  # apt-get install libxslt-dev libxml2-dev
+    # apt-get install libxslt-dev libxml2-dev
 
 ### MongoDB and Redis servers ###
 
