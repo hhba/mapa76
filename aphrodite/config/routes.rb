@@ -69,6 +69,15 @@ Mapa76::Application.routes.draw do
     resources :registers
   end
 
+  resque_web_constraint = lambda do |request|
+    current_user = request.env['warden'].user
+    current_user.present? && current_user.admin?
+  end
+
+  constraints resque_web_constraint do
+    mount ResqueWeb::Engine => "/resque_web"
+  end
+
   get "/about" => "welcome#about"
   get "/contact" => "welcome#contact"
   get "/terms" => "welcome#terms"
