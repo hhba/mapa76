@@ -28,14 +28,7 @@ class LinksProcessorTask < Base
 
   def call
     TitleExtractor.new(document_id).call
-    @document.processed_text = extract_text
-    page = Page.create({
-      num: 1,
-      text: @document.processed_text,
-      form_pos: 0,
-      to_pos: @document.processed_text.length
-    })
-    @document.pages << page
+    LinkTextExtractor.new(document_id).call
     extract_entities.each do |entity|
       store(entity)
     end
@@ -104,16 +97,6 @@ class LinksProcessorTask < Base
     @document.places << place
   end
 
-  def extract_text
-    response = get(text_path, @options)
-    if response.parsed_response['status'] = 'OK'
-      response.parsed_response['text']
-    else
-      logger 'TEXT EXTRACTION FAILED'
-      raise ApiError
-    end
-  end
-
   def extract_entities
     response = get(entities_path, @options)
     if response.parsed_response['status'] == 'OK'
@@ -126,10 +109,6 @@ class LinksProcessorTask < Base
 
   def entities_path
     "/calls/url/URLGetRankedNamedEntities"
-  end
-
-  def text_path
-    "/calls/url/URLGetText"
   end
 
   def logging(msg)
