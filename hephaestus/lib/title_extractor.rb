@@ -2,7 +2,7 @@ require 'open-uri'
 require 'nokogiri'
 
 
-class TitleExtractor < Base
+class TitleExtractor
   def initialize(document_id)
     @document = Document.find(document_id)
   end
