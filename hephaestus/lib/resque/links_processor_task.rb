@@ -1,6 +1,5 @@
-require 'open-uri'
 require 'httparty'
-require 'nokogiri'
+
 
 class LinksProcessorTask < Base
   @queue = :links_processor_task
@@ -28,7 +27,7 @@ class LinksProcessorTask < Base
   end
 
   def call
-    @document.title = extract_title
+    TitleExtractor.new(document_id).call
     @document.processed_text = extract_text
     page = Page.create({
       num: 1,
@@ -103,11 +102,6 @@ class LinksProcessorTask < Base
       @user.places << place
     end
     @document.places << place
-  end
-
-  def extract_title
-    doc = Nokogiri::HTML(open(@document.url))
-    doc.css('title').text
   end
 
   def extract_text
