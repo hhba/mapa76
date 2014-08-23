@@ -8,7 +8,7 @@ class LinkNamedEntitiesExtractor
     @document.pages.each do |page|
       entites.each do |entity|
         find_all(page, entity.name).each do |position|
-          store(entity, position)
+          page.named_entities << store(entity, position)
         end
       end
     end
