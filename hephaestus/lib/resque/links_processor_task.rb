@@ -22,6 +22,7 @@ class LinksProcessorTask < Base
     TitleExtractor.new(@document_id).call
     LinkTextExtractor.new(@document_id).call
     LinkEntitiesExtractor.new(@document_id).call
+    LinkNamedEntitiesExtractor.new(@document_id).call
     IndexerTask.perform(@document_id)
   end
 end
