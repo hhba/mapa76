@@ -92,3 +92,5 @@ Mapa76::Application.routes.draw do
 
   match '*not_found_page', :to => 'application#not_found_page'
 end
+
+ResqueWeb::Engine.eager_load!
