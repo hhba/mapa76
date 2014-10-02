@@ -49,4 +49,3 @@ gem 'rails_admin'
 gem 'unicorn'
 gem 'will_paginate-bootstrap', :require => "will_paginate-bootstrap"
 gem 'whenever', require: false
-gem 'resque-web', require: 'resque_web'
