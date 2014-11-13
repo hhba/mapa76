@@ -27,13 +27,13 @@ ssh_options[:forward_agent] = true
 namespace :deploy do
   desc "Zero-downtime restart of Unicorn"
   task :restart, :except => { :no_release => true } do
-    run "kill `cat #{shared_path}/pids/unicorn/pid`"
-    run "service unicorn_aphrodite start"
+    sudo "kill `cat #{shared_path}/pids/unicorn/pid`"
+    sudo "service unicorn_aphrodite start"
   end
 
   desc "Start unicorn"
   task :start, :except => { :no_release => true } do
-    run "service unicorn_aphrodite start"
+    sudo "service unicorn_aphrodite start"
   end
 
   desc "Stop unicorn"

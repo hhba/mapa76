@@ -1,5 +1,6 @@
-server "162.243.4.112", :web, :app, :db, primary: true
+server "104.131.125.7", :web, :app, :db, primary: true
 set :branch, "master"
+set :user, "deploy"
 
 namespace :deploy do
   desc "Make sure local git is in sync with remote."
