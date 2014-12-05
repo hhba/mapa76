@@ -1,6 +1,10 @@
-server "104.131.125.7", :web, :app, :db, primary: true
+server "aphrodite-analiceme.cloudapp.net", :web, :app, :db, primary: true
 set :branch, "master"
 set :user, "deploy"
+set :ssh_options, {
+  auth_methods: ["publickey"],
+  keys: ["~/.ssh/myPrivateKey.key"]
+}
 
 namespace :deploy do
   desc "Make sure local git is in sync with remote."
