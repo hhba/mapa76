@@ -32,11 +32,6 @@ end
 group :test do
   gem "database_cleaner"
   gem "factory_girl"
-  gem "guard"
-  gem "guard-minitest"
-  gem "minitest", require: "minitest/autorun"
-  gem "minitest-spec-context"
+  gem "minitest"#, require: "minitest/autorun"
   gem "mocha", require: false
-  gem "shoulda-context"
-  # gem "turn"
 end
