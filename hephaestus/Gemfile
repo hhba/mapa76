@@ -31,5 +31,6 @@ group :test do
   gem "database_cleaner"
   gem "factory_girl"
   gem "minitest"
+  gem 'minitest-spec-context'
   gem "mocha", require: false
 end
