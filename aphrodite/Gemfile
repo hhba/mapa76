@@ -47,5 +47,6 @@ gem 'simple_form'
 gem 'rabl'
 gem 'rails_admin'
 gem 'unicorn'
+gem 'resque-web', require: 'resque_web'
 gem 'will_paginate-bootstrap', :require => "will_paginate-bootstrap"
 gem 'whenever', require: false

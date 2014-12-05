@@ -75,7 +75,7 @@ Mapa76::Application.routes.draw do
   end
 
   constraints resque_web_constraint do
-    mount ResqueWeb::Engine => "/resque_web"
+    mount ResqueWeb::Engine => "/resque"
   end
 
   get "/about" => "welcome#about"
