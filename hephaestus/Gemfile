@@ -23,8 +23,6 @@ gem "httparty"
 gem "ruby-progressbar", require: false
 
 group :development do
-  #gem "pry-debugger"
-
   gem "capistrano"
   gem "capistrano-ext"
 end
@@ -32,6 +30,6 @@ end
 group :test do
   gem "database_cleaner"
   gem "factory_girl"
-  gem "minitest"#, require: "minitest/autorun"
+  gem "minitest"
   gem "mocha", require: false
 end
