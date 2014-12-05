@@ -1,12 +1,13 @@
 ENV["APP_ENV"] = "test"
 require File.expand_path("../../config/boot", __FILE__)
-require "minitest-spec-context"
+require "minitest/autorun"
 require "database_cleaner"
-require "mocha/setup"
+require 'minitest/unit'
+require 'mocha/mini_test'
 
-class Test::Unit::TestCase
+
+class MiniTest::Spec
   include FactoryGirl::Syntax::Methods
-
   FactoryGirl.find_definitions
 
   def setup
