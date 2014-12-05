@@ -109,7 +109,6 @@ describe DocumentsController do
         get :new
         assert_response :success
         assert_template :new
-        assert_select 'h3', "Importar documento"
       end
     end
 
