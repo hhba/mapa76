@@ -2,7 +2,8 @@ ENV["APP_ENV"] = "test"
 require File.expand_path("../../config/boot", __FILE__)
 require "minitest/autorun"
 require "database_cleaner"
-require "mocha/setup"
+require 'minitest/unit'
+require 'mocha/mini_test'
 
 
 class MiniTest::Spec

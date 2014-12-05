@@ -32,5 +32,5 @@ group :test do
   gem "factory_girl"
   gem "minitest"
   gem 'minitest-spec-context'
-  gem "mocha", require: false
+  gem "mocha"
 end
