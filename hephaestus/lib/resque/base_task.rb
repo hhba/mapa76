@@ -9,7 +9,7 @@ class BaseTask
   def self.after_perform(*args)
     logging('start', document_id(*args))
 
-    Resque.enqueue(SchedulerTask, @output)
+    Resque.enqueue(SchedulerTask, @output.to_json)
   end
 
   def self.on_failure(e, *args)
@@ -31,5 +31,9 @@ class BaseTask
     rescue NoMethodError
       "NO_DOCUMENT_ID"
     end
+  end
+
+  def current_task
+    self.class.instance_variable_get(:@queue)
   end
 end
