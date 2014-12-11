@@ -3,13 +3,13 @@ class ScheduleTask < BaseTask
   @msg = "Schedule tasks"
 
   DEFAULT_TASKS = %w(
-    text_extraction_task
+    extraction_text_task
     ne_finder_task
     store_task
   )
 
   def self.perform(input)
-    self.new(input).call
+    self.new(JSON.parse(input)).call
   end
 
   def initialize(input)
@@ -32,7 +32,7 @@ class ScheduleTask < BaseTask
   end
 
   def current_task
-    JSON.parse(@input).fetch('metadata', {}).fetch('current_task', '')
+    @input.fetch('metadata', {}).fetch('current_task', '')
   end
 
   def tasks
