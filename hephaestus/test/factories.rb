@@ -20,7 +20,7 @@ FactoryGirl.define do
 
   factory :document do
     sequence(:title)             { |n| "text_#{ n }" }
-    sequence(:original_filename) { |n| "text_#{ n }" }
+    sequence(:original_filename) { |n| "text_#{ n }.txt" }
     file { StringIO.new("") }
   end
 

@@ -12,14 +12,14 @@ class ExtractionTextTask < BaseTask
   end
 
   def initialize(input)
-    @url = input['data']
+    @url = input['data']['url']
+    @document_id = input['data']['document_id']
     @metadata = input.fetch('metadata', {})
     @output = {}
   end
 
   def call
     text = ''
-
     Tempfile.open(filename) do |temp|
       temp.write(get_content)
       temp.close
@@ -41,7 +41,11 @@ class ExtractionTextTask < BaseTask
   end
 
   def filename
-    @url.split('/')[-1]
+    if @document_id.nil?
+      @url.split('/')[-1]
+    else
+      document.original_filename
+    end
   end
 
   def build_txt(filename)
@@ -49,8 +53,20 @@ class ExtractionTextTask < BaseTask
   end
 
   def get_content
-    open(@url, "rb") do |remote_file|
-      remote_file.read
+    if @document_id.nil?
+      open(@url, "rb") do |remote_file|
+        remote_file.read
+      end
+    else
+      output = ""
+      document.file.each do |chunk|
+        output << chunk
+      end
+      output
     end
+  end
+
+  def document
+    @document ||= Document.find(@document_id)
   end
 end
