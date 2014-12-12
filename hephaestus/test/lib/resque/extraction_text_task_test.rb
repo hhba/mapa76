@@ -8,7 +8,7 @@ describe ExtractionTextTask do
     ExtractionTextTask.any_instance.stubs(:get_content).returns("El contenido")
 
     output = ExtractionTextTask.new(input).call
-    output[:metadata][:size].must_equal 15
-    output[:metadata][:current_task].must_equal 'extraction_text_task'
+    output['metadata']['size'].must_equal 15
+    output['metadata']['current_task'].must_equal 'extraction_text_task'
   end
 end

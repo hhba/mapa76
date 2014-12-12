@@ -13,6 +13,7 @@ class ExtractionTextTask < BaseTask
 
   def initialize(input)
     @url = input['data']
+    @metadata = input.fetch('metadata', {})
     @output = {}
   end
 
@@ -30,13 +31,12 @@ class ExtractionTextTask < BaseTask
     end
 
     @output = {
-      data: text,
-      metadata: {
-        url: @url,
-        filename: filename,
-        size: text.size,
-        current_task: current_task
-      }
+      'data' => text,
+      'metadata' => @metadata.merge({
+        'filename' => filename,
+        'size' => text.size,
+        'current_task' => current_task
+      })
     }
   end
 
