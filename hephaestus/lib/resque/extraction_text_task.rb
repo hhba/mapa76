@@ -5,11 +5,8 @@ require 'tmpdir'
 
 class ExtractionTextTask < BaseTask
   @queue = 'extraction_text_task'
+  @next_task = 'store_text_task'
   @msg = 'Extracting text'
-
-  def self.perform(input)
-    self.new(JSON.parse(input)).call
-  end
 
   def initialize(input)
     @url = input['data']['url']
@@ -35,7 +32,8 @@ class ExtractionTextTask < BaseTask
       'metadata' => @metadata.merge({
         'filename' => filename,
         'size' => text.size,
-        'current_task' => current_task
+        'current_task' => current_task,
+        'document_id' => @document_id
       })
     }
   end
