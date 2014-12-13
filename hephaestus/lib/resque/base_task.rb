@@ -1,15 +1,27 @@
 require 'json'
 
+#
+# Tasks call the following task, unless @next_task is nil
+# The communication between tasks is though JSON as in:
+# {
+#   'data': ...,
+#   'metadata': ...
+# }
+#
 
 class BaseTask
+  def self.perform(input)
+    task = self.new(JSON.parse(input))
+    task.call
+    task.schedule_next! unless task.finished?
+  end
+
   def self.before_perform(*args)
     logging('start', document_id(*args))
   end
 
   def self.after_perform(*args)
-    logging('start', document_id(*args))
-
-    Resque.enqueue(SchedulerTask, @output.to_json)
+    logging('finish', document_id(*args))
   end
 
   def self.on_failure(e, *args)
@@ -35,5 +47,21 @@ class BaseTask
 
   def current_task
     self.class.instance_variable_get(:@queue)
+  end
+
+  def schedule_next!
+    Resque.enqueue(classify(next_task), @output.to_json)
+  end
+
+  def classify(klass)
+    klass.split('_').map(&:capitalize).join.constantize
+  end
+
+  def finished?
+    next_task == nil
+  end
+
+  def next_task
+    self.class.instance_variable_get(:@next_task)
   end
 end
