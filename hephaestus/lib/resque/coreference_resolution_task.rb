@@ -1,19 +1,18 @@
 require 'amatch'
 
-class CoreferenceResolutionTask < Base
+class CoreferenceResolutionTask < BaseTask
   @queue = :coreference_resolution_task
   @msg = "Resolviendo correferencias"
+  @next_task = nil#{}"mentions_finder_task"
 
   attr_reader :document, :user
 
   TWO_WORDS_SIMILARITY = 0.92
   ONE_WORD_SIMILARITY  = 0.95
 
-  def self.perform(document_id)
-    self.new(document_id).call
-  end
-
-  def initialize(document_id)
+  def initialize(input)
+    document_id = input['metadata']['document_id']
+    @metadata = input['metadata']
     @document = Document.find(document_id)
     @user = @document.user
   end
@@ -28,6 +27,11 @@ class CoreferenceResolutionTask < Base
       group[1..-1].each { |ne| ne.update_attribute :entity_id, person.id}
     end
     document.context(force: true)
+
+    @output = {
+      'data' => '',
+      'metadata' => @metadata
+    }
   end
 
   def store(named_entity, mentions=1)

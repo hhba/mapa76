@@ -1,7 +1,7 @@
 class StoreNamedEntitiesTask < BaseTask
   @queue = :store_named_entities_task
   @msg = "Storing named entities"
-  @next_task = nil
+  @next_task = "coreference_resolution_task"
 
   attr_reader :document, :tokens
 

@@ -5,7 +5,14 @@ describe CoreferenceResolutionTask do
   let(:user) { FactoryGirl.create :user }
   let(:document) { FactoryGirl.create :document }
   let(:person) { FactoryGirl.create :person, name: "Ernesto" }
-  let(:cor) { CoreferenceResolutionTask.new(document.id) }
+  let(:cor) do
+    CoreferenceResolutionTask.new({
+      'data' => '',
+      'metadata' => {
+        'document_id' => document.id.to_s
+      }
+    })
+  end
 
   describe '#call' do
     it '' do
