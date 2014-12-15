@@ -12,10 +12,7 @@ class NamedEntitiesRecognitionTask < BaseTask
 
   def call
     analyzer_client = AnalyzerClient.new(text)
-
     tokens = analyzer_client.tokens.to_a
-
-    puts tokens.to_json
 
     @output = {
       'data' => tokens,
