@@ -19,7 +19,7 @@ describe ExtractionTextTask do
 
   it 'has an output with data and metadata' do
     input = {
-      'data' => {
+      'metadata' => {
         'url' => 'https://s3.amazonaws.com/src.codingnews.info/tapa.txt'
       }
     }
@@ -34,7 +34,7 @@ describe ExtractionTextTask do
   it 'extracts text from a document (txt)' do
     document = FactoryGirl.create :document, file: StringIO.new("El contenido")
     input = {
-      'data' => {
+      'metadata' => {
         'document_id' => document.id.to_s
       }
     }
