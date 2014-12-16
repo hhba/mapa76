@@ -16,12 +16,14 @@ describe SchedulerTask do
 
   describe "#call" do
     it 'schedules the following task' do
+      SchedulerTask.any_instance.stubs(:update_document_status).returns(nil)
       Resque.expects(:enqueue).with(Task1, first_input.to_json)
       scheduler = SchedulerTask.new(first_input)
       scheduler.call
     end
 
     it 'does not schedules a task on last' do
+      SchedulerTask.any_instance.stubs(:close_document).returns(nil)
       Resque.expects(:enqueue).never
       scheduler = SchedulerTask.new(last_task)
       scheduler.call
