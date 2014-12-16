@@ -28,7 +28,12 @@ class SchedulerTask
   end
 
   def call
-    Resque.enqueue(next_task_class, input.to_json) if next_task?
+    if next_task?
+      update_document_status
+      Resque.enqueue(next_task_class, input.to_json)
+    else
+      close_document
+    end
   end
 
   def next_task?
@@ -61,5 +66,19 @@ class SchedulerTask
 
   def tasks
     DEFAULT_TASKS
+  end
+
+  def update_document_status
+    document.update_attribute :status_msg, next_task
+  end
+
+  def close_document
+    document.update_attribute :status_msg, 'Completado'
+    document.update_attribute :percentage, 100
+    document.update_attribute :flagger_id, nil
+  end
+
+  def document
+    @document ||= Document.find(input['metadata']['document_id'])
   end
 end

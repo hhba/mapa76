@@ -1,4 +1,4 @@
-class CollisionsDetectorTask < Base
+class CollisionsDetectorTask < BaseTask
   @queue = "collisions_detector_task"
   @msg = "Normalizando direcciones"
 

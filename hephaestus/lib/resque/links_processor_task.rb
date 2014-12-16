@@ -1,7 +1,7 @@
 require 'httparty'
 
 
-class LinksProcessorTask < Base
+class LinksProcessorTask < BaseTask
   @queue = :links_processor_task
   @msg = "Procesando enlaces"
 
