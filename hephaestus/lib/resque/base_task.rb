@@ -45,6 +45,10 @@ class BaseTask
     end
   end
 
+  def metadata(options = {})
+    @metadata.merge({'current_task' => current_task}).merge(options)
+  end
+
   def current_task
     self.class.instance_variable_get(:@queue)
   end

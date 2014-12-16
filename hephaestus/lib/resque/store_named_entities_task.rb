@@ -1,5 +1,5 @@
 class StoreNamedEntitiesTask < BaseTask
-  @queue = :store_named_entities_task
+  @queue = "store_named_entities_task"
   @msg = "Storing named entities"
   @next_task = "coreference_resolution_task"
 
@@ -35,7 +35,7 @@ class StoreNamedEntitiesTask < BaseTask
 
     @output = {
       'data' => {},
-      'metadata' => @metadata.merge({})
+      'metadata' => metadata
     }
   end
 

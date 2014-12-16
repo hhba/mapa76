@@ -2,7 +2,7 @@ require 'active_support/all'
 
 class MentionsFinderTask < BaseTask
   attr_accessor :document, :user, :named_entities
-  @queue = :mentions_finder_task
+  @queue = "mentions_finder_task"
   @msg = "Contando menciones"
   @next_task = "indexer_task"
 
@@ -22,7 +22,7 @@ class MentionsFinderTask < BaseTask
     document.context(force: true)
 
     @output = {
-      'metadata' => @metadata
+      'metadata' => metadata
     }
   end
 

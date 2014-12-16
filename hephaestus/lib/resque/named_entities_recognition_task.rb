@@ -1,5 +1,5 @@
 class NamedEntitiesRecognitionTask < BaseTask
-  @queue = :named_entities_recognition_task
+  @queue = "named_entities_recognition_task"
   @msg = 'Named entities recognition'
   @next_task = 'store_named_entities_task'
 
@@ -16,7 +16,7 @@ class NamedEntitiesRecognitionTask < BaseTask
 
     @output = {
       'data' => tokens,
-      'metadata' => @metadata
+      'metadata' => metadata
     }
   end
 end

@@ -1,7 +1,7 @@
 require 'amatch'
 
 class CoreferenceResolutionTask < BaseTask
-  @queue = :coreference_resolution_task
+  @queue = "coreference_resolution_task"
   @msg = "Resolviendo correferencias"
   @next_task = "mentions_finder_task"
 
@@ -30,7 +30,7 @@ class CoreferenceResolutionTask < BaseTask
 
     @output = {
       'data' => '',
-      'metadata' => @metadata
+      'metadata' => metadata
     }
   end
 

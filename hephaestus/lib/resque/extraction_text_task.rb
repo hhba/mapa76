@@ -29,10 +29,9 @@ class ExtractionTextTask < BaseTask
 
     @output = {
       'data' => text,
-      'metadata' => @metadata.merge({
+      'metadata' => metadata({
         'filename' => filename,
-        'size' => text.size,
-        'current_task' => current_task
+        'size' => text.size
       })
     }
   end

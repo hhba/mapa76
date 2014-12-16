@@ -2,7 +2,7 @@ require 'json'
 
 
 class StoreTextTask < BaseTask
-  @queue = :store_text_task
+  @queue = "store_text_task"
   @msg = "Storing text"
   @next_task = 'named_entities_recognition_task'
 
@@ -18,7 +18,7 @@ class StoreTextTask < BaseTask
     store_text
     @output = {
       'data' => @text,
-      'metadata' => @metadata.merge({
+      'metadata' => metadata({
         'pages' => document.pages.size
       })
     }

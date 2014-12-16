@@ -3,7 +3,7 @@ require 'active_support/all'
 
 class IndexerTask < BaseTask
   attr_accessor :pages, :document, :user_id
-  @queue = :indexer_task
+  @queue = "indexer_task"
   @msg = "Indexando documento"
   @next_task = nil
 
@@ -98,6 +98,10 @@ class IndexerTask < BaseTask
       import pages
       refresh
     end
+
+    @output = {
+      'metadata' => metadata
+    }
   end
 
   def build_pages
