@@ -50,6 +50,14 @@ class SchedulerTask
     next_task.split('_').map(&:capitalize).join.constantize
   end
 
+  def next_task_msg
+    if next_task_class.instance_variable_defined?(:@msg)
+      next_task_class.instance_variable_get(:@msg)
+    else
+      "Procesando"
+    end
+  end
+
   def next_task
     if @current_task.nil?
       tasks.first
@@ -69,7 +77,7 @@ class SchedulerTask
   end
 
   def update_document_status
-    document.update_attribute :status_msg, next_task
+    document.update_attribute :status_msg, next_task_msg
   end
 
   def close_document

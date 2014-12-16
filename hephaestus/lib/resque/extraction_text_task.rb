@@ -5,7 +5,7 @@ require 'tmpdir'
 
 class ExtractionTextTask < BaseTask
   @queue = 'extraction_text_task'
-  @msg = 'Extracting text'
+  @msg = 'Extrayendo texto'
 
   def initialize(input)
     @url = input['metadata']['url']
