@@ -1,18 +1,16 @@
 require 'active_support/all'
 
-class MentionsFinderTask < Base
+class MentionsFinderTask < BaseTask
   attr_accessor :document, :user, :named_entities
   @queue = :mentions_finder_task
   @msg = "Contando menciones"
+  @next_task = nil
 
   ENTITY_CLASSES = [:organizations, :addresses, :places, :date_entities]
 
-  def self.perform(document_id)
-    self.new(document_id).call
-  end
-
-  def initialize(document_id)
-    @document = Document.find(document_id)
+  def initialize(input)
+    @metadata = input['metadata']
+    @document = Document.find(input['metadata']['document_id'])
     @user = @document.user
   end
 
@@ -22,6 +20,10 @@ class MentionsFinderTask < Base
       find_and_store(entity_cls)
     end
     document.context(force: true)
+
+    @output = {
+      'metadata' => @metadata
+    }
   end
 
   def find_and_store(entity_cls)
