@@ -1,15 +1,12 @@
 require 'tire'
 require 'active_support/all'
 
-class IndexerTask < Base
+class IndexerTask < BaseTask
   attr_accessor :pages, :document, :user_id
   @queue = :indexer_task
   @msg = "Indexando documento"
+  @next_task = nil
 
-  def self.perform(document_id)
-    self.new(document_id).call
-  end
-  
   def self.reset!
     create_index(force: true)
     Document.all.each { |d| self.perform(d.id) }
@@ -74,8 +71,9 @@ class IndexerTask < Base
     Tire::Model::Search.index_prefix + "_entities"
   end
 
-  def initialize(document_id)
-    @document = Document.find(document_id)
+  def initialize(input)
+    @metadata = input['metadata']
+    @document = Document.find(input['metadata']['document_id'])
     @document = document
     @pages = document.pages
     @user_id = document.user_id
