@@ -5,13 +5,6 @@ require 'test_helper'
 # calls next task
 
 describe ExtractionTextTask do
-  it 'behaves like a task' do
-    [:@queue, :@msg, :@next_task].each do |instance_variable|
-      ExtractionTextTask.instance_variable_get(instance_variable).wont_be_nil
-    end
-    ExtractionTextTask.instance_variable_get(:@next_task).must_equal('store_text_task')
-  end
-
   it 'responds to call' do
     task = ExtractionTextTask.new({'data' => {}, 'metadata' => {}})
     task.must_respond_to :call

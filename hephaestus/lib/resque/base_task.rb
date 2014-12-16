@@ -1,4 +1,5 @@
 require 'json'
+require 'active_support/all'
 
 #
 # Tasks call the following task, unless @next_task is nil
@@ -13,7 +14,7 @@ class BaseTask
   def self.perform(input)
     task = self.new(JSON.parse(input))
     task.call
-    task.schedule_next! unless task.finished?
+    task.schedule_next
   end
 
   def self.before_perform(*args)
@@ -50,20 +51,17 @@ class BaseTask
   end
 
   def current_task
-    self.class.instance_variable_get(:@queue)
+    self.class.to_s.underscore
   end
 
-  def schedule_next!
-    Resque.enqueue(classify(next_task), @output.to_json)
+  def schedule_next
+    Resque.enqueue(SchedulerTask, @output.to_json)
   end
 
   def classify(klass)
     klass.split('_').map(&:capitalize).join.constantize
   end
 
-  def finished?
-    next_task == nil
-  end
 
   def next_task
     self.class.instance_variable_get(:@next_task)

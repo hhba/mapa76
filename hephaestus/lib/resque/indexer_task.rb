@@ -5,7 +5,7 @@ class IndexerTask < BaseTask
   attr_accessor :pages, :document, :user_id
   @queue = "indexer_task"
   @msg = "Indexando documento"
-  @next_task = nil
+  @next_task = false
 
   def self.reset!
     create_index(force: true)

@@ -1,9 +1,8 @@
 class NamedEntitiesRecognitionTask < BaseTask
   @queue = "named_entities_recognition_task"
   @msg = 'Named entities recognition'
-  @next_task = 'store_named_entities_task'
 
-  attr_reader :text, :metadata
+  attr_reader :text
 
   def initialize(input)
     @text = input.fetch('data', '')

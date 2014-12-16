@@ -23,6 +23,11 @@ class TestTask < BaseTask
 end
 
 describe BaseTask do
+  it 'returns current task parameterized' do
+    test_task = TestTask.new({})
+    test_task.current_task.must_equal 'test_task'
+  end
+
   it 'parses JSON input' do
     data = {}.to_json
 

@@ -4,7 +4,6 @@ class MentionsFinderTask < BaseTask
   attr_accessor :document, :user, :named_entities
   @queue = "mentions_finder_task"
   @msg = "Contando menciones"
-  @next_task = "indexer_task"
 
   ENTITY_CLASSES = [:organizations, :addresses, :places, :date_entities]
 

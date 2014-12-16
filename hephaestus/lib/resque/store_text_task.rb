@@ -4,7 +4,6 @@ require 'json'
 class StoreTextTask < BaseTask
   @queue = "store_text_task"
   @msg = "Storing text"
-  @next_task = 'named_entities_recognition_task'
 
   attr_accessor :document, :text
 

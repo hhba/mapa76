@@ -5,7 +5,6 @@ require 'tmpdir'
 
 class ExtractionTextTask < BaseTask
   @queue = 'extraction_text_task'
-  @next_task = 'store_text_task'
   @msg = 'Extracting text'
 
   def initialize(input)
