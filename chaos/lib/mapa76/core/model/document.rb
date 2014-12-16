@@ -125,13 +125,13 @@ class Document
 
   def process!
     restart_variables
-    Resque.enqueue(DocumentProcessBootstrapTask, id)
+    Resque.enqueue(SchedulerTask, {metadata: { document_id: self.id}}.to_json)
   end
 
   def process_text!
     update_attribute :status, 'text_extraction_task-end'
     update_attribute :status_history, ['text_extraction_task']
-    Resque.enqueue(DocumentProcessBootstrapTask, id)
+    Resque.enqueue(SchedulerTask, {metadata: { document_id: self.id}}.to_json)
   end
 
   def link_document?

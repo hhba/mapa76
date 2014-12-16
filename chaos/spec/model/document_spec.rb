@@ -19,7 +19,7 @@ describe Document do
   describe "after_save" do
     it "should enqueue process bootstrap task" do
       document = build :document
-      Resque.expects(:enqueue).with(DocumentProcessBootstrapTask, document.id)
+      Resque.expects(:enqueue).with(SchedulerTask, {metadata: {document_id: document.id}}.to_json)
       assert document.save
     end
   end
@@ -60,7 +60,7 @@ describe Document do
   describe '#process!' do
     it 'resets the status field and the call resque' do
       document = FactoryGirl.create :document, status: 'process-end'
-      Resque.expects(:enqueue).with(DocumentProcessBootstrapTask, document.id)
+      Resque.expects(:enqueue).with(SchedulerTask,  {metadata: {document_id: document.id}}.to_json)
       document.process!
 
       document.status.must_be :==, ""

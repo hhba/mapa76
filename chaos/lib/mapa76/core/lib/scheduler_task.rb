@@ -1,4 +1,4 @@
-class DocumentProcessBootstrapTask
+class SchedulerTask
   @queue = :misc
 
   # NOTE Analyzers should override this method
