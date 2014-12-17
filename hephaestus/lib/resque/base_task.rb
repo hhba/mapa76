@@ -32,9 +32,9 @@ class BaseTask
 
   def self.logging(msg, args = nil)
     if args
-      logger.info "[#{msg}] #{@queue} with #{args}"
+      logger.info "[#{msg}] #{self.to_s.underscore} with #{args}"
     else
-      logger.info "[#{msg}] #{@queue} without args"
+      logger.info "[#{msg}] #{self.to_s.underscore} without args"
     end
   end
 
