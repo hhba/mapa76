@@ -5,7 +5,7 @@ class SchedulerTask
   @queue = "scheduler_task"
   @msg = "Scheduling"
 
-  DEFAULT_TASKS = %w(
+  FILE_DOCUMENT_TASKS = %w(
     extraction_text_task
     store_text_task
     named_entities_recognition_task
@@ -13,6 +13,10 @@ class SchedulerTask
     coreference_resolution_task
     mentions_finder_task
     indexer_task
+  )
+
+  LINK_DOCUMENT_TASKS = %W(
+    links_processor_task
   )
 
   def self.perform(input)
@@ -24,6 +28,7 @@ class SchedulerTask
   def initialize(input)
     @input = input
     @metadata = input['metadata']
+    @document_type = input['metadata']['document_type']
     @current_task = input['metadata']['current_task']
   end
 
@@ -73,7 +78,11 @@ class SchedulerTask
   end
 
   def tasks
-    DEFAULT_TASKS
+    if @document_type == 'link_document'
+      LINK_DOCUMENT_TASKS
+    else
+      FILE_DOCUMENT_TASKS
+    end
   end
 
   def update_document_status

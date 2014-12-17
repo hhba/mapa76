@@ -2,20 +2,17 @@ require 'httparty'
 
 
 class LinksProcessorTask < BaseTask
-  @queue = :links_processor_task
-  @msg = "Procesando enlaces"
+  @queue = "links_processor_task"
+  @msg = "Procesando enlace"
 
   include HTTParty
 
   class ApiError < RuntimeError; end
   base_uri "access.alchemyapi.com/"
 
-  def self.perform(document_id)
-    self.new(document_id).call
-  end
-
-  def initialize(document_id)
-    @document_id = document_id
+  def initialize(input)
+    @metadata = input['metadata']
+    @document_id = input['metadata']['document_id']
   end
 
   def call
@@ -23,6 +20,10 @@ class LinksProcessorTask < BaseTask
     LinkTextExtractor.new(@document_id).call
     LinkEntitiesExtractor.new(@document_id).call
     LinkNamedEntitiesExtractor.new(@document_id).call
-    IndexerTask.perform(@document_id)
+    IndexerTask.new({'metadata' => { 'document_id' => @document_id}})
+
+    @output = {
+      'metadata' => metadata
+    }
   end
 end
