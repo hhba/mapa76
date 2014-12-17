@@ -1,5 +1,5 @@
 class NamedEntitiesRecognitionTask < BaseTask
-  @queue = "named_entities_recognition_task"
+  @queue = "calculation_queue"
   @msg = 'Buscando entidades'
 
   attr_reader :text

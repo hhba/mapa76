@@ -2,7 +2,7 @@ require 'json'
 
 
 class StoreTextTask < BaseTask
-  @queue = "store_text_task"
+  @queue = "database_queue"
   @msg = "Guardando texto"
 
   attr_accessor :document, :text

@@ -2,7 +2,7 @@ require 'json'
 
 
 class SchedulerTask
-  @queue = "scheduler_task"
+  @queue = "scheduler_queue"
   @msg = "Scheduling"
 
   FILE_DOCUMENT_TASKS = %w(

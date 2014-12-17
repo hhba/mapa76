@@ -1,7 +1,7 @@
 require 'amatch'
 
 class CoreferenceResolutionTask < BaseTask
-  @queue = "coreference_resolution_task"
+  @queue = "calculation_queue"
   @msg = "Resolviendo correferencias"
 
   attr_reader :document, :user

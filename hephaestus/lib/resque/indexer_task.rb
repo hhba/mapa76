@@ -3,7 +3,7 @@ require 'active_support/all'
 
 class IndexerTask < BaseTask
   attr_accessor :pages, :document, :user_id
-  @queue = "indexer_task"
+  @queue = "database_queue"
   @msg = "Indexando documento"
   @next_task = false
 
