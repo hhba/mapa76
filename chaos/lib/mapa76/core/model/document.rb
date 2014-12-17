@@ -125,7 +125,8 @@ class Document
 
   def process!
     restart_variables
-    Resque.enqueue(SchedulerTask, {metadata: { document_id: self.id}}.to_json)
+    input = {metadata: { document_id: self.id, url: self.url, document_type: document_type}}
+    Resque.enqueue(SchedulerTask, input.to_json)
   end
 
   def process_text!
@@ -136,6 +137,14 @@ class Document
 
   def link_document?
     !!(self.url && self.url != "")
+  end
+
+  def document_type
+    if link_document?
+      'link_document'
+    else
+      'file_document'
+    end
   end
 
 protected
