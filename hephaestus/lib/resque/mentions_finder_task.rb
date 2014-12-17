@@ -2,7 +2,7 @@ require 'active_support/all'
 
 class MentionsFinderTask < BaseTask
   attr_accessor :document, :user, :named_entities
-  @queue = "io_queue"
+  @queue = "io"
   @msg = "Contando menciones"
 
   ENTITY_CLASSES = [:organizations, :addresses, :places, :date_entities]

@@ -1,5 +1,5 @@
 class StoreNamedEntitiesTask < BaseTask
-  @queue = "database_queue"
+  @queue = "database"
   @msg = "Guardando entidades"
 
   attr_reader :document, :tokens

@@ -2,7 +2,7 @@ require 'httparty'
 
 
 class LinksProcessorTask < BaseTask
-  @queue = "io_queue"
+  @queue = "io"
   @msg = "Procesando enlace"
 
   include HTTParty

@@ -1,10 +1,10 @@
 default:
   queues:
-    - io_queue
-    - database_queue
-    - scheduler_queue
+    - io
+    - database
+    - scheduler
   num: 3
 heavy:
   queues:
-    - calculation_queue
-  num: 1
+    - calculation
+  num: 2

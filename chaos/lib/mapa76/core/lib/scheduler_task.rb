@@ -1,5 +1,5 @@
 class SchedulerTask
-  @queue = :default
+  @queue = :scheduler
 
   # NOTE Analyzers should override this method
   # and reenqueue Document to the first step of the process.
