@@ -3,7 +3,8 @@ set :branch, "master"
 set :user, "deploy"
 set :ssh_options, {
   auth_methods: ["publickey"],
-  keys: ["~/.ssh/myPrivateKey.key"]
+  keys: ["~/.ssh/myPrivateKey.key"],
+  port: 22
 }
 
 namespace :deploy do

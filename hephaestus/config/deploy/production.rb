@@ -3,5 +3,6 @@ set :branch, "master"
 
 set :ssh_options, {
   auth_methods: ["publickey"],
-  keys: ["~/.ssh/myPrivateKey.key"]
+  keys: ["~/.ssh/myPrivateKey.key"],
+  port: 22
 }
