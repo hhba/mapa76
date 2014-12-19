@@ -12,12 +12,6 @@ describe NotificationMailer do
     ActionMailer::Base.deliveries.wont_be_empty
   end
 
-  it 'sends invitation request email' do
-    NotificationMailer.invitation_request(invitation).deliver
-
-    ActionMailer::Base.deliveries.wont_be_empty
-  end
-
   it 'sends contact request email' do
     NotificationMailer.contact(contact).deliver
 
