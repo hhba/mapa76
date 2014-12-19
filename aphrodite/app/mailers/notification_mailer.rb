@@ -9,11 +9,6 @@ class NotificationMailer < ActionMailer::Base
     mail subject: "[Analice.me] Documento reportado"
   end
 
-  def invitation_request(invitation)
-    @invitation = invitation
-    mail subject: '[Analice.me] Pedido de invitación'
-  end
-
   def contact(contact)
     @contact = contact
     mail subject: '[Analice.me] Contacto'

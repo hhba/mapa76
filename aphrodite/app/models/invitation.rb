@@ -13,24 +13,6 @@ class Invitation
 
   before_create :generate_token
 
-  def self.burn!(token)
-    invitation = Invitation.where(token: token).first
-    if invitation && !invitation.burned?
-      invitation.burn!
-    else
-      false
-    end
-  end
-
-  def burned?
-    !!burned_at
-  end
-
-  def burn!
-    update_attribute :burned_at, Time.now
-    true
-  end
-
 private
 
   def generate_token
