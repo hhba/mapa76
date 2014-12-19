@@ -3,8 +3,6 @@ Mapa76::Application.routes.draw do
 
   devise_for :users
 
-  resources :invitations, only: [:new, :create]
-
   resources :users, only: [:show, :edit, :update]
   resources :projects, :except => [:edit, :update, :delete] do
     member do
