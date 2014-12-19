@@ -1,6 +1,5 @@
 class User
-  attr_accessor :invitation_token
-  attr_accessible :username, :organization
+  attr_accessible :username, :organization, :email, :password, :password_confirmation
 
   field :username,     type: String, default: ""
   field :organization, type: String
