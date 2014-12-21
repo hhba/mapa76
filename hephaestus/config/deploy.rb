@@ -1,6 +1,5 @@
 load "deploy"
-set :stages, %w(production staging)
-set :default_stage, "production"
+set :stages, %w(staging aphrodite hephaestus)
 require 'capistrano/ext/multistage'
 set :environment, "production"
 
