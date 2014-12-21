@@ -1,10 +1,11 @@
 default:
   queues:
+    - freeling
+    - calculation
+  num: 1
+misc:
+  queues:
+    - scheduler
     - io
     - database
-    - scheduler
-  num: 3
-heavy:
-  queues:
-    - calculation
-  num: 2
+  num: 4
