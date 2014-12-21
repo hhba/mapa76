@@ -44,6 +44,18 @@ class Document
 
   scope :private_for, ->(user){ where(:user_id => user.id, :public => false) }
 
+  def self.mark_as_failed(id, msg='')
+    begin
+      document = Document.find(id)
+      document.status = 'FAILED'
+      document.status_msg = msg
+      document.percentage = -1
+      document.save
+    rescue Mongoid::Errors::DocumentNotFound
+      false
+    end
+  end
+
   def flagger
     if flagger_id
       User.find(flagger_id)

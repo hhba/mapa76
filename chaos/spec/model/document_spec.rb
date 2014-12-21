@@ -67,4 +67,20 @@ describe Document do
       document.percentage.must_be :==, 0
     end
   end
+
+  describe '#mark_as_failed' do
+    it 'change status' do
+      Document.stubs(:find).returns(@document)
+
+      Document.mark_as_failed('id', 'Error')
+      @document.reload
+      @document.status.must_equal "FAILED"
+      @document.percentage.must_equal -1
+      @document.status_msg.must_equal 'Error'
+    end
+
+    it 'returns false when document not found' do
+      Document.mark_as_failed('id', 'Error').must_equal false
+    end
+  end
 end
