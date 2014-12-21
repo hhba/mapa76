@@ -26,7 +26,13 @@ class BaseTask
   end
 
   def self.on_failure(e, *args)
-    logging('failure', document_id(*args))
+    document_id = document_id(*args)
+
+    if Document.mark_as_failed(document_id, "Error en #{current_task(*args)}")
+      logging('failure', document_id)
+    else
+      logging('failure', "Document #{document_id} does not exist")
+    end
     logging('failure', e.backtrace.join("\n"))
   end
 
@@ -41,8 +47,16 @@ class BaseTask
   def self.document_id(*args)
     begin
       JSON.parse(args[0])['metadata']['document_id']
-    rescue NoMethodError
+    rescue TypeError, NoMethodError
       "NO_DOCUMENT_ID"
+    end
+  end
+
+  def self.current_task(*args)
+    begin
+      JSON.parse(args[0])['metadata']['current_task']
+    rescue TypeError, NoMethodError
+      "NO_TASK"
     end
   end
 

@@ -7,6 +7,14 @@ class NextTask < BaseTask
   def self.perform; end
 end
 
+class FailedTask < BaseTask
+  @queue = 'next_task'
+
+  def self.perform(*args);
+    raise StandarError
+  end
+end
+
 class TestTask < BaseTask
   @queue = 'test_task'
   @next_task = 'next_task'
@@ -45,5 +53,12 @@ describe BaseTask do
   it 'finish if no `next_task` defined' do
     Resque.expects(:enqueue).never
     NextTask.perform()
+  end
+
+  it 'marks document as failed' do
+    error = mock(backtrace: [])
+    Document.expects(:mark_as_failed)
+
+    FailedTask.on_failure(error, {})
   end
 end
