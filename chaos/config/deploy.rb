@@ -1,5 +1,4 @@
-set :stages, %w(production staging)
-set :default_stage, "production"
+set :stages, %w(stating aphrodite hephaestus)
 set :user, "deploy"
 require 'capistrano/ext/multistage'
 
