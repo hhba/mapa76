@@ -2,24 +2,31 @@ class StoreNamedEntitiesTask < BaseTask
   @queue = "database"
   @msg = "Guardando entidades"
 
-  attr_reader :document, :tokens
+  attr_reader :document
 
   def initialize(input)
     @document = Document.find(input['metadata']['document_id'])
-    @tokens = input['data']
+    @token_groups = input.fetch('data', [[]])
     @metadata = input['metadata']
   end
 
   def call
-    tokens.each do |token|
-      store(token) if NamedEntity.valid_token?(token['tag'])
+    pages = document.pages
+    @token_groups.each_with_index do |group, index|
+      group.each do |token|
+        store_in(pages[index], token) if NamedEntity.valid_token?(token['tag'])
+      end
     end
+    @output = {
+      'data' => {},
+      'metadata' => metadata
+    }
   end
 
-  def store(token)
+  def store_in(page, token)
     @output = {}
-    pos = token['pos']
-    page = find_page(token['pos'])
+    pos = token['pos'] + page.from_pos
+    # page = find_page(token['pos'])
     named_entity = NamedEntity.create({
       form:  token['form'],
       lemma: token['lemma'],
@@ -31,11 +38,6 @@ class StoreNamedEntitiesTask < BaseTask
     })
     page.named_entities << named_entity
     document.named_entities << named_entity
-
-    @output = {
-      'data' => {},
-      'metadata' => metadata
-    }
   end
 
   def find_page(pos)

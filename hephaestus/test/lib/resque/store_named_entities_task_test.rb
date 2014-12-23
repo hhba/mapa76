@@ -6,7 +6,7 @@ describe StoreNamedEntitiesTask do
     document = FactoryGirl.create(:document)
     document.pages << page
     input = {
-      'data' => [{"form" => "ocupar","lemma" => "ocupar","tag" => "VMN0000","prob" => 1.0,"pos" => 1}],
+      'data' => [[{"form" => "ocupar","lemma" => "ocupar","tag" => "VMN0000","prob" => 1.0,"pos" => 1}]],
       'metadata' => {
         'document_id' => document.id.to_s
       }
