@@ -16,7 +16,7 @@ class StoreTextTask < BaseTask
   def call
     store_text
     @output = {
-      'data' => @text,
+      'data' => document.pages.map(&:text),
       'metadata' => metadata({
         'pages' => document.pages.size
       })

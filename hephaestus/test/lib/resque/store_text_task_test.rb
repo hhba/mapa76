@@ -21,7 +21,7 @@ describe StoreTextTask do
   end
 
   it 'returns valid output' do
-    output['data'].must_equal "string.\fstring"
+    output['data'].must_equal ["string.", "string"]
     output['metadata']['pages'].must_equal 2
     output['metadata']['current_task'].must_equal 'store_text_task'
   end
