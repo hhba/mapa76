@@ -2,19 +2,19 @@ class NamedEntitiesRecognitionTask < BaseTask
   @queue = "freeling"
   @msg = 'Buscando entidades'
 
-  attr_reader :text
-
   def initialize(input)
-    @text = input.fetch('data', '')
+    @texts = input.fetch('data', [])
     @metadata = input.fetch('metadata', {})
   end
 
   def call
-    analyzer_client = AnalyzerClient.new(text)
-    tokens = analyzer_client.tokens.to_a
+    token_groups = @texts.map do |text|
+      analyzer_client = AnalyzerClient.new(text)
+      analyzer_client.tokens.to_a
+    end
 
     @output = {
-      'data' => tokens,
+      'data' => token_groups,
       'metadata' => metadata
     }
   end

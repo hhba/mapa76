@@ -3,7 +3,7 @@ require 'test_helper'
 describe NamedEntitiesRecognitionTask do
   let(:output) {
     output = NamedEntitiesRecognitionTask.new({
-      'data' => 'string',
+      'data' => ['string'],
       'metadata' => {}
     }).call
   }
@@ -15,6 +15,6 @@ describe NamedEntitiesRecognitionTask do
   end
 
   it 'returns tokens' do
-    output['data'].must_equal []
+    output['data'].must_equal [[]]
   end
 end
