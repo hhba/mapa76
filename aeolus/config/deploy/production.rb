@@ -1,4 +1,4 @@
-server "aphrodite-analiceme.cloudapp.net", :web, :app, :workers, :db, primary: true
+server "191.237.72.87", :web, :app, :workers, :db, primary: true
 set :grunt_command, "prod"
 
 set :ssh_options, {

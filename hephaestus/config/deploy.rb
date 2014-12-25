@@ -1,5 +1,5 @@
 load "deploy"
-set :stages, %w(staging aphrodite hephaestus)
+set :stages, %w(staging aphrodite hephaestus1 hephaestus2)
 require 'capistrano/ext/multistage'
 set :environment, "production"
 

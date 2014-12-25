@@ -1,4 +1,4 @@
-server "aphrodite-analiceme.cloudapp.net", :web, :app, :db, primary: true
+server "191.237.72.87", :web, :app, :db, primary: true
 set :branch, "master"
 set :user, "deploy"
 set :ssh_options, {
