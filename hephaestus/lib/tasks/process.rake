@@ -1,3 +1,4 @@
+require "json"
 require "resque/tasks"
 require 'ruby-progressbar'
 require 'active_support/all'
@@ -8,7 +9,7 @@ def process(task)
   pbar = ProgressBar.create(:title => task.to_s, :total => Document.count)
 
   Document.batch_size(20).no_timeout.each do |document|
-    task.perform(document.id)
+    task.perform({metadata: {document_id:document.id }}.to_json)
     pbar.increment
     document.update_attribute :status, task.to_s.underscore + '-end'
   end
