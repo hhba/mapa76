@@ -46,7 +46,7 @@ class Api::V2::DocumentsController < Api::V2::BaseController
   end
 
   def status
-    @documents = current_user.documents
+    @documents = current_user.documents.without([:processed_text, :named_entity_ids, :person_ids, :organization_ids, :place_ids, :date_entity_ids])
   end
 
   def show
