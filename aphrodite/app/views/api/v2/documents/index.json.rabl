@@ -17,7 +17,3 @@ end
 node :error_messages do |document|
   document.errors.messages
 end
-
-node :document_index do |document|
-  "#{@documents.to_a.index(document) + 1}/#{Document::DOCUMENTS_LIMIT}"
-end
