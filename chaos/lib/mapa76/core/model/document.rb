@@ -43,6 +43,9 @@ class Document
   after_destroy :destroy_gridfs_files
 
   scope :private_for, ->(user){ where(:user_id => user.id, :public => false) }
+  scope :listing, -> { without([
+    :processed_text, :named_entity_ids, :person_ids,
+    :organization_ids, :place_ids, :date_entity_ids]) }
 
   def self.mark_as_failed(id, msg='')
     begin

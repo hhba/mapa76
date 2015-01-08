@@ -4,7 +4,7 @@ class Api::V2::DocumentsController < Api::V2::BaseController
   skip_before_filter :verfy_authenticity_token, only: [:create]
 
   def index
-    @documents = current_user.documents.desc(:created_at).without([:processed_text, :named_entity_ids, :person_ids, :organization_ids, :place_ids, :date_entity_ids])
+    @documents = current_user.documents.desc(:created_at).listing
   end
 
   def links
@@ -46,7 +46,7 @@ class Api::V2::DocumentsController < Api::V2::BaseController
   end
 
   def status
-    @documents = current_user.documents.without([:processed_text, :named_entity_ids, :person_ids, :organization_ids, :place_ids, :date_entity_ids])
+    @documents = current_user.documents.listing
   end
 
   def show
