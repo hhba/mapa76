@@ -21,7 +21,7 @@ class Document
   field :flagger_id,        type: Moped::BSON::ObjectId
   field :file_id,           type: Moped::BSON::ObjectId
 
-  belongs_to :user
+  belongs_to :user, index: true
 
   has_many :pages, dependent: :destroy
   has_many :fact_registers, dependent: :destroy
