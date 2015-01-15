@@ -4,7 +4,24 @@ class Api::V2::DocumentsController < Api::V2::BaseController
   skip_before_filter :verfy_authenticity_token, only: [:create]
 
   def index
-    @documents = current_user.documents.desc(:created_at).listing
+    documents = current_user.documents.desc(:created_at).listing.map do |document|
+      output = {}
+      output[:id] = document.id
+      output[:title] = document.title
+      output[:created_at] = document.created_at
+      output[:url] = document.url
+      output[:percentage] = document.percentage
+      output[:failed] = !document.valid?
+      output[:error_messages] = document.errors.messages
+      output[:counters] =   {
+        people: document.context_cache.fetch('people', []).count,
+        organizations: document.context_cache.fetch('organizations', []).count,
+        places: document.context_cache.fetch('places', []).count,
+        dates: document.context_cache.fetch('dates', []).count
+      }
+      output
+    end
+    respond_with documents
   end
 
   def links
