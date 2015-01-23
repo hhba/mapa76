@@ -1,0 +1,24 @@
+development:
+  sessions:
+    default:
+      database: mapa76
+      hosts:
+        - localhost:27017
+      options:
+        consistency: :strong
+test:
+  sessions:
+    default:
+      database: mapa76_test
+      hosts:
+        - localhost:27017
+      options:
+        consistency: :strong
+production:
+  sessions:
+    default:
+      database: <%= ENV['MONGO_DB'] || 'mapa76' %>
+      hosts:
+        - <%= ENV['MONGO_URL'] %>
+      options:
+        consistency: :strong
