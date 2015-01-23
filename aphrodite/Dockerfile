@@ -18,11 +18,6 @@ RUN cp /app/aeolus/dist/js/*.js /app/aphrodite/app/assets/javascripts/aeolus/
 WORKDIR /app/aphrodite
 RUN bundle install --deployment --quiet --without development test
 
-ADD tmp/mongoid.yml /app/aphrodite/config/
-ADD tmp/elasticsearch.yml /app/aphrodite/config/
-ADD tmp/application.yml /app/aphrodite/config/
-ADD tmp/resque.yml /app/aphrodite/config/
-
 ENV RAILS_ENV production
 RUN rake assets:precompile:all
 

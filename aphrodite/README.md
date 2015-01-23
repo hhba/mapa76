@@ -54,3 +54,26 @@ To start the web application, from the cloned directory, run:
 
     $ rails server
 
+Docker
+------
+
+If you are lazy and you don't want to deal with so much installation, you can run:
+
+    docker run -d -p 27017:27017 -v /data/mongodb:/data/db --name mongodb dockerfile/mongodb
+    docker run -d -p 9200:9200 -p 9300:9300 -v /data:/data --name elasticsearch dockerfile/elasticsearch /elasticsearch/bin/elasticsearch -Des.config=/data/elasticsearch.yml
+    docker run -d -p 6379:6379 -v /data:/data --name redis dockerfile/redis
+
+And you will have mongodb, elasticsearch and redis working on your computer, then you can run:
+
+    docker build -t aphrodite .
+    docker run -p 8080:8080 --rm --env-file=config.dat
+
+Where `rails-env.conf` looks like:
+
+    MANDRILL_USERNAME=mail@example.org
+    MANDRILL_API_KEY=APIKEY
+    NOTIFICATION_EMAIL=info@analice.me
+    MONGO_DB=mapa76
+    MONGO_URL=192.168.59.103:27017
+    REDIS_DB=192.168.59.103:6379:0
+    ELASTICSEARCH_URL=http://192.168.59.103:9200
