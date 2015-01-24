@@ -59,7 +59,7 @@ Docker
 
 If you are lazy and you don't want to deal with so much installation, you can run:
 
-    docker run -d -p 27017:27017 -v /data/mongodb:/data/db --name mongodb dockerfile/mongodb
+    docker run -d -p 27017:27017 -v /data:/data/db --name mongodb dockerfile/mongodb
     docker run -d -p 9200:9200 -p 9300:9300 -v /data:/data --name elasticsearch dockerfile/elasticsearch /elasticsearch/bin/elasticsearch -Des.config=/data/elasticsearch.yml
     docker run -d -p 6379:6379 -v /data:/data --name redis dockerfile/redis
 
