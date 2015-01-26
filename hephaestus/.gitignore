@@ -17,6 +17,5 @@ test/version_tmp
 tmp
 *.swp
 .rvm*
-config/*.yml
 log/*
 .env

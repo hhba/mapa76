@@ -7,6 +7,6 @@ test:
   index_prefix: mapa76_test
   log: log/elasticsearch.test.log
 production:
-  url: "http://localhost:9200"
+  url: <%= ENV['ELASTICSEARCH_URL'] %>
   index_prefix: mapa76
   log: log/elasticsearch.production.log
