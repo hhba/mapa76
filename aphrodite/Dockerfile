@@ -13,6 +13,7 @@ WORKDIR /app/aeolus
 
 RUN npm install
 RUN grunt prod
+RUN rm -f /app/aphrodite/app/assets/javascripts/aeolus/*.js
 RUN cp /app/aeolus/dist/js/*.js /app/aphrodite/app/assets/javascripts/aeolus/
 
 WORKDIR /app/aphrodite
