@@ -3,7 +3,7 @@
  * A Group of Documents
  */
 
-var 
+var
     Documents = require("./Documents")
   , People = require("./People")
   , Organizations = require("./Organizations")
@@ -26,22 +26,22 @@ module.exports = Backbone.Model.extend({
   initialize: function(){
     var documents = new Documents();
     this.set("documents", documents);
-   
+
     documents
       .on("reset add remove change:selected", this.updateCounter.bind(this))
       .fetch({ reset: true })
-      .done(this.checkStatus.bind(this)); 
+      .done(this.checkStatus.bind(this));
   },
 
   updateCounter: function(){
     this.resetCounter();
 
-    var 
+    var
       counter = this.get("counter"),
       props = ["people", "organizations", "places", "dates"];
 
     var selecteds = this.get("documents").where({ selected: true });
-    
+
     _.each(selecteds, function(doc){
       counter.selected++;
 
@@ -73,7 +73,7 @@ module.exports = Backbone.Model.extend({
       window.clearTimeout(this.timer);
 
       var self = this;
-      
+
       this.timer = window.setTimeout(function(){
         if (!self.get("documents").isSearch){
           self.get("documents").getStatus();
@@ -84,27 +84,40 @@ module.exports = Backbone.Model.extend({
   },
 
   getListByTypes: function(type){
+    var docIds = this.get("documents").getSelectedIds();
+
+    if (this.menuCollection &&
+      this.lastType === type &&
+      this.lastDocIds === docIds.join(",")){
+
+      return this.menuCollection;
+    }
+
     var collection;
-      
+
     switch(type){
-      case "people": 
-        collection = new People(); 
+      case "people":
+        collection = new People();
         break;
-      case "organizations": 
-        collection = new Organizations(); 
+      case "organizations":
+        collection = new Organizations();
         break;
-      case "places": 
-        collection = new Places(); 
+      case "places":
+        collection = new Places();
         break;
-      case "dates": 
-        collection = new Dates(); 
+      case "dates":
+        collection = new Dates();
         break;
     }
 
-    collection.fetch({ 
-      reset: true, 
-      xDocumentIds: this.get("documents").getSelectedIds()
+    collection.fetch({
+      reset: true,
+      xDocumentIds: docIds
     });
+
+    this.menuCollection = collection;
+    this.lastType = type;
+    this.lastDocIds = docIds.join(",");
 
     return collection;
   }

@@ -1,5 +1,5 @@
 /*jslint unparam: true */
-var 
+var
     People = require("./People")
   , Organizations = require("./Organizations")
   , Places = require("./Places")
@@ -8,7 +8,7 @@ var
   , Documents = require("./Documents");
 
 module.exports = Backbone.Model.extend({
-  
+
   defaults: {
     selected: {
       people: true,
@@ -20,12 +20,12 @@ module.exports = Backbone.Model.extend({
   },
 
   urlRoot: function(){
-    return aeolus.rootURL + "/documents"; 
+    return aeolus.rootURL + "/documents";
   },
 
   parse: function(response){
     response.counter = response.counters;
-    
+
     response.documentPages = new DocumentPages([], {
       id: response.id
     });
@@ -98,34 +98,47 @@ module.exports = Backbone.Model.extend({
 
   //TODO: Merge this method with Project:getListByTypes
   getListByTypes: function(type){
+    var docIds = [this.get("id")];
+
+    if (this.menuCollection &&
+      this.lastType === type &&
+      this.lastDocIds === docIds.join(",")){
+
+      return this.menuCollection;
+    }
+
     var collection;
-      
+
     switch(type){
-      case "people": 
-        collection = new People(); 
+      case "people":
+        collection = new People();
         break;
-      case "organizations": 
-        collection = new Organizations(); 
+      case "organizations":
+        collection = new Organizations();
         break;
-      case "places": 
-        collection = new Places(); 
+      case "places":
+        collection = new Places();
         break;
-      case "dates": 
-        collection = new Dates(); 
+      case "dates":
+        collection = new Dates();
         break;
     }
 
     //TODO: Use /documents/:id/people
 
-    collection.fetch({ 
-      reset: true, 
-      xDocumentIds: [this.get("id")]
+    collection.fetch({
+      reset: true,
+      xDocumentIds: docIds
     });
+
+    this.menuCollection = collection;
+    this.lastType = type;
+    this.lastDocIds = docIds.join(",");
 
     return collection;
   },
 
-  search: function(query, done){ 
+  search: function(query, done){
 
     //creates a Collection of Documents with this doc as an item
     var docs = new Documents([{
