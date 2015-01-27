@@ -1,16 +1,9 @@
-FROM ruby:2.1.5
+FROM malev/aphrodite-base
 MAINTAINER marcosvanetta@gmail.com
 
-RUN apt-get update -q
-RUN apt-get install -y nodejs npm git git-core
-RUN ln -s /usr/bin/nodejs /usr/bin/node
-
 RUN git clone https://github.com/hhba/mapa76.git /app
-RUN npm config set registry http://registry.npmjs.org
-RUN npm install -g grunt-cli
 
 WORKDIR /app/aeolus
-
 RUN npm install
 RUN grunt prod
 RUN rm -f /app/aphrodite/app/assets/javascripts/aeolus/*.js
