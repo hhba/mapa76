@@ -17,7 +17,8 @@ class AnalyzerClient
   def initialize(text, opt={})
     @text = text
     @size = text.size
-    @port = opt.fetch(:port, 50005)
+    @host = ENV['FREELING_HOST'] || 'localhost'
+    @port = ENV['FREELING_PORT'] || '50005'
     @timeout = opt.fetch(:timeout, 10800) # Three hours
   end
 
@@ -99,6 +100,6 @@ class AnalyzerClient
   end
 
   def command(file_path)
-    "/usr/local/bin/analyzer_client #{port} < #{file_path}"
+    "/usr/local/bin/analyzer_client #{host}:#{port} < #{file_path}"
   end
 end

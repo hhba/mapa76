@@ -1,3 +1,4 @@
+require "erb"
 require "resque"
 require "yaml"
 
@@ -6,5 +7,7 @@ APP_ENV  = ENV['APP_ENV'] ||= ENV['RACK_ENV'] ||= 'development'  unless defined?
 APP_ROOT = File.expand_path('../..', __FILE__).gsub(/releases\/[0-9]+/, "current") unless defined?(APP_ROOT)
 
 # Configure Resque
-resque_config = YAML.load_file(File.join(APP_ROOT, 'config', 'resque.yml'))
+resque_config = YAML.load(
+  ERB.new(File.read(File.join(APP_ROOT, 'config', 'resque.yml'))).result
+)
 Resque.redis  = resque_config[APP_ENV]
