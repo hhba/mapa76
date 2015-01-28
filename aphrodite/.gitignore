@@ -18,6 +18,10 @@ pickle-email-*.html
 public/thumbs
 public/uploads
 public/assets
+config/mongoid.yml
+config/resque.yml
+config/elasticsearch.yml
+Thumbs.db
 
 # Ignore application configuration
 /app/assets/javascripts/aeolus/*.js
