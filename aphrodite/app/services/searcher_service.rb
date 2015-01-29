@@ -92,10 +92,14 @@ class SearcherService
   end
 
   def destroy_for(document)
-    # Delete from documents_index
-    client.delete_by_query index: documents_index, q:"document_id:#{document.id}"
-    # Delete from pages_index
-    client.delete_by_query index: pages_index, q:"document_id:#{document.id}"
+    begin
+      # Delete from documents_index
+      client.delete_by_query index: documents_index, q:"document_id:#{document.id}"
+      # Delete from pages_index
+      client.delete_by_query index: pages_index, q:"document_id:#{document.id}"
+    rescue Elasticsearch::Transport::Transport::Errors::NotFound
+      nil
+    end
   end
 
   def store(query)
