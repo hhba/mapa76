@@ -47,6 +47,8 @@ class Document
     :processed_text, :named_entity_ids, :person_ids,
     :organization_ids, :place_ids, :date_entity_ids]) }
 
+  index({ created_at:1}, { unique: true })
+
   def self.mark_as_failed(id, msg='')
     begin
       document = Document.find(id)
