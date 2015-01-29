@@ -1,6 +1,16 @@
 APP_ROOT = File.expand_path("../../..", __FILE__) unless defined?(APP_ROOT)
 
 namespace :workers do
+  desc 'Clean old workers (but the schedulers)'
+  task :clean_but_schedulers => :environment do
+    Resque.workers.select{|worker| worker.id.split(':').last != 'scheduler'}.each(&:unregister_worker)
+  end
+
+  desc 'Clean scheduler workers'
+  task :clean_schedulers => :environment do
+    Resque.workers.select{|worker| worker.id.split(':').last == 'scheduler'}.each(&:unregister_worker)
+  end
+
   desc 'Gracefully reload workers (waits for jobs to finish, then restarts processes)'
   task :reload do
     signal_workers(:quit)
