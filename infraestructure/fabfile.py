@@ -2,11 +2,25 @@ from fabric.api import *
 
 env.use_ssh_config = True
 
-def install_aphrodite(packages):
+def install_databases():
+    packages = ['mongodb', 'openjdk-7-jre', 'redis-tools', 'redis-server']
+    sudo('apt-get update')
+    sudo('apt-get install -y ' + ' '.join(packages))
+    run('wget https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.4.2.deb')
+    sudo('dpkg -i elasticsearch-1.4.2.deb')
+    sudo("sed -i '/bind_ip = 127.0.0.1/c\bbind_ip = 0.0.0.0' /etc/mongodb.conf")
+    sudo("sed -i '/bind 127.0.0.1/c\bind 0.0.0.0' /etc/redis/redis.conf")
+    sudo('service mongodb restart')
+    sudo('service redis-server restart')
+    run('mkdir ~/backup')
+    put('mongo-backup.sh', '~/backup')
+
+def install_aphrodite():
     packages = ['nginx', 'docker.io']
     sudo('apt-get update')
     sudo('apt-get install -y ' + ' '.join(packages))
-    put('nginx.conf', '/etc/nginx/sites-enabled/default')
+    put('nginx.conf', '~/')
+    sudo('mv ~/nginx.conf /etc/nginx/sites-enabled/default')
     sudo('service nginx restart')
 
 def deploy_aphrodite():
