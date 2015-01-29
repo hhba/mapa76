@@ -16,7 +16,7 @@ def install_databases():
     put('mongo-backup.sh', '~/backup')
 
 def install_aphrodite():
-    packages = ['nginx', 'docker.io']
+    packages = ['nginx', 'docker.io', 'make']
     sudo('apt-get update')
     sudo('apt-get install -y ' + ' '.join(packages))
     put('nginx.conf', '~/')
@@ -25,7 +25,8 @@ def install_aphrodite():
 
 def deploy_aphrodite():
     put('config.dat', '~/')
-    sudo('docker pull malev/aphrodite:latest')
+    put('Makefile', '~/')
+    # sudo('docker pull malev/aphrodite:latest')
     with settings(warn_only=True):
         sudo('docker rm -f aphrodite-1')
         sudo('docker rm -f aphrodite-2')
@@ -41,6 +42,7 @@ def deploy_aphrodite():
 def deploy_schedulers():
     put('config.dat', '~/')
     sudo('docker pull malev/hephaestus:latest')
+    sudo('docker run --env-file=config.dat -it --rm -v ~/log:/app/hephaestus/log malev/hephaestus bundle exec rake workers:clean_schedulers')
     with settings(warn_only=True):
         sudo('docker rm -f scheduler-1')
         sudo('docker rm -f scheduler-2')
@@ -53,10 +55,11 @@ def deploy_schedulers():
     sudo('docker run -d --env-file=config.dat --name=scheduler-4 -v ~/log:/app/hephaestus/log -e QUEUE=scheduler malev/hephaestus bundle exec rake resque:work')
     sudo('docker run -d --env-file=config.dat --name=scheduler-5 -v ~/log:/app/hephaestus/log -e QUEUE=scheduler malev/hephaestus bundle exec rake resque:work')
 
-def deploy_hephaestus():
+def deploy_hephaestus(restart=False):
     put('config.dat', '~/')
     sudo('docker pull malev/hephaestus:latest')
     sudo('docker pull malev/freeling-custom:latest')
+    sudo('docker run --env-file=config.dat -it --rm -v ~/log:/app/hephaestus/log malev/hephaestus bundle exec rake workers:clean_but_schedulers')
 
     with settings(warn_only=True):
         sudo('docker rm -f freeling')
@@ -86,12 +89,10 @@ def deploy_hephaestus():
     sudo('docker run -d --env-file=config.dat --name=hephaestus-database-3 -v ~/log:/app/hephaestus/log -e QUEUE=database malev/hephaestus bundle exec rake resque:work')
     sudo('docker run -d --env-file=config.dat --name=hephaestus-database-4 -v ~/log:/app/hephaestus/log -e QUEUE=database malev/hephaestus bundle exec rake resque:work')
 
-
     sudo('docker run -d --env-file=config.dat --name=hephaestus-io-1 -v ~/log:/app/hephaestus/log -e QUEUE=io malev/hephaestus bundle exec rake resque:work')
     sudo('docker run -d --env-file=config.dat --name=hephaestus-io-2 -v ~/log:/app/hephaestus/log -e QUEUE=io malev/hephaestus bundle exec rake resque:work')
     sudo('docker run -d --env-file=config.dat --name=hephaestus-io-3 -v ~/log:/app/hephaestus/log -e QUEUE=io malev/hephaestus bundle exec rake resque:work')
     sudo('docker run -d --env-file=config.dat --name=hephaestus-io-4 -v ~/log:/app/hephaestus/log -e QUEUE=io malev/hephaestus bundle exec rake resque:work')
-
 
     sudo('docker run -d --env-file=config.dat --name=hephaestus-text_extraction-1 -v ~/log:/app/hephaestus/log -e QUEUE=text_extraction malev/hephaestus bundle exec rake resque:work')
     sudo('docker run -d --env-file=config.dat --name=hephaestus-text_extraction-2 -v ~/log:/app/hephaestus/log -e QUEUE=text_extraction malev/hephaestus bundle exec rake resque:work')
