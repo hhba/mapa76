@@ -45,7 +45,13 @@ class Document
   scope :private_for, ->(user){ where(:user_id => user.id, :public => false) }
   scope :listing, -> { without([
     :processed_text, :named_entity_ids, :person_ids,
-    :organization_ids, :place_ids, :date_entity_ids]) }
+    :organization_ids, :place_ids, :date_entity_ids,
+    :process_attemps, :status_history, :tasks, :public]) }
+  scope :minimal, -> { without([
+    :processed_text, :named_entity_ids, :person_ids,
+    :organization_ids, :place_ids, :date_entity_ids,
+    :url, :original_filename, :context_cache, :process_attemps,
+    :status_history, :tasks, :public]) }
 
   index({ created_at: -1, user_id: 1}, { unique: true })
 

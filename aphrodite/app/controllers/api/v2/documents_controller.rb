@@ -63,7 +63,7 @@ class Api::V2::DocumentsController < Api::V2::BaseController
   end
 
   def status
-    @documents = current_user.documents.listing
+    @documents = current_user.documents.minimal
   end
 
   def show
