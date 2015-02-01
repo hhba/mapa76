@@ -15,7 +15,7 @@ class Person
   before_save :store_normalize_name
   before_save :unify_tags
 
-  belongs_to :user
+  belongs_to :user, index: true
   has_many :named_entities
   has_and_belongs_to_many :documents, index: true
 
