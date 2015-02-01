@@ -26,7 +26,7 @@ def install_aphrodite():
 def deploy_aphrodite():
     put('config.dat', '~/')
     put('Makefile', '~/')
-    # sudo('docker pull malev/aphrodite:latest')
+    sudo('docker pull malev/aphrodite:latest')
     with settings(warn_only=True):
         sudo('docker rm -f aphrodite-1')
         sudo('docker rm -f aphrodite-2')
