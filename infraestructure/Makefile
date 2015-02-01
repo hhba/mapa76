@@ -41,4 +41,4 @@ consolehephaestus:
 	sudo docker run --rm -it --env-file=config.dat -v ~/log:/app/hephaestus/log malev/hephaestus bundle exec rake console
 
 indexes:
-	sudo docker run --env-file=config.dat -it --rm malev/aphrodite bundle exec rake db:mongoid:create_indexes
+	sudo docker run --env-file=config.dat -it --rm -v ~/log:/app/aphrodite/log malev/aphrodite bundle exec rake db:mongoid:create_indexes
