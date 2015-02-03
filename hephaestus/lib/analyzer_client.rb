@@ -10,7 +10,7 @@ class AnalyzerClient
   class ExtractionError < StandardError
   end
 
-  attr_reader :text, :opt, :port, :timeout, :size
+  attr_reader :text, :opt, :host, :port, :timeout, :size
 
   Token = Class.new(Hashie::Mash)
 

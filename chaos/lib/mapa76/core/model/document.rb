@@ -11,11 +11,8 @@ class Document
   field :original_filename, type: String
   field :context_cache,     type: Hash,    default: {}
   field :processed_text,    type: String
-  field :process_attemps,   type: Integer, default: 0
   field :status,            type: String,  default: ''
   field :status_msg,        type: String,  default: ''
-  field :status_history,    type: Array,   default: []
-  field :tasks,             type: Array,   default: []
   field :public,            type: Boolean, default: true
   field :percentage,        type: Float,   default: 0
   field :flagger_id,        type: Moped::BSON::ObjectId
@@ -30,7 +27,7 @@ class Document
   has_and_belongs_to_many :organizations, index: true
   has_and_belongs_to_many :addresses,     index: true
   has_and_belongs_to_many :places,        index: true
-  has_and_belongs_to_many :date_entities
+  has_and_belongs_to_many :date_entities, index: true
   has_and_belongs_to_many :project
 
   validates_presence_of :file_id, unless: :link_document?
@@ -46,6 +43,12 @@ class Document
   scope :listing, -> { without([
     :processed_text, :named_entity_ids, :person_ids,
     :organization_ids, :place_ids, :date_entity_ids]) }
+  scope :minimal, -> { without([
+    :processed_text, :named_entity_ids, :person_ids,
+    :organization_ids, :place_ids, :date_entity_ids,
+    :url, :original_filename, :context_cache]) }
+
+  index({ created_at: -1, user_id: 1}, { unique: true })
 
   def self.mark_as_failed(id, msg='')
     begin
@@ -146,7 +149,6 @@ class Document
 
   def process_text!
     update_attribute :status, 'text_extraction_task-end'
-    update_attribute :status_history, ['text_extraction_task']
     Resque.enqueue(SchedulerTask, {metadata: { document_id: self.id}}.to_json)
   end
 
@@ -167,7 +169,6 @@ protected
   def restart_variables
     update_attribute :percentage, 0
     update_attribute :status, ''
-    update_attribute :status_history, []
   end
 
   def context_generator

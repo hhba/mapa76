@@ -44,4 +44,13 @@ namespace :process do
     Rake::Task["process:mentions"].invoke
     Rake::Task["process:indexer"].invoke
   end
+
+  desc 'Clean orphans entities'
+  task orphans: :environment do
+    [Person, Organization, Place, DateEntity].each do |klass|
+      klass.each do |entity|
+        entity.destroy if entity.documents.empty?
+      end
+    end
+  end
 end
