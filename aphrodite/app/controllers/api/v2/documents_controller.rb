@@ -28,7 +28,7 @@ class Api::V2::DocumentsController < Api::V2::BaseController
     uploader = LinksUploaderService.new(params[:bucket], current_user)
     if uploader.valid?
       @documents = uploader.call
-      render :index
+      render :shared
     else
       render json: {
         error_messages: { files_limit: "Ha excedido el límite de documentos"}
@@ -41,7 +41,7 @@ class Api::V2::DocumentsController < Api::V2::BaseController
     uploader = DocumentUploaderService.new(files, current_user)
     if uploader.valid?
       @documents = uploader.call
-      render :index
+      render :shared
     else
       render json: {error_messages: { files_limit: "Ha excedido el límite de documentos"}}, status: 403
     end
