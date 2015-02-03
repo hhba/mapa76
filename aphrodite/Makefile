@@ -17,3 +17,6 @@ setup:
 	# ElasticSearch
 	sudo iptables -A INPUT -p tcp --dport 9200 --syn -j ACCEPT
 	sudo iptables -A INPUT -p udp --dport 9200 -j ACCEPT
+
+build:
+	docker build --no-cache -t malev/aphrodite .
