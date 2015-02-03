@@ -9,3 +9,5 @@ setup:
 	cp /home/deploy/apps/mapa76.info/hephaestus/current/config/freeling.sh /home/deploy/apps/mapa76.info/hephaestus/shared/config/
 	sudo ln -s /home/deploy/apps/mapa76.info/hephaestus/shared/config/freeling.sh /etc/init.d/freeling
 
+build:
+	docker build --no-cache -t malev/hephaestus .
