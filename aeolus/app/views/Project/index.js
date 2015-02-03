@@ -4,7 +4,7 @@
  */
 
 var
-  template = require('./templates/documentList.tpl'),
+  template = require('./templates/documentList.hbs'),
   Document = require('./DocumentItem'),
   LoadingView = require("../Loading");
 

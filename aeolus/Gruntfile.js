@@ -29,17 +29,10 @@ module.exports = function(grunt) {
     clean: {
       before: {
         src: [
-          "<%= paths.app.root %>views/**/*.tpl.js", 
           "<%= paths.dist.root %>*",
           "!<%= paths.dist.root %>.gitignore"
         ],
-      },
-      after: {
-        src: [
-          "<%= paths.app.root %>views/**/*.tpl.js", 
-          "<%= paths.dist.root %>app_prev.js"
-        ]
-      } 
+      }
     },
 
     less: {
@@ -64,24 +57,15 @@ module.exports = function(grunt) {
 
     },
 
-    handlebars: {
-      dev: {
-        files: [
-          {
-            expand: true,
-            cwd: 'app/views/',
-            src: ['**/*.hbs'],
-            dest: 'app/views/',
-            ext: '.tpl.js',
-          },
-        ]
-      }
-    },
-
-    builder: {
+    browserify: {
       app: {
-        src: "<%= paths.app.root %>initApp.js",
-        dest: "<%= paths.dist.root %>app_prev.js"
+        options:{
+          extension: [ '.js', '.hbs' ],
+          transform: [ 'hbsfy' ],
+          //debug: true
+        },
+        src: ['<%= paths.app.root %>initApp.js'],
+        dest: '<%= paths.dist.js %>app.js'
       }
     },
 
@@ -105,7 +89,7 @@ module.exports = function(grunt) {
           banner: '<%= banner %>',
         },
         files: {
-          '<%= paths.dist.js %>app.js': [ '<%= paths.dist.root %>app_prev.js' ]
+          '<%= paths.dist.js %>app.js': [ '<%= paths.dist.js %>app.js' ]
         }
       }
     },
@@ -126,23 +110,20 @@ module.exports = function(grunt) {
 
     copy: {
       dist: {
-        expand: true, 
-        cwd: "<%= paths.app.assets %>", 
-        src: ["**"], 
+        expand: true,
+        cwd: "<%= paths.app.assets %>",
+        src: ["**"],
         dest: "<%= paths.dist.root %>"
       }
     },
 
     watch: {
-      local: {
-        files: ["<%= paths.app.root %>**/*",
-          "!<%= paths.app.root %>views/**/*.tpl.js"],
-        tasks: ['default']
-      },
-      stage: {
-        files: ["<%= paths.app.root %>**/*",
-          "!<%= paths.app.root %>views/**/*.tpl.js"],
-        tasks: ['stage']
+      app: {
+        files: ["<%= paths.app.root %>**/*"],
+        tasks: ['default'],
+        options: {
+          atBegin: true
+        }
       }
     },
 
@@ -184,6 +165,7 @@ module.exports = function(grunt) {
     }
   });
 
+  grunt.loadNpmTasks('grunt-browserify');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-commonjs-handlebars');
   grunt.loadNpmTasks('grunt-contrib-less');
@@ -193,43 +175,15 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-uglify');
 
-  require('./builder.grunt.js')(grunt);
-
   grunt.registerTask("default", [
-    "clean:before", 
-    "jshint:all", 
+    "clean:before",
+    "jshint:all",
     "less:dev",
-    "handlebars", 
-    "builder:app:local", 
-    "concat", 
-    "clean:after",
+    "browserify",
+    "concat",
     "copy"
   ]);
 
-  grunt.registerTask("stage", [
-    "clean:before", 
-    "jshint:all", 
-    "less:dev",
-    "handlebars", 
-    "builder:app:stage", 
-    "concat", 
-    "clean:after",
-    "copy"
-  ]);
+  grunt.registerTask("dist", [ "default", "uglify" ]);
 
-  grunt.registerTask("prod", [
-    "clean:before", 
-    "jshint:all", 
-    "less:prod",
-    "handlebars", 
-    "builder:app:prod", 
-    "concat", 
-    "uglify",
-    "clean:after",
-    "copy:dist"
-  ]);
-
-  grunt.registerTask("local", ["default"]);
-  grunt.registerTask("w", ["default", "watch:local"]);
-  grunt.registerTask("ws", ["stage", "watch:stage"]);
 };

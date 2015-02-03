@@ -4,7 +4,7 @@
  */
 
 var 
-    template = require('./templates/mentions.tpl')
+    template = require('./templates/mentions.hbs')
   , Mention = require("./Mention");
 
 module.exports = Backbone.Marionette.CompositeView.extend({

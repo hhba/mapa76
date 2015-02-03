@@ -5,7 +5,7 @@
  */
 
 var 
-    template = require('./templates/visualizer.tpl');
+    template = require('./templates/visualizer.hbs');
 
 module.exports = Backbone.Marionette.ItemView.extend({
 

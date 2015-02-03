@@ -4,7 +4,7 @@
  */
 
 var 
-    template = require('./templates/layout.tpl')
+    template = require('./templates/layout.hbs')
   , Visualizer = require("./Visualizer")
   , Pager = require("./Pager")
   , DocumentInfo = require("./DocumentInfo")

@@ -1,11 +1,21 @@
 
+window.base = require('../config.json');
+
 module.exports = function() {
   var base = window.base;
 
+  if (base.root.length > 0 && base.root.substr(-1) !== "/"){
+    base.root += "/";
+  }
+
+  if (base.version.length > 0 && base.version.substr(-1) === "/"){
+    base.version = base.version.substr(0, base.version.length - 1);
+  }
+
   return {
       baseRoot: base.root
-    , rootURL: (base.rootURL || base.root + "/api/") + (base.version || "v1")
-    , imagesURL: base.root + "/images/"
+    , rootURL: (base.rootURL || base.root) + (base.version || "api/v1")
+    , imagesURL: base.root + "images/"
     , authKey: "" // taken from body[data-user-auth]
     , headers: {
       xDocumentIds: "X-Document-Ids",

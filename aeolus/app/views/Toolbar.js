@@ -4,7 +4,7 @@
  */
 
 var
-    template = require("./templates/toolbar.tpl")
+    template = require("./templates/toolbar.hbs")
   , DocumentNew = require("./Project/DocumentNew")
   , UploadLinks = require("./Project/UploadLinks")
   , ExportDocuments = require("./Project/ExportDocuments")

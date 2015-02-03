@@ -1,5 +1,5 @@
 var
-  template = require('./templates/uploadLinks.tpl'),
+  template = require('./templates/uploadLinks.hbs'),
   Link = require("../../models/Link");
 
 module.exports = Backbone.Marionette.ItemView.extend({

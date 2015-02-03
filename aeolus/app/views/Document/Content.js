@@ -4,7 +4,7 @@
  */
 
 var 
-  template = require('./templates/content.tpl'),
+  template = require('./templates/content.hbs'),
   Page = require('./Page');
 
 module.exports = Backbone.Marionette.CompositeView.extend({

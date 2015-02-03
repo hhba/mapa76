@@ -3,7 +3,7 @@
  * Loading view useful to be displayed while fetching collections.
  */
  
-var template = require('./templates/loading.tpl');
+var template = require('./templates/loading.hbs');
 
 module.exports = Backbone.Marionette.ItemView.extend({
 

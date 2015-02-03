@@ -3,6 +3,8 @@
  * 
  */
 
+var Handlebars = require("hbsfy/runtime");
+
 Handlebars.registerHelper('timeAgo', function(date) {
   if (date && moment(date).isValid()) {
     return moment(date).fromNow();

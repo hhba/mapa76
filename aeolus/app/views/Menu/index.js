@@ -1,10 +1,10 @@
 /**
  * VIEW: Toolbar
- * 
+ *
  */
 
-var 
-    template = require("./templates/layout.tpl")
+var
+    template = require("./templates/layout.hbs")
   , Header = require("./Header")
   , UserMenu = require("./UserMenu")
   , User = require("../../models/User")
@@ -64,11 +64,14 @@ module.exports = Backbone.Marionette.Layout.extend({
       model: user
     }));
 
-    this.dd2 = new window.DropDown($('#help-list'));
+    if (window.DropDown){
+      this.dd2 = new window.DropDown($('#help-list'));
+    }
+
     this.loadContent(this.active);
   },
 
-  serializeData: function(){  
+  serializeData: function(){
     return _.extend({
       showDocumentStats: this.documentView ? false : true
     }, ((this.model && this.model.toJSON()) || {}));

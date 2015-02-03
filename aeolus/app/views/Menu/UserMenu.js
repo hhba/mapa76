@@ -1,4 +1,4 @@
-var template = require('./templates/userMenu.tpl');
+var template = require('./templates/userMenu.hbs');
 
 module.exports = Backbone.Marionette.ItemView.extend({
 

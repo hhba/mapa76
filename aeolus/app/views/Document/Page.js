@@ -4,12 +4,13 @@
  */
 
 var 
-  template = require('./templates/page.tpl'),
+  template = require('./templates/page.hbs'),
   Person = require("../../models/Person"),
   DateEntity = require("../../models/Date"),
   Organization = require("../../models/Organization"),
   Place = require("../../models/Place"),
-  Mentions = require("../MenuModal/Mentions");
+  Mentions = require("../MenuModal/Mentions"),
+  Handlebars = require("hbsfy/runtime");
 
 module.exports = Backbone.Marionette.ItemView.extend({
 

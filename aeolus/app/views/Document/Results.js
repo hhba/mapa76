@@ -1,5 +1,5 @@
 var 
-    template = require("./templates/layout.tpl")
+    template = require("./templates/layout.hbs")
   , DocumentInfo = require("./DocumentInfo")
   , DocumentHighlight = require("../Project/DocumentHighlight")
   , DocumentHighlights = require("../Project/DocumentHighlights");

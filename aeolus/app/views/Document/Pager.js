@@ -5,7 +5,7 @@
  */
 
 var 
-    template = require('./templates/pager.tpl');
+    template = require('./templates/pager.hbs');
 
 module.exports = Backbone.Marionette.ItemView.extend({
 

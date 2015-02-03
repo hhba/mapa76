@@ -2,7 +2,7 @@
  * VIEW: Notification
  */
 
-var template = require('./templates/notification.tpl');
+var template = require('./templates/notification.hbs');
 
 module.exports = Backbone.Marionette.Notification.extend({
   tagName: 'div',
