@@ -35,26 +35,27 @@ module.exports = function(grunt) {
       }
     },
 
-    less: {
+    sass: {
       dev: {
+        options: {
+          style: 'expanded',
+          debugInfo: true,
+          trace: true,
+          lineNumbers: true
+        },
         files: {
-          "<%= paths.dist.css %>app.css": [
-            "<%= paths.app.css %>app.less"
-          ]
+          "<%= paths.dist.css %>app.css": "<%= paths.app.css %>app.scss"
         }
       },
 
       prod: {
         options: {
-          yuicompress: true
+          style: 'compressed',
         },
         files: {
-          "<%= paths.dist.css %>app.css": [
-            "<%= paths.app.css %>app.less"
-          ]
+          "<%= paths.dist.css %>app.css": "<%= paths.app.css %>app.scss"
         }
       }
-
     },
 
     browserify: {
@@ -168,22 +169,23 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-browserify');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-commonjs-handlebars');
-  grunt.loadNpmTasks('grunt-contrib-less');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-contrib-sass');
 
+  grunt.registerTask("sass-dev", [ "sass:dev" ]);
+  grunt.registerTask("sass-prod", [ "sass:prod" ]);
   grunt.registerTask("default", [
     "clean:before",
     "jshint:all",
-    "less:dev",
     "browserify",
     "concat",
-    "copy"
+    "copy",
+    "sass:dev"
   ]);
-
-  grunt.registerTask("dist", [ "default", "uglify" ]);
+  grunt.registerTask("dist", [ "default", "uglify", "sass:prod" ]);
 
 };
