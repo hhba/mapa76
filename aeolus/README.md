@@ -17,14 +17,14 @@ npm install
 
 ## Compile the project
 
-Create a `config.json` using `config.json.example`  
-Update with your configs:  
+Create a `config.json` using `config.json.example`
+Update with your configs:
 
 * `root`: The root URL for every call (i.e. "http://analice.me/"). Can use relative paths like `"/"` or `""`(blank)
 * `version`: WebAPI version, this is going to be appended into the url.  (i.e. `"api/v2/"`) - resulting in `http://analice.me/api/v2/`
 * `poolingStatusTime`: milliseconds for refreshing the documents list
 
-Run the following command at root of project to compile  
+Run the following command at root of project to compile
 
 ```bash
 grunt
@@ -55,17 +55,8 @@ grunt watch
 Open a terminal and run test server:
 
 ```bash
-npm start
+grunt serve
 ```
 
-This will let some mockup resources on `http://localhost:3000`  
-i.e. `http://localhost:3000/documents`
-
-Then open another terminal an run:
-
-```bash
-npm install wup
-wup
-```
-
-Open a browser and go to `http://localhost:8080/tests/index.html`.
+This will let some mockup resources on `http://localhost:3001`
+i.e. `http://localhost:3001/documents`
