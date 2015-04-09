@@ -38,19 +38,15 @@ module.exports = function(grunt) {
     sass: {
       dev: {
         options: {
-          style: 'expanded',
-          debugInfo: true,
-          trace: true,
-          lineNumbers: true
+          sourceComments: true
         },
         files: {
           "<%= paths.dist.css %>app.css": "<%= paths.app.css %>app.scss"
         }
       },
-
-      prod: {
+      dist: {
         options: {
-          style: 'compressed',
+          outputStyle: 'compressed'
         },
         files: {
           "<%= paths.dist.css %>app.css": "<%= paths.app.css %>app.scss"
@@ -189,7 +185,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-uglify');
-  grunt.loadNpmTasks('grunt-contrib-sass');
+  grunt.loadNpmTasks('grunt-sass');
   grunt.loadNpmTasks('grunt-browser-sync');
 
   grunt.registerTask("sass-dev", [ "sass:dev" ]);

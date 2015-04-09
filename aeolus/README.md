@@ -13,6 +13,7 @@ npm install -g grunt-cli
 
 ```bash
 npm install
+brew install sassc
 ```
 
 ## Compile the project
