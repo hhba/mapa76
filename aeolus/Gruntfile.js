@@ -128,6 +128,21 @@ module.exports = function(grunt) {
       }
     },
 
+    browserSync: {
+      options: {
+        port: 3001
+      },
+      dev: {
+        bsFiles: {
+          src: ["<%= paths.app.root %>**/*"]
+        },
+        options: {
+          watchTask: true,
+          server: './dist/'
+        }
+      }
+    },
+
     jshint: {
       all: {
         files: {
@@ -175,6 +190,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-sass');
+  grunt.loadNpmTasks('grunt-browser-sync');
 
   grunt.registerTask("sass-dev", [ "sass:dev" ]);
   grunt.registerTask("sass-prod", [ "sass:prod" ]);
@@ -187,5 +203,6 @@ module.exports = function(grunt) {
     "sass:dev"
   ]);
   grunt.registerTask("dist", [ "default", "uglify", "sass:prod" ]);
+  grunt.registerTask('serve', ['browserSync', 'watch']);
 
 };
