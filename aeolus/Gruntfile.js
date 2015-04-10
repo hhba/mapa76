@@ -12,16 +12,21 @@ module.exports = function(grunt) {
     paths: {
       app: {
         root: "app/",
-        css: "app/styles/",
-        assets: "app/assets/"
+        assets: "app/assets",
+        css: "app/assets/styles/",
+        fonts: "app/assets/fonts",
+        images: "app/assets/images"
+
       },
       vendor: {
         js: "vendor/scripts/"
       },
       dist: {
         root: "dist/",
+        assets: "app/assets/",
         css: "dist/stylesheets/",
-        js: "dist/js/",
+        fonts: "dist/fonts/",
+        js: "dist/javascripts/",
         images: "dist/img/"
       }
     },
