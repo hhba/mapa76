@@ -1,0 +1,24 @@
+{
+  "name": "Aeolus",
+  "version": "1.0.0",
+  "homepage": "https://github.com/hhba/mapa76",
+  "authors": [
+    "malev <marcosvanetta@gmail.com>"
+  ],
+  "description": "statics for aphrodite",
+  "moduleType": [
+    "globals"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": ">=1.9",
+    "jquery-placeholder": "2.0.9"
+  }
+}
