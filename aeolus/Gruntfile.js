@@ -210,7 +210,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-browser-sync');
 
   grunt.registerTask("sass-dev", [ "sass:dev" ]);
-  grunt.registerTask("sass-prod", [ "sass:prod" ]);
+  grunt.registerTask("sass-dist", [ "sass:dist" ]);
   grunt.registerTask("default", [
     "clean:before",
     "jshint:all",
@@ -219,7 +219,7 @@ module.exports = function(grunt) {
     "copy",
     "sass:dev"
   ]);
-  grunt.registerTask("dist", [ "default", "uglify", "sass:prod" ]);
+  grunt.registerTask("dist", [ "default", "uglify", "sass:dist" ]);
   grunt.registerTask('serve', ['browserSync', 'watch']);
 
 };
