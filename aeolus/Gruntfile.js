@@ -13,7 +13,7 @@ module.exports = function(grunt) {
       app: {
         root: "app/",
         assets: "app/assets",
-        css: "app/assets/styles",
+        css: "app/styles/",
         fonts: "app/assets/fonts",
         images: "app/assets/images",
         bower: "bower_components/",
@@ -181,6 +181,7 @@ module.exports = function(grunt) {
 
           ,globals: {
               window: true
+            , document: true
             , $: true
             , jQuery: true
             , _: true
