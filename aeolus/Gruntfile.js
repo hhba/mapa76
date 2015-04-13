@@ -13,10 +13,11 @@ module.exports = function(grunt) {
       app: {
         root: "app/",
         assets: "app/assets",
-        css: "app/assets/styles/",
+        css: "app/assets/styles",
         fonts: "app/assets/fonts",
-        images: "app/assets/images"
-
+        images: "app/assets/images",
+        bower: "bower_components/",
+        frontend: "app/frontend/"
       },
       vendor: {
         js: "vendor/scripts/"
@@ -72,6 +73,19 @@ module.exports = function(grunt) {
     },
 
     concat: {
+      frontend: {
+        files: {
+          '<%= paths.dist.js %>frontend.js': [
+            '<%= paths.app.bower %>jquery/dist/jquery.js',
+            '<%= paths.app.bower %>jquery-placeholder/jquery.placeholder.js',
+            '<%= paths.app.bower %>carouFredSel/jquery.carouFredSel-6.2.1.js',
+            '<%= paths.app.frontend %>dropdown.js',
+            '<%= paths.app.frontend %>home.js',
+            '<%= paths.app.frontend %>application.js'
+          ]
+        }
+      },
+
       vendor: {
         files: {
           '<%= paths.dist.js %>vendor.js': [
@@ -83,6 +97,7 @@ module.exports = function(grunt) {
           ]
         }
       },
+
       app: {
         options: {
           stripBanners: {

@@ -19,6 +19,7 @@
   ],
   "dependencies": {
     "jquery": ">=1.9",
-    "jquery-placeholder": "2.0.9"
+    "jquery-placeholder": "2.0.9",
+    "carouFredSel": "6.2.1"
   }
 }
