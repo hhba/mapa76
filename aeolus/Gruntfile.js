@@ -195,6 +195,24 @@ module.exports = function(grunt) {
           }
         }
       }
+    },
+
+    connect: {
+      server: {
+        options: {
+          port: 3001,
+          hostname: '*',
+          base: 'dist/',
+          keepalive: true,
+          middleware: function(connect, options, middlewares) {
+            middlewares.unshift(function(req, res, next) {
+              res.setHeader('Access-Control-Allow-Origin', '*');
+              next();
+            });
+            return middlewares;
+          }
+        }
+      }
     }
   });
 
@@ -202,12 +220,12 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-commonjs-handlebars');
   grunt.loadNpmTasks('grunt-contrib-concat');
+  grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-sass');
-  grunt.loadNpmTasks('grunt-browser-sync');
 
   grunt.registerTask("sass-dev", [ "sass:dev" ]);
   grunt.registerTask("sass-dist", [ "sass:dist" ]);
@@ -220,6 +238,5 @@ module.exports = function(grunt) {
     "sass:dev"
   ]);
   grunt.registerTask("dist", [ "default", "uglify", "sass:dist" ]);
-  grunt.registerTask('serve', ['browserSync', 'watch']);
-
+  grunt.registerTask("serve", ["connect", "watch"]);
 };
