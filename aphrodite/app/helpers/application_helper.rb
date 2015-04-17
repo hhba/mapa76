@@ -84,4 +84,8 @@ module ApplicationHelper
   def data_attributes
     @data_attributes || {}
   end
+
+  def assets_host
+    "http://#{Rails.application.config.action_controller.asset_host}/"
+  end
 end
