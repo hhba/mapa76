@@ -46,7 +46,7 @@ module Mapa76
     # Enable escaping HTML in JSON.
     config.active_support.escape_html_entities_in_json = true
 
-    config.action_controller.asset_host = 'localhost:3001'
+    config.action_controller.asset_host = ENV.fetch('ASSETS_LOCATION', 'localhost:3001')
 
     # Use SQL instead of Active Record's schema dumper when creating the database.
     # This is necessary if your schema can't be completely dumped by the schema dumper,
