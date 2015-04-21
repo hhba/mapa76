@@ -28,7 +28,7 @@ module.exports = function(grunt) {
         css: "dist/stylesheets/",
         fonts: "dist/fonts/",
         js: "dist/javascripts/",
-        images: "dist/img/"
+        images: "dist/images/"
       }
     },
 
@@ -38,6 +38,21 @@ module.exports = function(grunt) {
           "<%= paths.dist.root %>*",
           "!<%= paths.dist.root %>.gitignore"
         ],
+      }
+    },
+
+    symlink: {
+      explicit: {
+        files: [
+          {
+            src: '<%= paths.dist.fonts %>',
+            dest: '<%= paths.dist.root %>latest/fonts'
+          },
+          {
+            src: '<%= paths.dist.images %>',
+            dest: '<%= paths.dist.root %>latest/images'
+          },
+        ]
       }
     },
 
@@ -225,6 +240,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-contrib-symlink');
   grunt.loadNpmTasks('grunt-sass');
 
   grunt.registerTask("sass-dev", [ "sass:dev" ]);
@@ -235,6 +251,7 @@ module.exports = function(grunt) {
     "browserify",
     "concat",
     "copy",
+    "symlink",
     "sass:dev"
   ]);
   grunt.registerTask("dist", [ "default", "uglify", "sass:dist" ]);
