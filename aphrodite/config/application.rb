@@ -5,7 +5,6 @@ require File.expand_path('../boot', __FILE__)
 require "action_controller/railtie"
 require "action_mailer/railtie"
 require "active_resource/railtie"
-require "sprockets/railtie"
 
 if defined?(Bundler)
   # If you precompile assets before deploying to production, use this line
@@ -47,6 +46,8 @@ module Mapa76
     # Enable escaping HTML in JSON.
     config.active_support.escape_html_entities_in_json = true
 
+    config.action_controller.asset_host = ENV.fetch('ASSETS_LOCATION', 'localhost:3001')
+
     # Use SQL instead of Active Record's schema dumper when creating the database.
     # This is necessary if your schema can't be completely dumped by the schema dumper,
     # like if you have constraints or database-specific column types
@@ -59,16 +60,11 @@ module Mapa76
     # config.active_record.whitelist_attributes = true
 
     # Enable the asset pipeline
-    config.assets.enabled = true
-
-    # Version of your assets, change this if you want to expire all your assets
-    config.assets.version = '1.0'
+    config.assets.enabled = false
 
     # Do not load Rails env when precompiling assets.  As soon as we need models
     # or other lib in js/css templates, we should enable this.
     config.assets.initialize_on_precompile = false
-
-    config.assets.precompile += ['pretty.css', 'pretty.js', 'foundicons.css', 'aeolus.js']
 
     # Thumbnails and upload paths
     config.thumbnails_path = "/thumbs"

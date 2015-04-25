@@ -3,18 +3,6 @@ source 'https://rubygems.org'
 gem 'rails', '~>3.2.8'
 gem 'mapa76-core', path: '../chaos'
 
-group :assets do
-  gem 'backbone-on-rails'
-  gem 'ejs'
-  gem 'jquery-rails'
-  gem 'jquery-ui-rails'
-  gem 'sass-rails',   '~> 3.2.3'
-  gem 'compass-rails'
-  gem 'uglifier', '>= 1.0.3'
-  gem 'bootstrap-sass'
-  gem 'bootswatch-rails'
-end
-
 group :development do
   gem "better_errors"
   gem 'binding_of_caller'

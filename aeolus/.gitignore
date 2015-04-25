@@ -6,3 +6,5 @@ npm-debug.log
 .DS_Store
 environments.yml
 config.json
+.sass-cache/
+bower_components/
