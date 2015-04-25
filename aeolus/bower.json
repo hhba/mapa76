@@ -18,8 +18,17 @@
     "tests"
   ],
   "dependencies": {
+    "backbone": "~1.1.0",
+    "carouFredSel": "6.2.1",
+    "handlebars": "~2.0.0",
+    "iCheck": "1.0.2",
     "jquery": ">=1.9",
+    "jquery-file-upload": "",
     "jquery-placeholder": "2.0.9",
-    "carouFredSel": "6.2.1"
+    "jquery-ui": "1.11.4",
+    "marionette": "~1.2.2",
+    "moment": "~2.10.2",
+    "spin.js": "2.0.2",
+    "underscore": "~1.5.2"
   }
 }
