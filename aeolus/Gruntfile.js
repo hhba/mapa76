@@ -101,18 +101,6 @@ module.exports = function(grunt) {
         }
       },
 
-      vendor: {
-        files: {
-          '<%= paths.dist.js %>vendor.js': [
-              '<%= paths.vendor.js %>underscore.min.js'
-            , '<%= paths.vendor.js %>backbone.min.js'
-            , '<%= paths.vendor.js %>backbone.marionette.min.js'
-            , '<%= paths.vendor.js %>jquery.ui.widget.js'
-            , '<%= paths.vendor.js %>**/*.js'
-          ]
-        }
-      },
-
       app: {
         options: {
           stripBanners: {
@@ -135,7 +123,9 @@ module.exports = function(grunt) {
           banner: '<%= banner %>',
         },
         files: {
-          '<%= paths.dist.js %>app.js': [ '<%= paths.dist.js %>app.js' ]
+          '<%= paths.dist.js %>app.js': [ '<%= paths.dist.js %>app.js' ],
+          '<%= paths.dist.js %>frontend.js': [ '<%= paths.dist.js %>frontend.js' ],
+          '<%= paths.dist.js %>vendor.js': [ '<%= paths.dist.js %>vendor.js' ]
         }
       }
     },
@@ -212,6 +202,12 @@ module.exports = function(grunt) {
       }
     },
 
+    bower_concat: {
+      all: {
+        dest: "<%= paths.dist.js %>vendor.js"
+      }
+    },
+
     connect: {
       server: {
         options: {
@@ -241,6 +237,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-symlink');
+  grunt.loadNpmTasks('grunt-bower-concat');
   grunt.loadNpmTasks('grunt-sass');
 
   grunt.registerTask("sass-dev", [ "sass:dev" ]);
@@ -251,6 +248,7 @@ module.exports = function(grunt) {
     "browserify",
     "concat",
     "copy",
+    "bower_concat",
     "symlink",
     "sass:dev"
   ]);
