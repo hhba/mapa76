@@ -308,7 +308,7 @@ GEM
     will_paginate (3.0.4)
     will_paginate-bootstrap (0.2.2)
       will_paginate (>= 3.0.3)
-    yajl-ruby (1.1.0)
+    yajl-ruby (1.4.1)
 
 PLATFORMS
   ruby
