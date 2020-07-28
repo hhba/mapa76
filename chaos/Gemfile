@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 gemspec
 
 gem "capistrano"
-gem 'json', '~> 1.7.7'
+gem 'json', '~> 2.3.1'
 gem "rake"
 gem "yajl-ruby", :require => "yajl/json_gem"
 
