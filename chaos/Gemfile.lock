@@ -63,7 +63,7 @@ GEM
       activesupport
       mongoid
     mono_logger (1.0.0)
-    moped (1.5.1)
+    moped (1.5.3)
     multi_json (1.8.2)
     net-scp (1.1.0)
       net-ssh (>= 2.6.5)
